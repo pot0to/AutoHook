@@ -141,9 +141,9 @@ public class PlayerResources : IDisposable
         return ActionManager.Instance()->GetActionStatus(actionType, id);
     }
 
-    public static unsafe bool CastAction(uint id, ActionType actionType = ActionType.Action)
+    public static unsafe bool CastAction(uint id)
     {
-        return ActionManager.Instance()->UseAction(actionType, id);
+        return ActionManager.Instance()->UseAction(ActionType.Action, id);
     }
     
 
@@ -197,13 +197,13 @@ public class PlayerResources : IDisposable
         if (_blockCasting)
             return;
         
-        if (actionType == ActionType.Action)
+        if (actionType is ActionType.Action or ActionType.Ability)
         {
             if (!ActionTypeAvailable(actionId, actionType))
                 return;
             _blockCasting = true;
             Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
-            CastAction(actionId, actionType);
+            CastAction(actionId);
             DelayNextCast(actionId);
         }
         else if (actionType == ActionType.Item)
@@ -229,7 +229,7 @@ public class PlayerResources : IDisposable
             if (ActionTypeAvailable(id, actionType))
             {
                 Service.PrintDebug(@$"[PlayerResources] Casting {id}");
-                CastAction(id, actionType);
+                CastAction(id);
             }
         }
         else if (actionType == ActionType.Item)

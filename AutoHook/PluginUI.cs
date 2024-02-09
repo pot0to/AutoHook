@@ -319,6 +319,20 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.1")
+            {
+                MinorChanges =
+                {
+                    "Fix issue with Collector's Glove not activating"
+                }
+            },
+            new Version("4.0.0.0")
+            {
+                MainChanges =
+                {
+                    "Migration to Puni.sh repo"
+                }
+            },
             new Version("3.0.4.0")
             {
                 MainChanges =

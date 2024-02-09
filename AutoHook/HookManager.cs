@@ -302,6 +302,7 @@ public class HookingManager : IDisposable
 
         foreach (var action in autoActions.Where(action => action.IsAvailableToCast()))
         {
+            Service.PluginLog.Debug($"[HookManager] Returning {action.Name}");
             return action;
         }
 
@@ -535,13 +536,18 @@ public class HookingManager : IDisposable
 
     private void OnBeganFishing()
     {
-        if (_lastStep == FishingSteps.BeganFishing && _lastState != FishingState.PoleReady)
+        if (_lastStep == FishingSteps.BeganFishing && (_lastState != FishingState.PoleReady || _lastState != FishingState.None))
             return;
 
         CurrentBaitMooch = GetCurrentBait();
         _timer.Reset();
         _timer.Start();
         _lastStep = FishingSteps.BeganFishing;
+
+        var cfg = GetAutoCastCfg();
+        if (cfg.CastCollect.Enabled && cfg.CastCollect.IsAvailableToCast())
+            PlayerResources.CastActionDelayed(cfg.CastCollect.Id, ActionType.Ability, cfg.CastCollect.Name);
+
         UpdateCurrentPreset();
     }
 

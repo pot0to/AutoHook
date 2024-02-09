@@ -70,7 +70,7 @@ public abstract class BaseActionCast
             hasGp = currentGp <= GpThreshold;
 
         var actionAvailable = PlayerResources.ActionTypeAvailable(Id, ActionType);
-        
+
         return hasGp && actionAvailable && condition;
     }
 
