@@ -8,7 +8,7 @@ https://crowdin.com/project/autohook-plugin-localization
 ## Installation
 
 ```
-https://raw.githubusercontent.com/InitialDet/MyDalamudPlugins/main/pluginmaster.json
+https://love.puni.sh/ment.json
 ```
 * Copy the link above
 * Open your Plugin Installer Window and click Settings
@@ -17,9 +17,6 @@ https://raw.githubusercontent.com/InitialDet/MyDalamudPlugins/main/pluginmaster.
 * Save and close.
 * Search and Install AutoHook from the Plugin Installer.
 * Enjoy
-
-![image](https://github.com/InitialDet/AutoHook/assets/13919114/3811f164-eb56-4e8e-b9d2-7604518393e4)
-
 
 # Features
 
