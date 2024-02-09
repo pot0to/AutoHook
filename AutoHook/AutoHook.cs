@@ -9,6 +9,7 @@ using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
+using PunishLib;
 
 namespace AutoHook;
 
@@ -49,6 +50,7 @@ public class AutoHook : IDalamudPlugin
     {
         Service.Initialize(pluginInterface);
         AutoHookIPC.Init();
+        PunishLibMain.Init(pluginInterface, "AutoHook", new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
         Service.EventFramework = new EventFramework(Service.SigScanner);
         Service.EquipedBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);

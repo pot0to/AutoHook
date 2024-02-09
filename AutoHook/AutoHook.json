@@ -1,5 +1,5 @@
 {
-  "Author": "Det",
+  "Author": "Det (Puni.sh)",
   "Name": "Auto Hook",
   "Punchline": "Makes fishing less (or more) boring",
   "Description": "It hooks the fish for you, can you believe it?",
@@ -9,6 +9,5 @@
   "Tags": [ "Gathering", "Fishing" ],
   "DalamudApiLevel": 9,
   "AcceptsFeedback": false,
-  "IconUrl": "https://raw.githubusercontent.com/InitialDet/AutoHook/main/AutoHook/images/icon.png",
   "Changelog": "Click the new Changelog button to see whats new"
 }

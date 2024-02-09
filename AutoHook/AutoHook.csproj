@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Authors>Det</Authors>
-        <Version>3.0.4.0</Version>
+        <Version>4.0.0.0</Version>
         <Description>Auto hooks for you</Description>
         <PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
         <Configurations>Release;Debug</Configurations>
@@ -42,13 +42,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="images\"/>
+        <Folder Include="images\" />
     </ItemGroup>
 
     <!-- Localization -->
 
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="2.1.12"/>
+        <PackageReference Include="DalamudPackager" Version="2.1.12" />
+        <ProjectReference Include="..\PunishLib\PunishLib\PunishLib.csproj" />
         <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
             <Private>false</Private>

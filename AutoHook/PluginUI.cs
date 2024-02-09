@@ -1,18 +1,17 @@
-﻿using Dalamud.Interface.Windowing;
-using ImGuiNET;
-using System;
+﻿using AutoHook.Resources.Localization;
+using AutoHook.Ui;
+using AutoHook.Utils;
 using Dalamud.Interface.Colors;
+using Dalamud.Interface.Windowing;
+using ImGuiNET;
+using PunishLib.ImGuiMethods;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using AutoHook.Ui;
-using System.Numerics;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using AutoHook.Data;
-using AutoHook.Resources.Localization;
-using AutoHook.Utils;
-using FFXIVClientStructs.FFXIV.Client.Game;
+using System.Numerics;
 
 namespace AutoHook;
 
@@ -51,16 +50,12 @@ public class PluginUi : Window, IDisposable
     {
         if (!IsOpen)
             return;
-        
+
         //ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
         ImGui.Spacing();
         DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled,
             UIStrings.PluginUi_Draw_Enables_Disables);
 
-        
-        ShowKofi();
-        ShowPaypal();
-        
         ImGui.Indent();
 
         if (Service.Configuration.PluginEnabled)
@@ -70,14 +65,13 @@ public class PluginUi : Window, IDisposable
 
         ImGui.Unindent();
         ImGui.Spacing();
-        
+
         DrawChangelog();
         ImGui.SameLine();
         DrawLanguageSelector();
         ImGui.Spacing();
         if (Service.Configuration.ShowDebugConsole)
         {
-            
             if (ImGui.Button(UIStrings.Open_Console))
             {
                 Service.OpenConsole = !Service.OpenConsole;
@@ -87,15 +81,24 @@ public class PluginUi : Window, IDisposable
 #if DEBUG
             TestButtons();
 #endif
-            
+
             Debug();
-            
+
             ImGui.Spacing();
         }
 
         if (Service.Configuration.ShowStatusHeader)
-            ImGui.TextColored(ImGuiColors.DalamudViolet, Service.Status);
-        
+        {
+            if (string.IsNullOrEmpty(Service.Status))
+            {
+                ImGui.Dummy(new Vector2(ImGui.GetFontSize()));
+            }
+            else
+            {
+                ImGui.TextColored(ImGuiColors.DalamudViolet, Service.Status);
+            }
+        }
+
         DrawTabs();
     }
 
@@ -160,6 +163,12 @@ public class PluginUi : Window, IDisposable
                 }
             }
 
+            if (ImGui.BeginTabItem("About"))
+            {
+                AboutTab.Draw("AutoHook");
+                ImGui.EndTabItem();
+            }
+
             ImGui.EndTabBar();
         }
     }
@@ -171,7 +180,7 @@ public class PluginUi : Window, IDisposable
 
     public static void ShowKofi()
     {
-        
+
         ImGui.SameLine();
         string buttonText = UIStrings.Support_me_on_Ko_fi;
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
@@ -188,7 +197,7 @@ public class PluginUi : Window, IDisposable
 
     public static void ShowPaypal()
     {
-        
+
         ImGui.SameLine();
         string buttonText = @"PayPal";
         ImGui.SameLine();

@@ -128,7 +128,7 @@ public class HookingManager : IDisposable
             : "-";
 
         Service.Status = _currentHook == null
-            ? @"-"
+            ? @""
             : @$"Hook Config: {_currentHook.BaitFish.Name}({presetName}) | AutoCast: {autoCastName} | Extra: {extraCfg}";
 
         Service.PrintDebug(_currentHook == null
@@ -190,7 +190,7 @@ public class HookingManager : IDisposable
             return;
         
         if (currentState == FishingState.PoleReady)
-            Service.Status = "-";
+            Service.Status = "";
         
         _lastState = currentState;
 
@@ -638,7 +638,7 @@ public class HookingManager : IDisposable
             _timerState.Stop();
 
         CurrentBaitMooch = @"-";
-        Service.Status = "-";
+        Service.Status = "";
 
         FishingCounter.Reset();
 

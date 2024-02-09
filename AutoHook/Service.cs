@@ -35,7 +35,7 @@ public class Service
     public static SeTugType TugType { get; set; } = null!;
     public static ClientLanguage Language { get; set; }
 
-    public static string Status = @"-";
+    public static string Status = @"";
     
     public static BaitFishClass LastCatch { get; set; } = new(@"-", -1); 
     
