@@ -898,4 +898,7 @@ Check the Guide Tab for Guides.</value>
   <data name="RefreshWhenTimeIsLessThanOrEqual" xml:space="preserve">
     <value>Refresh when buff timer is less than or equal to</value>
   </data>
+  <data name="Allow_Gp_Overcap" xml:space="preserve">
+    <value>Allow GP overcap if Identical Cast is active</value>
+  </data>
 </root>

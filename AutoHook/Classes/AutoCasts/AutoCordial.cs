@@ -16,6 +16,8 @@ public class AutoCordial : BaseActionCast
 
     public bool InvertCordialPriority;
     
+    public bool AllowOvercapIC;
+    
     private readonly List<(uint, uint)> _cordialList = new()
     {
         (IDs.Item.HiCordial,        CordialHiRecovery),
@@ -55,9 +57,8 @@ public class AutoCordial : BaseActionCast
                 continue;
             
             Id = id;
-
-            var notOvercaped = PlayerResources.GetCurrentGp() + recovery < PlayerResources.GetMaxGp();
-            return notOvercaped;
+            
+            return CheckNotOvercaped(recovery);
         }
 
         return false;
@@ -70,10 +71,23 @@ public class AutoCordial : BaseActionCast
         else
             GpThreshold = newCost;
     }
+    
+    private bool CheckNotOvercaped(uint recovery)
+    {
+        if (AllowOvercapIC && PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+            return true;
+        
+        return PlayerResources.GetCurrentGp() + recovery <= PlayerResources.GetMaxGp(); 
+    }
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
         if (DrawUtil.Checkbox(UIStrings.AutoCastCordialPriority, ref InvertCordialPriority))
+        {
+            Service.Save();
+        }
+        
+        if (DrawUtil.Checkbox(UIStrings.Allow_Gp_Overcap, ref AllowOvercapIC))
         {
             Service.Save();
         }

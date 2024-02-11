@@ -178,6 +178,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow GP overcap if Identical Cast is active.
+        /// </summary>
+        internal static string Allow_Gp_Overcap {
+            get {
+                return ResourceManager.GetString("Allow_Gp_Overcap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always Mooch.
         /// </summary>
         internal static string Always_Mooch {
