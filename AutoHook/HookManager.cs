@@ -163,7 +163,12 @@ public class HookingManager : IDisposable
         var currentState = Service.EventFramework.FishingState;
 
         if (!Service.Configuration.PluginEnabled || currentState == FishingState.None)
+        {
+            if (_lastStep != FishingSteps.None)
+                OnFishingStop();
+            
             return;
+        }
 
         if (currentState != FishingState.Quit && _lastStep == FishingSteps.Quitting)
         {
