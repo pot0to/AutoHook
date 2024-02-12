@@ -319,6 +319,18 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.3")
+            {
+                MainChanges =
+                {
+                    "Enabling Extra Casts or Auto Casts in a preset will disable the corresponding config in the opposite kind of preset (i.e enabling Default Auto Casts will disable Custom Auto Casts and vice versa)"
+                },
+                MinorChanges =
+                {
+                    @"Fix new ""Use Cordials before Thaliak's Favor"" setting",
+                    "Allow setting GP threshold for Thaliak's Favor down to 0 instead of 3"
+                }
+            },
             new Version("4.0.0.2")
             {
                 MainChanges =

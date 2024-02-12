@@ -18,7 +18,7 @@ public class AutoCordial : BaseActionCast
     
     public bool AllowOvercapIC;
     
-    private readonly List<(uint, uint)> _cordialList = new()
+    public readonly List<(uint, uint)> _cordialList = new()
     {
         (IDs.Item.HiCordial,        CordialHiRecovery),
         (IDs.Item.HQCordial,        CordialHqRecovery),

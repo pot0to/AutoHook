@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using AutoHook.Data;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
@@ -19,7 +20,7 @@ public abstract class BaseActionCast
         
         ActionType = actionType;
 
-        if (actionType == ActionType.Action)
+        if (actionType == ActionType.Action && id != IDs.Actions.ThaliaksFavor)
             GpThreshold = (int)PlayerResources.CastActionCost(Id, ActionType);
     }
 
@@ -43,7 +44,7 @@ public abstract class BaseActionCast
 
     public virtual void SetThreshold(int newCost)
     {
-        var actionCost = (int) PlayerResources.CastActionCost(Id, ActionType);
+        var actionCost = Id == IDs.Actions.ThaliaksFavor ? 0 : (int) PlayerResources.CastActionCost(Id, ActionType);
 
         GpThreshold = (newCost < 0) ? 0 : Math.Max(newCost, actionCost);
 

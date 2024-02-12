@@ -74,7 +74,7 @@ internal class AutoGig : Window, IDisposable
     public unsafe void DrawSettings()
     {
         currentKey = currentKey = Service.Configuration.CurrentSize.ToName() + Service.Configuration.CurrentSpeed.ToName();
-        if (ImGui.Checkbox(UIStrings.Enable_AutoGig + @" ", ref Service.Configuration.AutoGigEnabled))
+        if (ImGui.Checkbox(UIStrings.Enable_AutoGig, ref Service.Configuration.AutoGigEnabled))
         {
             Service.Save();
         }
@@ -209,13 +209,12 @@ internal class AutoGig : Window, IDisposable
 
         if (fishHitbox >= (centerX - hitBox) - 3 && fishHitbox <= (centerX + hitBox) + 3)
         {
-
             PlayerResources.CastActionNoDelay(IDs.Actions.Gig);
 
-            if (node->GetScaleX() == -1)
-                Service.PrintDebug($@"[AutoGig] FishHitbox L = {fishHitbox}, GigHitbox = {centerX - hitBox}");
-            else
-                Service.PrintDebug($@"[AutoGig] FishHitbox R= {fishHitbox}, GigHitbox = {centerX + hitBox}");
+            //if (node->GetScaleX() == -1)
+            //    Service.PrintDebug($@"[AutoGig] FishHitbox L = {fishHitbox}, GigHitbox = {centerX - hitBox}");
+            //else
+            //    Service.PrintDebug($@"[AutoGig] FishHitbox R= {fishHitbox}, GigHitbox = {centerX + hitBox}");
 
         }
     }

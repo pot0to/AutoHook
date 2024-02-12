@@ -24,6 +24,17 @@ public class SubTabExtra
         
         if (DrawUtil.Checkbox(UIStrings.Enable_Extra_Configs, ref config.Enabled))
         {
+            if (config.Enabled)
+            {
+                if (IsDefaultPreset && (Service.Configuration.HookPresets.SelectedPreset?.ExtraCfg.Enabled ?? false))
+                {
+                    Service.Configuration.HookPresets.SelectedPreset.ExtraCfg.Enabled = false;
+                }
+                else if (!IsDefaultPreset)
+                {
+                    Service.Configuration.HookPresets.DefaultPreset.ExtraCfg.Enabled = false;
+                }
+            }
             Service.Save();
         }
 

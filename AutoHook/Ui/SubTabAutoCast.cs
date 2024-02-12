@@ -7,6 +7,7 @@ using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -42,9 +43,20 @@ public class SubTabAutoCast
     private void DrawHeader(AutoCastsConfig acCfg)
     {
         ImGui.Spacing();
-        
+
         if (DrawUtil.Checkbox(UIStrings.Enable_Auto_Casts, ref acCfg.EnableAll))
         {
+            if (acCfg.EnableAll)
+            {
+                if (IsDefaultPreset && (Service.Configuration.HookPresets.SelectedPreset?.AutoCastsCfg.EnableAll ?? false))
+                {
+                    Service.Configuration.HookPresets.SelectedPreset.AutoCastsCfg.EnableAll = false;
+                }
+                else if (!IsDefaultPreset)
+                {
+                    Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll = false;
+                }
+            }
             Service.Save();
         }
 

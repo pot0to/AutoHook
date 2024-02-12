@@ -43,7 +43,7 @@ public static class DrawUtil
         ImGui.SameLine();
 
         ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
-        var clicked = ImGui.InputInt($"##{label}###", ref refValue, 0, 0);
+        var clicked = ImGui.InputInt($"##{label}###", ref refValue, 0, 0, ImGuiInputTextFlags.EnterReturnsTrue);
         ImGui.PopItemWidth();
 
         if (helpText != string.Empty)
