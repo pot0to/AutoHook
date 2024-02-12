@@ -2,6 +2,7 @@
 using AutoHook.Data;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
+using ECommons.DalamudServices;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Classes.AutoCasts;
@@ -10,6 +11,7 @@ public class AutoThaliaksFavor : BaseActionCast
 {
     public int ThaliaksFavorStacks = 3;
     public int ThaliaksFavorRecover = 150;
+    public bool UseCordialsFirst = false;
 
     public AutoThaliaksFavor() : base(UIStrings.Thaliaks_Favor, IDs.Actions.ThaliaksFavor, ActionType.Action)
     {
@@ -25,6 +27,12 @@ public class AutoThaliaksFavor : BaseActionCast
 
         bool notOvercaped = (PlayerResources.GetCurrentGp() + ThaliaksFavorRecover) < PlayerResources.GetMaxGp();
 
+        var cordialConfig = AutoHook.Plugin.HookManager.GetAutoCastCfg().CastCordial;
+        bool pendingCordial = cordialConfig.Enabled && cordialConfig.IsAvailableToCast();
+        bool allowedToUse = UseCordialsFirst ? !pendingCordial : true;
+
+        Service.PluginLog.Debug($"Pending Cordial? {cordialConfig.Enabled} {pendingCordial}. Allowed? {allowedToUse}");
+
         return hasStacks && notOvercaped; // dont use if its going to overcap gp
     }
     
@@ -38,5 +46,7 @@ public class AutoThaliaksFavor : BaseActionCast
 
             Service.Save();
         }
+        if (DrawUtil.Checkbox(UIStrings.Use_Cordials_First,ref UseCordialsFirst, UIStrings.Use_Cordials_First_Help))
+            Service.Save();
     };
 }

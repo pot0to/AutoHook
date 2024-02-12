@@ -901,4 +901,10 @@ Check the Guide Tab for Guides.</value>
   <data name="Allow_Gp_Overcap" xml:space="preserve">
     <value>Allow GP overcap if Identical Cast is active</value>
   </data>
+  <data name="Use_Cordials_First" xml:space="preserve">
+    <value>Use Cordials before Thaliak's Favor</value>
+  </data>
+  <data name="Use_Cordials_First_Help" xml:space="preserve">
+    <value>Only applies when Cordial is enabled</value>
+  </data>
 </root>

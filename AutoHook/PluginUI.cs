@@ -319,6 +319,14 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.2")
+            {
+                MainChanges =
+                {
+                    "Added option to use Cordials before Thaliak's Favor to the Thaliak's Favor config",
+                    "Allow Cordial to overcap GP if Identical Cast is active"
+                }
+            },
             new Version("4.0.0.1")
             {
                 MinorChanges =

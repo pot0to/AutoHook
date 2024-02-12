@@ -9,7 +9,7 @@ public class AutoCastsConfig
     public bool EnableAll = false;
     
     public bool DontCancelMooch = true;
-    
+
     public AutoCastLine CastLine = new();
     public AutoMooch CastMooch = new();
     public AutoChum CastChum = new();

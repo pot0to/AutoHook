@@ -43,7 +43,6 @@ public class AutoCordial : BaseActionCast
     
     public override string GetName()
         => Name = UIStrings.Cordial;
-    
     public override bool CastCondition()
     {
         var cordialList = _cordialList;

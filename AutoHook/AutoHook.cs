@@ -21,6 +21,8 @@ public class AutoHook : IDalamudPlugin
      */
     public string Name => UIStrings.AutoHook;
 
+    internal static AutoHook Plugin = null!;
+
     private const string CmdAhCfg = "/ahcfg";
     private const string CmdAh = "/autohook";
     private const string CmdAhOn = "/ahon";
@@ -42,7 +44,7 @@ public class AutoHook : IDalamudPlugin
 
     private static AutoGig _autoGig = null!;
 
-    private readonly HookingManager _hookManager;
+    public readonly HookingManager HookManager;
 
     private readonly PlayerResources _playerResources;
 
@@ -51,6 +53,7 @@ public class AutoHook : IDalamudPlugin
         Service.Initialize(pluginInterface);
         AutoHookIPC.Init();
         PunishLibMain.Init(pluginInterface, "AutoHook", new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
+        Plugin = this;
         Service.EventFramework = new EventFramework(Service.SigScanner);
         Service.EquipedBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);
@@ -73,7 +76,7 @@ public class AutoHook : IDalamudPlugin
             });
         }
         
-        _hookManager = new HookingManager();
+        HookManager = new HookingManager();
 
 #if (DEBUG)
         OnOpenConfigUi();
@@ -128,7 +131,7 @@ public class AutoHook : IDalamudPlugin
     {
         _pluginUi.Dispose();
         _autoGig.Dispose();
-        _hookManager.Dispose();
+        HookManager.Dispose();
         _playerResources.Dispose();
         AutoHookIPC.Dispose();
         Service.Save();

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoHook.Classes;
-using AutoHook.Classes.AutoCasts;
+﻿using AutoHook.Classes;
 using AutoHook.Configurations;
 using AutoHook.Data;
 using AutoHook.Enums;
@@ -16,6 +10,11 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using Lumina.Excel.GeneratedSheets;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoHook;
 
@@ -136,23 +135,40 @@ public class HookingManager : IDisposable
             : @$"[HookManager] Config Found: {_currentHook.BaitFish.Name}, Preset: {presetName}");
     }
 
-    private AutoCastsConfig GetAutoCastCfg()
+    public HookConfig? GetCurrentPreset()
+    {
+        var customHook = _lastStep == FishingSteps.BeganMooching
+    ? Presets.SelectedPreset?.GetMoochByName(CurrentBaitMooch)
+    : Presets.SelectedPreset?.GetBaitByName(CurrentBaitMooch);
+
+        var defaultHook = _lastStep == FishingSteps.BeganMooching
+            ? Presets.DefaultPreset.ListOfMooch.FirstOrDefault()
+            : Presets.DefaultPreset.ListOfBaits.FirstOrDefault();
+
+        _currentHook = customHook?.Enabled ?? false ? customHook
+            : defaultHook?.Enabled ?? false ? defaultHook
+            : null;
+
+        return _currentHook;
+    }
+
+    public AutoCastsConfig GetAutoCastCfg()
     {
         return Presets.SelectedPreset?.AutoCastsCfg.EnableAll ?? false
             ? Presets.SelectedPreset.AutoCastsCfg
             : Presets.DefaultPreset.AutoCastsCfg;
     }
 
-    private ExtraConfig GetExtraCfg()
+    public ExtraConfig GetExtraCfg()
     {
         return Presets.SelectedPreset?.ExtraCfg.Enabled ?? false
             ? Presets.SelectedPreset.ExtraCfg
             : Presets.DefaultPreset.ExtraCfg;
     }
 
-    private FishConfig? GetLastCatchConfig()
+    public FishConfig? GetLastCatchConfig()
     {
-        if (_lastCatch == null) 
+        if (_lastCatch == null)
             return null;
 
         return Presets.SelectedPreset?.GetFishById(_lastCatch.Id) ?? Presets.DefaultPreset.GetFishById(_lastCatch.Id);
@@ -161,12 +177,12 @@ public class HookingManager : IDisposable
     private void OnFrameworkUpdate(IFramework _)
     {
         var currentState = Service.EventFramework.FishingState;
-
+        
         if (!Service.Configuration.PluginEnabled || currentState == FishingState.None)
         {
-            if (_lastStep != FishingSteps.None)
+            if (_lastStep == FishingSteps.FishReeled)
                 OnFishingStop();
-            
+
             return;
         }
 
@@ -193,10 +209,10 @@ public class HookingManager : IDisposable
 
         if (_lastState == currentState)
             return;
-        
+
         if (currentState == FishingState.PoleReady)
             Service.Status = "";
-        
+
         _lastState = currentState;
 
         switch (currentState)
@@ -478,7 +494,7 @@ public class HookingManager : IDisposable
     private void CastLineMoochOrRelease(AutoCastsConfig acCfg)
     {
         var lastFishCatchCfg = GetLastCatchConfig();
-        
+
         var blockMooch = lastFishCatchCfg is { Enabled: true, NeverMooch: true };
 
         if (!blockMooch)

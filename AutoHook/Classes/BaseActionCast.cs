@@ -71,6 +71,7 @@ public abstract class BaseActionCast
 
         var actionAvailable = PlayerResources.ActionTypeAvailable(Id, ActionType);
 
+        Service.PluginLog.Debug($"[BaseAction] {Name} - {hasGp} - {actionAvailable} - {condition}");
         return hasGp && actionAvailable && condition;
     }
 
