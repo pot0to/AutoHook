@@ -1706,6 +1706,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show preset menu as a sidebar.
+        /// </summary>
+        internal static string Show_Presets_As_Sidebar {
+            get {
+                return ResourceManager.GetString("Show_Presets_As_Sidebar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Size.
         /// </summary>
         internal static string Size {

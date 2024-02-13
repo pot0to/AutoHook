@@ -9,6 +9,7 @@ using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using PunishLib;
 
 namespace AutoHook;

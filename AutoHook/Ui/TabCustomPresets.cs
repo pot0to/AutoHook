@@ -23,7 +23,7 @@ public class TabCustomPresets : BaseTab
     private SubTabAutoCast _subTabAutoCast = new();
     private SubTabFish _subTabFish = new();
     private SubTabExtra _subTabExtra = new();
-    
+
     private bool _showDescription;
 
     public override void DrawHeader()
@@ -49,9 +49,40 @@ public class TabCustomPresets : BaseTab
             ImGui.Spacing();
         }
 
-        DrawPresetSelection();
+        if (!Service.Configuration.ShowPresetsAsSidebar)
+        {
+            DrawPresetSelectionDropdown();
 
-        ImGui.SameLine();
+            ImGui.SameLine();
+
+            DrawImportExport();
+
+            ImGui.SameLine();
+
+            DrawDeletePreset();
+
+            ImGui.Spacing();
+        }
+    }
+
+    public override void Draw()
+    {
+        if (Service.Configuration.ShowPresetsAsSidebar)
+        {
+            DrawListboxPresets();
+        }
+        else
+        {
+            if (_hookPresets.SelectedPreset == null)
+                return;
+
+            DrawStandardTabs();
+        }
+    }
+
+    private void DrawListboxPresets()
+    {
+        ImGui.BeginGroup();
 
         DrawImportExport();
 
@@ -59,14 +90,42 @@ public class TabCustomPresets : BaseTab
 
         DrawDeletePreset();
 
-        ImGui.Spacing();
-    }
+        if (ImGui.BeginListBox("", new Vector2(175, -1)))
+        {
+            if (ImGui.Selectable("None", _hookPresets.SelectedPreset == null))
+            {
+                _hookPresets.SelectedPreset = null;
+            }
+            foreach (var preset in _hookPresets.CustomPresets)
+            {
+                if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
+                {
+                    _hookPresets.SelectedPreset = preset;
+                }
 
-    public override void Draw()
-    {
+                if (ImGui.IsItemHovered())
+                    ImGui.SetTooltip(UIStrings.RightClickToRename);
+                DrawEditPresetNameListbox(preset.PresetName);
+            }
+            ImGui.EndListBox();
+        }
+
+        ImGui.EndGroup();
+
+        ImGui.SameLine();
+
         if (_hookPresets.SelectedPreset == null)
             return;
 
+        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1)))
+        {
+            DrawStandardTabs();
+            ImGui.EndChild();
+        }
+    }
+
+    private void DrawStandardTabs()
+    {
         if (ImGui.BeginTabBar(@"TabBarsPreset", ImGuiTabBarFlags.NoTooltip))
         {
             if (ImGui.BeginTabItem(UIStrings.Bait))
@@ -88,7 +147,7 @@ public class TabCustomPresets : BaseTab
                 _subTabFish.DrawFishTab(_hookPresets.SelectedPreset);
                 ImGui.EndTabItem();
             }
-            
+
             if (ImGui.BeginTabItem(UIStrings.Extra))
             {
                 _subTabExtra.DrawExtraTab(_hookPresets.SelectedPreset.ExtraCfg);
@@ -126,7 +185,7 @@ public class TabCustomPresets : BaseTab
             ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
     }
 
-    private void DrawEditPresetName()
+    private void DrawEditPresetNameDropdown()
     {
         if (_hookPresets.SelectedPreset == null)
             return;
@@ -134,6 +193,7 @@ public class TabCustomPresets : BaseTab
         if (ImGui.BeginPopupContextItem("PresetName###name"))
         {
             string name = _hookPresets.SelectedPreset.PresetName;
+
             ImGui.Text(UIStrings.TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm);
 
             if (ImGui.InputText(UIStrings.PresetName, ref name, 64,
@@ -152,13 +212,44 @@ public class TabCustomPresets : BaseTab
                 ImGui.CloseCurrentPopup();
                 Service.Save();
             }
-            
+
 
             ImGui.EndPopup();
         }
     }
 
-    private void DrawPresetSelection()
+
+    private void DrawEditPresetNameListbox(string presetName)
+    {
+        if (ImGui.BeginPopupContextItem($"PresetName###{presetName}"))
+        {
+            string name = presetName;
+
+            ImGui.Text(UIStrings.TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm);
+
+            if (ImGui.InputText(UIStrings.PresetName, ref name, 64,
+                    ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
+            {
+                if (_hookPresets.SelectedPreset != null &&
+                    _hookPresets.CustomPresets.All(preset => preset.PresetName != name))
+                {
+                    _hookPresets.CustomPresets.Single(x => x.PresetName == presetName).RenamePreset(name);
+                    Service.Save();
+                }
+            }
+
+            if (ImGui.Button(UIStrings.Close))
+            {
+                ImGui.CloseCurrentPopup();
+                Service.Save();
+            }
+
+
+            ImGui.EndPopup();
+        }
+    }
+
+    private void DrawPresetSelectionDropdown()
     {
         ImGui.SetNextItemWidth(230);
         if (ImGui.BeginCombo("", _hookPresets.SelectedPreset?.PresetName ?? UIStrings.None))
@@ -177,7 +268,7 @@ public class TabCustomPresets : BaseTab
         if (ImGui.IsItemHovered())
             ImGui.SetTooltip(UIStrings.RightClickToRename);
 
-        DrawEditPresetName();
+        DrawEditPresetNameDropdown();
 
         ImGui.SameLine();
         ImGui.PushFont(UiBuilder.IconFont);

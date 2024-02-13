@@ -46,7 +46,8 @@ public class Configuration : IPluginConfiguration
     public int DelayBetweenHookMax = 0;
 
     public bool ShowStatusHeader = true;
-    
+    public bool ShowPresetsAsSidebar = false;
+
     // old config
     public List<BaitPresetConfig> BaitPresetList = new List<BaitPresetConfig>()!;
 

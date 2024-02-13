@@ -100,6 +100,11 @@ public class TabConfigGuides : BaseTab
         {
             Service.Save();
         }
+
+        if (DrawUtil.Checkbox(UIStrings.Show_Presets_As_Sidebar, ref Service.Configuration.ShowPresetsAsSidebar))
+        {
+            Service.Save();
+        }
     }
 
     private static void DrawDelayHook()
