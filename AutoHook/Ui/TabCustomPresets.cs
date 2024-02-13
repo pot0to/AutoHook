@@ -55,6 +55,10 @@ public class TabCustomPresets : BaseTab
 
             ImGui.SameLine();
 
+            DrawAddPresetButton();
+
+            ImGui.SameLine();
+
             DrawImportExport();
 
             ImGui.SameLine();
@@ -82,7 +86,12 @@ public class TabCustomPresets : BaseTab
 
     private void DrawListboxPresets()
     {
+
         ImGui.BeginGroup();
+
+        DrawAddPresetButton();
+
+        ImGui.SameLine();
 
         DrawImportExport();
 
@@ -269,8 +278,10 @@ public class TabCustomPresets : BaseTab
             ImGui.SetTooltip(UIStrings.RightClickToRename);
 
         DrawEditPresetNameDropdown();
+    }
 
-        ImGui.SameLine();
+    private void DrawAddPresetButton()
+    {
         ImGui.PushFont(UiBuilder.IconFont);
 
         var buttonSize = ImGui.CalcTextSize(FontAwesomeIcon.Plus.ToIconString()) + ImGui.GetStyle().FramePadding * 2;
