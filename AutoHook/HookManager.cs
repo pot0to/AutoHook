@@ -33,7 +33,7 @@ public class HookingManager : IDisposable
 
     private Hook<UpdateCatchDelegate>? _catchHook;
 
-    private FishingState _lastState = FishingState.None;
+    private FishingState _lastState = FishingState.NotFishing;
     private FishingSteps _lastStep = 0;
 
     private HookConfig? _currentHook;
@@ -178,14 +178,17 @@ public class HookingManager : IDisposable
     {
         var currentState = Service.EventFramework.FishingState;
         
-        if (!Service.Configuration.PluginEnabled || currentState == FishingState.None)
+        if (!Service.Configuration.PluginEnabled || currentState == FishingState.NotFishing)
         {
+            /*
+             this was a failed attempt to fix a bug that would happen when you're kicked out of an instance (diadem)
+             while still fishing, making the plugin not reset correctly. I guess it didnt work LOL
+             
             if (_lastStep == FishingSteps.FishReeled)
-                OnFishingStop();
-
+                OnFishingStop();*/
             return;
         }
-
+        
         if (currentState != FishingState.Quit && _lastStep == FishingSteps.Quitting)
         {
             if (PlayerResources.IsCastAvailable())
@@ -266,17 +269,19 @@ public class HookingManager : IDisposable
 
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
             return null;
+        
+        var caughtCount = FishingCounter.GetCount(lastFishCatchCfg.GetUniqueId());
 
-        if (lastFishCatchCfg.IdenticalCast.IsAvailableToCast())
+        if (lastFishCatchCfg.IdenticalCast.IsAvailableToCast(caughtCount))
             return lastFishCatchCfg.IdenticalCast;
 
         if (lastFishCatchCfg.SurfaceSlap.IsAvailableToCast())
             return lastFishCatchCfg.SurfaceSlap;
 
-        var count = FishingCounter.GetCount(lastFishCatchCfg.GetUniqueId());
+        
         if (_lastStep != FishingSteps.BaitSwapped && lastFishCatchCfg.SwapBait)
         {
-            if (count == lastFishCatchCfg.SwapBaitCount &&
+            if (caughtCount == lastFishCatchCfg.SwapBaitCount &&
                 lastFishCatchCfg.BaitToSwap.Id != Service.EquipedBait.Current)
             {
                 var result = Service.EquipedBait.ChangeBait(lastFishCatchCfg.BaitToSwap);
@@ -293,7 +298,7 @@ public class HookingManager : IDisposable
 
         if (_lastStep != FishingSteps.PresetSwapped && lastFishCatchCfg.SwapPresets)
         {
-            if (count == lastFishCatchCfg.SwapPresetCount &&
+            if (caughtCount == lastFishCatchCfg.SwapPresetCount &&
                 lastFishCatchCfg.PresetToSwap != Presets.SelectedPreset?.PresetName)
             {
                 var preset =
@@ -535,7 +540,7 @@ public class HookingManager : IDisposable
                     @$"{lastFishCatchCfg.Fish.Name}: {lastFishCatchCfg.StopAfterCaughtLimit}"));
 
                 _lastStep = lastFishCatchCfg.StopFishingStep;
-                FishingCounter.Remove(guid);
+                if (lastFishCatchCfg.StopAfterResetCount) FishingCounter.Remove(guid);
             }
         }
 
@@ -550,14 +555,14 @@ public class HookingManager : IDisposable
                     @$"{_currentHook.BaitFish.Name}: {_currentHook.StopAfterCaughtLimit}"));
 
                 _lastStep = _currentHook.StopFishingStep;
-                FishingCounter.Remove(guid);
+                if (_currentHook.StopAfterResetCount) FishingCounter.Remove(guid);
             }
         }
     }
 
     private void OnBeganFishing()
     {
-        if (_lastStep == FishingSteps.BeganFishing && (_lastState != FishingState.PoleReady || _lastState != FishingState.None))
+        if (_lastStep == FishingSteps.BeganFishing && (_lastState != FishingState.PoleReady || _lastState != FishingState.NotFishing))
             return;
 
         CurrentBaitMooch = GetCurrentBait();
@@ -790,15 +795,15 @@ public class HookingManager : IDisposable
             return GetCount(guid);
         }
 
-        public static int GetCount(Guid fishName)
+        public static int GetCount(Guid guid)
         {
-            return !_fishCount.ContainsKey(fishName) ? 0 : _fishCount[fishName];
+            return !_fishCount.ContainsKey(guid) ? 0 : _fishCount[guid];
         }
 
-        public static void Remove(Guid fishName)
+        public static void Remove(Guid guid)
         {
-            if (_fishCount.ContainsKey(fishName))
-                _fishCount.Remove(fishName);
+            if (_fishCount.ContainsKey(guid))
+                _fishCount.Remove(guid);
         }
 
         public static void Reset()

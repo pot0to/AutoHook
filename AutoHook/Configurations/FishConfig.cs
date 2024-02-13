@@ -15,6 +15,7 @@ public class FishConfig
     
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
+    public bool StopAfterResetCount = false;
     
     public AutoIdenticalCast IdenticalCast = new();
     public AutoSurfaceSlap SurfaceSlap = new();

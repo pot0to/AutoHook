@@ -243,6 +243,7 @@ public class SubTabBaitMooch
 
     private void DrawChumMinMaxTime(HookConfig hookConfig)
     {
+        ImGui.PushID("DrawChumMinMaxTime");
         DrawUtil.DrawCheckboxTree(UIStrings.EnableChumTimers, ref hookConfig.UseChumTimer,
             () =>
             {
@@ -289,6 +290,7 @@ public class SubTabBaitMooch
             }
         , UIStrings.EnableChumTimersHelpMarker);
         
+        ImGui.PopID();
     }
 
     private void DrawEnabledButtonCustomBait(HookConfig hookConfig)
@@ -459,6 +461,8 @@ public class SubTabBaitMooch
             }
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Quit_Action_HelpText);
+            
+            DrawUtil.Checkbox(UIStrings.Reset_the_counter, ref hookConfig.StopAfterResetCount);
 
             ImGui.EndPopup();
         }

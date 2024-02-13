@@ -322,7 +322,7 @@ Set Zero (0) to disable</value>
 - If this config is a fish: Stops fishing after it being caught X amount of times</value>
   </data>
   <data name="TimeS" xml:space="preserve">
-    <value>Time(s)</value>
+    <value>time(s)</value>
     <comment>Quantity, example: 5 Time(s) </comment>
   </data>
   <data name="SurfaceSlapIdenticalCast" xml:space="preserve">
@@ -906,5 +906,17 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Use_Cordials_First_Help" xml:space="preserve">
     <value>Only applies when Cordial is enabled</value>
+  </data>
+  <data name="Reset_the_counter" xml:space="preserve">
+    <value>Reset the counter</value>
+  </data>
+  <data name="Reset_counter_after_swapping_presets" xml:space="preserve">
+    <value>Reset hook/fish counter after swapping presets</value>
+  </data>
+  <data name="Only_use_when_Cordial_is_available" xml:space="preserve">
+    <value>Only use when Cordial is available</value>
+  </data>
+  <data name="Only_use_when_the_fish_is_caught" xml:space="preserve">
+    <value>Only use when the fish is caught</value>
   </data>
 </root>
