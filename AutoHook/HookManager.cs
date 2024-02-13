@@ -127,7 +127,7 @@ public class HookingManager : IDisposable
             : "-";
 
         Service.Status = _currentHook == null
-            ? @"Hook Config: Idle"
+            ? @""
             : @$"Hook Config: {_currentHook.BaitFish.Name}({presetName}) | AutoCast: {autoCastName} | Extra: {extraCfg}";
 
         Service.PrintDebug(_currentHook == null
