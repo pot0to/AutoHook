@@ -176,6 +176,9 @@ public class TabCustomPresets : BaseTab
     private void DrawDeletePreset()
     {
         ImGui.PushFont(UiBuilder.IconFont);
+
+        if (_hookPresets.SelectedPreset == null) ImGui.BeginDisabled();
+
         if (ImGui.Button($"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) &&
             ImGui.GetIO().KeyShift)
         {
@@ -187,6 +190,9 @@ public class TabCustomPresets : BaseTab
 
             Service.Save();
         }
+
+
+        if (_hookPresets.SelectedPreset == null) ImGui.EndDisabled();
 
         ImGui.PopFont();
 
