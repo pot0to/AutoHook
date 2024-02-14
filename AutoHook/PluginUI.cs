@@ -325,7 +325,19 @@ public class PluginUi : Window, IDisposable
                 MainChanges =
                 {
                     "Allows preset menu to be shown as a sidebar rather than dropdown",
-                    "Allows fish configs to be ignored if fishing intuition is active"
+                    "Allows fish configs to be ignored if fishing intuition is active",
+                    "Identical Cast\r\n" +
+                    "- - Added an option to only use if cordial is available\r\n" +
+                    "- - Added an option to only use after the fish is caught X amount of times.\r\n" +
+                    "- Bait & Mooch Tabs\r\n" +
+                    "- -Added an option to reset the caught counter under \"stop fishing\"\r\n" +
+                    "- Extra Tab\r\n" +
+                    "- -Added an option to reset the counter when a preset swap happens."
+
+                },
+                MinorChanges =
+                {
+                    "Fix spectral current settings not working."
                 }
             },
             new Version("4.0.0.3")
