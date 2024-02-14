@@ -324,6 +324,13 @@ public class PluginUi : Window, IDisposable
             {
                 MainChanges =
                 {
+                    "Allows bait to be imported from selected bait in game"
+                }
+            },
+            new Version("4.0.0.4")
+            {
+                MainChanges =
+                {
                     "Allows preset menu to be shown as a sidebar rather than dropdown",
                     "Allows fish configs to be ignored if fishing intuition is active",
                     "Identical Cast\r\n" +

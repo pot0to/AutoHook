@@ -925,4 +925,7 @@ Check the Guide Tab for Guides.</value>
   <data name="Only_use_when_the_fish_is_caught" xml:space="preserve">
     <value>Only use when the fish is caught</value>
   </data>
+  <data name="UIUseCurrentBait" xml:space="preserve">
+    <value>Selects currently selected bait from game</value>
+  </data>
 </root>
