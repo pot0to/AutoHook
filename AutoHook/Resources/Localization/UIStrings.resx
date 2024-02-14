@@ -907,4 +907,10 @@ Check the Guide Tab for Guides.</value>
   <data name="Use_Cordials_First_Help" xml:space="preserve">
     <value>Only applies when Cordial is enabled</value>
   </data>
+  <data name="Show_Presets_As_Sidebar" xml:space="preserve">
+    <value>Show preset menu as a sidebar</value>
+  </data>
+  <data name="Ignore_When_Intuition" xml:space="preserve">
+    <value>Ignore fish setting when intuition is active</value>
+  </data>
 </root>

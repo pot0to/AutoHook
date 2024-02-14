@@ -1175,6 +1175,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignore fish setting when intuition is active.
+        /// </summary>
+        internal static string Ignore_When_Intuition {
+            get {
+                return ResourceManager.GetString("Ignore_When_Intuition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         internal static string Import {
@@ -1702,6 +1711,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Show_Debug_Console {
             get {
                 return ResourceManager.GetString("Show_Debug_Console", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show preset menu as a sidebar.
+        /// </summary>
+        internal static string Show_Presets_As_Sidebar {
+            get {
+                return ResourceManager.GetString("Show_Presets_As_Sidebar", resourceCulture);
             }
         }
         

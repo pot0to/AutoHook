@@ -3,6 +3,7 @@ using AutoHook.Ui;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Windowing;
+using Dalamud.Plugin.Services;
 using ImGuiNET;
 using PunishLib.ImGuiMethods;
 using System;
@@ -319,6 +320,14 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.4")
+            {
+                MainChanges =
+                {
+                    "Allows preset menu to be shown as a sidebar rather than dropdown",
+                    "Allows fish configs to be ignored if fishing intuition is active"
+                }
+            },
             new Version("4.0.0.3")
             {
                 MainChanges =
