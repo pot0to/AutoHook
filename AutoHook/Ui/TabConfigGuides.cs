@@ -36,7 +36,7 @@ public class TabConfigGuides : BaseTab
             if (ImGui.Button(UIStrings.TabGeneral_DrawHeader_Localization_Help))
             {
                 Process.Start(new ProcessStartInfo
-                    { FileName = "https://crowdin.com/project/autohook-plugin-localization", UseShellExecute = true });
+                    { FileName = "https://crowdin.com/project/autohook", UseShellExecute = true });
             }
 
             ImGui.Spacing();
@@ -182,7 +182,7 @@ public class TabConfigGuides : BaseTab
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/InitialDet/AutoHook/blob/main/AcceptCollectable.md",
+                FileName = "https://github.com/PunishXIV/AutoHook/blob/main/AcceptCollectable.md",
                 UseShellExecute = true
             });
         }
