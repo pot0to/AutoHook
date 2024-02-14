@@ -324,7 +324,8 @@ public class PluginUi : Window, IDisposable
             {
                 MainChanges =
                 {
-                    "Allows preset menu to be shown as a sidebar rather than dropdown"
+                    "Allows preset menu to be shown as a sidebar rather than dropdown",
+                    "Allows fish configs to be ignored if fishing intuition is active"
                 }
             },
             new Version("4.0.0.3")
