@@ -267,6 +267,9 @@ public class HookingManager : IDisposable
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
             return null;
 
+        if (PlayerResources.HasStatus(IDs.Status.FishersIntuition) && lastFishCatchCfg.IgnoreOnIntuition)
+            return null;
+
         if (lastFishCatchCfg.IdenticalCast.IsAvailableToCast())
             return lastFishCatchCfg.IdenticalCast;
 

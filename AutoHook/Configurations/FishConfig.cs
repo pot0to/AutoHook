@@ -10,6 +10,7 @@ public class FishConfig
 {
     private Guid _uniqueId;
     public bool Enabled = true;
+    public bool IgnoreOnIntuition = false;
 
     public BaitFishClass Fish;
     

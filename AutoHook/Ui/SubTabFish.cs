@@ -43,6 +43,7 @@ public class SubTabFish
                 ImGui.Spacing();
                 ImGui.Checkbox(UIStrings.Enable, ref fish.Enabled);
                 DrawDeleteButton(fish);
+                ImGui.Checkbox(UIStrings.Ignore_When_Intuition, ref fish.IgnoreOnIntuition);
                 ImGui.Spacing();
                 ImGui.Indent();
 

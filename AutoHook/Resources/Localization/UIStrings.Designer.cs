@@ -1175,6 +1175,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignore fish setting when intuition is active.
+        /// </summary>
+        internal static string Ignore_When_Intuition {
+            get {
+                return ResourceManager.GetString("Ignore_When_Intuition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         internal static string Import {
