@@ -71,6 +71,24 @@ public class PresetConfig
         }
     }
 
+    public void ResetCounter()
+    {
+        foreach (var item in ListOfBaits)
+        {
+            HookingManager.FishingCounter.Remove(item.GetUniqueId());
+        }
+        
+        foreach (var item in ListOfMooch)
+        {
+            HookingManager.FishingCounter.Remove(item.GetUniqueId());
+        }
+        
+        foreach (var item in ListOfFish)
+        {
+            HookingManager.FishingCounter.Remove(item.GetUniqueId());
+        }
+    }
+
     public HookConfig? GetBaitByName(string baitName)
     {
         if (PresetName.Equals(@"DefaultPreset"))

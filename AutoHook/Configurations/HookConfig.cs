@@ -64,6 +64,8 @@ public class HookConfig
 
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
+    public bool StopAfterResetCount = false;
+
     
     public FishingSteps StopFishingStep = FishingSteps.None;
 

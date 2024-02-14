@@ -169,7 +169,7 @@ public static class DrawUtil
     
     public static void DrawCheckboxTree(string treeName, ref bool enable, Action action, string helpText = "")
     {
-        ImGui.Checkbox("", ref enable);
+        ImGui.Checkbox($"##{treeName}###", ref enable);
         
         if (helpText != string.Empty)
         {

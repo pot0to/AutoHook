@@ -2,7 +2,7 @@ namespace AutoHook.Enums;
 
 public enum FishingState : byte
 {
-    None       = 0,
+    NotFishing  = 0,
     PoleOut    = 1,
     PullPoleIn = 2,
     Quit       = 3,

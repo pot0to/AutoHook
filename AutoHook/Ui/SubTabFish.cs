@@ -209,7 +209,6 @@ public class SubTabFish
     private void DrawSwapPreset(FishConfig fishConfig)
     {
         ImGui.PushID("DrawSwapPreset");
-
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref fishConfig.SwapPresets,
             () =>
             {
@@ -274,6 +273,8 @@ public class SubTabFish
             
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Quit_Action_HelpText);
+            
+            DrawUtil.Checkbox(UIStrings.Reset_the_counter, ref fishConfig.StopAfterResetCount);
 
             ImGui.Unindent();
             ImGui.Separator();

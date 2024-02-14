@@ -13,7 +13,7 @@ public class SubTabExtra
     public void DrawExtraTab(ExtraConfig config)
     {
         DrawHeader(config);
-
+        
         if (config.Enabled)
             DrawBody(config);
     }
@@ -57,8 +57,8 @@ public class SubTabExtra
 
     public void DrawBody(ExtraConfig config)
     {
+        DrawUtil.SpacingSeparator();
         ImGui.BeginGroup();
-        ImGui.Spacing();
         if (ImGui.TreeNodeEx(UIStrings.When_gaining_fishers_intuition, ImGuiTreeNodeFlags.FramePadding))
         {
             ImGui.PushID("gaining_intuition");
@@ -83,9 +83,6 @@ public class SubTabExtra
         
         DrawUtil.SpacingSeparator();
         
-        ImGui.EndGroup();
-
-        ImGui.BeginGroup();
         ImGui.Spacing();
         if (ImGui.TreeNodeEx(UIStrings.When_gaining_spectral_current, ImGuiTreeNodeFlags.FramePadding))
         {
@@ -110,7 +107,13 @@ public class SubTabExtra
         }
 
         DrawUtil.SpacingSeparator();
-
+        
+        if (DrawUtil.Checkbox(UIStrings.Reset_counter_after_swapping_presets, ref config.ResetCounterPresetSwap))
+        {
+            Service.Save();
+        }
+        
+        DrawUtil.SpacingSeparator();
         ImGui.EndGroup();
     }
 

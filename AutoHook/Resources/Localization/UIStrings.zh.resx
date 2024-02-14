@@ -835,16 +835,16 @@
     <value>额外</value>
   </data>
   <data name="NeverReleaseHelptext" xml:space="preserve">
-    <value>This fish won't be released if 'Release All Fish' is enabled in the Auto Cast tab</value>
+    <value>如果在 "自动垂钓" 项目页选择了 "放生所有鱼", 该鱼也不会被放生</value>
   </data>
   <data name="NeverRelease" xml:space="preserve">
-    <value>Never Release</value>
+    <value>永不放生</value>
   </data>
   <data name="ReleaseAllFish" xml:space="preserve">
-    <value>Release All Fish</value>
+    <value>放生所有鱼</value>
   </data>
   <data name="ReleaseAllFishHelpText" xml:space="preserve">
-    <value>If you dont want to release a specific fish, add it to a preset and select "Never Release"</value>
+    <value>如果你不想放生特定鱼, 请将其添加至一个预设中, 并选择 "永不放生"</value>
   </data>
   <data name="Enable_Extra_Configs" xml:space="preserve">
     <value>启用额外配置</value>

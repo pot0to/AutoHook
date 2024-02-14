@@ -41,7 +41,7 @@ public sealed class EventFramework : SeAddressBase
         get
         {
             var ptr = FishingStatePtr;
-            return ptr != IntPtr.Zero ? *(FishingState*)ptr : FishingState.None;
+            return ptr != IntPtr.Zero ? *(FishingState*)ptr : FishingState.NotFishing;
         }
     }
 
