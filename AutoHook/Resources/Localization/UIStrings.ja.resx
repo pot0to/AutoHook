@@ -171,9 +171,6 @@
   <data name="NewBaitMooch" xml:space="preserve">
     <value>新しい餌</value>
   </data>
-  <data name="EditMe" xml:space="preserve">
-    <value>EditMe</value>
-  </data>
   <data name="Add" xml:space="preserve">
     <value>追加</value>
   </data>
@@ -214,9 +211,6 @@
   </data>
   <data name="TabGPConfig_TabDescription" xml:space="preserve">
     <value>ここでは、自動キャスト機能で使用されるアクションとアイテムのGP閾値をカスタマイズできます。</value>
-  </data>
-  <data name="GP" xml:space="preserve">
-    <value>GP</value>
   </data>
   <data name="Above" xml:space="preserve">
     <value>以上</value>
@@ -463,9 +457,6 @@
   <data name="ExtraOptionPrizeCatchHelpMarker" xml:space="preserve">
     <value>”泳がせ釣りII”が有効になっていないと機能しません。”泳がせ釣り”のみを行う場合は100GP節約出来るかもしれません。</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>.</value>
-  </data>
   <data name="Enable_AutoHook" xml:space="preserve">
     <value>AutoHookを有効にする</value>
   </data>
@@ -559,9 +550,6 @@
   <data name="MakeShift_Bait" xml:space="preserve">
     <value>熟漁の技</value>
   </data>
-  <data name="BaitName_Default" xml:space="preserve">
-    <value>Default</value>
-  </data>
   <data name="DecompressString_Invalid_Import" xml:space="preserve">
     <value>無効なコードです</value>
   </data>
@@ -647,9 +635,6 @@
   </data>
   <data name="Incomplete" xml:space="preserve">
     <value>未完了</value>
-  </data>
-  <data name="AutoHook" xml:space="preserve">
-    <value>AutoHook</value>
   </data>
   <data name="PluginUi_Language" xml:space="preserve">
     <value>言語</value>

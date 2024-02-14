@@ -171,9 +171,6 @@
   <data name="NewBaitMooch" xml:space="preserve">
     <value>Neuer Köder/Naturköder</value>
   </data>
-  <data name="EditMe" xml:space="preserve">
-    <value>EditMe</value>
-  </data>
   <data name="Add" xml:space="preserve">
     <value>Hinzufügen</value>
   </data>
@@ -220,9 +217,6 @@
     <value>wird verwendet, wenn deine SP gleich oder</value>
     <comment>Action will be used when your GP is Equal or Above/Below</comment>
   </data>
-  <data name="None" xml:space="preserve">
-    <value>None</value>
-  </data>
   <data name="TabnameGeneral" xml:space="preserve">
     <value>Allgemein</value>
   </data>
@@ -246,9 +240,6 @@
   </data>
   <data name="DefaultMoochingBehavior" xml:space="preserve">
     <value>Dies ist das Standardverhalten für Naturköder, wenn kein Preset gefunden wird.</value>
-  </data>
-  <data name="Changelog" xml:space="preserve">
-    <value>Changelog</value>
   </data>
   <data name="DefaultCast" xml:space="preserve">
     <value>Standard-Angeln</value>
@@ -460,9 +451,6 @@ Um das Standardverhalten (Allgemeiner Tab) zu verwenden, lösche bitte diese Ein
     <value>&gt;Stellen Sie sicher, dass 'Naturköder II verwenden' aktiviert ist, da es andernfalls nicht funktioniert&lt;
 Dies könnte 100SP einsparen, falls nur auf Naturköder abgezielt wird</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>.</value>
-  </data>
   <data name="Enable_AutoHook" xml:space="preserve">
     <value>AutoHook aktivieren</value>
   </data>
@@ -586,9 +574,6 @@ Wenn Auto-Naturköder (Globales oder benutzerdefiniertes Preset) nicht aktiv ist
   <data name="Enable_AutoGig" xml:space="preserve">
     <value>Auto-Harpunieren</value>
   </data>
-  <data name="Hitbox" xml:space="preserve">
-    <value>Hitbox</value>
-  </data>
   <data name="Use_Makeshift_Bait" xml:space="preserve">
     <value>Fischfinesse verwenden</value>
   </data>
@@ -644,8 +629,5 @@ Möchtest du Auto-Naturköder für einen spezifischen Fisch verwenden, und ander
   </data>
   <data name="Incomplete" xml:space="preserve">
     <value>Unvollständig</value>
-  </data>
-  <data name="AutoHook" xml:space="preserve">
-    <value>AutoHook</value>
   </data>
 </root>

@@ -138,9 +138,6 @@
   <data name="ImportThisPreset" xml:space="preserve">
     <value>¿Importar este Preset?</value>
   </data>
-  <data name="AutoMooch" xml:space="preserve">
-    <value>Auto Mooch</value>
-  </data>
   <data name="AddLastCatch" xml:space="preserve">
     <value>Añadir última captura:</value>
   </data>
@@ -215,9 +212,6 @@ Si una carnada/mooch no es especificado, se usara el Preset predeterminado.</val
   <data name="TabGPConfig_TabDescription" xml:space="preserve">
     <value>Aquí puedes elegir el límite de GP para las acciones e ítems usados por la función de AutoCast.</value>
   </data>
-  <data name="GP" xml:space="preserve">
-    <value>GP</value>
-  </data>
   <data name="Above" xml:space="preserve">
     <value>Por Encima De</value>
   </data>
@@ -230,9 +224,6 @@ Si una carnada/mooch no es especificado, se usara el Preset predeterminado.</val
   </data>
   <data name="None" xml:space="preserve">
     <value>Ninguno</value>
-  </data>
-  <data name="TabnameGeneral" xml:space="preserve">
-    <value>General</value>
   </data>
   <data name="DrawHeader_GeneralSettings" xml:space="preserve">
     <value>Ajustes Generales</value>
@@ -255,9 +246,6 @@ Si una carnada/mooch no es especificado, se usara el Preset predeterminado.</val
   <data name="DefaultMoochingBehavior" xml:space="preserve">
     <value>Este es el comportamiento de Mooch por defecto si no se encuentra ningún Preset personalizado.</value>
   </data>
-  <data name="Changelog" xml:space="preserve">
-    <value>Changelog</value>
-  </data>
   <data name="DefaultCast" xml:space="preserve">
     <value>Cast por defecto</value>
   </data>
@@ -275,12 +263,6 @@ Si una carnada/mooch no es especificado, se usara el Preset predeterminado.</val
   </data>
   <data name="HookWillBeUsedIfPatienceIsNotUp" xml:space="preserve">
     <value>"Hook" será utilizado si Patience no está activa</value>
-  </data>
-  <data name="PrecisionHookset" xml:space="preserve">
-    <value>Precision Hookset</value>
-  </data>
-  <data name="PowerfulHookset" xml:space="preserve">
-    <value>Powerful Hookset</value>
   </data>
   <data name="MoochBaitName" xml:space="preserve">
     <value>Nombre de Mooch/Carnada</value>
@@ -324,9 +306,6 @@ Usar Cero (0) para deshabilitar</value>
   <data name="TimeS" xml:space="preserve">
     <value>Veces</value>
     <comment>Quantity, example: 5 Time(s) </comment>
-  </data>
-  <data name="SurfaceSlapIdenticalCast" xml:space="preserve">
-    <value>Surface Slap &amp; Identical Cast</value>
   </data>
   <data name="OverridesIdenticalCast" xml:space="preserve">
     <value>Reemplaza Identical Cast</value>
@@ -407,9 +386,6 @@ Para usar el comportamiento predeterminado (Pestaña General), por favor elimine
   <data name="Enable" xml:space="preserve">
     <value>Activar</value>
   </data>
-  <data name="TabNameAutoGig" xml:space="preserve">
-    <value>AutoGig</value>
-  </data>
   <data name="TabAutoGigDescription" xml:space="preserve">
     <value>Esta funcion es experimental y a veces falla. Si crees que falla mucho, intenta ajustando la ventana de pesca a un tamaño distinto</value>
   </data>
@@ -468,9 +444,6 @@ Para usar el comportamiento predeterminado (Pestaña General), por favor elimine
     <value>&gt;Asegúrate de que 'Usar Mooch II' esté habilitado o sino no funcionará&lt;
 Esto podria salvarte 100GP si solo estas yendo por mooches</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>.</value>
-  </data>
   <data name="Enable_AutoHook" xml:space="preserve">
     <value>Activar AutoHook</value>
   </data>
@@ -516,54 +489,6 @@ Esto podria salvarte 100GP si solo estas yendo por mooches</value>
   <data name="Toggles_AutoHook_On_Off" xml:space="preserve">
     <value>Activa o Desactiva Autohook</value>
   </data>
-  <data name="Triple_Hook" xml:space="preserve">
-    <value>Triple Hook</value>
-  </data>
-  <data name="Watered_Cordial" xml:space="preserve">
-    <value>Watered Cordial</value>
-  </data>
-  <data name="Cordial" xml:space="preserve">
-    <value>Cordial</value>
-  </data>
-  <data name="HQ_Cordial" xml:space="preserve">
-    <value>HQ Cordial</value>
-  </data>
-  <data name="HQ_Watered_Cordial" xml:space="preserve">
-    <value>HQ Watered Cordial</value>
-  </data>
-  <data name="Double_Hook" xml:space="preserve">
-    <value>Double Hook</value>
-  </data>
-  <data name="Patience_II" xml:space="preserve">
-    <value>Patience II</value>
-  </data>
-  <data name="Hi_Cordial" xml:space="preserve">
-    <value>Hi-Cordial</value>
-  </data>
-  <data name="Patience_I" xml:space="preserve">
-    <value>Patience I</value>
-  </data>
-  <data name="Prize_Catch" xml:space="preserve">
-    <value>Prize Catch</value>
-  </data>
-  <data name="Surface_Slap" xml:space="preserve">
-    <value>Surface Slap</value>
-  </data>
-  <data name="Identical_Cast" xml:space="preserve">
-    <value>Identical Cast</value>
-  </data>
-  <data name="Fish_Eyes" xml:space="preserve">
-    <value>Fish Eyes</value>
-  </data>
-  <data name="Chum" xml:space="preserve">
-    <value>Chum</value>
-  </data>
-  <data name="Thaliaks_Favor" xml:space="preserve">
-    <value>Thaliak's Favor</value>
-  </data>
-  <data name="MakeShift_Bait" xml:space="preserve">
-    <value>MakeShift Bait</value>
-  </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>Predeterminado</value>
   </data>
@@ -572,9 +497,6 @@ Esto podria salvarte 100GP si solo estas yendo por mooches</value>
   </data>
   <data name="New_Preset" xml:space="preserve">
     <value>Nuevo Preset</value>
-  </data>
-  <data name="Auto_Casts" xml:space="preserve">
-    <value>Auto Casts</value>
   </data>
   <data name="TabAutoCasts_DrawAutoCast_HelpText" xml:space="preserve">
     <value>Cast (Acción de FSH) sera usado despues de una mordida
@@ -593,9 +515,6 @@ Si Auto Mooch (Global o Preset Personalizado) no está activado, se usara Cast n
   </data>
   <data name="Enable_AutoGig" xml:space="preserve">
     <value>Activar AutoGig</value>
-  </data>
-  <data name="Hitbox" xml:space="preserve">
-    <value>Hitbox</value>
   </data>
   <data name="Use_Makeshift_Bait" xml:space="preserve">
     <value>Usar Makeshift Bait</value>
@@ -653,9 +572,6 @@ Si desea usar Auto Mooch con un solo pez e ignorar los otros, desactiva esta opc
   <data name="Incomplete" xml:space="preserve">
     <value>Incompleto</value>
   </data>
-  <data name="AutoHook" xml:space="preserve">
-    <value>AutoHook</value>
-  </data>
   <data name="PluginUi_Language" xml:space="preserve">
     <value>Idioma</value>
   </data>
@@ -667,15 +583,6 @@ Si desea usar Auto Mooch con un solo pez e ignorar los otros, desactiva esta opc
   </data>
   <data name="Add_new_mooch" xml:space="preserve">
     <value>Añadir nuevo mooch</value>
-  </data>
-  <data name="Presets_Hook" xml:space="preserve">
-    <value>Hook</value>
-  </data>
-  <data name="Mooch" xml:space="preserve">
-    <value>Mooch</value>
-  </data>
-  <data name="AutoCastLine_Auto_Cast_Line" xml:space="preserve">
-    <value>Auto Cast Line</value>
   </data>
   <data name="AutoMooch_HelpText" xml:space="preserve">
     <value>Esta opción tiene prioridad sobre Auto Cast Line</value>
@@ -695,21 +602,11 @@ Si desea usar Auto Mooch con un solo pez e ignorar los otros, desactiva esta opc
   <data name="All_Mooches" xml:space="preserve">
     <value>Todos los Mooches</value>
   </data>
-  <data name="AutoPatience_Patience" xml:space="preserve">
-    <value>Patience</value>
-  </data>
   <data name="Fish" xml:space="preserve">
     <value>Pez</value>
   </data>
   <data name="Add_new_fish" xml:space="preserve">
     <value>Añadir nuevo pez</value>
-  </data>
-  <data name="Cast_Line" xml:space="preserve">
-    <value>Cast Line</value>
-    <comment>Cast (fisher action)</comment>
-  </data>
-  <data name="Mooch_II" xml:space="preserve">
-    <value>Mooch II</value>
   </data>
   <data name="Never_Mooch" xml:space="preserve">
     <value>Nunca usar Mooch</value>
@@ -777,12 +674,6 @@ Comprueba la pestaña de guías para las guías.</value>
   <data name="Show_Current_Status_Header" xml:space="preserve">
     <value>Mostrar la cabecera de estado actual</value>
   </data>
-  <data name="DrawConfigs_Max_" xml:space="preserve">
-    <value>Max.</value>
-  </data>
-  <data name="DrawConfigs_Min_" xml:space="preserve">
-    <value>Min.</value>
-  </data>
   <data name="Delay_Between_Casts" xml:space="preserve">
     <value>Retraso entre Casts (en ms):</value>
   </data>
@@ -831,9 +722,6 @@ Comprueba la pestaña de guías para las guías.</value>
   <data name="Search_Hint" xml:space="preserve">
     <value>Buscar...</value>
     <comment>Hint Text for search bar</comment>
-  </data>
-  <data name="Extra" xml:space="preserve">
-    <value>Extra</value>
   </data>
   <data name="NeverReleaseHelptext" xml:space="preserve">
     <value>Este pez no será liberado si 'Liberar todos los peces' está habilitado en la pestaña Auto Cast</value>

@@ -207,9 +207,6 @@
   <data name="TabGPConfig_TabDescription" xml:space="preserve">
     <value>자동 낚시 기능에서 사용자가 설정한 GP값에 따라 낚시 스킬과 아이템 사용이 가능합니다.</value>
   </data>
-  <data name="GP" xml:space="preserve">
-    <value>GP</value>
-  </data>
   <data name="Above" xml:space="preserve">
     <value>이상</value>
   </data>
@@ -354,9 +351,6 @@
   <data name="HoldShiftBothDHTH" xml:space="preserve">
     <value>SHIFT를 눌러 이중 낚아채기와 삼중 낚아채기 모두 선택하기 (비추천)</value>
   </data>
-  <data name="UseDoubleHookIfGp400" xml:space="preserve">
-    <value>Use Double Hook (If gp &gt; 400)</value>
-  </data>
   <data name="UseTripleHookIfGp700" xml:space="preserve">
     <value>삼중 낚아채기 사용하기 (gp &gt; 700)</value>
   </data>
@@ -458,9 +452,6 @@
   <data name="ExtraOptionPrizeCatchHelpMarker" xml:space="preserve">
     <value>&gt;'생미끼 낚시 2 사용하기' 가 활성화 되어있는지 확인하세요. 아니면 작동하지 않습니다.&lt;
 이걸로 생미끼 낚시에만 100 GP를 아낄 수 있습니다.</value>
-  </data>
-  <data name="Test" xml:space="preserve">
-    <value>.</value>
   </data>
   <data name="Enable_AutoHook" xml:space="preserve">
     <value>자동 낚시 활성화</value>

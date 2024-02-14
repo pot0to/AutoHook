@@ -467,9 +467,6 @@
     <value>&gt;请确保启用了'使用以小钓大 II'，否则它将无法正常工作&lt;
  如果只是为了以小钓大这将为您省下100GP</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>.</value>
-  </data>
   <data name="Enable_AutoHook" xml:space="preserve">
     <value>启用自动提钩</value>
   </data>
@@ -800,17 +797,11 @@
   <data name="SubAuto_Disabled" xml:space="preserve">
     <value>自动抛竿已关闭</value>
   </data>
-  <data name="SubExtra_Disabled" xml:space="preserve">
-    <value/>
-  </data>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
     <value>[默认] 正在使用自动抛竿</value>
   </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
     <value>正在使用自定义预设 [{0}] 进行自动抛竿。</value>
-  </data>
-  <data name="Default_Extra_Being_Used" xml:space="preserve">
-    <value/>
   </data>
   <data name="Custom_Extra_Being_Used" xml:space="preserve">
     <value>正在使用自定义预设 [{0}] 进行自动抛竿。</value>
