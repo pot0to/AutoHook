@@ -332,85 +332,12 @@ public class HookingManager : IDisposable
 
     private void CheckExtraActions()
     {
-        if (_intuitionStatus == IntuitionStatus.NotActive)
-        {
-            if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition))
-                return;
+        CheckSpectral();
+        CheckIntuition();
+    }
 
-            _intuitionStatus = IntuitionStatus.Active; // only one try
-
-            var extraCfg = GetExtraCfg();
-
-            if (extraCfg.SwapPresetIntuitionGain)
-            {
-                var preset =
-                    Presets.CustomPresets.FirstOrDefault(preset =>
-                        preset.PresetName == extraCfg.PresetToSwapIntuitionGain);
-
-                if (preset != null)
-                {
-                    Presets.SelectedPreset = preset;
-                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapIntuitionGain}");
-                    Service.Save();
-                }
-                else
-                    Service.PrintChat(@$"Preset {extraCfg.PresetToSwapIntuitionGain} not found.");
-            }
-
-            if (extraCfg.SwapBaitIntuitionGain)
-            {
-                var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionGain);
-
-                if (result == CurrentBait.ChangeBaitReturn.Success)
-                {
-                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
-                    _lastStep |= FishingSteps.BaitSwapped; // one try per catch
-                    Service.Save();
-                }
-            }
-        }
-
-        if (_intuitionStatus == IntuitionStatus.Active)
-        {
-            if (PlayerResources.HasStatus(IDs.Status.FishersIntuition))
-                return;
-
-            _intuitionStatus = IntuitionStatus.NotActive; // only one try
-
-            var extraCfg = GetExtraCfg();
-
-            if (extraCfg.SwapPresetIntuitionLost)
-            {
-                var preset =
-                    Presets.CustomPresets.FirstOrDefault(preset =>
-                        preset.PresetName == extraCfg.PresetToSwapIntuitionLost);
-
-                if (preset != null)
-                {
-                    // one try per catch
-                    _lastStep |= FishingSteps.PresetSwapped;
-                    Presets.SelectedPreset = preset;
-                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapIntuitionLost}");
-                    Service.Save();
-                }
-                else
-                    Service.PrintChat(@$"Preset {extraCfg.PresetToSwapIntuitionLost} not found.");
-            }
-
-            if (extraCfg.SwapBaitIntuitionLost)
-            {
-                var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionLost);
-
-                // one try per catch
-                _lastStep |= FishingSteps.BaitSwapped;
-                if (result == CurrentBait.ChangeBaitReturn.Success)
-                {
-                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
-                    Service.Save();
-                }
-            }
-        }
-
+    private void CheckSpectral()
+    {
         if (_spectralCurrentStatus == SpectralCurrentStatus.NotActive)
         {
             if (!PlayerResources.IsInActiveSpectralCurrent())
@@ -485,6 +412,88 @@ public class HookingManager : IDisposable
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
                     Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
+                    Service.Save();
+                }
+            }
+        }
+    }
+
+    private void CheckIntuition()
+    {
+        if (_intuitionStatus == IntuitionStatus.NotActive)
+        {
+            if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition))
+                return;
+
+            _intuitionStatus = IntuitionStatus.Active; // only one try
+
+            var extraCfg = GetExtraCfg();
+
+            if (extraCfg.SwapPresetIntuitionGain)
+            {
+                var preset =
+                    Presets.CustomPresets.FirstOrDefault(preset =>
+                        preset.PresetName == extraCfg.PresetToSwapIntuitionGain);
+
+                if (preset != null)
+                {
+                    Presets.SelectedPreset = preset;
+                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapIntuitionGain}");
+                    Service.Save();
+                }
+                else
+                    Service.PrintChat(@$"Preset {extraCfg.PresetToSwapIntuitionGain} not found.");
+            }
+
+            if (extraCfg.SwapBaitIntuitionGain)
+            {
+                var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionGain);
+
+                if (result == CurrentBait.ChangeBaitReturn.Success)
+                {
+                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
+                    _lastStep |= FishingSteps.BaitSwapped; // one try per catch
+                    Service.Save();
+                }
+            }
+        }
+
+        if (_intuitionStatus == IntuitionStatus.Active)
+        {
+            if (PlayerResources.HasStatus(IDs.Status.FishersIntuition))
+                return;
+
+            _intuitionStatus = IntuitionStatus.NotActive; // only one try
+
+            var extraCfg = GetExtraCfg();
+
+            if (extraCfg.SwapPresetIntuitionLost)
+            {
+                var preset =
+                    Presets.CustomPresets.FirstOrDefault(preset =>
+                        preset.PresetName == extraCfg.PresetToSwapIntuitionLost);
+
+                if (preset != null)
+                {
+                    // one try per catch
+                    _lastStep |= FishingSteps.PresetSwapped;
+                    Presets.SelectedPreset = preset;
+                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapIntuitionLost}");
+                    Service.Save();
+                }
+                else
+                    Service.PrintChat(@$"Preset {extraCfg.PresetToSwapIntuitionLost} not found.");
+            }
+
+            if (extraCfg.SwapBaitIntuitionLost)
+            {
+                var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionLost);
+
+                // one try per catch
+                _lastStep |= FishingSteps.BaitSwapped;
+                if (result == CurrentBait.ChangeBaitReturn.Success)
+                {
+                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
                     Service.Save();
                 }
             }

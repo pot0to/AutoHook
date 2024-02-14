@@ -66,7 +66,13 @@ public class PlayerResources : IDisposable
         return false;
     }
 
-    public unsafe static bool IsInActiveSpectralCurrent() => EventFramework.Instance()->GetInstanceContentOceanFishing()->SpectralCurrentActive;
+    public unsafe static bool IsInActiveSpectralCurrent()
+    {
+        if (EventFramework.Instance()->GetInstanceContentOceanFishing() is null)
+            return false;
+
+        return EventFramework.Instance()->GetInstanceContentOceanFishing()->SpectralCurrentActive;
+    }
 
     public static uint GetCurrentGp()
     {
