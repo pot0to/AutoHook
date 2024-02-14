@@ -99,6 +99,8 @@ public class TabCustomPresets : BaseTab
 
         DrawDeletePreset();
 
+        TimedWarning();
+
         if (ImGui.BeginListBox("", new Vector2(175, -1)))
         {
             if (ImGui.Selectable("None", _hookPresets.SelectedPreset == null))
@@ -414,7 +416,11 @@ public class TabCustomPresets : BaseTab
         if (ImGui.IsItemHovered())
             ImGui.SetTooltip(UIStrings.ImportStackFromClipboard);
 
-        TimedWarning();
+        if (!Service.Configuration.ShowPresetsAsSidebar)
+        {
+            TimedWarning();
+        }
+
     }
 
     private static readonly double _timelimit = 5000;
