@@ -928,4 +928,19 @@ Check the Guide Tab for Guides.</value>
   <data name="UIUseCurrentBait" xml:space="preserve">
     <value>Selects currently selected bait from game</value>
   </data>
+  <data name="AutoCastEndTime" xml:space="preserve">
+    <value>Ending time to allow auto casting</value>
+  </data>
+  <data name="AutoCastStartTime" xml:space="preserve">
+    <value>Starting time to allow auto casting</value>
+  </data>
+  <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
+    <value>Allows auto cast to only work at specific times</value>
+  </data>
+  <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
+    <value>Quits fishing when intuition is lost</value>
+  </data>
+  <data name="Stop_Fishing_On_IntuitionLost" xml:space="preserve">
+    <value>Stops fishing when intuition is lost</value>
+  </data>
 </root>

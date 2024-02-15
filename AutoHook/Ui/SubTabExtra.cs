@@ -112,7 +112,21 @@ public class SubTabExtra
         {
             Service.Save();
         }
-        
+
+        DrawUtil.SpacingSeparator();
+
+        if (DrawUtil.Checkbox(UIStrings.Quit_Fishing_On_IntuitionLost, ref config.QuitOnIntuitionLost))
+        {
+            Service.Save();
+        }
+
+        DrawUtil.SpacingSeparator();
+
+        if (DrawUtil.Checkbox(UIStrings.Stop_Fishing_On_IntuitionLost, ref config.StopOnIntuitionLost))
+        {
+            Service.Save();
+        }
+
         DrawUtil.SpacingSeparator();
         ImGui.EndGroup();
     }

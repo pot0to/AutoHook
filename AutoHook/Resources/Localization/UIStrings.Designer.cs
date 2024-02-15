@@ -251,6 +251,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ending time to allow auto casting.
+        /// </summary>
+        internal static string AutoCastEndTime {
+            get {
+                return ResourceManager.GetString("AutoCastEndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only use when Mooch II is on NOT available - READ &gt;&gt;&gt;.
         /// </summary>
         internal static string AutoCastExtraOptionPrizeCatch {
@@ -265,6 +274,24 @@ namespace AutoHook.Resources.Localization {
         internal static string AutoCastLine_Auto_Cast_Line {
             get {
                 return ResourceManager.GetString("AutoCastLine_Auto_Cast_Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allows auto cast to only work at specific times.
+        /// </summary>
+        internal static string AutoCastOnlyAtSpecificTimes {
+            get {
+                return ResourceManager.GetString("AutoCastOnlyAtSpecificTimes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting time to allow auto casting.
+        /// </summary>
+        internal static string AutoCastStartTime {
+            get {
+                return ResourceManager.GetString("AutoCastStartTime", resourceCulture);
             }
         }
         
@@ -1634,6 +1661,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quits fishing when intuition is lost.
+        /// </summary>
+        internal static string Quit_Fishing_On_IntuitionLost {
+            get {
+                return ResourceManager.GetString("Quit_Fishing_On_IntuitionLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh when buff timer is less than or equal to.
         /// </summary>
         internal static string RefreshWhenTimeIsLessThanOrEqual {
@@ -1792,6 +1828,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Stop_Casting {
             get {
                 return ResourceManager.GetString("Stop_Casting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stops fishing when intuition is lost.
+        /// </summary>
+        internal static string Stop_Fishing_On_IntuitionLost {
+            get {
+                return ResourceManager.GetString("Stop_Fishing_On_IntuitionLost", resourceCulture);
             }
         }
         
