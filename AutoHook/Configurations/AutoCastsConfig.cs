@@ -16,16 +16,12 @@ public class AutoCastsConfig
     public AutoCollect CastCollect = new();
     public AutoCordial CastCordial = new();
     public AutoFishEyes CastFishEyes = new();
-    //public AutoIdenticalCast CastIdenticalCast = new();
     public AutoMakeShiftBait CastMakeShiftBait= new();
     public AutoPatience CastPatience = new();
     public AutoPrizeCatch CastPrizeCatch = new();
-    //public AutoSurfaceSlap CastSurfaceSlap = new();
     public AutoThaliaksFavor CastThaliaksFavor = new();
     
-    //public AutoReleaseFish CastReleaseFish = new(); 
-    
-    public List<BaseActionCast> GetAutoActions()
+    public List<BaseActionCast> GetAutoCastOrder()
     { 
         return new List<BaseActionCast>
         {
@@ -36,7 +32,7 @@ public class AutoCastsConfig
             CastChum,
             CastFishEyes,
             CastPrizeCatch,
-            CastCollect,
+            //CastCollect,
         };
     }
     
