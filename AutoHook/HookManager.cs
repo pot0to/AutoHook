@@ -327,7 +327,7 @@ public class HookingManager : IDisposable
         if (!acCfg.EnableAll)
             return null;
 
-        var autoActions = acCfg.GetAutoActions();
+        var autoActions = acCfg.GetAutoCastOrder();
 
         foreach (var action in autoActions.Where(action => action.IsAvailableToCast()))
         {
@@ -772,7 +772,7 @@ public class HookingManager : IDisposable
     {
         try
         {
-            if (actionType == ActionType.Action)
+            if (actionType == ActionType.Action && Service.Configuration.PluginEnabled )
             {
                 switch (actionId)
                 {
