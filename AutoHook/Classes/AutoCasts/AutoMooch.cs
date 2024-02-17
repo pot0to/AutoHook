@@ -43,11 +43,14 @@ public class AutoMooch : BaseActionCast
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
-        Mooch2.DrawConfig();
+        Mooch2.DrawConfig(null);
         if (DrawUtil.Checkbox(UIStrings.TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active,
                 ref OnlyMoochIntuition))
         {
             Service.Save();
         }
     };
+
+    public override int Priority { get; set; } = 10;
+    public override bool IsExcludedPriority { get; set; } = true;
 }

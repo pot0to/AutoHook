@@ -67,4 +67,7 @@ public class AutoPrizeCatch : BaseActionCast
             Service.Save();
         }
     };
+
+    public override int Priority { get; set; } = 13;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

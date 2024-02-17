@@ -6,6 +6,9 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoFishEyes : BaseActionCast
 {
+    public override int Priority { get; set; } = 6;
+    public override bool IsExcludedPriority { get; set; } = false;
+
     public AutoFishEyes() : base(UIStrings.Fish_Eyes, IDs.Actions.FishEyes, ActionType.Action)
     {
         DoesCancelMooch = true;

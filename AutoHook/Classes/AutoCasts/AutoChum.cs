@@ -48,4 +48,7 @@ public class AutoChum : BaseActionCast
             }
         }
     };
+
+    public override int Priority { get; set; } = 1;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

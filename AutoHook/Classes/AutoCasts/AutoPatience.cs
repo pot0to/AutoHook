@@ -61,4 +61,7 @@ public class AutoPatience : BaseActionCast
             Service.Save();
         }
     };
+
+    public override int Priority { get; set; } = 12;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

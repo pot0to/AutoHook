@@ -58,4 +58,7 @@ public class AutoMakeShiftBait : BaseActionCast
             Service.Save();
         }
     };
+
+    public override int Priority { get; set; } = 9;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

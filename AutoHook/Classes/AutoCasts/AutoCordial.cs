@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoHook.Data;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
@@ -17,7 +18,8 @@ public class AutoCordial : BaseActionCast
     public bool InvertCordialPriority;
     
     public bool AllowOvercapIC;
-    
+
+    [NonSerialized]
     public readonly List<(uint, uint)> _cordialList = new()
     {
         (IDs.Item.HiCordial,        CordialHiRecovery),
@@ -26,7 +28,8 @@ public class AutoCordial : BaseActionCast
         (IDs.Item.HQWateredCordial, CordialHqWateredRecovery), 
         (IDs.Item.WateredCordial,   CordialWateredRecovery)
     };
-    
+
+    [NonSerialized]
     private readonly List<(uint, uint)> _invertedList = new()
     {
         (IDs.Item.HQWateredCordial, CordialHqWateredRecovery), 
@@ -91,4 +94,7 @@ public class AutoCordial : BaseActionCast
             Service.Save();
         }
     };
+
+    public override int Priority { get; set; } = 4;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

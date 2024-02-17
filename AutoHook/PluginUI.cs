@@ -324,12 +324,14 @@ public class PluginUi : Window, IDisposable
             {
                 MainChanges =
                 {
+                    "Auto Casts can now be re-ordered to be used in a different priority",
                     "Allows bait to be imported from selected bait in game",
                     "Allow casting only within specific Eorzea times"
                 },
                 MinorChanges =
                 {
-                    "Allow to stop/quit fishing after intuition is lost"
+                    "Allow to stop/quit fishing after intuition is lost",
+                    "Fixed issue where certain actions would still be used if the plugin was disabled"
                 }
             },
             new Version("4.0.0.4")

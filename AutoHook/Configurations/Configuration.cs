@@ -191,11 +191,11 @@ public class Configuration : IPluginConfiguration
     {
         if (import.StartsWith(OldV2ExportPrefix))
         {
-            var old = JsonConvert.DeserializeObject<BaitPresetConfig>(DecompressString(import));
+            var old = JsonConvert.DeserializeObject<BaitPresetConfig>(DecompressString(import), new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace });
             return ConvertOldPreset(old);
         }
         
-        return JsonConvert.DeserializeObject<PresetConfig>(DecompressString(import));
+        return JsonConvert.DeserializeObject<PresetConfig>(DecompressString(import), new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace});
     }
 
     private const string ExportPrefix = "AH3_";

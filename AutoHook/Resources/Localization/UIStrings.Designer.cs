@@ -215,6 +215,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions will be used from top to bottom. Click the arrow buttons to reorder..
+        /// </summary>
+        internal static string Auto_Cast_Sort_Notice {
+            get {
+                return ResourceManager.GetString("Auto_Cast_Sort_Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto casting will be stopped, but won&apos;t quit fishing.
         /// </summary>
         internal static string Auto_Cast_Stopped {
@@ -278,7 +287,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allows auto cast to only work at specific times.
+        ///   Looks up a localized string similar to Allows auto cast to only work at specific times (Eorzea Time).
         /// </summary>
         internal static string AutoCastOnlyAtSpecificTimes {
             get {

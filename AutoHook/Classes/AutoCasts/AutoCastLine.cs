@@ -15,8 +15,11 @@ public class AutoCastLine : BaseActionCast
 
     public AutoCastLine() : base(UIStrings.AutoCastLine_Auto_Cast_Line, Data.IDs.Actions.Cast)
     {
-
+        Priority = 1;
     }
+
+    public override int Priority { get; set; } = 0;
+    public override bool IsExcludedPriority { get; set; } = true;
 
     public override bool CastCondition()
     {
@@ -39,30 +42,33 @@ public class AutoCastLine : BaseActionCast
     {
         DrawUtil.Checkbox(UIStrings.AutoCastOnlyAtSpecificTimes, ref OnlyCastDuringSpecificTime);
 
-        var startTime = StartTime.ToString("HH:mm");
-        var endTime = EndTime.ToString("HH:mm");
-
-        ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
-        var startTimeGui = ImGui.InputText($"{UIStrings.AutoCastStartTime}", ref startTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
-        ImGui.PopItemWidth();
-        if (startTimeGui)
+        if (OnlyCastDuringSpecificTime)
         {
-            if (ValidateTimeString(startTime))
+            var startTime = StartTime.ToString("HH:mm");
+            var endTime = EndTime.ToString("HH:mm");
+
+            ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
+            var startTimeGui = ImGui.InputText($"{UIStrings.AutoCastStartTime}", ref startTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
+            ImGui.PopItemWidth();
+            if (startTimeGui)
             {
-                StartTime = TimeOnly.Parse(startTime);
-                Service.Save();
+                if (ValidateTimeString(startTime))
+                {
+                    StartTime = TimeOnly.Parse(startTime);
+                    Service.Save();
+                }
             }
-        }
 
-        ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
-        var endTimeGui = ImGui.InputText($"{UIStrings.AutoCastEndTime}", ref endTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
-        ImGui.PopItemWidth();
-        if (endTimeGui)
-        {
-            if (ValidateTimeString(endTime))
+            ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
+            var endTimeGui = ImGui.InputText($"{UIStrings.AutoCastEndTime}", ref endTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
+            ImGui.PopItemWidth();
+            if (endTimeGui)
             {
-                EndTime = TimeOnly.Parse(endTime);
-                Service.Save();
+                if (ValidateTimeString(endTime))
+                {
+                    EndTime = TimeOnly.Parse(endTime);
+                    Service.Save();
+                }
             }
         }
     };
