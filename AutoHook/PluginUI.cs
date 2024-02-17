@@ -320,6 +320,14 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.6")
+            {
+                MinorChanges =
+                {
+                    "Issue where clicking a button in the custom Mooch tab would corrupt all fonts has been fixed.",
+                    "Fixed the letter case for Makeshift Bait"
+                }
+            },
             new Version("4.0.0.5")
             {
                 MainChanges =

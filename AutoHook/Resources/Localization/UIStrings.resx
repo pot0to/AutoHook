@@ -565,7 +565,7 @@ This could save you 100gp if going only for mooches</value>
     <value>Thaliak's Favor</value>
   </data>
   <data name="MakeShift_Bait" xml:space="preserve">
-    <value>MakeShift Bait</value>
+    <value>Makeshift Bait</value>
   </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>Default</value>

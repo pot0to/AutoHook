@@ -1265,7 +1265,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MakeShift Bait.
+        ///   Looks up a localized string similar to Makeshift Bait.
         /// </summary>
         internal static string MakeShift_Bait {
             get {
