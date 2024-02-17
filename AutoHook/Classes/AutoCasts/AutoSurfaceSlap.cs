@@ -32,4 +32,7 @@ public class AutoSurfaceSlap : BaseActionCast
             Service.Save();
         }
     };
+
+    public override int Priority { get; set; } = 15;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

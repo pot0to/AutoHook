@@ -925,4 +925,7 @@ Check the Guide Tab for Guides.</value>
   <data name="Only_use_when_the_fish_is_caught" xml:space="preserve">
     <value>Only use when the fish is caught</value>
   </data>
+  <data name="Auto_Cast_Sort_Notice" xml:space="preserve">
+    <value>Actions will be used from top to bottom. Click the arrow buttons to reorder.</value>
+  </data>
 </root>

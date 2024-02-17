@@ -51,4 +51,7 @@ public class AutoThaliaksFavor : BaseActionCast
         if (DrawUtil.Checkbox(UIStrings.Use_Cordials_First,ref UseCordialsFirst, UIStrings.Use_Cordials_First_Help))
             Service.Save();
     };
+
+    public override int Priority { get; set; } = 16;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

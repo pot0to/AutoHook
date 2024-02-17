@@ -81,5 +81,7 @@ public class AutoIdenticalCast : BaseActionCast
             Service.Save();
         }
     };
-    
+
+    public override int Priority { get; set; } = 8;
+    public override bool IsExcludedPriority { get; set; } = false;
 }

@@ -5,6 +5,9 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoTripleHook : BaseActionCast
 {
+    public override int Priority { get; set; } = 17;
+    public override bool IsExcludedPriority { get; set; } = false;
+
     public AutoTripleHook() : base(UIStrings.Triple_Hook, Data.IDs.Actions.TripleHook, ActionType.Action)
     {
     }

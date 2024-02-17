@@ -10,6 +10,9 @@ public class AutoReleaseFish : BaseActionCast
         DoesCancelMooch = false;
     }
 
+    public override int Priority { get; set; } = 14;
+    public override bool IsExcludedPriority { get; set; } = false;
+
     public override bool CastCondition()
     {
         return true;

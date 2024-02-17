@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AutoHook.Classes;
+using AutoHook.Classes.AutoCasts;
 using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
@@ -106,13 +107,13 @@ public class SubTabAutoCast
             return;
         
         ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Auto_Cast_Alert_Manual_Hook);
-        
-        foreach (var action in actionsAvailable)
+        ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
+        foreach (var action in actionsAvailable.OrderBy(x => x.GetType() == typeof(AutoCastLine)).ThenBy(x => x.GetType() == typeof(AutoMooch)).ThenBy(x => x.GetType() == typeof(AutoCollect)).ThenBy(x => x.Priority))
         {
             try
             {
                 ImGui.PushID(action.GetType().ToString());
-                action.DrawConfig();
+                action.DrawConfig(actionsAvailable);
                 ImGui.PopID();
             }
             catch (Exception e)

@@ -1,4 +1,6 @@
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Linq;
 using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
 
@@ -22,8 +24,8 @@ public class AutoCastsConfig
     public AutoThaliaksFavor CastThaliaksFavor = new();
     
     public List<BaseActionCast> GetAutoCastOrder()
-    { 
-        return new List<BaseActionCast>
+    {
+        var output = new List<BaseActionCast>
         {
             CastThaliaksFavor,
             CastCordial,
@@ -32,8 +34,8 @@ public class AutoCastsConfig
             CastChum,
             CastFishEyes,
             CastPrizeCatch,
-            //CastCollect,
-        };
+        }.OrderBy(x => x.Priority).ToList();
+
+        return output;
     }
-    
 }

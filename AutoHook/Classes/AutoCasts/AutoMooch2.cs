@@ -5,6 +5,9 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoMooch2 : BaseActionCast
 {
+    public override int Priority { get; set; } = 11;
+    public override bool IsExcludedPriority { get; set; } = true;
+
     public AutoMooch2() : base(UIStrings.UseMoochII, Data.IDs.Actions.Mooch2, ActionType.Action)
     {
     }
