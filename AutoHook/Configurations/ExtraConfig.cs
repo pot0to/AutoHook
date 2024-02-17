@@ -31,4 +31,6 @@ public class ExtraConfig
     public string PresetToSwapSpectralCurrentLost = "-";
 
     public bool ResetCounterPresetSwap = false;
+    public bool QuitOnIntuitionLost = false;
+    public bool StopOnIntuitionLost = false;
 }

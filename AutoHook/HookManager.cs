@@ -505,6 +505,17 @@ public class HookingManager : IDisposable
                     Service.Save();
                 }
             }
+
+            if (extraCfg.QuitOnIntuitionLost)
+            {
+                PlayerResources.CastActionNoDelay(IDs.Actions.Quit);
+                PlayerResources.DelayNextCast(0);
+            }
+
+            if (extraCfg.StopOnIntuitionLost)
+            {
+                _lastStep = _currentHook.StopFishingStep;
+            }
         }
     }
 

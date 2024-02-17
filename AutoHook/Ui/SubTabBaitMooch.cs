@@ -10,6 +10,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -48,7 +49,7 @@ public class SubTabBaitMooch
             var bait = _listOfHooks[idx];
             ImGui.PushID($"id###{idx}");
             ImGui.Spacing();
-            
+
             var count = HookingManager.FishingCounter.GetCount(bait.GetUniqueId());
             var hookCounter = count > 0 ? $"({UIStrings.Hooked_Counter} {count})" : "";
             if (ImGui.CollapsingHeader($"{bait.BaitFish.Name} {hookCounter}###{idx}"))
@@ -133,11 +134,11 @@ public class SubTabBaitMooch
     private void DrawSelectTugs(string hook, ref bool enabled, ref HookType type, ref bool hookOnlyWhenActiveSlap, ref bool hookOnlyWhenNOTActiveSlap)
     {
         ImGui.PushID($"{hook}");
-        if(ImGui.Checkbox($"", ref enabled))
+        if (ImGui.Checkbox($"", ref enabled))
         {
             Service.Save();
         }
-        
+
         if (ImGui.IsItemHovered())
             ImGui.SetTooltip(UIStrings.HookWillBeUsedIfPatienceIsNotUp);
 
@@ -163,7 +164,7 @@ public class SubTabBaitMooch
             }
 
             ImGui.Spacing();
-            
+
             if (ImGui.TreeNodeEx(UIStrings.Surface_Slap_Options, ImGuiTreeNodeFlags.FramePadding))
             {
                 if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveSurfaceSlap, ref hookOnlyWhenActiveSlap))
@@ -177,10 +178,10 @@ public class SubTabBaitMooch
                     hookOnlyWhenActiveSlap = false;
                     Service.Save();
                 }
-            
+
                 ImGui.TreePop();
             }
-            
+
             ImGui.TreePop();
         }
 
@@ -199,6 +200,25 @@ public class SubTabBaitMooch
             (BaitFishClass item) => item.Name,
             hookConfig.BaitFish.Name,
             (BaitFishClass item) => hookConfig.BaitFish = item);
+
+        ImGui.SameLine();
+        ImGui.PushFont(UiBuilder.IconFont);
+        if (ImGui.Button($"{FontAwesomeIcon.ArrowLeft.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)))
+        {
+            unsafe
+            {
+                var p = PlayerState.Instance();
+                if (p != null && p->FishingBait > 0) // just make sure bait is bait
+                {
+                    hookConfig.BaitFish = list.Single(x => x.Id == p->FishingBait);
+                }
+            }
+        }
+
+        ImGui.PopFont();
+
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(UIStrings.UIUseCurrentBait);
     }
 
     private void DrawInputDoubleMaxTime(HookConfig hookConfig)
@@ -289,7 +309,7 @@ public class SubTabBaitMooch
                 ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMaxWaitTimer);
             }
         , UIStrings.EnableChumTimersHelpMarker);
-        
+
         ImGui.PopID();
     }
 
@@ -444,16 +464,16 @@ public class SubTabBaitMooch
 
                 ImGui.Unindent();
             }
-            
+
             if (ImGui.RadioButton(UIStrings.Stop_Casting, hookConfig.StopFishingStep == FishingSteps.None))
             {
                 hookConfig.StopFishingStep = FishingSteps.None;
                 Service.Save();
             }
-            
+
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
-            
+
             if (ImGui.RadioButton(UIStrings.Quit_Fishing, hookConfig.StopFishingStep == FishingSteps.Quitting))
             {
                 hookConfig.StopFishingStep = FishingSteps.Quitting;
@@ -461,7 +481,7 @@ public class SubTabBaitMooch
             }
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Quit_Action_HelpText);
-            
+
             DrawUtil.Checkbox(UIStrings.Reset_the_counter, ref hookConfig.StopAfterResetCount);
 
             ImGui.EndPopup();

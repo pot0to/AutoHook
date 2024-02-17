@@ -320,6 +320,18 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.5")
+            {
+                MainChanges =
+                {
+                    "Allows bait to be imported from selected bait in game",
+                    "Allow casting only within specific Eorzea times"
+                },
+                MinorChanges =
+                {
+                    "Allow to stop/quit fishing after intuition is lost"
+                }
+            },
             new Version("4.0.0.4")
             {
                 MainChanges =
