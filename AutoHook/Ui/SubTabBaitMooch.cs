@@ -201,6 +201,8 @@ public class SubTabBaitMooch
             hookConfig.BaitFish.Name,
             (BaitFishClass item) => hookConfig.BaitFish = item);
 
+        if (IsMooch) return; 
+
         ImGui.SameLine();
         ImGui.PushFont(UiBuilder.IconFont);
         if (ImGui.Button($"{FontAwesomeIcon.ArrowLeft.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)))
