@@ -547,9 +547,6 @@
   <data name="Thaliaks_Favor" xml:space="preserve">
     <value>サリャクの恩寵</value>
   </data>
-  <data name="MakeShift_Bait" xml:space="preserve">
-    <value>熟漁の技</value>
-  </data>
   <data name="DecompressString_Invalid_Import" xml:space="preserve">
     <value>無効なコードです</value>
   </data>
