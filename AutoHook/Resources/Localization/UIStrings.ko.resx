@@ -543,9 +543,6 @@
   <data name="Thaliaks_Favor" xml:space="preserve">
     <value>살리아크의 은총</value>
   </data>
-  <data name="MakeShift_Bait" xml:space="preserve">
-    <value>숙련 낚시꾼</value>
-  </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>기본값</value>
   </data>
