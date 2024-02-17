@@ -287,7 +287,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allows auto cast to only work at specific times.
+        ///   Looks up a localized string similar to Allows auto cast to only work at specific times (Eorzea Time).
         /// </summary>
         internal static string AutoCastOnlyAtSpecificTimes {
             get {

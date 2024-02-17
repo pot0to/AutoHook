@@ -935,7 +935,7 @@ Check the Guide Tab for Guides.</value>
     <value>Starting time to allow auto casting</value>
   </data>
   <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
-    <value>Allows auto cast to only work at specific times</value>
+    <value>Allows auto cast to only work at specific times (Eorzea Time)</value>
   </data>
   <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
     <value>Quits fishing when intuition is lost</value>
