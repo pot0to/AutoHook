@@ -331,6 +331,13 @@ public class HookingManager : IDisposable
 
         foreach (var action in autoActions.Where(action => action.IsAvailableToCast()))
         {
+            Service.PluginLog.Debug($"[HookManager] {action.GetType()} - {action.RequiresAutoCastAvailable()}");
+            if (action.RequiresAutoCastAvailable() && !acCfg.CastLine.IsAvailableToCast())
+            {
+                Service.PluginLog.Debug($"[HookManager] {action.Name} requires auto cast line to return true, ignoring it");
+                continue;
+            }
+
             Service.PluginLog.Debug($"[HookManager] Returning {action.Name}");
             return action;
         }
