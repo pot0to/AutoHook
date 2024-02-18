@@ -225,6 +225,7 @@ public class PluginUi : Window, IDisposable
             @"de",
             @"ja",
             @"ko",
+            @"ru",
             @"zh"
         };
         var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
@@ -320,6 +321,14 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.7")
+            {
+                MinorChanges =
+                {
+                    "Fixed an issue swapping presets if the fish escaped/not hooked",
+                    "Fixed an issue when trying to add new presets without changing the default name of existing ones (New Preset 1,2,3...)"
+                }
+            },
             new Version("4.0.0.6")
             {
                 MinorChanges =

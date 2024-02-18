@@ -946,4 +946,7 @@ Check the Guide Tab for Guides.</value>
   <data name="Auto_Cast_Sort_Notice" xml:space="preserve">
     <value>Actions will be used from top to bottom. Click the arrow buttons to reorder.</value>
   </data>
+  <data name="Current_Selected_Preset" xml:space="preserve">
+    <value>Current selected preset:</value>
+  </data>
 </root>

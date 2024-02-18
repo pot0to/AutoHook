@@ -86,7 +86,6 @@ public class TabCustomPresets : BaseTab
 
     private void DrawListboxPresets()
     {
-
         ImGui.BeginGroup();
 
         DrawAddPresetButton();
@@ -107,6 +106,7 @@ public class TabCustomPresets : BaseTab
             {
                 _hookPresets.SelectedPreset = null;
             }
+
             foreach (var preset in _hookPresets.CustomPresets)
             {
                 if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
@@ -175,6 +175,33 @@ public class TabCustomPresets : BaseTab
         }
     }
 
+    private void DrawAddPresetButton()
+    {
+        ImGui.PushFont(UiBuilder.IconFont);
+
+        var buttonSize = ImGui.CalcTextSize(FontAwesomeIcon.Plus.ToIconString()) + ImGui.GetStyle().FramePadding * 2;
+        if (ImGui.Button(FontAwesomeIcon.Plus.ToIconString(), buttonSize))
+        {
+            try
+            {
+                PresetConfig preset = new(@$"{UIStrings.NewPreset} {DateTime.Now}");
+
+                Service.PrintDebug(@$"{UIStrings.NewPreset} {_hookPresets.CustomPresets.Count + 1}");
+                _hookPresets.AddPreset(preset);
+                _hookPresets.SelectedPreset = preset;
+                Service.Save();
+            }
+            catch (Exception e)
+            {
+                Service.PluginLog.Error(e.ToString());
+            }
+        }
+
+        ImGui.PopFont();
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(UIStrings.AddNewPreset);
+    }
+
     private void DrawDeletePreset()
     {
         ImGui.PushFont(UiBuilder.IconFont);
@@ -186,7 +213,7 @@ public class TabCustomPresets : BaseTab
         {
             if (_hookPresets.SelectedPreset != null)
             {
-                _hookPresets.CustomPresets.Remove(_hookPresets.SelectedPreset);
+                _hookPresets.RemovePreset(_hookPresets.SelectedPreset);
                 _hookPresets.SelectedPreset = null;
             }
 
@@ -235,7 +262,6 @@ public class TabCustomPresets : BaseTab
         }
     }
 
-
     private void DrawEditPresetNameListbox(string presetName)
     {
         if (ImGui.BeginPopupContextItem($"PresetName###{presetName}"))
@@ -268,6 +294,7 @@ public class TabCustomPresets : BaseTab
 
     private void DrawPresetSelectionDropdown()
     {
+        ImGui.TextWrapped(UIStrings.Current_Selected_Preset);
         ImGui.SetNextItemWidth(230);
         if (ImGui.BeginCombo("", _hookPresets.SelectedPreset?.PresetName ?? UIStrings.None))
         {
@@ -286,31 +313,6 @@ public class TabCustomPresets : BaseTab
             ImGui.SetTooltip(UIStrings.RightClickToRename);
 
         DrawEditPresetNameDropdown();
-    }
-
-    private void DrawAddPresetButton()
-    {
-        ImGui.PushFont(UiBuilder.IconFont);
-
-        var buttonSize = ImGui.CalcTextSize(FontAwesomeIcon.Plus.ToIconString()) + ImGui.GetStyle().FramePadding * 2;
-        if (ImGui.Button(FontAwesomeIcon.Plus.ToIconString(), buttonSize))
-        {
-            try
-            {
-                PresetConfig preset = new(@$"{UIStrings.NewPreset} {_hookPresets.CustomPresets.Count + 1}");
-                _hookPresets.AddPreset(preset);
-                _hookPresets.SelectedPreset = preset;
-                Service.Save();
-            }
-            catch (Exception e)
-            {
-                Service.PluginLog.Error(e.ToString());
-            }
-        }
-
-        ImGui.PopFont();
-        if (ImGui.IsItemHovered())
-            ImGui.SetTooltip(UIStrings.AddNewPreset);
     }
 
     private void DrawImportExport()
@@ -420,7 +422,6 @@ public class TabCustomPresets : BaseTab
         {
             TimedWarning();
         }
-
     }
 
     private static readonly double _timelimit = 5000;

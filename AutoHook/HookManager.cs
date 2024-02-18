@@ -619,6 +619,7 @@ public class HookingManager : IDisposable
         _lastStep = FishingSteps.FishBit;
         _timer.Stop();
 
+        _lastCatch = null;
         HookFish(Service.TugType?.Bite ?? BiteType.Unknown);
     }
 
