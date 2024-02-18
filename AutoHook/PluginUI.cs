@@ -321,6 +321,13 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.0.0.8")
+            {
+                MinorChanges =
+                {
+                    "Added logging to try and debug Spearfishing problems"
+                }
+            },
             new Version("4.0.0.7")
             {
                 MinorChanges =
