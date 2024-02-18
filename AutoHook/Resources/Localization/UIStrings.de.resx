@@ -541,9 +541,6 @@ Dies könnte 100SP einsparen, falls nur auf Naturköder abgezielt wird</value>
   <data name="Thaliaks_Favor" xml:space="preserve">
     <value>Thaliaks Huld</value>
   </data>
-  <data name="MakeShift_Bait" xml:space="preserve">
-    <value>Fischfinesse</value>
-  </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>Standard</value>
   </data>
