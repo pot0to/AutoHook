@@ -548,6 +548,9 @@ Cela pourrais vous sauvegarder 100PR</value>
   <data name="Thaliaks_Favor" xml:space="preserve">
     <value>Faveur de Thaliak</value>
   </data>
+  <data name="MakeShift_Bait" xml:space="preserve">
+    <value>Pêche au vif facile</value>
+  </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>Défaut</value>
   </data>
