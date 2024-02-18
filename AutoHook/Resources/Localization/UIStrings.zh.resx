@@ -557,6 +557,9 @@
   <data name="Thaliaks_Favor" xml:space="preserve">
     <value>沙利亚克的恩宠</value>
   </data>
+  <data name="MakeShift_Bait" xml:space="preserve">
+    <value>熟练渔技</value>
+  </data>
   <data name="BaitName_Default" xml:space="preserve">
     <value>默认值</value>
   </data>
