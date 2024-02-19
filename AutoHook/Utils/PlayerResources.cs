@@ -223,7 +223,7 @@ public class PlayerResources : IDisposable
 
     private static bool _blockActionNoDelay = false;
 
-    public static void CastActionNoDelay(uint id, ActionType actionType = ActionType.Action)
+    public static void CastActionNoDelay(uint actionId, ActionType actionType = ActionType.Action, string actionName = "")
     {
         // sometimes it tries to cast the same action while, this prevents that
         if (_blockActionNoDelay)
@@ -232,15 +232,16 @@ public class PlayerResources : IDisposable
         _blockActionNoDelay = true;
         if (actionType == ActionType.Action)
         {
-            if (ActionTypeAvailable(id, actionType))
+            if (ActionTypeAvailable(actionId, actionType))
             {
-                Service.PrintDebug(@$"[PlayerResources] Casting {id}");
-                CastAction(id);
+                Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
+                CastAction(actionId);
             }
         }
         else if (actionType == ActionType.Item)
         {
-            UseItems(id);
+            Service.PrintDebug(@$"[PlayerResources] Using Item: {actionName}, Id: {actionId}");
+            UseItems(actionId);
         }
 
         _blockActionNoDelay = false;

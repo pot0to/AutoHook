@@ -529,21 +529,21 @@ public class HookingManager : IDisposable
         {
             if (lastFishCatchCfg is { Enabled: true } && lastFishCatchCfg.Mooch.IsAvailableToCast())
             {
-                PlayerResources.CastActionDelayed(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType,
+                PlayerResources.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType,
                     UIStrings.Mooch);
                 return;
             }
 
             if (acCfg is { EnableAll: true } && acCfg.CastMooch.IsAvailableToCast())
             {
-                PlayerResources.CastActionDelayed(acCfg.CastMooch.Id, acCfg.CastMooch.ActionType, UIStrings.Mooch);
+                PlayerResources.CastActionNoDelay(acCfg.CastMooch.Id, acCfg.CastMooch.ActionType, UIStrings.Mooch);
                 return;
             }
         }
 
         if (acCfg is { EnableAll: true } && acCfg.CastLine.IsAvailableToCast())
         {
-            PlayerResources.CastActionDelayed(IDs.Actions.Cast, ActionType.Action, UIStrings.Cast_Line);
+            PlayerResources.CastActionNoDelay(IDs.Actions.Cast, ActionType.Action, UIStrings.Cast_Line);
             return;
         }
     }
@@ -594,8 +594,9 @@ public class HookingManager : IDisposable
         _lastStep = FishingSteps.BeganFishing;
 
         var cfg = GetAutoCastCfg();
+        
         if (cfg.CastCollect.Enabled && cfg.CastCollect.IsAvailableToCast())
-            PlayerResources.CastActionDelayed(cfg.CastCollect.Id, ActionType.Ability, cfg.CastCollect.Name);
+            PlayerResources.CastActionNoDelay(cfg.CastCollect.Id, ActionType.Ability, cfg.CastCollect.Name);
 
         UpdateCurrentPreset();
     }
