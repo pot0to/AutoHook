@@ -9,6 +9,7 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoCastLine : BaseActionCast
 {
+    public bool OnlyCastWithFishEyes = false;
     public bool OnlyCastDuringSpecificTime = false;
     public TimeOnly StartTime = new(0);
     public TimeOnly EndTime = new(0);
@@ -23,16 +24,18 @@ public class AutoCastLine : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (!OnlyCastDuringSpecificTime) return true;
-        
-        TimeOnly? eorzeaTime = null;
-        unsafe
+        if (OnlyCastWithFishEyes)
         {
-            var clientTime = Framework.Instance()->ClientTime.EorzeaTime;
-            eorzeaTime = TimeOnly.FromDateTime(DateTimeOffset.FromUnixTimeSeconds(clientTime).DateTime);
+            return OnlyCastDuringSpecificTime && InsideCastWindow() || PlayerResources.HasStatus(Data.IDs.Status.FishEyes);
         }
-
-        return eorzeaTime?.IsBetween(StartTime, EndTime) ?? false;
+        else if (OnlyCastDuringSpecificTime)
+        {
+            return InsideCastWindow();
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public override string GetName()
@@ -40,6 +43,7 @@ public class AutoCastLine : BaseActionCast
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
+        DrawUtil.Checkbox(UIStrings.AutoCastOnlyUnderFishEyes, ref OnlyCastWithFishEyes);
         DrawUtil.Checkbox(UIStrings.AutoCastOnlyAtSpecificTimes, ref OnlyCastDuringSpecificTime);
 
         if (OnlyCastDuringSpecificTime)
@@ -50,39 +54,27 @@ public class AutoCastLine : BaseActionCast
             ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
             var startTimeGui = ImGui.InputText($"{UIStrings.AutoCastStartTime}", ref startTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
             ImGui.PopItemWidth();
-            if (startTimeGui)
+            if (startTimeGui && TimeOnly.TryParse(startTime, out var newStartTime))
             {
-                if (ValidateTimeString(startTime))
-                {
-                    StartTime = TimeOnly.Parse(startTime);
-                    Service.Save();
-                }
+                StartTime = newStartTime;
+                Service.Save();
             }
 
             ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
             var endTimeGui = ImGui.InputText($"{UIStrings.AutoCastEndTime}", ref endTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
             ImGui.PopItemWidth();
-            if (endTimeGui)
+            if (endTimeGui && TimeOnly.TryParse(startTime, out var newEndTime))
             {
-                if (ValidateTimeString(endTime))
-                {
-                    EndTime = TimeOnly.Parse(endTime);
-                    Service.Save();
-                }
+                EndTime = newEndTime;
+                Service.Save();
             }
         }
     };
 
-    private static bool ValidateTimeString(string timeString)
+    private unsafe bool InsideCastWindow()
     {
-        try
-        {
-            var _ = TimeOnly.Parse(timeString);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        var clientTime = Framework.Instance()->ClientTime.EorzeaTime;
+        var eorzeaTime = TimeOnly.FromDateTime(DateTimeOffset.FromUnixTimeSeconds(clientTime).DateTime);
+        return eorzeaTime.IsBetween(StartTime, EndTime);
     }
 }

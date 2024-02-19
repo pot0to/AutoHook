@@ -949,4 +949,7 @@ Check the Guide Tab for Guides.</value>
   <data name="Current_Selected_Preset" xml:space="preserve">
     <value>Current selected preset:</value>
   </data>
+  <data name="AutoCastOnlyUnderFishEyes" xml:space="preserve">
+    <value>Allows auto cast to only work if Fish Eyes is active. If time filter is enabled, this is ignored during time window.</value>
+  </data>
 </root>

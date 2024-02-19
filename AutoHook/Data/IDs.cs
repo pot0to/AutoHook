@@ -44,6 +44,7 @@ namespace AutoHook.Data
                 NaturesBounty = 1171,
                 Chum = 763,
                 CollectorsGlove = 805,
+                FishEyes = 762,
                 None = 0;
         }
 
