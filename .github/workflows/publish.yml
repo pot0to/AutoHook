@@ -39,10 +39,10 @@ jobs:
         uses: PunishXIV/dynamis-action@v1
         id: dynamis
         with:
-          plugin_id: 28
+          plugin_id: 47
           internal_name: "AutoHook"
           version_number: ${{ env.tag }}
-          path: "AutoHook/bin/Release/visland/latest.zip"
+          path: "AutoHook/bin/Release/AutoHook/latest.zip"
           type: "latest"
           dalamud_version: "9"
         env:
