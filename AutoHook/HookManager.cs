@@ -532,6 +532,8 @@ public class HookingManager : IDisposable
 
         var blockMooch = lastFishCatchCfg is { Enabled: true, NeverMooch: true };
 
+        if (!acCfg.CastLine.CastCondition()) return;
+
         if (!blockMooch)
         {
             if (lastFishCatchCfg is { Enabled: true } && lastFishCatchCfg.Mooch.IsAvailableToCast())
