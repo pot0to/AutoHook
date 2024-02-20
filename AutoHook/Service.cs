@@ -27,6 +27,8 @@ public class Service
     [PluginService] public static IGameGui GameGui { get; private set; } = null!;
     [PluginService] public static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
     [PluginService] public static IPluginLog  PluginLog { get; private set; } = null!;
+    [PluginService] public static ICondition Condition { get;private set; } = null!;
+
 
     public static EventFramework EventFramework { get; set; } = null!;
     public static CurrentBait EquipedBait { get; set; } = null!;

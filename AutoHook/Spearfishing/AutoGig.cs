@@ -1,5 +1,9 @@
 ﻿using AutoHook.Data;
+using AutoHook.Resources.Localization;
+using AutoHook.Spearfishing.Enums;
+using AutoHook.Spearfishing.Struct;
 using AutoHook.Utils;
+using Dalamud.Interface.Utility;
 using Dalamud.Interface.Windowing;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -9,10 +13,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using AutoHook.Resources.Localization;
-using AutoHook.Spearfishing.Enums;
-using AutoHook.Spearfishing.Struct;
-using Dalamud.Interface.Utility;
 
 namespace AutoHook.Spearfishing;
 internal class AutoGig : Window, IDisposable
@@ -30,6 +30,7 @@ internal class AutoGig : Window, IDisposable
     private Vector2 _uiPos = Vector2.Zero;
     private Vector2 _uiSize = Vector2.Zero;
     private unsafe SpearfishWindow* _addon = null;
+    private bool checkForNullAddon = false;
 
     private readonly List<SpearfishSize> _sizeTypes = Enum.GetValues(typeof(SpearfishSize)).Cast<SpearfishSize>().ToList();
     private readonly List<SpearfishSpeed> _speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
@@ -42,6 +43,16 @@ internal class AutoGig : Window, IDisposable
         IsOpen = true;
 
         currentKey = Service.Configuration.CurrentSize.ToName() + Service.Configuration.CurrentSpeed.ToName();
+        Service.Condition.ConditionChange += Condition_ConditionChange;
+    }
+
+    private void Condition_ConditionChange(Dalamud.Game.ClientState.Conditions.ConditionFlag flag, bool value)
+    {
+        if (flag == (Dalamud.Game.ClientState.Conditions.ConditionFlag)85)
+        {
+            if (value)
+                checkForNullAddon = false;
+        }
     }
 
     public static void ShowKofi()
@@ -62,6 +73,7 @@ internal class AutoGig : Window, IDisposable
     public void Dispose()
     {
         Service.WindowSystem.RemoveWindow(this);
+        Service.Condition.ConditionChange -= Condition_ConditionChange;
         Service.Save();
     }
 
@@ -115,7 +127,7 @@ internal class AutoGig : Window, IDisposable
                 Service.Configuration.GigSpacing[currentKey] = 25;
             Service.PrintDebug($"[AutoGig] {ex.Message}");
         }
-        
+
         PluginUi.ShowKofi();
 
         ImGui.SetNextItemWidth(130);
@@ -147,6 +159,18 @@ internal class AutoGig : Window, IDisposable
     private unsafe void DrawFishOverlay()
     {
         _addon = (SpearfishWindow*)Service.GameGui.GetAddonByName("SpearFishing", 1);
+
+        if (!checkForNullAddon && (_addon == null || _addon->Base.WindowNode == null))
+        {
+            if (_addon == null)
+                Service.Chat.PrintError($"AutoHook has detected a null addon whilst spearfishing. Please let us know in the Discord this happened.");
+
+            if (_addon->Base.WindowNode == null)
+                Service.Chat.PrintError($"AutoHook has detected a null window whilst spearfishing. Please let us know in the Discord this happened.");
+
+            checkForNullAddon = true;
+            return;
+        }
 
         bool _isOpen = _addon != null && _addon->Base.WindowNode != null;
 
@@ -221,14 +245,14 @@ internal class AutoGig : Window, IDisposable
 
     private unsafe void DrawGigHitbox(ImDrawListPtr drawList)
     {
-        if (!Service.Configuration.AutoGigDrawGigHitbox) 
+        if (!Service.Configuration.AutoGigDrawGigHitbox)
             return;
 
         float startX = _uiSize.X / 2;
         float centerY = _addon->FishLines->Y * _uiScale;
         float endY = _addon->FishLines->Height * _uiScale;
- 
-        int space = Service.Configuration.GigSpacing[currentKey];    
+
+        int space = Service.Configuration.GigSpacing[currentKey];
 
         //Hitbox left
         var lineStart = _uiPos + new Vector2(startX - space, centerY);
@@ -265,6 +289,7 @@ internal class AutoGig : Window, IDisposable
 
     public override unsafe void PreDraw()
     {
+        if (_addon is null) return;
         _uiScale = _addon->Base.Scale;
         _uiPos = new Vector2(_addon->Base.X, _addon->Base.Y);
         _uiSize = new Vector2(_addon->Base.WindowNode->AtkResNode.Width * _uiScale,

@@ -3,7 +3,7 @@
 # AutoHook - Final Fantasy XIV Fishing Plugin
 
 ## Help us with localization
-https://crowdin.com/project/autohook-plugin-localization
+https://crowdin.com/project/autohook
 
 ![image](https://github.com/PunishXIV/AutoHook/assets/13919114/e032741f-c57a-4b1f-866d-af6125d05206)
 

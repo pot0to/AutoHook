@@ -326,6 +326,7 @@ public class PluginUi : Window, IDisposable
                 MinorChanges =
                 {
                     "Applied logic to AutoCordial, AutoFishEyes, AutoMakeShiftBait and Auto Patience so they are only cast when casting line is a valid action"
+                    "Added logging to try and debug Spearfishing problems"
                 }
             },
             new Version("4.0.0.7")
