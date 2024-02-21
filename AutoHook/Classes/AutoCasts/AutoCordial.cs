@@ -19,6 +19,8 @@ public class AutoCordial : BaseActionCast
     
     public bool AllowOvercapIC;
 
+    public override bool RequiresAutoCastAvailable() => true;
+
     [NonSerialized]
     public readonly List<(uint, uint)> _cordialList = new()
     {

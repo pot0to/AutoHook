@@ -41,6 +41,8 @@ public abstract class BaseActionCast
 
     public bool DontCancelMooch = true;
 
+    public virtual bool RequiresAutoCastAvailable() => false;
+
     public string HelpText = "";
     public virtual int Priority { get; set; }
 
