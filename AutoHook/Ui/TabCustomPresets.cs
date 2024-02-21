@@ -124,19 +124,25 @@ public class TabCustomPresets : BaseTab
                 {
                     if (ImGui.BeginTabItem(UIStrings.Bait))
                     {
+                        ImGui.PushID(@"TabCustomBait");
                         DrawUtil.HoveredTooltip(UIStrings.BaitTabHelpText);
                         _subTabBaitMooch.IsMooch = false;
                         _subTabBaitMooch.DrawHookTab(_hookPresets.SelectedPreset);
+                        ImGui.PopID();
                         ImGui.EndTabItem();
                     }
+                    else DrawUtil.HoveredTooltip(UIStrings.BaitTabHelpText);
 
                     if (ImGui.BeginTabItem(UIStrings.Mooch))
                     {
+                        ImGui.PushID(@"TabMoochBait");
                         DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
                         _subTabBaitMooch.IsMooch = true;
                         _subTabBaitMooch.DrawHookTab(_hookPresets.SelectedPreset);
+                        ImGui.PopID();
                         ImGui.EndTabItem();
                     }
+                    else DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
                     ImGui.EndTabBar();
                 }
                 

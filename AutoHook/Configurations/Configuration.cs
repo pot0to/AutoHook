@@ -36,20 +36,20 @@ public class Configuration : IPluginConfiguration
     public Dictionary<string, int> GigSpacing = new Dictionary<string, int>();
 
     public bool ShowDebugConsole = false;
-    
+
     public bool ShowChatLogs = true;
 
     public int DelayBetweenCastsMin = 600;
     public int DelayBetweenCastsMax = 1000;
-    
+
     public int DelayBetweenHookMin = 0;
     public int DelayBetweenHookMax = 0;
 
     public bool ShowStatusHeader = true;
     public bool ShowPresetsAsSidebar = false;
-    
+
     public bool HideTabDescription = false;
-    
+
     public bool SwapToButtons = false;
 
     public bool ResetAfkTimer = true;
@@ -94,20 +94,23 @@ public class Configuration : IPluginConfiguration
         }
         else if (Version == 3)
         {
-            
-            HookPresets.DefaultPreset.ConvertV3ToV4();
+            Service.PrintDebug(@$"[Configuration] Updating to v4");
             HookPresets.DefaultPreset.RenamePreset(Service.GlobalPresetName);
+            HookPresets.DefaultPreset.ConvertV3ToV4();
+
+            HookPresets.SelectedPreset?.ConvertV3ToV4();
+
             foreach (var preset in HookPresets.CustomPresets)
             {
                 preset.ConvertV3ToV4();
+                Save();
             }
-            
+
+            Save();
             Version = 4;
         }
     }
-
     
-
     private static void SetFieldNewClass(HookConfig newOne, BaitConfig old)
     {
         var oldType = old.GetType();
@@ -118,7 +121,8 @@ public class Configuration : IPluginConfiguration
 
         foreach (var sourceField in oldFields)
         {
-            var targetField = newFields.FirstOrDefault(f => f.Name == sourceField.Name && f.FieldType == sourceField.FieldType);
+            var targetField =
+                newFields.FirstOrDefault(f => f.Name == sourceField.Name && f.FieldType == sourceField.FieldType);
             if (targetField != null)
             {
                 var value = sourceField.GetValue(old);
@@ -150,6 +154,7 @@ public class Configuration : IPluginConfiguration
             {
                 config.Initiate();
                 config.UpdateVersion();
+                config.Save();
                 return config;
             }
 
@@ -179,30 +184,33 @@ public class Configuration : IPluginConfiguration
     {
         if (import.StartsWith(ExportPrefixV2))
         {
-            var old = JsonConvert.DeserializeObject<BaitPresetConfig>(DecompressString(import), new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace });
+            var old = JsonConvert.DeserializeObject<BaitPresetConfig>(DecompressString(import),
+                new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace });
             return ConvertOldPreset(old);
         }
 
         if (import.StartsWith(ExportPrefixV3))
         {
-            var old = JsonConvert.DeserializeObject<OldPresetConfig>(DecompressString(import), new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace });
-            
+            var old = JsonConvert.DeserializeObject<OldPresetConfig>(DecompressString(import),
+                new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace });
+
             return ConvertOldPresetV3(old);
         }
-        
-        var importActionStack = JsonConvert.DeserializeObject<PresetConfig>(DecompressString(import), new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace});
+
+        var importActionStack = JsonConvert.DeserializeObject<PresetConfig>(DecompressString(import),
+            new JsonSerializerSettings() { ObjectCreationHandling = ObjectCreationHandling.Replace });
         return importActionStack;
     }
 
     [NonSerialized] private const string ExportPrefixV2 = "AH_";
     [NonSerialized] private const string ExportPrefixV3 = "AH3_";
     [NonSerialized] private const string ExportPrefixV4 = "AH4_";
-    
-    [NonSerialized]
-    private static readonly List<string> ExportPrefixes = [
+
+    [NonSerialized] private static readonly List<string> ExportPrefixes =
+    [
         ExportPrefixV2, ExportPrefixV3, ExportPrefixV4
     ];
-    
+
     public static string CompressString(string s)
     {
         var bytes = Encoding.UTF8.GetBytes(s);
@@ -216,7 +224,7 @@ public class Configuration : IPluginConfiguration
     {
         if (!ExportPrefixes.Any(s.StartsWith))
             throw new ApplicationException(UIStrings.DecompressString_Invalid_Import);
-        
+
         var prefix = ExportPrefixes.First(s.StartsWith);
         var data = Convert.FromBase64String(s[prefix.Length..]);
         var lengthBuffer = new byte[4];
@@ -232,12 +240,12 @@ public class Configuration : IPluginConfiguration
 
         return Encoding.UTF8.GetString(buffer);
     }
-    
+
     private static PresetConfig? ConvertOldPreset(BaitPresetConfig? preset)
     {
         if (preset == null)
-            return null; 
-        
+            return null;
+
         var filteredBaits = new List<HookConfig>();
         var filteredMooch = new List<HookConfig>();
         foreach (var old in preset.ListOfBaits)
@@ -264,44 +272,44 @@ public class Configuration : IPluginConfiguration
         newPreset.ListOfMooch = filteredMooch;
         return newPreset;
     }
-    
+
     private static PresetConfig? ConvertOldPresetV3(OldPresetConfig? old)
     {
         if (old == null)
             return null;
-        
+
         var newPreset = new PresetConfig(old.PresetName);
-                
+
         foreach (var bait in old.ListOfBaits)
         {
             bait.ConvertV3ToV4();
             var newBait = new HookConfig(bait.BaitFish);
-                    
+
             newBait.Enabled = bait.Enabled;
             newBait.NormalHook = bait.NormalHook;
             newBait.IntuitionHook = bait.IntuitionHook;
             newBait.IntuitionHook.UseCustomStatusHook = bait.UseCustomIntuitionHook;
-                    
+
             newPreset.AddBaitConfig(newBait);
         }
-                
+
         foreach (var mooch in old.ListOfMooch)
         {
             mooch.ConvertV3ToV4();
             var newMooch = new HookConfig(mooch.BaitFish);
-                    
+
             newMooch.Enabled = mooch.Enabled;
             newMooch.NormalHook = mooch.NormalHook;
             newMooch.IntuitionHook = mooch.IntuitionHook;
             newMooch.IntuitionHook.UseCustomStatusHook = mooch.UseCustomIntuitionHook;
-                    
+
             newPreset.AddMoochConfig(newMooch);
         }
-        
+
         newPreset.ListOfFish = old.ListOfFish;
         newPreset.ExtraCfg = old.ExtraCfg;
         newPreset.AutoCastsCfg = old.AutoCastsCfg;
-        
+
         return newPreset;
     }
 }

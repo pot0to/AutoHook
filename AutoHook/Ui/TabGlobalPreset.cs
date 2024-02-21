@@ -1,4 +1,5 @@
 using AutoHook.Resources.Localization;
+using AutoHook.Utils;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -32,6 +33,7 @@ internal class TabGlobalPreset : BaseTab
                     if (ImGui.BeginTabItem(UIStrings.Bait))
                     {
                         ImGui.PushID(@"TabGlobalBait");
+                        DrawUtil.HoveredTooltip(UIStrings.BaitTabHelpText);
                         _subTabBaitMooch.IsMooch = false;
                         _subTabBaitMooch.IsGlobal = true;
                         _subTabBaitMooch.DrawHookTab(preset);
@@ -42,12 +44,14 @@ internal class TabGlobalPreset : BaseTab
                     if (ImGui.BeginTabItem(@$"{UIStrings.Mooch}"))
                     {
                         ImGui.PushID(@"TabGlobalMooch");
+                        DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
                         _subTabBaitMooch.IsMooch = true;
                         _subTabBaitMooch.IsGlobal = true;
                         _subTabBaitMooch.DrawHookTab(preset);
                         ImGui.PopID();
                         ImGui.EndTabItem();
                     }
+                    else DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
                     
                     ImGui.EndTabBar();
                 }

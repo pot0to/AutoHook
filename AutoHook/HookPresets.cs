@@ -36,7 +36,6 @@ public class HookPresets
             CustomPresets.Remove(presetConfig);
         }
     }
-
     private  void SwapPreset(PresetConfig? preset)
     {
         if (_selectedPreset is { ExtraCfg.ResetCounterPresetSwap: true })
