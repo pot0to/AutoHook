@@ -16,6 +16,8 @@ public class Service
         => pluginInterface.Create<Service>();
 
     public const string PluginName = "AutoHook";
+    
+    public const string GlobalPresetName = "GlobalPreset";
 
     [PluginService] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
     [PluginService] public static ISigScanner SigScanner { get; private set; } = null!;

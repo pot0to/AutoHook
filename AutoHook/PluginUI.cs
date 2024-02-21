@@ -20,7 +20,7 @@ public class PluginUi : Window, IDisposable
 {
     private readonly List<BaseTab> _tabs = new()
     {
-        new TabDefaultPreset(),
+        new TabGlobalPreset(),
         new TabCustomPresets(),
         //new CastAndGPChangeLater(),
         new TabAutoGig(),
@@ -138,6 +138,7 @@ public class PluginUi : Window, IDisposable
     {
         if (ImGui.Button(@"Check"))
         {
+            Service.Configuration.Version = 3;
         }
     }
 
@@ -195,25 +196,7 @@ public class PluginUi : Window, IDisposable
 
         ImGui.PopStyleColor(3);
     }
-
-    public static void ShowPaypal()
-    {
-
-        ImGui.SameLine();
-        string buttonText = @"PayPal";
-        ImGui.SameLine();
-        ImGui.PushStyleColor(ImGuiCol.Button, 0xFFA06020);
-        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
-        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
-
-        if (ImGui.Button(buttonText))
-        {
-            OpenBrowser(@"https://www.paypal.com/donate/?business=PDZJVTF5484UA&no_recurring=0&currency_code=USD");
-        }
-
-        ImGui.PopStyleColor(3);
-    }
-
+    
     private void DrawLanguageSelector()
     {
         ImGui.SetNextItemWidth(55);
@@ -255,7 +238,7 @@ public class PluginUi : Window, IDisposable
         if (!_openChangelog)
             return;
 
-        ImGui.SetNextWindowSize(new Vector2(400, 0));
+        ImGui.SetNextItemWidth(400);
         if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog))
         {
             var changes = PluginChangeLog.Versions;
@@ -286,7 +269,7 @@ public class PluginUi : Window, IDisposable
 
                 ImGui.Separator();
 
-                if (ImGui.BeginChild("old_versions", new Vector2(0, 150), true))
+                if (ImGui.BeginChild("old_versions", new Vector2(0, 0),true))
                 {
                     for (var i = 1; i < changes.Count; i++)
                     {
@@ -321,6 +304,13 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.1.0.0")
+            {
+                MainChanges =
+                {
+                    "'Ill add it later"
+                }
+            },
             new Version("4.0.0.8")
             {
                 MinorChanges =

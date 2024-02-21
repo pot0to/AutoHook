@@ -15,7 +15,7 @@ namespace AutoHook.Ui;
 
 public class SubTabAutoCast
 {
-    public bool IsDefaultPreset { get; set; }
+    public bool IsGlobalPreset { get; set; }
 
     private List<BaseActionCast> actionsAvailable = new();
     public void DrawAutoCastTab(AutoCastsConfig acCfg)
@@ -49,11 +49,11 @@ public class SubTabAutoCast
         {
             if (acCfg.EnableAll)
             {
-                if (IsDefaultPreset && (Service.Configuration.HookPresets.SelectedPreset?.AutoCastsCfg.EnableAll ?? false))
+                if (IsGlobalPreset && (Service.Configuration.HookPresets.SelectedPreset?.AutoCastsCfg.EnableAll ?? false))
                 {
                     Service.Configuration.HookPresets.SelectedPreset.AutoCastsCfg.EnableAll = false;
                 }
-                else if (!IsDefaultPreset)
+                else if (!IsGlobalPreset)
                 {
                     Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll = false;
                 }
@@ -79,10 +79,10 @@ public class SubTabAutoCast
             
         }
 
-        if (!IsDefaultPreset)
+        if (!IsGlobalPreset)
         {
             if (Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll && !acCfg.EnableAll)
-                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Default_AutoCast_Being_Used);
+                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Global_AutoCast_Being_Used);
             else if (!acCfg.EnableAll)
                 ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.SubAuto_Disabled);
         }
