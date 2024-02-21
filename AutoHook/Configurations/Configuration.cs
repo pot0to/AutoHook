@@ -94,7 +94,9 @@ public class Configuration : IPluginConfiguration
         }
         else if (Version == 3)
         {
+            
             HookPresets.DefaultPreset.ConvertV3ToV4();
+            HookPresets.DefaultPreset.RenamePreset(Service.GlobalPresetName);
             foreach (var preset in HookPresets.CustomPresets)
             {
                 preset.ConvertV3ToV4();
@@ -212,7 +214,6 @@ public class Configuration : IPluginConfiguration
 
     public static string DecompressString(string s)
     {
-        // Check if the string starts with any of the prefixes
         if (!ExportPrefixes.Any(s.StartsWith))
             throw new ApplicationException(UIStrings.DecompressString_Invalid_Import);
         
@@ -279,7 +280,7 @@ public class Configuration : IPluginConfiguration
             newBait.Enabled = bait.Enabled;
             newBait.NormalHook = bait.NormalHook;
             newBait.IntuitionHook = bait.IntuitionHook;
-            newBait.UseCustomIntuitionHook = bait.UseCustomIntuitionHook;
+            newBait.IntuitionHook.UseCustomStatusHook = bait.UseCustomIntuitionHook;
                     
             newPreset.AddBaitConfig(newBait);
         }
@@ -292,7 +293,7 @@ public class Configuration : IPluginConfiguration
             newMooch.Enabled = mooch.Enabled;
             newMooch.NormalHook = mooch.NormalHook;
             newMooch.IntuitionHook = mooch.IntuitionHook;
-            newMooch.UseCustomIntuitionHook = mooch.UseCustomIntuitionHook;
+            newMooch.IntuitionHook.UseCustomStatusHook = mooch.UseCustomIntuitionHook;
                     
             newPreset.AddMoochConfig(newMooch);
         }

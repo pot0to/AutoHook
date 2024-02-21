@@ -102,7 +102,11 @@ public class TabCustomPresets : BaseTab
 
         ImGui.SameLine();
         
-        DrawStandardTabs();
+        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1))) 
+        { 
+            DrawStandardTabs(); 
+            ImGui.EndChild(); 
+        } 
     }
 
     private void DrawStandardTabs()

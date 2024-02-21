@@ -5,6 +5,7 @@ using AutoHook.Utils;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -36,11 +37,10 @@ public class BaseHookset
     public BaseBiteConfig TripleWeak = new(HookType.Triple);
     public BaseBiteConfig TripleStrong = new(HookType.Triple);
     public BaseBiteConfig TripleLegendary = new(HookType.Triple);
-
-
+    
     // Timeout
     //public double TimeoutMin = 0;
-    public double TimeoutMax;
+    public double TimeoutMax = 0;
 
     // Stop condition
     public bool StopAfterCaught;
@@ -48,6 +48,8 @@ public class BaseHookset
     public int StopAfterCaughtLimit = 1;
 
     public FishingSteps StopFishingStep = FishingSteps.None;
+    
+    public bool UseCustomStatusHook;
 
     public Guid GetUniqueId()
     {
@@ -66,11 +68,18 @@ public class BaseHookset
     public void DrawOptions()
     {
         ImGui.PushID(@"BaseHookset");
-
+        if (RequiredStatus != 0)
+        {
+            ImGui.Spacing();
+            var statusName = MultiString.GetStatusName(RequiredStatus);
+            DrawUtil.Checkbox(string.Format(UIStrings.UseConfigRequiredStatus, statusName), ref UseCustomStatusHook, UIStrings.RequiredStatusSettingHelpText);
+        }
+        
         ImGui.Spacing();
         DrawPatience();
         DrawUtil.SpacingSeparator();
         DrawDoubleHook();
+        DrawUtil.SpacingSeparator();
         DrawTripleHook();
         DrawUtil.SpacingSeparator();
         DrawTimeout();
@@ -82,17 +91,24 @@ public class BaseHookset
 
     private void DrawPatience()
     {
-        PatienceWeak.DrawOptions(UIStrings.HookWeakExclamation, true);
-        PatienceStrong.DrawOptions(UIStrings.HookStrongExclamation, true);
-        PatienceLegendary.DrawOptions(UIStrings.HookLegendaryExclamation, true);
+        DrawUtil.DrawTreeNodeEx(UIStrings.NormalPatienceHookset,
+            () =>
+            {
+                PatienceWeak.DrawOptions(UIStrings.HookWeakExclamation, true);
+                PatienceStrong.DrawOptions(UIStrings.HookStrongExclamation, true);
+                PatienceLegendary.DrawOptions(UIStrings.HookLegendaryExclamation, true);
+            });
+        
     }
 
     private void DrawDoubleHook()
     {
-        DrawUtil.DrawCheckboxTree(UIStrings.UseDoubleHook, ref UseDoubleHook,
+        DrawUtil.DrawTreeNodeEx(UIStrings.Double_Hook,
             () =>
             {
-                DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeDoubleHook);
+                DrawUtil.Checkbox(UIStrings.UseDoubleHook, ref UseDoubleHook);
+                DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeDoubleHook, UIStrings.LetFishEscapeHelpText);
+                ImGui.Separator(); 
                 DoubleWeak.DrawOptions(UIStrings.HookWeakExclamation);
                 DoubleStrong.DrawOptions(UIStrings.HookStrongExclamation);
                 DoubleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
@@ -101,10 +117,12 @@ public class BaseHookset
 
     private void DrawTripleHook()
     {
-        DrawUtil.DrawCheckboxTree(UIStrings.UseTripleHook, ref UseTripleHook,
+        DrawUtil.DrawTreeNodeEx(UIStrings.Triple_Hook,
             () =>
             {
-                DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeTripleHook);
+                DrawUtil.Checkbox(UIStrings.UseTripleHook, ref UseTripleHook);
+                DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeTripleHook, UIStrings.LetFishEscapeHelpText);
+                ImGui.Separator(); 
                 TripleWeak.DrawOptions(UIStrings.HookWeakExclamation);
                 TripleStrong.DrawOptions(UIStrings.HookStrongExclamation);
                 TripleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
@@ -113,33 +131,31 @@ public class BaseHookset
 
     private void DrawTimeout()
     {
-        if (ImGui.TreeNodeEx(UIStrings.Timeout, ImGuiTreeNodeFlags.FramePadding))
-        {
-            ImGui.TextWrapped(UIStrings.TimeoutHelpText);
-            ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputDouble(UIStrings.MaxWait, ref TimeoutMax, .1, 1, @"%.1f%"))
+       DrawUtil.DrawTreeNodeEx(UIStrings.Timeout,
+            () =>
             {
-                switch (TimeoutMax)
+                ImGui.Text(UIStrings.TimeoutOption);
+                ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputDouble(UIStrings.MaxWait, ref TimeoutMax, .1, 1, @"%.1f%"))
                 {
-                    case 0.1:
-                        TimeoutMax = 2;
-                        break;
-                    case <= 0:
-                    case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
-                        TimeoutMax = 0;
-                        break;
-                    case > 99:
-                        TimeoutMax = 99;
-                        break;
+                    switch (TimeoutMax)
+                    {
+                        case 0.1:
+                            TimeoutMax = 2;
+                            break;
+                        case <= 0:
+                        case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
+                            TimeoutMax = 0;
+                            break;
+                        case > 99:
+                            TimeoutMax = 99;
+                            break;
+                    }
+                    Service.Save();
                 }
-
-                Service.Save();
-            }
-
-            ImGui.SameLine();
-            ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMaxWaitTimer);
-            ImGui.TreePop();
-        }
+                ImGui.SameLine();
+                ImGuiComponents.HelpMarker(UIStrings.TimeoutHelpText);
+            }, UIStrings.TimeoutOption);
     }
 
     private void DrawStopCondition()

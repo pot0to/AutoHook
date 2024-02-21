@@ -91,7 +91,7 @@ public class PresetConfig
 
     public HookConfig? GetBaitByName(string baitName)
     {
-        if (PresetName.Equals(@"DefaultPreset"))
+        if (PresetName.Equals(Service.GlobalPresetName))
             return ListOfBaits.FirstOrDefault();
 
         return ListOfBaits.FirstOrDefault(hook => hook.BaitFish.Name == baitName);
@@ -99,7 +99,7 @@ public class PresetConfig
 
     public HookConfig? GetBaitById(int baitId)
     {
-        if (PresetName.Equals(@"DefaultPreset"))
+        if (PresetName.Equals(Service.GlobalPresetName))
             return ListOfBaits.FirstOrDefault();
 
         return ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == baitId);
@@ -107,7 +107,7 @@ public class PresetConfig
 
     public HookConfig? GetMoochByName(string baitName)
     {
-        if (PresetName.Equals(@"DefaultPreset"))
+        if (PresetName.Equals(Service.GlobalPresetName))
             return ListOfMooch.FirstOrDefault();
 
         return ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Name == baitName);
@@ -115,7 +115,7 @@ public class PresetConfig
 
     public HookConfig? GetMoochById(int baitId)
     {
-        if (PresetName.Equals(@"DefaultPreset"))
+        if (PresetName.Equals(Service.GlobalPresetName))
             return ListOfMooch.FirstOrDefault();
 
         return ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == baitId);
@@ -167,6 +167,7 @@ public class PresetConfig
 
     public void ConvertV3ToV4()
     {
+        
         foreach (var item in ListOfBaits)
         {
             item.ConvertV3ToV4();

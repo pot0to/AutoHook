@@ -8,7 +8,7 @@ namespace AutoHook.Ui;
 
 public class SubTabExtra
 {
-    public bool IsDefaultPreset { get; set; }
+    public bool IsGlobalPreset { get; set; }
     
     public void DrawExtraTab(ExtraConfig config)
     {
@@ -26,11 +26,11 @@ public class SubTabExtra
         {
             if (config.Enabled)
             {
-                if (IsDefaultPreset && (Service.Configuration.HookPresets.SelectedPreset?.ExtraCfg.Enabled ?? false))
+                if (IsGlobalPreset && (Service.Configuration.HookPresets.SelectedPreset?.ExtraCfg.Enabled ?? false))
                 {
                     Service.Configuration.HookPresets.SelectedPreset.ExtraCfg.Enabled = false;
                 }
-                else if (!IsDefaultPreset)
+                else if (!IsGlobalPreset)
                 {
                     Service.Configuration.HookPresets.DefaultPreset.ExtraCfg.Enabled = false;
                 }
@@ -38,7 +38,7 @@ public class SubTabExtra
             Service.Save();
         }
 
-        if (!IsDefaultPreset)
+        if (!IsGlobalPreset)
         {
             if (Service.Configuration.HookPresets.DefaultPreset.ExtraCfg.Enabled && !config.Enabled)
                 ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Global_Extra_Being_Used);

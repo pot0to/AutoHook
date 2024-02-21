@@ -186,7 +186,7 @@ public static class DrawUtil
         ImGui.SameLine();
         if (Service.Configuration.SwapToButtons)
         {
-            DrawPopup(treeName, action);
+            DrawPopup(treeName, action, helpText);
         }
         else
         {
@@ -209,7 +209,7 @@ public static class DrawUtil
 
         if (Service.Configuration.SwapToButtons)
         {
-            DrawPopup(treeName, action);
+            DrawPopup(treeName, action, helpText);
         }
         else
         {
@@ -229,20 +229,27 @@ public static class DrawUtil
         ImGui.PopID();
     }
 
-    public static void DrawPopup(string popupName, Action action)
+    public static void DrawPopup(string popupName, Action action, string helpText = "")
     {
         ImGui.PushID(popupName);
         if (ImGui.Button(popupName))
         {
             ImGui.OpenPopup(popupName);
         }
+        
+        if (ImGui.IsItemHovered() && helpText != string.Empty)
+            ImGui.SetTooltip(helpText);
 
-        if (ImGui.BeginPopup(popupName, ImGuiWindowFlags.AlwaysAutoResize))
+        if (ImGui.BeginPopup(popupName, ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.Tooltip))
         {
+            var windowPos = ImGui.GetWindowPos();
+            var windowSize = ImGui.GetWindowSize();
+            ImGui.GetForegroundDrawList().AddRect(windowPos, windowPos + windowSize, ImGui.GetColorU32(ImGuiCol.Separator));
+
             action();
             ImGui.EndPopup();
         }
-
+        
         ImGui.PopID();
     }
 

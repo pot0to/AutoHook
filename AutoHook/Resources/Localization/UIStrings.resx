@@ -280,6 +280,12 @@ Min. time: 2s (because of animation lock)
 
 Set Zero (0) to disable, and dont make this lower than the Min. Wait</value>
   </data>
+  <data name="TimeoutHelpText" xml:space="preserve">
+    <value>Hook will be used after the defined amount of time has passed
+Min. time: 2s (because of animation lock)
+
+Set Zero (0) to disable</value>
+  </data>
   <data name="MinWait" xml:space="preserve">
     <value>Min. Wait</value>
   </data>
@@ -987,7 +993,7 @@ Check the Guide Tab for Guides.</value>
   <data name="Timeout" xml:space="preserve">
     <value>Timeout</value>
   </data>
-  <data name="TimeoutHelpText" xml:space="preserve">
+  <data name="TimeoutOption" xml:space="preserve">
     <value>The hooking attempt will be canceled after the specified time has passed</value>
   </data>
   <data name="Hook" xml:space="preserve">
@@ -1005,16 +1011,23 @@ Check the Guide Tab for Guides.</value>
   <data name="MoochTabHelpText" xml:space="preserve">
     <value>Hooking settings when mooching</value>
   </data>
-  <data name="IntuitionSettingHook" xml:space="preserve">
-    <value>Use this setting when Intuition is active</value>
-  </data>
-  <data name="IntuitionSettingHelpText" xml:space="preserve">
-    <value>If disabled, the normal hook will be used when Intuition is active.</value>
+  <data name="RequiredStatusSettingHelpText" xml:space="preserve">
+    <value>If disabled, the Default hook will be used instead</value>
   </data>
   <data name="AntiAfkOption" xml:space="preserve">
     <value>Anti-Afk while fishing</value>
   </data>
   <data name="SwapTreeNodeButtons" xml:space="preserve">
     <value>Swap Tree Node to Buttons</value>
+  </data>
+  <data name="LetFishEscapeHelpText" xml:space="preserve">
+    <value>if disabled, Normal Hook will be used if GP is below required</value>
+  </data>
+  <data name="UseConfigRequiredStatus" xml:space="preserve">
+    <value>Use this setting when {0} is active</value>
+    <comment>{0} Represents a status effect. For Exemple: Use this setting when Fishe's Intuition is active</comment>
+  </data>
+  <data name="NormalPatienceHookset" xml:space="preserve">
+    <value>Normal Hook / Patience Hookset</value>
   </data>
 </root>

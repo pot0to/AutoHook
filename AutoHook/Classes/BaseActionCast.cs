@@ -238,9 +238,7 @@ public abstract class BaseActionCast
                     SetThreshold(GpThreshold);
                     Service.Save();
                 }
-
-                // add a button to close the pop up
-
+                
                 ImGui.EndChild();
             }
 

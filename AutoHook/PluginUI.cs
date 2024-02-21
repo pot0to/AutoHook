@@ -20,7 +20,7 @@ public class PluginUi : Window, IDisposable
 {
     private readonly List<BaseTab> _tabs = new()
     {
-        new TabDefaultPreset(),
+        new TabGlobalPreset(),
         new TabCustomPresets(),
         //new CastAndGPChangeLater(),
         new TabAutoGig(),
@@ -138,6 +138,7 @@ public class PluginUi : Window, IDisposable
     {
         if (ImGui.Button(@"Check"))
         {
+            Service.Configuration.Version = 4;
         }
     }
 

@@ -18,10 +18,11 @@ public class HookConfig
     public BaseHookset NormalHook = new(IDs.Status.None);
     public BaseHookset IntuitionHook = new(IDs.Status.FishersIntuition);
 
+    //todo enable more hook settings based on the current status
+    //List<BaseHookset> CustomHooksets = new();
+    
     public BaseHookset Hookset => GetHookset();
-
-    public bool UseCustomIntuitionHook = false;
-
+    
     public HookConfig(BaitFishClass baitFish)
     {
         BaitFish = baitFish;
@@ -30,9 +31,17 @@ public class HookConfig
 
     private BaseHookset GetHookset()
     {
-        return PlayerResources.HasStatus(IntuitionHook.RequiredStatus) && UseCustomIntuitionHook
-            ? IntuitionHook
-            : NormalHook;
+        var requiredStatusPreset = new List<BaseHookset> { IntuitionHook };
+        
+        foreach (var preset in requiredStatusPreset)
+        {
+            if (PlayerResources.HasStatus(preset.RequiredStatus) && preset.UseCustomStatusHook)
+            {
+                return preset;
+            }
+        }
+
+        return NormalHook;
     }
 
     public HookType? GetHook(BiteType bite, double timePassed)
@@ -60,46 +69,7 @@ public class HookConfig
 
         return HookType.None;
     }
-
-    public HookType? GetHookType(BiteType bite, BaseHookset hook, double timer)
-    {
-        if (bite == BiteType.Weak)
-        {
-            if (hook.UseTripleHook && hook.TripleWeak.HooksetEnabled && CheckHook(hook.TripleWeak, timer))
-                return hook.TripleWeak.HooksetType;
-
-            if (hook.UseDoubleHook && hook.DoubleWeak.HooksetEnabled && CheckHook(hook.DoubleWeak, timer))
-                return hook.DoubleWeak.HooksetType;
-
-            if (hook.PatienceWeak.HooksetEnabled && CheckHook(hook.PatienceWeak, timer))
-                return hook.PatienceWeak.HooksetType;
-        }
-        else if (bite == BiteType.Strong)
-        {
-            if (hook.UseTripleHook && hook.TripleStrong.HooksetEnabled && CheckHook(hook.TripleStrong, timer))
-                return hook.TripleStrong.HooksetType;
-
-            if (hook.UseDoubleHook && hook.DoubleStrong.HooksetEnabled && CheckHook(hook.DoubleStrong, timer))
-                return hook.DoubleStrong.HooksetType;
-
-            if (hook.PatienceStrong.HooksetEnabled && CheckHook(hook.PatienceStrong, timer))
-                return hook.PatienceStrong.HooksetType;
-        }
-        else if (bite == BiteType.Legendary)
-        {
-            if (hook.UseTripleHook && hook.TripleLegendary.HooksetEnabled && CheckHook(hook.TripleLegendary, timer))
-                return hook.TripleLegendary.HooksetType;
-
-            if (hook.UseDoubleHook && hook.DoubleLegendary.HooksetEnabled && CheckHook(hook.DoubleLegendary, timer))
-                return hook.DoubleLegendary.HooksetType;
-
-            if (hook.PatienceLegendary.HooksetEnabled && CheckHook(hook.PatienceLegendary, timer))
-                return hook.PatienceLegendary.HooksetType;
-        }
-
-        return HookType.None;
-    }
-
+    
     private bool CheckHook(BaseBiteConfig hookType, double timePassed)
     {
         if (!CheckIdenticalCast(hookType))

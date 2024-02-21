@@ -1391,20 +1391,11 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If disabled, the normal hook will be used when Intuition is active..
+        ///   Looks up a localized string similar to if disabled, Normal Hook will be used if GP is below required.
         /// </summary>
-        internal static string IntuitionSettingHelpText {
+        internal static string LetFishEscapeHelpText {
             get {
-                return ResourceManager.GetString("IntuitionSettingHelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use this setting when Intuition is active.
-        /// </summary>
-        internal static string IntuitionSettingHook {
-            get {
-                return ResourceManager.GetString("IntuitionSettingHook", resourceCulture);
+                return ResourceManager.GetString("LetFishEscapeHelpText", resourceCulture);
             }
         }
         
@@ -1558,6 +1549,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Normal_Hook {
             get {
                 return ResourceManager.GetString("Normal_Hook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal Hook / Patience Hookset.
+        /// </summary>
+        internal static string NormalPatienceHookset {
+            get {
+                return ResourceManager.GetString("NormalPatienceHookset", resourceCulture);
             }
         }
         
@@ -1882,6 +1882,15 @@ namespace AutoHook.Resources.Localization {
         internal static string ReleaseAllFishHelpText {
             get {
                 return ResourceManager.GetString("ReleaseAllFishHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If disabled, the Default hook will be used instead.
+        /// </summary>
+        internal static string RequiredStatusSettingHelpText {
+            get {
+                return ResourceManager.GetString("RequiredStatusSettingHelpText", resourceCulture);
             }
         }
         
@@ -2423,11 +2432,23 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The hooking attempt will be canceled after the specified time has passed.
+        ///   Looks up a localized string similar to Hook will be used after the defined amount of time has passed
+        ///Min. time: 2s (because of animation lock)
+        ///
+        ///Set Zero (0) to disable.
         /// </summary>
         internal static string TimeoutHelpText {
             get {
                 return ResourceManager.GetString("TimeoutHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The hooking attempt will be canceled after the specified time has passed.
+        /// </summary>
+        internal static string TimeoutOption {
+            get {
+                return ResourceManager.GetString("TimeoutOption", resourceCulture);
             }
         }
         
@@ -2545,6 +2566,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Use_Thaliaks_Favor {
             get {
                 return ResourceManager.GetString("Use_Thaliaks_Favor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this setting when {0} is active.
+        /// </summary>
+        internal static string UseConfigRequiredStatus {
+            get {
+                return ResourceManager.GetString("UseConfigRequiredStatus", resourceCulture);
             }
         }
         

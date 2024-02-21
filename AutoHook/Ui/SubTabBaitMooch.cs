@@ -15,7 +15,7 @@ namespace AutoHook.Ui;
 
 public class SubTabBaitMooch
 {
-    public bool IsDefault { get; set; }
+    public bool IsGlobal { get; set; }
     public bool IsMooch { get; set; }
 
     //private PresetConfig _selectedPreset;
@@ -28,7 +28,7 @@ public class SubTabBaitMooch
         else
             _listOfHooks = presetCfg.ListOfBaits;
 
-        if (!IsDefault)
+        if (!IsGlobal)
         {
             ImGui.Spacing();
             DrawDescription();
@@ -49,7 +49,7 @@ public class SubTabBaitMooch
             {
                 ImGui.Spacing();
                 DrawEnabledButtonCustomBait(hook);
-                if (!IsDefault)
+                if (!IsGlobal)
                 {
                     ImGui.SameLine();
                     DrawInputSearchBar(hook);
@@ -58,12 +58,13 @@ public class SubTabBaitMooch
                 }
 
                 ImGui.Spacing();
-                if (ImGui.BeginTabBar(@"TabBarsbaitMoocha", ImGuiTabBarFlags.NoTooltip))
+                if (ImGui.BeginTabBar(@"TabBarsBaitMooch", ImGuiTabBarFlags.NoTooltip))
                 {
                     ImGui.Spacing();
 
-                    if (ImGui.BeginTabItem($"Default"))
+                    if (ImGui.BeginTabItem($"Default###DefaultBait"))
                     {
+                        
                         DrawNormalTab(hook);
                         ImGui.EndTabItem();
                     }
@@ -107,7 +108,7 @@ public class SubTabBaitMooch
 
     private void DrawDeleteButton(HookConfig hookConfig)
     {
-        if (IsDefault)
+        if (IsGlobal)
             return;
 
         ImGui.PushFont(UiBuilder.IconFont);
@@ -182,13 +183,9 @@ public class SubTabBaitMooch
     {
         try
         {
-            ImGui.Spacing();
-            DrawUtil.Checkbox(UIStrings.IntuitionSettingHook, ref hook.UseCustomIntuitionHook,
-                UIStrings.IntuitionSettingHelpText);
-            if (hook.UseCustomIntuitionHook)
-            {
-                hook.IntuitionHook.DrawOptions();
-            }
+           
+            hook.IntuitionHook.DrawOptions();
+            
         }
         catch (Exception e)
         {

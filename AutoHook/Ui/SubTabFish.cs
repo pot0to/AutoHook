@@ -16,7 +16,7 @@ namespace AutoHook.Ui;
 public class SubTabFish : BaseTab
 {
     
-    public bool IsDefault { get; set; }
+    public bool IsGlobalPreset { get; set; }
     
     public override string TabName { get; } = UIStrings.Fish_Caught;
     public override bool Enabled { get; } = true;
@@ -115,7 +115,7 @@ public class SubTabFish : BaseTab
 
     private void DrawDeleteButton(FishConfig fishConfig)
     {
-        if (IsDefault)
+        if (IsGlobalPreset)
             return;
         ImGui.SameLine();
         ImGui.PushFont(UiBuilder.IconFont);

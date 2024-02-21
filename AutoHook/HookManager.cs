@@ -9,7 +9,6 @@ using Dalamud.Hooking;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,6 +41,8 @@ public class HookingManager : IDisposable
     private IntuitionStatus _intuitionStatus = IntuitionStatus.NotActive;
     private SpectralCurrentStatus _spectralCurrentStatus = SpectralCurrentStatus.NotActive;
 
+    private bool _isMooching;
+
     private delegate bool UseActionDelegate(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId,
         uint a4, uint a5,
         uint a6, IntPtr a7);
@@ -53,10 +54,6 @@ public class HookingManager : IDisposable
         CreateDalamudHooks();
         Enable();
     }
-
-    //public static BaitFishClass LastCatch { get; private set; } = new(@"-", -1);
-
-    public static string CurrentBaitMooch { get; private set; } = @"-";
 
     public void Dispose()
     {
@@ -87,11 +84,12 @@ public class HookingManager : IDisposable
         _catchHook?.Disable();
     }
 
-    private static string GetCurrentBait()
+    private int GetCurrentBaitMoochId()
     {
-        var baitId = Service.EquipedBait.Current;
-        var baitName = MultiString.ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(baitId)?.Name);
-        return baitName;
+        if (_isMooching)
+            return _lastCatch?.Id ?? 0;
+
+        return (int)Service.EquipedBait.Current;
     }
 
     // The current config is updates two times: When we began fishing (to get the config based on the mooch/bait) and when we hooked the fish (in case the user updated their configs).
@@ -99,9 +97,7 @@ public class HookingManager : IDisposable
     {
         ResetAfkTimer();
 
-        // check if SelectedPreset has hook for the current bait
         var selected = GetHookCfg();
-
         if (selected.Enabled)
             _timeout = selected.Hookset.TimeoutMax;
         else
@@ -109,29 +105,39 @@ public class HookingManager : IDisposable
 
         if (Service.Configuration.ShowStatusHeader)
         {
-            var hookCfgName = GetPresetName();
-            Service.Status = @$"Hook config: {hookCfgName}";
+            string buffStatus = "";
 
-            Service.PrintDebug(!selected.Enabled
-                ? @$"[HookManager] No config found. Not hooking"
-                : @$"[HookManager] Hook Found: {hookCfgName}");
+            if (selected.Hookset.RequiredStatus != 0)
+            {
+                buffStatus = MultiString.GetStatusName(selected.Hookset.RequiredStatus);
+                buffStatus = @$"({buffStatus})";
+            }
+
+            var hookCfgName = GetPresetName();
+
+            string message = !selected.Enabled
+                ? @$"No config found. Not hooking"
+                : @$"Hook Found: {hookCfgName} {buffStatus}";
+
+            Service.Status = message;
+            Service.PrintDebug(@$"[HookManager] {message}");
         }
     }
 
     public string GetPresetName()
     {
-        var customHook = _lastStep == FishingSteps.BeganMooching
-            ? Presets.SelectedPreset?.GetMoochByName(CurrentBaitMooch)
-            : Presets.SelectedPreset?.GetBaitByName(CurrentBaitMooch);
+        var customHook = _isMooching
+            ? Presets.SelectedPreset?.GetMoochById(GetCurrentBaitMoochId())
+            : Presets.SelectedPreset?.GetBaitById(GetCurrentBaitMoochId());
 
-        var defaultHook = _lastStep == FishingSteps.BeganMooching
+        var globalHook = _isMooching
             ? Presets.DefaultPreset.ListOfMooch.FirstOrDefault()
             : Presets.DefaultPreset.ListOfBaits.FirstOrDefault();
 
         var presetName = customHook?.Enabled ?? false
-            ? @$"{customHook.BaitFish.Name}({Presets.SelectedPreset?.PresetName})"
-            : defaultHook?.Enabled ?? false
-                ? @$"{defaultHook.BaitFish.Name}({Presets.DefaultPreset.PresetName})"
+            ? @$"{customHook.BaitFish.Name} ({Presets.SelectedPreset?.PresetName})"
+            : globalHook?.Enabled ?? false
+                ? @$"{globalHook.BaitFish.Name} ({Presets.DefaultPreset.PresetName})"
                 : @"None";
 
         return presetName;
@@ -139,11 +145,11 @@ public class HookingManager : IDisposable
 
     public HookConfig GetHookCfg()
     {
-        var customHook = _lastStep == FishingSteps.BeganMooching
-            ? Presets.SelectedPreset?.GetMoochByName(CurrentBaitMooch)
-            : Presets.SelectedPreset?.GetBaitByName(CurrentBaitMooch);
+        var customHook = _isMooching
+            ? Presets.SelectedPreset?.GetMoochById(GetCurrentBaitMoochId())
+            : Presets.SelectedPreset?.GetBaitById(GetCurrentBaitMoochId());
 
-        var defaultHook = _lastStep == FishingSteps.BeganMooching
+        var defaultHook = _isMooching
             ? Presets.DefaultPreset.ListOfMooch.FirstOrDefault()
             : Presets.DefaultPreset.ListOfBaits.FirstOrDefault();
 
@@ -189,7 +195,7 @@ public class HookingManager : IDisposable
                 currentState = FishingState.Quit;
             }
         }
-        
+
         //CheckState();
 
         if (_lastStep != FishingSteps.Quitting && currentState == FishingState.PoleReady &&
@@ -206,7 +212,7 @@ public class HookingManager : IDisposable
             return;
 
         if (currentState == FishingState.PoleReady)
-            Service.Status =@$"";
+            Service.Status = @$"";
 
         _lastState = currentState;
 
@@ -234,14 +240,12 @@ public class HookingManager : IDisposable
             (_lastState != FishingState.PoleReady || _lastState != FishingState.NotFishing))
             return;
 
-        CurrentBaitMooch = GetCurrentBait();
-
-        _lastStep = FishingSteps.BeganFishing;
-
         var cfg = GetAutoCastCfg();
         if (cfg.CastCollect.Enabled && cfg.CastCollect.IsAvailableToCast())
             PlayerResources.CastActionDelayed(cfg.CastCollect.Id, ActionType.Ability, cfg.CastCollect.Name);
 
+        _lastStep = FishingSteps.BeganFishing;
+        _isMooching = false;
         UpdateStatusAndTimer();
     }
 
@@ -250,14 +254,12 @@ public class HookingManager : IDisposable
         if (_lastStep == FishingSteps.BeganMooching && _lastState != FishingState.PoleReady)
             return;
 
-        CurrentBaitMooch = new string(Service.LastCatch.Name);
-
-        //LastCatch = null;
         var cfg = GetAutoCastCfg();
         if (cfg.CastCollect.Enabled && cfg.CastCollect.IsAvailableToCast())
             PlayerResources.CastActionDelayed(cfg.CastCollect.Id, ActionType.Ability, cfg.CastCollect.Name);
 
         _lastStep = FishingSteps.BeganMooching;
+        _isMooching = true;
         UpdateStatusAndTimer();
     }
 
@@ -277,12 +279,12 @@ public class HookingManager : IDisposable
         var delay = new Random().Next(Service.Configuration.DelayBetweenHookMin,
             Service.Configuration.DelayBetweenHookMax);
         await Task.Delay(delay);
-        
+
         if (!currentHook.Enabled)
             return;
 
         var timePassed = Math.Truncate(_fishingTimer.ElapsedMilliseconds / 1000.0 * 100) / 100;
-        
+
         var hook = currentHook.GetHook(bite, timePassed);
 
         if (hook is null or HookType.None)
@@ -295,12 +297,13 @@ public class HookingManager : IDisposable
         }
         else
         {
-            if ((hook == HookType.Triple && currentHook.Hookset.LetFishEscapeTripleHook) || (hook == HookType.Double && currentHook.Hookset.LetFishEscapeDoubleHook))
+            if ((hook == HookType.Triple && currentHook.Hookset.LetFishEscapeTripleHook) ||
+                (hook == HookType.Double && currentHook.Hookset.LetFishEscapeDoubleHook))
             {
                 Service.PrintDebug(@$"[HookManager] {hook.ToString()} not available. Letting fish escape");
                 return;
             }
-            
+
             Service.PrintDebug($@"[HookManager] {hook.ToString()} not available. Using normal hook. (Bite: {bite})");
             PlayerResources.CastActionDelayed((uint)HookType.Normal, ActionType.Action,
                 @$"{HookType.Normal.ToString()}");
@@ -313,9 +316,6 @@ public class HookingManager : IDisposable
         var lastFishCatchCfg = GetLastCatchConfig();
 
         Service.LastCatch = _lastCatch;
-
-        // Set the equipped bait back
-        CurrentBaitMooch = GetCurrentBait();
 
         Service.PrintDebug(@$"[HookManager] Caught {_lastCatch.Name} (id {_lastCatch.Id})");
 
@@ -331,7 +331,7 @@ public class HookingManager : IDisposable
 
         var hook = GetHookCfg();
         if (hook.Enabled)
-            FishingCounter.Add(hook.Hookset.GetUniqueId());
+            FishingCounter.Add(hook.GetUniqueId());
     }
 
     private void OnFishingStop()
@@ -347,7 +347,6 @@ public class HookingManager : IDisposable
         if (_timerState.IsRunning)
             _timerState.Reset();
 
-        CurrentBaitMooch = @"-";
         Service.Status = "";
 
         FishingCounter.Reset();
@@ -801,7 +800,7 @@ public class HookingManager : IDisposable
 
     public static class FishingCounter
     {
-        private static Dictionary<Guid, int> _fishCount = new();
+        public static Dictionary<Guid, int> _fishCount = new();
 
         public static int Add(Guid guid)
         {
