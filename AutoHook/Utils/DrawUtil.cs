@@ -65,6 +65,12 @@ public static class DrawUtil
         ImGui.TextUnformatted(s);
     }
 
+    public static void HoveredTooltip(string text)
+    {
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(text);
+    }
+
     public static bool Checkbox(string label, ref bool refValue, string helpText = "", bool hoverHelpText = false)
     {
         var clicked = ImGui.Checkbox($"{label}", ref refValue);
@@ -119,16 +125,15 @@ public static class DrawUtil
     }
 
     private static string _filterText = "";
-    
+
     public static void DrawComboSelector<T>(
         List<T> itemList,
         Func<T, string> getItemName,
         string selectedItem,
         Action<T> onSelect)
     {
-        
         ImGui.SetNextItemWidth(200 * ImGuiHelpers.GlobalScale);
-        
+
         if (ImGui.BeginCombo("###search", selectedItem))
         {
             string clearText = "";
@@ -137,12 +142,11 @@ public static class DrawUtil
             {
                 _filterText = new string(clearText);
             }
-            
+
             ImGui.Separator();
 
             if (ImGui.BeginChild("ComboSelector", new Vector2(0, 100 * ImGuiHelpers.GlobalScale), false))
             {
-                
                 foreach (var item in itemList)
                 {
                     var itemName = getItemName(item);
@@ -160,33 +164,86 @@ public static class DrawUtil
                         Service.Save();
                     }
                 }
-                
+
                 ImGui.EndChild();
             }
+
             ImGui.EndCombo();
         }
     }
-    
+
     public static void DrawCheckboxTree(string treeName, ref bool enable, Action action, string helpText = "")
     {
+        ImGui.PushID(treeName);
         ImGui.Checkbox($"##{treeName}###", ref enable);
-        
+
         if (helpText != string.Empty)
         {
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip(helpText);
         }
-        
+
         ImGui.SameLine();
-        if (ImGui.TreeNodeEx(treeName, ImGuiTreeNodeFlags.FramePadding))
+        if (Service.Configuration.SwapToButtons)
         {
-            ImGui.Spacing();
-            ImGui.Indent();
-            action();
-            ImGui.Unindent();
-            ImGui.Separator();
-            ImGui.TreePop();
+            DrawPopup(treeName, action);
         }
+        else
+        {
+            if (ImGui.TreeNodeEx(treeName, ImGuiTreeNodeFlags.FramePadding))
+            {
+                ImGui.Indent();
+                action();
+                ImGui.Separator();
+                ImGui.Unindent();
+                ImGui.TreePop();
+            }
+        }
+
+        ImGui.PopID();
+    }
+
+    public static void DrawTreeNodeEx(string treeName, Action action, string helpText = "")
+    {
+        ImGui.PushID(treeName);
+
+        if (Service.Configuration.SwapToButtons)
+        {
+            DrawPopup(treeName, action);
+        }
+        else
+        {
+            if (ImGui.TreeNodeEx(treeName, ImGuiTreeNodeFlags.FramePadding | ImGuiTreeNodeFlags.AllowItemOverlap))
+            {
+                if (ImGui.IsItemHovered() && helpText != string.Empty)
+                    ImGui.SetTooltip(helpText);
+
+                action();
+                ImGui.Separator();
+                ImGui.TreePop();
+            }
+            else if (ImGui.IsItemHovered() && helpText != string.Empty)
+                ImGui.SetTooltip(helpText);
+        }
+
+        ImGui.PopID();
+    }
+
+    public static void DrawPopup(string popupName, Action action)
+    {
+        ImGui.PushID(popupName);
+        if (ImGui.Button(popupName))
+        {
+            ImGui.OpenPopup(popupName);
+        }
+
+        if (ImGui.BeginPopup(popupName, ImGuiWindowFlags.AlwaysAutoResize))
+        {
+            action();
+            ImGui.EndPopup();
+        }
+
+        ImGui.PopID();
     }
 
     public static void SpacingSeparator()

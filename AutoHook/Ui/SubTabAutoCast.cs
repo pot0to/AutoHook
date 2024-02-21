@@ -82,7 +82,7 @@ public class SubTabAutoCast
         if (!IsDefaultPreset)
         {
             if (Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll && !acCfg.EnableAll)
-                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Default_AutoCast_Being_Used);
+                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Global_AutoCast_Being_Used);
             else if (!acCfg.EnableAll)
                 ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.SubAuto_Disabled);
         }

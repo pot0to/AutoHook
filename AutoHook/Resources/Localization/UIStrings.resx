@@ -197,11 +197,11 @@
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
     <value>Here you can customize which hook to use based on the current bait or mooch.
-If a bait/mooch is not specified, the Default Preset will be used instead.</value>
+If a bait/mooch is not specified, the Global Preset will be used instead.</value>
   </data>
   <data name="TabPresets_DrawHeader_NewTabDescription" xml:space="preserve">
     <value>Here you can customize which hook to use based on the current bait or mooch.
-If a bait/mooch is not specified, the Default Preset will be used instead.</value>
+If a bait/mooch is not specified, the Global Preset will be used instead.</value>
   </data>
   <data name="NewPreset" xml:space="preserve">
     <value>New Preset</value>
@@ -243,26 +243,8 @@ If a bait/mooch is not specified, the Default Preset will be used instead.</valu
   <data name="DrawHeader_ClickToReportAnIssue" xml:space="preserve">
     <value>Click here to report an issue or make a suggestion</value>
   </data>
-  <data name="UseDefaultCast" xml:space="preserve">
-    <value>Use Default Cast</value>
-  </data>
-  <data name="UseDefaultMooch" xml:space="preserve">
-    <value>Use Default Mooch</value>
-  </data>
-  <data name="DefaultHookingBehavior" xml:space="preserve">
-    <value>This is the default hooking behavior if no Custom Preset is found.</value>
-  </data>
-  <data name="DefaultMoochingBehavior" xml:space="preserve">
-    <value>This is the default mooching behavior if no Preset is found.</value>
-  </data>
   <data name="Changelog" xml:space="preserve">
     <value>Changelog</value>
-  </data>
-  <data name="DefaultCast" xml:space="preserve">
-    <value>Default Cast</value>
-  </data>
-  <data name="DefaultMooch" xml:space="preserve">
-    <value>Default Mooch</value>
   </data>
   <data name="HookWeakExclamation" xml:space="preserve">
     <value>Hook Weak (!)</value>
@@ -392,8 +374,7 @@ If disabled, Precision/Powerful hook will be used instead when Patience is up.</
   <data name="EnabledConfigArrowhelpMarker" xml:space="preserve">
     <value>Important!!!
 
-If disabled, the fish will NOT be hooked or Mooched.
-To use the default behavior (General Tab), please delete this configuration.</value>
+If disabled, the fish will NOT be hooked.</value>
   </data>
   <data name="ChumTimer" xml:space="preserve">
     <value>Chum Timer</value>
@@ -402,7 +383,7 @@ To use the default behavior (General Tab), please delete this configuration.</va
     <value>Enable Chum Timers</value>
   </data>
   <data name="EnableChumTimersHelpMarker" xml:space="preserve">
-    <value>Enable Min/Max times when under the effect of Chum</value>
+    <value>Same as the option above, but only when Chum is active</value>
   </data>
   <data name="Enable" xml:space="preserve">
     <value>Enable</value>
@@ -552,6 +533,9 @@ This could save you 100gp if going only for mooches</value>
   <data name="Surface_Slap_Options" xml:space="preserve">
     <value>Surface Slap Options</value>
   </data>
+  <data name="Identical_Cast_Options" xml:space="preserve">
+    <value>Identical Cast Options</value>
+  </data>
   <data name="Identical_Cast" xml:space="preserve">
     <value>Identical Cast</value>
   </data>
@@ -642,10 +626,10 @@ If Auto Mooch (Global or Custom Preset) is not enabled, the line will be casted 
   <data name="TabAutoCasts_DrawHeader_Guide_Collectables" xml:space="preserve">
     <value>Guide: How to auto accept Collectables</value>
   </data>
-  <data name="TabAutoCasts_DrawAutoMooch_HelpText" xml:space="preserve">
-    <value>This option have priority over Auto Cast Line
+  <data name="AutoMooch_HelpText" xml:space="preserve">
+    <value>Mooch everything! This option have priority over 'Auto Cast Line'
 
-If you want to Auto Mooch only a specific fish and ignore others, disable this option and create a Custom Preset.</value>
+If you want to Auto Mooch only a specific fish and ignore others, disable this option add use the Fish Caught tab.</value>
   </data>
   <data name="Support_me_on_Ko_fi" xml:space="preserve">
     <value>Support me on Ko-fi</value>
@@ -680,14 +664,14 @@ If you want to Auto Mooch only a specific fish and ignore others, disable this o
   <data name="AutoCastLine_Auto_Cast_Line" xml:space="preserve">
     <value>Auto Cast Line</value>
   </data>
-  <data name="AutoMooch_HelpText" xml:space="preserve">
+  <data name="AutoMooch_HelpText_old" xml:space="preserve">
     <value>This option have priority over Auto Cast Line</value>
   </data>
   <data name="Normal_Hook" xml:space="preserve">
     <value>Normal Hook</value>
   </data>
-  <data name="TabName_Default_Preset" xml:space="preserve">
-    <value>Default Preset</value>
+  <data name="TabName_Global_Preset" xml:space="preserve">
+    <value>Global Preset</value>
   </data>
   <data name="Bait" xml:space="preserve">
     <value>Bait</value>
@@ -703,6 +687,9 @@ If you want to Auto Mooch only a specific fish and ignore others, disable this o
   </data>
   <data name="Fish" xml:space="preserve">
     <value>Fish</value>
+  </data>
+  <data name="Fish Caught" xml:space="preserve">
+    <value>Fish Caught</value>
   </data>
   <data name="Add_new_fish" xml:space="preserve">
     <value>Add new fish</value>
@@ -771,6 +758,9 @@ If you want to Auto Mooch only a specific fish and ignore others, disable this o
     <value>The default preset is used when no custom bait/mooch/fish/autocast is detected. Here you can set the hooking behavior that will be used for all baits and mooches unless a custom preset is created. 
 Check the Guide Tab for Guides.</value>
   </data>
+  <data name="TabGlobalPreset_Description" xml:space="preserve">
+    <value>The global preset is used when no custom hooking/fish caught/autocast is found. Here you can set the global behavior that will be used for all baits and mooches unless a custom preset is created</value>
+  </data>
   <data name="Old_Preset_Warning" xml:space="preserve">
     <value>This is an old import, some settings might be missing.</value>
   </data>
@@ -810,11 +800,17 @@ Check the Guide Tab for Guides.</value>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
     <value>[Default] auto cast is being used instead</value>
   </data>
+  <data name="Global_AutoCast_Being_Used" xml:space="preserve">
+    <value>[Global] auto cast is being used instead</value>
+  </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
     <value>Custom preset [{0}] Auto cast is being used instead</value>
   </data>
   <data name="Default_Extra_Being_Used" xml:space="preserve">
     <value>[Default] Extra config is being used instead</value>
+  </data>
+  <data name="Global_Extra_Being_Used" xml:space="preserve">
+    <value>[Global] Extra config is being used instead</value>
   </data>
   <data name="Custom_Extra_Being_Used" xml:space="preserve">
     <value>Custom preset [{0}] Extra config is being used instead</value>
@@ -837,6 +833,9 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Extra" xml:space="preserve">
     <value>Extra</value>
+  </data>
+  <data name="ExtraOptions" xml:space="preserve">
+    <value>Extra Options</value>
   </data>
   <data name="NeverReleaseHelptext" xml:space="preserve">
     <value>This fish won't be released if 'Release All Fish' is enabled in the Auto Cast tab</value>
@@ -866,7 +865,7 @@ Check the Guide Tab for Guides.</value>
     <value>Guides</value>
   </data>
   <data name="Delay_when_hooking" xml:space="preserve">
-    <value>Delay when hooking</value>
+    <value>Delay before hooking (in ms)</value>
   </data>
   <data name="Preset_not_found" xml:space="preserve">
     <value>Preset not found</value>
@@ -892,8 +891,17 @@ Check the Guide Tab for Guides.</value>
   <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
     <value>Only use when Surface Slap is not active</value>
   </data>
+  <data name="OnlyUseWhenActiveIdentical" xml:space="preserve">
+    <value>Only use when Identical Cast is active</value>
+  </data>
+  <data name="OnlyUseWhenNOTActiveIdentical" xml:space="preserve">
+    <value>Only use when Identical Cast is not active</value>
+  </data>
   <data name="Collect" xml:space="preserve">
     <value>Collect</value>
+  </data>
+  <data name="CollectHelpText" xml:space="preserve">
+    <value>Collector's Glove will be activated when you start fishing</value>
   </data>
   <data name="RefreshWhenTimeIsLessThanOrEqual" xml:space="preserve">
     <value>Refresh when buff timer is less than or equal to</value>
@@ -909,6 +917,9 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Show_Presets_As_Sidebar" xml:space="preserve">
     <value>Show preset menu as a sidebar</value>
+  </data>
+  <data name="Hide_Tab_Description" xml:space="preserve">
+    <value>Hide tabs descriptions</value>
   </data>
   <data name="Ignore_When_Intuition" xml:space="preserve">
     <value>Ignore fish setting when intuition is active</value>
@@ -948,5 +959,62 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Current_Selected_Preset" xml:space="preserve">
     <value>Current selected preset:</value>
+  </data>
+  <data name="HookType" xml:space="preserve">
+    <value>Hook Type</value>
+  </data>
+  <data name="HookingTimer" xml:space="preserve">
+    <value>Hooking Timer</value>
+  </data>
+  <data name="EnableHookingTimer" xml:space="preserve">
+    <value>Use Hooking Timer</value>
+  </data>
+  <data name="EnableChumTimer" xml:space="preserve">
+    <value>Use Mooch Timer</value>
+  </data>
+  <data name="HookingTimerHelpText" xml:space="preserve">
+    <value>Hook will only be used if the bite happens between the min. and max. values</value>
+  </data>
+  <data name="UseDoubleHook" xml:space="preserve">
+    <value>Use Double Hook</value>
+  </data>
+  <data name="UseTripleHook" xml:space="preserve">
+    <value>Use Triple Hook</value>
+  </data>
+  <data name="StopAfterHooking" xml:space="preserve">
+    <value>Stop After Hooking...</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="TimeoutHelpText" xml:space="preserve">
+    <value>The hooking attempt will be canceled after the specified time has passed</value>
+  </data>
+  <data name="Hook" xml:space="preserve">
+    <value>Hook</value>
+  </data>
+  <data name="Hooking" xml:space="preserve">
+    <value>Hooking</value>
+  </data>
+  <data name="HookingTabHelpText" xml:space="preserve">
+    <value>Hooking settings when fishing with bait or mooching</value>
+  </data>
+  <data name="BaitTabHelpText" xml:space="preserve">
+    <value>Hooking settings when fishing with bait</value>
+  </data>
+  <data name="MoochTabHelpText" xml:space="preserve">
+    <value>Hooking settings when mooching</value>
+  </data>
+  <data name="IntuitionSettingHook" xml:space="preserve">
+    <value>Use this setting when Intuition is active</value>
+  </data>
+  <data name="IntuitionSettingHelpText" xml:space="preserve">
+    <value>If disabled, the normal hook will be used when Intuition is active.</value>
+  </data>
+  <data name="AntiAfkOption" xml:space="preserve">
+    <value>Anti-Afk while fishing</value>
+  </data>
+  <data name="SwapTreeNodeButtons" xml:space="preserve">
+    <value>Swap Tree Node to Buttons</value>
   </data>
 </root>

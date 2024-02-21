@@ -196,6 +196,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Anti-Afk while fishing.
+        /// </summary>
+        internal static string AntiAfkOption {
+            get {
+                return ResourceManager.GetString("AntiAfkOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A preset with the same name already exists.
         /// </summary>
         internal static string APresetWithTheSameNameAlreadyExists {
@@ -385,11 +394,22 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This option have priority over Auto Cast Line.
+        ///   Looks up a localized string similar to Mooch everything! This option have priority over &apos;Auto Cast Line&apos;
+        ///
+        ///If you want to Auto Mooch only a specific fish and ignore others, disable this option add use the Fish Caught tab..
         /// </summary>
         internal static string AutoMooch_HelpText {
             get {
                 return ResourceManager.GetString("AutoMooch_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This option have priority over Auto Cast Line.
+        /// </summary>
+        internal static string AutoMooch_HelpText_old {
+            get {
+                return ResourceManager.GetString("AutoMooch_HelpText_old", resourceCulture);
             }
         }
         
@@ -446,6 +466,15 @@ namespace AutoHook.Resources.Localization {
         internal static string BaitName_Default {
             get {
                 return ResourceManager.GetString("BaitName_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hooking settings when fishing with bait.
+        /// </summary>
+        internal static string BaitTabHelpText {
+            get {
+                return ResourceManager.GetString("BaitTabHelpText", resourceCulture);
             }
         }
         
@@ -540,6 +569,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collector&apos;s Glove will be activated when you start fishing.
+        /// </summary>
+        internal static string CollectHelpText {
+            get {
+                return ResourceManager.GetString("CollectHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complete.
         /// </summary>
         internal static string Complete {
@@ -621,42 +659,6 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default Cast.
-        /// </summary>
-        internal static string DefaultCast {
-            get {
-                return ResourceManager.GetString("DefaultCast", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This is the default hooking behavior if no Custom Preset is found..
-        /// </summary>
-        internal static string DefaultHookingBehavior {
-            get {
-                return ResourceManager.GetString("DefaultHookingBehavior", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Default Mooch.
-        /// </summary>
-        internal static string DefaultMooch {
-            get {
-                return ResourceManager.GetString("DefaultMooch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This is the default mooching behavior if no Preset is found..
-        /// </summary>
-        internal static string DefaultMoochingBehavior {
-            get {
-                return ResourceManager.GetString("DefaultMoochingBehavior", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Delay Between Casts (in ms):.
         /// </summary>
         internal static string Delay_Between_Casts {
@@ -666,7 +668,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delay when hooking.
+        ///   Looks up a localized string similar to Delay before hooking (in ms).
         /// </summary>
         internal static string Delay_when_hooking {
             get {
@@ -893,6 +895,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use Mooch Timer.
+        /// </summary>
+        internal static string EnableChumTimer {
+            get {
+                return ResourceManager.GetString("EnableChumTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Chum Timers.
         /// </summary>
         internal static string EnableChumTimers {
@@ -902,7 +913,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable Min/Max times when under the effect of Chum.
+        ///   Looks up a localized string similar to Same as the option above, but only when Chum is active.
         /// </summary>
         internal static string EnableChumTimersHelpMarker {
             get {
@@ -931,12 +942,20 @@ namespace AutoHook.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Important!!!
         ///
-        ///If disabled, the fish will NOT be hooked or Mooched.
-        ///To use the default behavior (General Tab), please delete this configuration..
+        ///If disabled, the fish will NOT be hooked..
         /// </summary>
         internal static string EnabledConfigArrowhelpMarker {
             get {
                 return ResourceManager.GetString("EnabledConfigArrowhelpMarker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Hooking Timer.
+        /// </summary>
+        internal static string EnableHookingTimer {
+            get {
+                return ResourceManager.GetString("EnableHookingTimer", resourceCulture);
             }
         }
         
@@ -978,11 +997,29 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra Options.
+        /// </summary>
+        internal static string ExtraOptions {
+            get {
+                return ResourceManager.GetString("ExtraOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fish.
         /// </summary>
         internal static string Fish {
             get {
                 return ResourceManager.GetString("Fish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fish Caught.
+        /// </summary>
+        internal static string Fish_Caught {
+            get {
+                return ResourceManager.GetString("Fish Caught", resourceCulture);
             }
         }
         
@@ -1041,6 +1078,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [Global] auto cast is being used instead.
+        /// </summary>
+        internal static string Global_AutoCast_Being_Used {
+            get {
+                return ResourceManager.GetString("Global_AutoCast_Being_Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Global] Extra config is being used instead.
+        /// </summary>
+        internal static string Global_Extra_Being_Used {
+            get {
+                return ResourceManager.GetString("Global_Extra_Being_Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GP.
         /// </summary>
         internal static string GP {
@@ -1084,6 +1139,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide tabs descriptions.
+        /// </summary>
+        internal static string Hide_Tab_Description {
+            get {
+                return ResourceManager.GetString("Hide_Tab_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide overlay during Spearfishing.
         /// </summary>
         internal static string HideOverlayDuringSpearfishing {
@@ -1120,6 +1184,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hook.
+        /// </summary>
+        internal static string Hook {
+            get {
+                return ResourceManager.GetString("Hook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hooked:.
         /// </summary>
         internal static string Hooked_Counter {
@@ -1129,11 +1202,47 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hooking.
+        /// </summary>
+        internal static string Hooking {
+            get {
+                return ResourceManager.GetString("Hooking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hooking limit reached ({0}). Stopping fishing..
         /// </summary>
         internal static string Hooking_Limited_Reached_Chat_Message {
             get {
                 return ResourceManager.GetString("Hooking_Limited_Reached_Chat_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hooking settings when fishing with bait or mooching.
+        /// </summary>
+        internal static string HookingTabHelpText {
+            get {
+                return ResourceManager.GetString("HookingTabHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hooking Timer.
+        /// </summary>
+        internal static string HookingTimer {
+            get {
+                return ResourceManager.GetString("HookingTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook will only be used if the bite happens between the min. and max. values.
+        /// </summary>
+        internal static string HookingTimerHelpText {
+            get {
+                return ResourceManager.GetString("HookingTimerHelpText", resourceCulture);
             }
         }
         
@@ -1161,6 +1270,15 @@ namespace AutoHook.Resources.Localization {
         internal static string HookStrongExclamation {
             get {
                 return ResourceManager.GetString("HookStrongExclamation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hook Type.
+        /// </summary>
+        internal static string HookType {
+            get {
+                return ResourceManager.GetString("HookType", resourceCulture);
             }
         }
         
@@ -1206,6 +1324,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Identical_Cast {
             get {
                 return ResourceManager.GetString("Identical_Cast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identical Cast Options.
+        /// </summary>
+        internal static string Identical_Cast_Options {
+            get {
+                return ResourceManager.GetString("Identical_Cast_Options", resourceCulture);
             }
         }
         
@@ -1260,6 +1387,24 @@ namespace AutoHook.Resources.Localization {
         internal static string Incomplete {
             get {
                 return ResourceManager.GetString("Incomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If disabled, the normal hook will be used when Intuition is active..
+        /// </summary>
+        internal static string IntuitionSettingHelpText {
+            get {
+                return ResourceManager.GetString("IntuitionSettingHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use this setting when Intuition is active.
+        /// </summary>
+        internal static string IntuitionSettingHook {
+            get {
+                return ResourceManager.GetString("IntuitionSettingHook", resourceCulture);
             }
         }
         
@@ -1332,6 +1477,15 @@ namespace AutoHook.Resources.Localization {
         internal static string MoochBaitName {
             get {
                 return ResourceManager.GetString("MoochBaitName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hooking settings when mooching.
+        /// </summary>
+        internal static string MoochTabHelpText {
+            get {
+                return ResourceManager.GetString("MoochTabHelpText", resourceCulture);
             }
         }
         
@@ -1444,6 +1598,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use when Identical Cast is active.
+        /// </summary>
+        internal static string OnlyUseWhenActiveIdentical {
+            get {
+                return ResourceManager.GetString("OnlyUseWhenActiveIdentical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only use when Surface Slap is active.
         /// </summary>
         internal static string OnlyUseWhenActiveSurfaceSlap {
@@ -1467,6 +1630,15 @@ namespace AutoHook.Resources.Localization {
         internal static string OnlyUseWhenIdenticalCastIsActive {
             get {
                 return ResourceManager.GetString("OnlyUseWhenIdenticalCastIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use when Identical Cast is not active.
+        /// </summary>
+        internal static string OnlyUseWhenNOTActiveIdentical {
+            get {
+                return ResourceManager.GetString("OnlyUseWhenNOTActiveIdentical", resourceCulture);
             }
         }
         
@@ -1858,6 +2030,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stop After Hooking....
+        /// </summary>
+        internal static string StopAfterHooking {
+            get {
+                return ResourceManager.GetString("StopAfterHooking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop fishing.
         /// </summary>
         internal static string StopFishing {
@@ -1957,6 +2138,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Swap Tree Node to Buttons.
+        /// </summary>
+        internal static string SwapTreeNodeButtons {
+            get {
+                return ResourceManager.GetString("SwapTreeNodeButtons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string Tab_Description {
@@ -1974,17 +2164,6 @@ namespace AutoHook.Resources.Localization {
         internal static string TabAutoCasts_DrawAutoCast_HelpText {
             get {
                 return ResourceManager.GetString("TabAutoCasts_DrawAutoCast_HelpText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This option have priority over Auto Cast Line
-        ///
-        ///If you want to Auto Mooch only a specific fish and ignore others, disable this option and create a Custom Preset..
-        /// </summary>
-        internal static string TabAutoCasts_DrawAutoMooch_HelpText {
-            get {
-                return ResourceManager.GetString("TabAutoCasts_DrawAutoMooch_HelpText", resourceCulture);
             }
         }
         
@@ -2098,6 +2277,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The global preset is used when no custom hooking/fish caught/autocast is found. Here you can set the global behavior that will be used for all baits and mooches unless a custom preset is created.
+        /// </summary>
+        internal static string TabGlobalPreset_Description {
+            get {
+                return ResourceManager.GetString("TabGlobalPreset_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Here you can customize the GP Threshold for the actions and items used by the AutoCast feature..
         /// </summary>
         internal static string TabGPConfig_TabDescription {
@@ -2116,11 +2304,11 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default Preset.
+        ///   Looks up a localized string similar to Global Preset.
         /// </summary>
-        internal static string TabName_Default_Preset {
+        internal static string TabName_Global_Preset {
             get {
-                return ResourceManager.GetString("TabName_Default_Preset", resourceCulture);
+                return ResourceManager.GetString("TabName_Global_Preset", resourceCulture);
             }
         }
         
@@ -2189,7 +2377,7 @@ namespace AutoHook.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Here you can customize which hook to use based on the current bait or mooch.
-        ///If a bait/mooch is not specified, the Default Preset will be used instead..
+        ///If a bait/mooch is not specified, the Global Preset will be used instead..
         /// </summary>
         internal static string TabPresets_DrawHeader_NewTabDescription {
             get {
@@ -2199,7 +2387,7 @@ namespace AutoHook.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Here you can customize which hook to use based on the current bait or mooch.
-        ///If a bait/mooch is not specified, the Default Preset will be used instead..
+        ///If a bait/mooch is not specified, the Global Preset will be used instead..
         /// </summary>
         internal static string TabPresets_DrawHeader_TabDescription {
             get {
@@ -2222,6 +2410,24 @@ namespace AutoHook.Resources.Localization {
         internal static string Thaliaks_Favor {
             get {
                 return ResourceManager.GetString("Thaliaks_Favor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeout.
+        /// </summary>
+        internal static string Timeout {
+            get {
+                return ResourceManager.GetString("Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The hooking attempt will be canceled after the specified time has passed.
+        /// </summary>
+        internal static string TimeoutHelpText {
+            get {
+                return ResourceManager.GetString("TimeoutHelpText", resourceCulture);
             }
         }
         
@@ -2343,20 +2549,11 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Default Cast.
+        ///   Looks up a localized string similar to Use Double Hook.
         /// </summary>
-        internal static string UseDefaultCast {
+        internal static string UseDoubleHook {
             get {
-                return ResourceManager.GetString("UseDefaultCast", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use Default Mooch.
-        /// </summary>
-        internal static string UseDefaultMooch {
-            get {
-                return ResourceManager.GetString("UseDefaultMooch", resourceCulture);
+                return ResourceManager.GetString("UseDoubleHook", resourceCulture);
             }
         }
         
@@ -2393,6 +2590,15 @@ namespace AutoHook.Resources.Localization {
         internal static string UseSurfaceSlap {
             get {
                 return ResourceManager.GetString("UseSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Triple Hook.
+        /// </summary>
+        internal static string UseTripleHook {
+            get {
+                return ResourceManager.GetString("UseTripleHook", resourceCulture);
             }
         }
         

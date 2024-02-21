@@ -1,5 +1,5 @@
 using System;
-using System.Xml;
+using System.Collections.Generic;
 using AutoHook.Classes;
 using AutoHook.Data;
 using AutoHook.Enums;
@@ -12,194 +12,164 @@ public class HookConfig
     public bool Enabled = true;
 
     private Guid _uniqueId;
-    
+
     public BaitFishClass BaitFish = new();
 
-    public bool HookWeakEnabled = true;
-    public bool HookWeakIntuitionEnabled = true;
-    public bool HookWeakDHTHEnabled = true;
-    public bool HookWeakOnlyWhenActiveSlap = false;
-    public bool HookWeakOnlyWhenNOTActiveSlap = false;
-    public HookType HookTypeWeak = HookType.Precision;
-    public HookType HookTypeWeakIntuition = HookType.Precision;
+    public BaseHookset NormalHook = new(IDs.Status.None);
+    public BaseHookset IntuitionHook = new(IDs.Status.FishersIntuition);
 
-    public bool HookStrongEnabled = true;
-    public bool HookStrongIntuitionEnabled = true;
-    public bool HookStrongDHTHEnabled = true;
-    public bool HookStrongOnlyWhenActiveSlap = false;
-    public bool HookStrongOnlyWhenNOTActiveSlap = false;
-    public HookType HookTypeStrong = HookType.Powerful;
-    public HookType HookTypeStrongIntuition = HookType.Powerful;
-
-    public bool HookLegendaryEnabled = true;
-    public bool HookLegendaryIntuitionEnabled = true;
-    public bool HookLegendaryDHTHEnabled = true;
-    public bool HookLegendaryOnlyWhenActiveSlap = false;
-    public bool HookLegendaryOnlyWhenNOTActiveSlap = false;
-    public HookType HookTypeLegendary = HookType.Powerful;
-    public HookType HookTypeLegendaryIntuition = HookType.Powerful;
+    public BaseHookset Hookset => GetHookset();
 
     public bool UseCustomIntuitionHook = false;
 
-    /*public bool UseAutoMooch = true;
-    public bool UseAutoMooch2 = false;
-    public bool OnlyMoochIntuition = false;*/
-
-    /*public bool UseSurfaceSlap = false;
-    public bool UseIdenticalCast = false;*/
-    
-    public bool UseDoubleHook = false;
-    public bool UseTripleHook = false;
-    public bool UseDHTHPatience = false;
-    public bool UseDHTHOnlyIdenticalCast = false;
-    public bool UseDHTHOnlySurfaceSlap = false;
-    public bool LetFishEscape = false;
-
-    public double MaxTimeDelay = 0;
-    public double MinTimeDelay = 0;
-
-    public bool UseChumTimer = false;
-    public double MaxChumTimeDelay = 0;
-    public double MinChumTimeDelay = 0;
-
-    public bool StopAfterCaught = false;
-    public int StopAfterCaughtLimit = 1;
-    public bool StopAfterResetCount = false;
-
-    
-    public FishingSteps StopFishingStep = FishingSteps.None;
-
-    /*public HookConfig(string bait)
-    {
-        BaitName = bait;
-    }*/
-    
     public HookConfig(BaitFishClass baitFish)
     {
         BaitFish = baitFish;
         _uniqueId = Guid.NewGuid();
     }
 
-    public HookType? GetHook(BiteType bite)
+    private BaseHookset GetHookset()
     {
-        bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
-
-        if (hasIntuition && UseCustomIntuitionHook)
-        {
-            if (!CheckHookIntuitionEnabled(bite))
-                return HookType.None;
-        }
-        else if (!CheckHookEnabled(bite))
-            return HookType.None;
-
-        if (CheckHookSurfaceSlapEnabled(bite) && !PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
-            return HookType.None;
-
-        if (CheckHookSurfaceSlapNOTEnabled(bite) && PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
-            return HookType.None;
-
-        var hook = GetDoubleTripleHook(bite);
-
-        if (hook != HookType.None)
-            return hook;
-
-        if (hasIntuition)
-            return GetIntuitionHook(bite);
-        else
-            return GetPatienceHook(bite);
+        return PlayerResources.HasStatus(IntuitionHook.RequiredStatus) && UseCustomIntuitionHook
+            ? IntuitionHook
+            : NormalHook;
     }
 
-    public HookType? GetHookIgnoreEnable(BiteType bite)
+    public HookType? GetHook(BiteType bite, double timePassed)
     {
-        bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+        var hookset = GetHookset();
 
-        var hook = GetDoubleTripleHook(bite);
-
-        if (hook == null || hook != HookType.None)
-            return hook;
-
-        if (hasIntuition)
-            return GetIntuitionHook(bite);
-        else
-            return GetPatienceHook(bite);
-    }
-
-    public bool CheckHookEnabled(BiteType bite) =>
-        bite == BiteType.Weak ? HookWeakEnabled :
-        bite == BiteType.Strong ? HookStrongEnabled :
-        bite == BiteType.Legendary ? HookLegendaryEnabled : false;
-
-    public bool CheckHookIntuitionEnabled(BiteType bite) =>
-        bite == BiteType.Weak ? HookWeakIntuitionEnabled :
-        bite == BiteType.Strong ? HookStrongIntuitionEnabled :
-        bite == BiteType.Legendary ? HookLegendaryIntuitionEnabled : false;
-
-    public bool CheckHookSurfaceSlapEnabled(BiteType bite) =>
-        bite == BiteType.Weak ? HookWeakOnlyWhenActiveSlap :
-        bite == BiteType.Strong ? HookStrongOnlyWhenActiveSlap :
-        bite == BiteType.Legendary ? HookLegendaryOnlyWhenActiveSlap : false;
-
-    public bool CheckHookSurfaceSlapNOTEnabled(BiteType bite) =>
-        bite == BiteType.Weak ? HookWeakOnlyWhenNOTActiveSlap :
-        bite == BiteType.Strong ? HookStrongOnlyWhenNOTActiveSlap :
-        bite == BiteType.Legendary ? HookLegendaryOnlyWhenNOTActiveSlap : false;
-
-    public bool CheckHookDHTHEnabled(BiteType bite) =>
-        bite == BiteType.Weak ? HookWeakDHTHEnabled :
-        bite == BiteType.Strong ? HookStrongDHTHEnabled :
-        bite == BiteType.Legendary ? HookLegendaryDHTHEnabled : false;
-    
-    private HookType GetPatienceHook(BiteType bite) => bite switch
-    {
-        BiteType.Weak => HookTypeWeak,
-        BiteType.Strong => HookTypeStrong,
-        BiteType.Legendary => HookTypeLegendary,
-        _ => HookType.None,
-    };
-
-    private HookType GetIntuitionHook(BiteType bite) => bite switch
-    {
-        BiteType.Weak => HookTypeWeakIntuition,
-        BiteType.Strong => HookTypeStrongIntuition,
-        BiteType.Legendary => HookTypeLegendaryIntuition,
-        _ => HookType.None,
-    };
-
-    private HookType? GetDoubleTripleHook(BiteType bite)
-    {
-        if (UseTripleHook || UseDoubleHook)
+        var hookDictionary = new Dictionary<BiteType, (BaseBiteConfig th, BaseBiteConfig dh, BaseBiteConfig ph)>
         {
-            if (UseDHTHOnlyIdenticalCast && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
-                return HookType.None;
+            { BiteType.Weak, (hookset.TripleWeak, hookset.DoubleWeak, hookset.PatienceWeak) },
+            { BiteType.Strong, (hookset.TripleStrong, hookset.DoubleStrong, hookset.PatienceStrong) },
+            { BiteType.Legendary, (hookset.TripleLegendary, hookset.DoubleLegendary, hookset.PatienceLegendary) }
+        };
 
-            if (UseDHTHOnlySurfaceSlap && !PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
-                return HookType.None;
+        if (hookDictionary.TryGetValue(bite, out var hook))
+        {
+            if (hookset.UseTripleHook && hook.th.HooksetEnabled && CheckHook(hook.th, timePassed))
+                return hook.th.HooksetType;
 
-            if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
-                return HookType.None;
+            if (hookset.UseDoubleHook && hook.dh.HooksetEnabled && CheckHook(hook.dh, timePassed))
+                return hook.dh.HooksetType;
 
-            if (UseTripleHook && PlayerResources.GetCurrentGp() >= 700 && CheckHookDHTHEnabled(bite))
-                return HookType.Triple;
-
-            if (UseDoubleHook && PlayerResources.GetCurrentGp() >= 400 && CheckHookDHTHEnabled(bite))
-                return HookType.Double;
-
-            if (LetFishEscape)
-                return null;
+            if (hook.ph.HooksetEnabled && CheckHook(hook.ph, timePassed))
+                return hook.ph.HooksetType;
         }
 
         return HookType.None;
     }
-    
-    
+
+    public HookType? GetHookType(BiteType bite, BaseHookset hook, double timer)
+    {
+        if (bite == BiteType.Weak)
+        {
+            if (hook.UseTripleHook && hook.TripleWeak.HooksetEnabled && CheckHook(hook.TripleWeak, timer))
+                return hook.TripleWeak.HooksetType;
+
+            if (hook.UseDoubleHook && hook.DoubleWeak.HooksetEnabled && CheckHook(hook.DoubleWeak, timer))
+                return hook.DoubleWeak.HooksetType;
+
+            if (hook.PatienceWeak.HooksetEnabled && CheckHook(hook.PatienceWeak, timer))
+                return hook.PatienceWeak.HooksetType;
+        }
+        else if (bite == BiteType.Strong)
+        {
+            if (hook.UseTripleHook && hook.TripleStrong.HooksetEnabled && CheckHook(hook.TripleStrong, timer))
+                return hook.TripleStrong.HooksetType;
+
+            if (hook.UseDoubleHook && hook.DoubleStrong.HooksetEnabled && CheckHook(hook.DoubleStrong, timer))
+                return hook.DoubleStrong.HooksetType;
+
+            if (hook.PatienceStrong.HooksetEnabled && CheckHook(hook.PatienceStrong, timer))
+                return hook.PatienceStrong.HooksetType;
+        }
+        else if (bite == BiteType.Legendary)
+        {
+            if (hook.UseTripleHook && hook.TripleLegendary.HooksetEnabled && CheckHook(hook.TripleLegendary, timer))
+                return hook.TripleLegendary.HooksetType;
+
+            if (hook.UseDoubleHook && hook.DoubleLegendary.HooksetEnabled && CheckHook(hook.DoubleLegendary, timer))
+                return hook.DoubleLegendary.HooksetType;
+
+            if (hook.PatienceLegendary.HooksetEnabled && CheckHook(hook.PatienceLegendary, timer))
+                return hook.PatienceLegendary.HooksetType;
+        }
+
+        return HookType.None;
+    }
+
+    private bool CheckHook(BaseBiteConfig hookType, double timePassed)
+    {
+        if (!CheckIdenticalCast(hookType))
+            return false;
+
+        if (!CheckSurfaceSlap(hookType))
+            return false;
+
+        if (!CheckTimer(hookType, timePassed))
+            return false;
+
+        return true;
+    }
+
+    private bool CheckIdenticalCast(BaseBiteConfig hookType)
+    {
+        if (hookType.OnlyWhenActiveIdentical && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+            return false;
+
+        if (hookType.OnlyWhenNotActiveIdentical && PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+            return false;
+
+        return true;
+    }
+
+    private bool CheckSurfaceSlap(BaseBiteConfig hookType)
+    {
+        if (hookType.OnlyWhenActiveSlap && !PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+            return false;
+
+        if (hookType.OnlyWhenNotActiveSlap && PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+            return false;
+
+        return true;
+    }
+
+    private bool CheckTimer(BaseBiteConfig hookType, double timePassed)
+    {
+        var minimumTime = hookType.MinHookTimer;
+        var maximumTime = hookType.MaxHookTimer;
+
+        if (PlayerResources.HasStatus(IDs.Status.Chum))
+        {
+            minimumTime = hookType.ChumMinHookTimer;
+            maximumTime = hookType.ChumMaxHookTimer;
+        }
+
+        if (minimumTime > 0 && timePassed < minimumTime)
+        {
+            Service.PrintDebug(@"[CheckTimer] minimum time has not been met: " + timePassed + @" < " + minimumTime);
+            return false;
+        }
+
+        if (maximumTime > 0 && timePassed > maximumTime)
+        {
+            Service.PrintDebug(@"[CheckTimer] maximum time has been exceeded: " + timePassed + @" > " + maximumTime);
+            return false;
+        }
+
+        return true;
+    }
+
     public Guid GetUniqueId()
     {
         if (_uniqueId == Guid.Empty)
             _uniqueId = Guid.NewGuid();
-        
+
         return _uniqueId;
     }
-    
+
     public override bool Equals(object? obj)
     {
         return obj is HookConfig settings &&
@@ -208,6 +178,171 @@ public class HookConfig
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(BaitFish?.Name + @"a");
+        return HashCode.Combine(GetUniqueId());
+    }
+    
+    [NonSerialized]private bool HookWeakEnabled = true;
+    [NonSerialized]private bool HookWeakOnlyWhenActiveSlap = false;
+    [NonSerialized]private bool HookWeakOnlyWhenNOTActiveSlap = false;
+    [NonSerialized]private HookType HookTypeWeak = HookType.Precision;
+
+    [NonSerialized]private bool HookStrongEnabled = true;
+    [NonSerialized]private bool HookStrongOnlyWhenActiveSlap = false;
+    [NonSerialized]private bool HookStrongOnlyWhenNOTActiveSlap = false;
+    [NonSerialized]private HookType HookTypeStrong = HookType.Powerful;
+
+    [NonSerialized]private bool HookLegendaryEnabled = true;
+    [NonSerialized]private bool HookLegendaryOnlyWhenActiveSlap = false;
+    [NonSerialized]private bool HookLegendaryOnlyWhenNOTActiveSlap = false;
+    [NonSerialized]private HookType HookTypeLegendary = HookType.Powerful;
+
+    [NonSerialized]private bool HookWeakIntuitionEnabled = true;
+    [NonSerialized]private HookType HookTypeWeakIntuition = HookType.Precision;
+
+    [NonSerialized]private bool HookStrongIntuitionEnabled = true;
+    [NonSerialized]private HookType HookTypeStrongIntuition = HookType.Powerful;
+
+    [NonSerialized]private bool HookLegendaryIntuitionEnabled = true;
+    [NonSerialized]private HookType HookTypeLegendaryIntuition = HookType.Powerful;
+
+    [NonSerialized]private bool UseDoubleHook = false;
+    [NonSerialized]private bool UseTripleHook = false;
+    [NonSerialized]private bool LetFishEscape = false;
+
+    [NonSerialized]private bool HookWeakDHTHEnabled = true;
+    [NonSerialized]private bool HookStrongDHTHEnabled = true;
+    [NonSerialized]private bool HookLegendaryDHTHEnabled = true;
+
+    //[NonSerialized] public bool UseDHTHPatience = false;
+    [NonSerialized] private bool UseDHTHOnlyIdenticalCast = false;
+    [NonSerialized] private bool UseDHTHOnlySurfaceSlap = false;
+
+    [NonSerialized] private bool UseChumTimer = false;
+    [NonSerialized] private double MaxChumTimeDelay = 0;
+    [NonSerialized] private double MinChumTimeDelay = 0;
+
+    [NonSerialized] private double MaxTimeDelay = 0;
+    [NonSerialized] private double MinTimeDelay = 0;
+    [NonSerialized] private bool StopAfterCaught = false;
+    [NonSerialized] private int StopAfterCaughtLimit = 1;
+    [NonSerialized] private bool StopAfterResetCount = false;
+
+    [NonSerialized] private FishingSteps StopFishingStep = FishingSteps.None;
+
+    public void ConvertV3ToV4()
+    {
+        Convert(NormalHook, false);
+        Convert(IntuitionHook, true);
+    }
+
+    private void Convert(BaseHookset hookset, bool isIntuition)
+    {
+        Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)> normal;
+
+        if (isIntuition)
+        {
+            normal = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+            {
+                {
+                    hookset.PatienceWeak,
+                    (HookWeakIntuitionEnabled, HookTypeWeakIntuition, false, false)
+                },
+                {
+                    hookset.PatienceStrong,
+                    (HookStrongIntuitionEnabled, HookTypeStrongIntuition, false, false)
+                },
+                {
+                    hookset.PatienceLegendary,
+                    (HookLegendaryIntuitionEnabled, HookTypeLegendaryIntuition, false, false)
+                },
+            };
+        }
+        else
+        {
+            normal = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+            {
+                {
+                    hookset.PatienceWeak,
+                    (HookWeakEnabled, HookTypeWeak, HookWeakOnlyWhenActiveSlap, HookWeakOnlyWhenNOTActiveSlap)
+                },
+                {
+                    hookset.PatienceStrong,
+                    (HookStrongEnabled, HookTypeStrong, HookStrongOnlyWhenActiveSlap, HookStrongOnlyWhenNOTActiveSlap)
+                },
+                {
+                    hookset.PatienceLegendary,
+                    (HookLegendaryEnabled, HookTypeLegendary, HookLegendaryOnlyWhenActiveSlap,
+                        HookLegendaryOnlyWhenNOTActiveSlap)
+                },
+            };
+        }
+
+        var doubleHook = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+        {
+            {
+                hookset.DoubleWeak,
+                (HookWeakDHTHEnabled, HookType.Double, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+            },
+            {
+                hookset.DoubleStrong,
+                (HookStrongDHTHEnabled, HookType.Double, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+            },
+            {
+                hookset.DoubleLegendary,
+                (HookLegendaryDHTHEnabled, HookType.Double, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+            }
+        };
+
+        var tripleHook = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+        {
+            {
+                hookset.TripleWeak,
+                (HookWeakDHTHEnabled, HookType.Triple, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+            },
+            {
+                hookset.TripleStrong,
+                (HookStrongDHTHEnabled, HookType.Triple, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+            },
+            {
+                hookset.TripleLegendary,
+                (HookLegendaryDHTHEnabled, HookType.Triple, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+            }
+        };
+
+        var list = new List<Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>>
+            { normal, doubleHook, tripleHook };
+
+        foreach (var dict in list)
+        {
+            foreach (var (bite, (enabled, type, onlyIdentical, onlySlap)) in dict)
+            {
+                bite.HooksetEnabled = enabled;
+                bite.HooksetType = type;
+                bite.OnlyWhenActiveIdentical = onlyIdentical;
+                bite.OnlyWhenActiveSlap = onlySlap;
+
+                bite.MinHookTimer = MinTimeDelay;
+                bite.MaxHookTimer = MaxTimeDelay;
+
+                if (MinTimeDelay > 0 || MaxTimeDelay > 0)
+                {
+                    bite.HookTimerEnabled = true;
+                }
+                bite.ChumMinHookTimer = MinChumTimeDelay;
+                bite.ChumMaxHookTimer = MaxChumTimeDelay;
+                bite.ChumTimerEnabled = UseChumTimer;
+            }
+        }
+
+        hookset.UseDoubleHook = UseDoubleHook;
+        hookset.LetFishEscapeDoubleHook = LetFishEscape;
+
+        hookset.UseTripleHook = UseTripleHook;
+        hookset.LetFishEscapeTripleHook = LetFishEscape;
+
+        hookset.StopAfterCaught = StopAfterCaught;
+        hookset.StopAfterCaughtLimit = StopAfterCaughtLimit;
+        hookset.StopAfterResetCount = StopAfterResetCount;
+        hookset.StopFishingStep = StopFishingStep;
     }
 }

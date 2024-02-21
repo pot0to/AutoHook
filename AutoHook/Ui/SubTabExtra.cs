@@ -41,7 +41,7 @@ public class SubTabExtra
         if (!IsDefaultPreset)
         {
             if (Service.Configuration.HookPresets.DefaultPreset.ExtraCfg.Enabled && !config.Enabled)
-                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Default_Extra_Being_Used);
+                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Global_Extra_Being_Used);
             else if (!config.Enabled)
                 ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.SubExtra_Disabled);
         }
@@ -61,7 +61,7 @@ public class SubTabExtra
         ImGui.BeginGroup();
         if (ImGui.TreeNodeEx(UIStrings.When_gaining_fishers_intuition, ImGuiTreeNodeFlags.FramePadding))
         {
-            ImGui.PushID("gaining_intuition");
+            ImGui.PushID(@"gaining_intuition");
             ImGui.Spacing();
             DrawSwapPresetIntuitionGain(config);
             DrawSwapBaitIntuitionGain(config);
@@ -73,10 +73,18 @@ public class SubTabExtra
         
         if (ImGui.TreeNodeEx(UIStrings.When_losing_fishers_intuition, ImGuiTreeNodeFlags.FramePadding))
         {
-            ImGui.PushID("losing_intuition");
+            ImGui.PushID(@"losing_intuition");
             ImGui.Spacing();
             DrawSwapPresetIntuitionLost(config);
             DrawSwapBaitIntuitionLost(config);
+            if (DrawUtil.Checkbox(UIStrings.Quit_Fishing_On_IntuitionLost, ref config.QuitOnIntuitionLost))
+                Service.Save();
+            
+            if (DrawUtil.Checkbox(UIStrings.Stop_Fishing_On_IntuitionLost, ref config.StopOnIntuitionLost))
+                Service.Save();
+            
+            DrawUtil.SpacingSeparator();
+            
             ImGui.PopID();
             ImGui.TreePop();
         }
@@ -86,7 +94,7 @@ public class SubTabExtra
         ImGui.Spacing();
         if (ImGui.TreeNodeEx(UIStrings.When_gaining_spectral_current, ImGuiTreeNodeFlags.FramePadding))
         {
-            ImGui.PushID("gaining_spectral");
+            ImGui.PushID(@"gaining_spectral");
             ImGui.Spacing();
             DrawSwapPresetSpectralGain(config);
             DrawSwapBaitSpectralGain(config);
@@ -98,7 +106,7 @@ public class SubTabExtra
 
         if (ImGui.TreeNodeEx(UIStrings.When_losing_spectral_current, ImGuiTreeNodeFlags.FramePadding))
         {
-            ImGui.PushID("losing_spectral");
+            ImGui.PushID(@"losing_spectral");
             ImGui.Spacing();
             DrawSwapPresetSpectralLost(config);
             DrawSwapBaitSpectralLost(config);
@@ -115,18 +123,7 @@ public class SubTabExtra
 
         DrawUtil.SpacingSeparator();
 
-        if (DrawUtil.Checkbox(UIStrings.Quit_Fishing_On_IntuitionLost, ref config.QuitOnIntuitionLost))
-        {
-            Service.Save();
-        }
-
-        DrawUtil.SpacingSeparator();
-
-        if (DrawUtil.Checkbox(UIStrings.Stop_Fishing_On_IntuitionLost, ref config.StopOnIntuitionLost))
-        {
-            Service.Save();
-        }
-
+        
         DrawUtil.SpacingSeparator();
         ImGui.EndGroup();
     }
@@ -134,7 +131,7 @@ public class SubTabExtra
     #region Fishers Intuition
     private void DrawSwapPresetIntuitionGain(ExtraConfig config)
     {
-        ImGui.PushID("DrawSwapPresetIntuitionGain");
+        ImGui.PushID(@"DrawSwapPresetIntuitionGain");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetIntuitionGain,
             () =>
             {
@@ -150,7 +147,7 @@ public class SubTabExtra
 
     private void DrawSwapBaitIntuitionGain(ExtraConfig config)
     {
-        ImGui.PushID("DrawSwapBaitIntuitionGain");
+        ImGui.PushID(@"DrawSwapBaitIntuitionGain");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitIntuitionGain,
             () =>
             {
@@ -167,7 +164,7 @@ public class SubTabExtra
     
     private void DrawSwapPresetIntuitionLost(ExtraConfig config)
     {
-        ImGui.PushID("DrawSwapPresetIntuitionLost");
+        ImGui.PushID(@"DrawSwapPresetIntuitionLost");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetIntuitionLost,
             () =>
             {
@@ -183,7 +180,7 @@ public class SubTabExtra
 
     private void DrawSwapBaitIntuitionLost(ExtraConfig config)
     {
-        ImGui.PushID("DrawSwapBaitIntuitionLost");
+        ImGui.PushID(@"DrawSwapBaitIntuitionLost");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitIntuitionLost,
             () =>
             {
@@ -202,7 +199,7 @@ public class SubTabExtra
     #region Spectral Current
     private void DrawSwapPresetSpectralGain(ExtraConfig config)
     {
-        ImGui.PushID($"{nameof(DrawSwapPresetSpectralGain)}");
+        ImGui.PushID(@$"{nameof(DrawSwapPresetSpectralGain)}");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetSpectralCurrentGain,
             () =>
             {
@@ -218,7 +215,7 @@ public class SubTabExtra
 
     private void DrawSwapBaitSpectralGain(ExtraConfig config)
     {
-        ImGui.PushID($"{nameof(DrawSwapBaitSpectralGain)}");
+        ImGui.PushID(@$"{nameof(DrawSwapBaitSpectralGain)}");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitSpectralCurrentGain,
             () =>
             {
@@ -235,7 +232,7 @@ public class SubTabExtra
 
     private void DrawSwapPresetSpectralLost(ExtraConfig config)
     {
-        ImGui.PushID($"{nameof(DrawSwapPresetSpectralLost)}");
+        ImGui.PushID(@$"{nameof(DrawSwapPresetSpectralLost)}");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetSpectralCurrentLost,
             () =>
             {
@@ -251,7 +248,7 @@ public class SubTabExtra
 
     private void DrawSwapBaitSpectralLost(ExtraConfig config)
     {
-        ImGui.PushID($"{nameof(DrawSwapBaitSpectralLost)}");
+        ImGui.PushID(@$"{nameof(DrawSwapBaitSpectralLost)}");
         DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitSpectralCurrentLost,
             () =>
             {

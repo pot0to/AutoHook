@@ -164,4 +164,17 @@ public class PresetConfig
     {
         PresetName = name;
     }
+
+    public void ConvertV3ToV4()
+    {
+        foreach (var item in ListOfBaits)
+        {
+            item.ConvertV3ToV4();
+        }
+        
+        foreach (var item in ListOfMooch)
+        {
+            item.ConvertV3ToV4();
+        }
+    }
 }
