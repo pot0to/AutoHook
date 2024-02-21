@@ -138,7 +138,7 @@ public class PluginUi : Window, IDisposable
     {
         if (ImGui.Button(@"Check"))
         {
-            Service.Configuration.Version = 4;
+            Service.Configuration.Version = 3;
         }
     }
 

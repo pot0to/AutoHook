@@ -167,7 +167,6 @@ public class PresetConfig
 
     public void ConvertV3ToV4()
     {
-        
         foreach (var item in ListOfBaits)
         {
             item.ConvertV3ToV4();
