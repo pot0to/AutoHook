@@ -545,6 +545,9 @@
   <data name="Surface_Slap" xml:space="preserve">
     <value>拍击水面</value>
   </data>
+  <data name="Surface_Slap_Options" xml:space="preserve">
+    <value>拍打水面选项</value>
+  </data>
   <data name="Identical_Cast" xml:space="preserve">
     <value>专一垂钓</value>
   </data>
@@ -797,6 +800,9 @@
   <data name="SubAuto_Disabled" xml:space="preserve">
     <value>自动抛竿已关闭</value>
   </data>
+  <data name="SubExtra_Disabled" xml:space="preserve">
+    <value>已禁用额外选项</value>
+  </data>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
     <value>[默认] 正在使用自动抛竿</value>
   </data>
@@ -854,5 +860,80 @@
   </data>
   <data name="Delay_when_hooking" xml:space="preserve">
     <value>延迟提勾</value>
+  </data>
+  <data name="Preset_not_found" xml:space="preserve">
+    <value>未找到预设</value>
+  </data>
+  <data name="Set_preset_command" xml:space="preserve">
+    <value>用聊天命令设置自定义预设 ： /ahpreset 预设名称</value>
+  </data>
+  <data name="Preset_set_to_" xml:space="preserve">
+    <value>预设设置为：</value>
+  </data>
+  <data name="When_gaining_spectral_current" xml:space="preserve">
+    <value>当幻海流处于活动状态时...</value>
+  </data>
+  <data name="When_losing_spectral_current" xml:space="preserve">
+    <value>当幻海流处于非活动状态时...</value>
+  </data>
+  <data name="OnlyUseWhenActiveSurfaceSlap" xml:space="preserve">
+    <value>仅当拍打水面激活时使用</value>
+  </data>
+  <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
+    <value>仅当拍打水面未激活时使用</value>
+  </data>
+  <data name="Collect" xml:space="preserve">
+    <value>收集</value>
+  </data>
+  <data name="RefreshWhenTimeIsLessThanOrEqual" xml:space="preserve">
+    <value>当buff计时器小于或等于.. 时刷新</value>
+  </data>
+  <data name="Use_Cordials_First" xml:space="preserve">
+    <value>在沙利亚克的恩宠之前使用强心剂</value>
+  </data>
+  <data name="Use_Cordials_First_Help" xml:space="preserve">
+    <value>仅在使用强心剂时应用</value>
+  </data>
+  <data name="Show_Presets_As_Sidebar" xml:space="preserve">
+    <value>将预设菜单作为侧边栏</value>
+  </data>
+  <data name="Ignore_When_Intuition" xml:space="preserve">
+    <value>当直觉激活时忽略鱼类设置</value>
+  </data>
+  <data name="Reset_the_counter" xml:space="preserve">
+    <value>重置计时器</value>
+  </data>
+  <data name="Reset_counter_after_swapping_presets" xml:space="preserve">
+    <value>交换预设后重置钩/鱼计数器</value>
+  </data>
+  <data name="Only_use_when_Cordial_is_available" xml:space="preserve">
+    <value>仅在强心剂可用时使用</value>
+  </data>
+  <data name="Only_use_when_the_fish_is_caught" xml:space="preserve">
+    <value>仅在捕获鱼时使用</value>
+  </data>
+  <data name="UIUseCurrentBait" xml:space="preserve">
+    <value>从游戏中选择当前选中的鱼饵</value>
+  </data>
+  <data name="AutoCastEndTime" xml:space="preserve">
+    <value>结束时间允许自动抛竿</value>
+  </data>
+  <data name="AutoCastStartTime" xml:space="preserve">
+    <value>允许自动抛竿的起始时间</value>
+  </data>
+  <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
+    <value>只在特定时间(艾欧泽亚时间) 允许自动抛竿</value>
+  </data>
+  <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
+    <value>失去直觉时退出钓鱼</value>
+  </data>
+  <data name="Stop_Fishing_On_IntuitionLost" xml:space="preserve">
+    <value>失去直觉时停止钓鱼</value>
+  </data>
+  <data name="Auto_Cast_Sort_Notice" xml:space="preserve">
+    <value>技能将从上到下使用。点击箭头按钮重新排序。</value>
+  </data>
+  <data name="Current_Selected_Preset" xml:space="preserve">
+    <value>当前选中的预设：</value>
   </data>
 </root>
