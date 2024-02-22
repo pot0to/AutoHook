@@ -111,10 +111,13 @@ public class HookConfig
         double minimumTime = 0;
         double maximumTime = 0;
         
-        if (PlayerResources.HasStatus(IDs.Status.Chum) && hookType.ChumTimerEnabled)
+        if (PlayerResources.HasStatus(IDs.Status.Chum))
         {
-            minimumTime = hookType.ChumMinHookTimer;
-            maximumTime = hookType.ChumMaxHookTimer;
+            if (hookType.ChumTimerEnabled)
+            {
+                minimumTime = hookType.ChumMinHookTimer;
+                maximumTime = hookType.ChumMaxHookTimer;
+            }
         }
         else if (hookType.HookTimerEnabled)
         {
