@@ -108,13 +108,18 @@ public class HookConfig
 
     private bool CheckTimer(BaseBiteConfig hookType, double timePassed)
     {
-        var minimumTime = hookType.MinHookTimer;
-        var maximumTime = hookType.MaxHookTimer;
-
-        if (PlayerResources.HasStatus(IDs.Status.Chum))
+        double minimumTime = 0;
+        double maximumTime = 0;
+        
+        if (PlayerResources.HasStatus(IDs.Status.Chum) && hookType.ChumTimerEnabled)
         {
             minimumTime = hookType.ChumMinHookTimer;
             maximumTime = hookType.ChumMaxHookTimer;
+        }
+        else if (hookType.HookTimerEnabled)
+        {
+            minimumTime = hookType.MinHookTimer;
+            maximumTime = hookType.MaxHookTimer;
         }
 
         if (minimumTime > 0 && timePassed < minimumTime)
