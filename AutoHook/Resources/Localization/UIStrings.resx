@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -952,7 +952,7 @@ Check the Guide Tab for Guides.</value>
     <value>Starting time to allow auto casting</value>
   </data>
   <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
-    <value>Allows auto cast to only work at specific times (Eorzea Time)</value>
+    <value>Auto Cast only at specific times (Eorzea Time)</value>
   </data>
   <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
     <value>Quits fishing when intuition is lost</value>
@@ -967,7 +967,7 @@ Check the Guide Tab for Guides.</value>
     <value>Current selected preset:</value>
   </data>
   <data name="AutoCastOnlyUnderFishEyes" xml:space="preserve">
-    <value>Allows auto cast to only work if Fish Eyes is active. If time filter is enabled, this is ignored during time window.</value>
+    <value>Only use when Fish Eyes is active.</value>
   </data>
   <data name="HookType" xml:space="preserve">
     <value>Hook Type</value>
@@ -1032,5 +1032,8 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="NormalPatienceHookset" xml:space="preserve">
     <value>Normal Hook / Patience Hookset</value>
+  </data>
+  <data name="AutoCastOnlyUnderFishEyesHelpText" xml:space="preserve">
+    <value>If time filter is enabled, this is ignored during time window</value>
   </data>
 </root>

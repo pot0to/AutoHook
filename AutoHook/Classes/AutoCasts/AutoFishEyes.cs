@@ -8,11 +8,12 @@ public class AutoFishEyes : BaseActionCast
 {
     public override int Priority { get; set; } = 6;
     public override bool IsExcludedPriority { get; set; } = false;
-    public override bool RequiresAutoCastAvailable() => true;
+    public override bool RequiresTimeWindow() => true;
 
+    public override bool DoesCancelMooch() => true;
+    
     public AutoFishEyes() : base(UIStrings.Fish_Eyes, IDs.Actions.FishEyes, ActionType.Action)
     {
-        DoesCancelMooch = true;
         HelpText = UIStrings.CancelsCurrentMooch;
     }
 

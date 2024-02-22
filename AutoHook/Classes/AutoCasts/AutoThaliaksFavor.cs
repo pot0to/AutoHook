@@ -27,16 +27,16 @@ public class AutoThaliaksFavor : BaseActionCast
 
         bool notOvercaped = (PlayerResources.GetCurrentGp() + ThaliaksFavorRecover) < PlayerResources.GetMaxGp();
 
-        var cordialConfig = AutoHook.Plugin.HookManager.GetAutoCastCfg().CastCordial;
+        /*var cordialConfig = AutoHook.Plugin.HookManager.GetAutoCastCfg().CastCordial;
         bool hasCordial = false;
         foreach (var cordial in  cordialConfig._cordialList)
         {
             hasCordial |= PlayerResources.HaveCordialInInventory(cordial.Item1);
         }
         bool pendingCordial = cordialConfig.Enabled && PlayerResources.IsPotOffCooldown() && hasCordial;
-        bool allowedToUse = UseCordialsFirst ? !pendingCordial : true;
+        bool allowedToUse = UseCordialsFirst ? !pendingCordial : true;*/
 
-        return hasStacks && notOvercaped && allowedToUse; // dont use if its going to overcap gp
+        return hasStacks && notOvercaped; // dont use if its going to overcap gp
     }
     
     protected override DrawOptionsDelegate DrawOptions => () =>
@@ -48,8 +48,9 @@ public class AutoThaliaksFavor : BaseActionCast
             ThaliaksFavorStacks = Math.Max(3, Math.Min(stack, 10));
             Service.Save();
         }
-        if (DrawUtil.Checkbox(UIStrings.Use_Cordials_First,ref UseCordialsFirst, UIStrings.Use_Cordials_First_Help))
-            Service.Save();
+        // not needed anymore because of priority system
+        /*if (DrawUtil.Checkbox(UIStrings.Use_Cordials_First,ref UseCordialsFirst, UIStrings.Use_Cordials_First_Help))
+            Service.Save();*/
     };
 
     public override int Priority { get; set; } = 16;

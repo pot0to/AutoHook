@@ -308,7 +308,14 @@ public class PluginUi : Window, IDisposable
             {
                 MainChanges =
                 {
-                    "'Ill add it later"
+                    "!!! Another rework on the hooking configuration !!!",
+                    "Each Bite (!, !! ,!!!) has its own configuration",
+                    "You can now make a separate hooking config. for intuition"
+                },
+                MinorChanges =
+                {
+                    "Bait/Mooch tab were moved to a new Hooking tab",
+                    "Default Preset was renamed to Global Preset"
                 }
             },
             new Version("4.0.0.8")

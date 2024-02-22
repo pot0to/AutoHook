@@ -1,5 +1,4 @@
 using AutoHook.Data;
-using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
@@ -9,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using AutoHook.Resources.Localization;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace AutoHook.Classes;
 
@@ -26,9 +27,9 @@ public abstract class BaseActionCast
             GpThreshold = (int)PlayerResources.CastActionCost(Id, ActionType);
     }
 
-    [NonSerialized] public string Name;
+    public string Name;
     
-    [NonSerialized] public string HelpText = @"";
+    public string HelpText = @"";
 
     public bool Enabled;
 
@@ -38,15 +39,19 @@ public abstract class BaseActionCast
 
     public bool GpThresholdAbove { get; set; } = true;
 
-    public bool DoesCancelMooch { get; set; }
+    public virtual bool DoesCancelMooch() => false;
 
     public bool DontCancelMooch = true;
-
-    public virtual bool RequiresAutoCastAvailable() => false;
-
+    
+    public virtual bool RequiresAutoCastAvailabl() => false;
+    
+    public virtual bool RequiresTimeWindow() => false;
+    
     public virtual int Priority { get; set; }
 
     public ActionType ActionType { get; protected init; }
+    
+    
 
     public virtual void SetThreshold(int newCost)
     {
@@ -62,8 +67,10 @@ public abstract class BaseActionCast
         if (!Enabled)
             return false;
 
-        if (DoesCancelMooch && PlayerResources.IsMoochAvailable() && DontCancelMooch)
+        if (DoesCancelMooch() && PlayerResources.IsMoochAvailable() && DontCancelMooch)
+        {
             return false;
+        }
 
         var condition = CastCondition();
 
@@ -78,7 +85,7 @@ public abstract class BaseActionCast
 
         var actionAvailable = PlayerResources.ActionTypeAvailable(Id, ActionType);
 
-        Service.PluginLog.Debug(@$"[BaseAction] {Name} - {hasGp} - {actionAvailable} - {condition}");
+        Service.PrintDebug(@$"[BaseAction] Name:{Name} - has:{hasGp} - Available: {actionAvailable} - Condition: {condition}");
         return hasGp && actionAvailable && condition;
     }
 
@@ -134,7 +141,10 @@ public abstract class BaseActionCast
         else
         {
             if (DrawUtil.Checkbox(@$"###{GetName()}", ref Enabled, HelpText, true))
+            {
+                Service.PrintDebug(@$"[BaseAction] {Name} - {(Enabled ? @"Enabled" : @"Disabled")}");
                 Service.Save();
+            }
 
             ImGui.SameLine();
             ImGui.Text(@$"{GetName()}");
@@ -249,4 +259,7 @@ public abstract class BaseActionCast
 
         ImGui.PopID();
     }
+    
+    
+    
 }

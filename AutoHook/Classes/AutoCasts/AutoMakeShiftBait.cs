@@ -10,7 +10,7 @@ public class AutoMakeShiftBait : BaseActionCast
 {
     public int MakeshiftBaitStacks = 5;
     private bool _onlyUseWithIntuition;
-    public override bool RequiresAutoCastAvailable() => true;
+    public override bool RequiresTimeWindow() => true;
 
     public AutoMakeShiftBait() : base(UIStrings.MakeShift_Bait, IDs.Actions.MakeshiftBait, ActionType.Action)
     {

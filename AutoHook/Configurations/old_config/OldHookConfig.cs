@@ -77,102 +77,112 @@ public class OldHookConfig
     
     public void ConvertV3ToV4()
     {
+        Service.PrintDebug("Starting conversion");
+        
+        if (NormalHook == null)
+            NormalHook =  new(IDs.Status.None);
+
+        if (IntuitionHook == null)
+            IntuitionHook =  new(IDs.Status.None);
+        
         Convert(NormalHook, false);
         Convert(IntuitionHook, true);
     }
 
     private void Convert(BaseHookset hookset, bool isIntuition)
     {
-        Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)> normal;
+        Dictionary<BaseBiteConfig, (bool, HookType, bool, bool, bool)> normal;
 
         if (isIntuition)
         {
-            normal = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+            normal = new ()
             {
                 {
                     hookset.PatienceWeak,
-                    (HookWeakIntuitionEnabled, HookTypeWeakIntuition, false, false)
+                    (HookWeakIntuitionEnabled, HookTypeWeakIntuition, HookWeakOnlyWhenActiveSlap, HookWeakOnlyWhenNOTActiveSlap, false)
                 },
                 {
                     hookset.PatienceStrong,
-                    (HookStrongIntuitionEnabled, HookTypeStrongIntuition, false, false)
+                    (HookStrongIntuitionEnabled, HookTypeStrongIntuition, HookStrongOnlyWhenActiveSlap, HookStrongOnlyWhenNOTActiveSlap, false)
                 },
                 {
                     hookset.PatienceLegendary,
-                    (HookLegendaryIntuitionEnabled, HookTypeLegendaryIntuition, false, false)
+                    (HookLegendaryIntuitionEnabled, HookTypeLegendaryIntuition, HookLegendaryOnlyWhenActiveSlap, HookLegendaryOnlyWhenNOTActiveSlap, false)
                 },
             };
         }
         else
         {
-            normal = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+            normal = new()
             {
                 {
                     hookset.PatienceWeak,
-                    (HookWeakEnabled, HookTypeWeak, HookWeakOnlyWhenActiveSlap, HookWeakOnlyWhenNOTActiveSlap)
+                    (HookWeakEnabled, HookTypeWeak, HookWeakOnlyWhenActiveSlap, HookWeakOnlyWhenNOTActiveSlap, false)
                 },
                 {
                     hookset.PatienceStrong,
-                    (HookStrongEnabled, HookTypeStrong, HookStrongOnlyWhenActiveSlap, HookStrongOnlyWhenNOTActiveSlap)
+                    (HookStrongEnabled, HookTypeStrong, HookStrongOnlyWhenActiveSlap, HookStrongOnlyWhenNOTActiveSlap, false)
                 },
                 {
                     hookset.PatienceLegendary,
-                    (HookLegendaryEnabled, HookTypeLegendary, HookLegendaryOnlyWhenActiveSlap,
-                        HookLegendaryOnlyWhenNOTActiveSlap)
+                    (HookLegendaryEnabled, HookTypeLegendary, HookLegendaryOnlyWhenActiveSlap, HookLegendaryOnlyWhenNOTActiveSlap, false)
                 },
             };
         }
 
-        var doubleHook = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+        var doubleHook = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool, bool)>
         {
             {
                 hookset.DoubleWeak,
-                (HookWeakDHTHEnabled, HookType.Double, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+                (HookWeakDHTHEnabled, HookType.Double, UseDHTHOnlySurfaceSlap, false, UseDHTHOnlyIdenticalCast)
             },
             {
                 hookset.DoubleStrong,
-                (HookStrongDHTHEnabled, HookType.Double, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+                (HookStrongDHTHEnabled, HookType.Double, UseDHTHOnlySurfaceSlap, false, UseDHTHOnlyIdenticalCast)
             },
             {
                 hookset.DoubleLegendary,
-                (HookLegendaryDHTHEnabled, HookType.Double, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+                (HookLegendaryDHTHEnabled, HookType.Double, UseDHTHOnlySurfaceSlap, false, UseDHTHOnlyIdenticalCast)
             }
         };
 
-        var tripleHook = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>
+        var tripleHook = new Dictionary<BaseBiteConfig, (bool, HookType, bool, bool, bool)>
         {
             {
                 hookset.TripleWeak,
-                (HookWeakDHTHEnabled, HookType.Triple, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+                (HookWeakDHTHEnabled, HookType.Triple, UseDHTHOnlySurfaceSlap, false, UseDHTHOnlyIdenticalCast)
             },
             {
                 hookset.TripleStrong,
-                (HookStrongDHTHEnabled, HookType.Triple, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+                (HookStrongDHTHEnabled, HookType.Triple, UseDHTHOnlySurfaceSlap, false, UseDHTHOnlyIdenticalCast)
             },
             {
                 hookset.TripleLegendary,
-                (HookLegendaryDHTHEnabled, HookType.Triple, UseDHTHOnlyIdenticalCast, UseDHTHOnlySurfaceSlap)
+                (HookLegendaryDHTHEnabled, HookType.Triple, UseDHTHOnlySurfaceSlap, false, UseDHTHOnlyIdenticalCast)
             }
         };
 
-        var list = new List<Dictionary<BaseBiteConfig, (bool, HookType, bool, bool)>>
+        var list = new List<Dictionary<BaseBiteConfig, (bool, HookType, bool, bool, bool)>>
             { normal, doubleHook, tripleHook };
 
         foreach (var dict in list)
         {
-            foreach (var (bite, (enabled, type, onlyIdentical, onlySlap)) in dict)
+            foreach (var (bite, (enabled, type, slapActive, slapNotActive, identicalActive)) in dict)
             {
                 bite.HooksetEnabled = enabled;
                 bite.HooksetType = type;
-                bite.OnlyWhenActiveIdentical = onlyIdentical;
-                bite.OnlyWhenActiveSlap = onlySlap;
+                bite.OnlyWhenActiveSlap = slapActive;
+                bite.OnlyWhenNotActiveSlap = slapNotActive;
+                
+                bite.OnlyWhenActiveIdentical = identicalActive;
 
                 bite.MinHookTimer = MinTimeDelay;
                 bite.MaxHookTimer = MaxTimeDelay;
 
                 if (MinTimeDelay > 0 || MaxTimeDelay > 0)
+                {
                     bite.HookTimerEnabled = true;
-                
+                }
                 bite.ChumMinHookTimer = MinChumTimeDelay;
                 bite.ChumMaxHookTimer = MaxChumTimeDelay;
                 bite.ChumTimerEnabled = UseChumTimer;
