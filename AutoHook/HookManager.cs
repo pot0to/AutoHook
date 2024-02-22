@@ -1,4 +1,4 @@
-﻿using AutoHook.Classes;
+using AutoHook.Classes;
 using AutoHook.Configurations;
 using AutoHook.Data;
 using AutoHook.Enums;

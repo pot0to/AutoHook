@@ -1,4 +1,4 @@
-﻿using AutoHook.Resources.Localization;
+using AutoHook.Resources.Localization;
 using AutoHook.Ui;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
