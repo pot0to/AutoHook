@@ -207,16 +207,33 @@ public class PlayerResources : IDisposable
         {
             if (!ActionTypeAvailable(actionId, actionType))
                 return;
+            
             _blockCasting = true;
             Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
-            CastAction(actionId);
+            try
+            {
+                CastAction(actionId);
+            }
+            catch (Exception e)
+            {
+                Service.PrintDebug(@$"Error casting action: {actionName}, Id: {actionId}, {e}");
+            }
             DelayNextCast(actionId);
         }
         else if (actionType == ActionType.Item)
         {
             _blockCasting = true;
             Service.PrintDebug(@$"[PlayerResources] Using Item: {actionName}, Id: {actionId}");
-            UseItems(actionId);
+            Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
+            try
+            {
+                UseItems(actionId);
+            }
+            catch (Exception e)
+            {
+                Service.PrintDebug(@$"Error casting action: {actionName}, Id: {actionId}, {e}");
+            }
+            
             DelayNextCast(actionId);
         }
     }

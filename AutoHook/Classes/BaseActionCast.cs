@@ -1,6 +1,4 @@
-﻿using AutoHook.Classes.AutoCasts;
 using AutoHook.Data;
-using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
@@ -10,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using AutoHook.Resources.Localization;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace AutoHook.Classes;
 
@@ -27,26 +27,31 @@ public abstract class BaseActionCast
             GpThreshold = (int)PlayerResources.CastActionCost(Id, ActionType);
     }
 
-    public string Name { get; set; }
+    public string Name;
+    
+    public string HelpText = @"";
 
-    public bool Enabled = false;
+    public bool Enabled;
 
     public uint Id { get; set; }
 
-    public int GpThreshold = 0;
+    public int GpThreshold;
 
     public bool GpThresholdAbove { get; set; } = true;
 
-    public bool DoesCancelMooch { get; set; }
+    public virtual bool DoesCancelMooch() => false;
 
     public bool DontCancelMooch = true;
-
-    public virtual bool RequiresAutoCastAvailable() => false;
-
-    public string HelpText = "";
+    
+    public virtual bool RequiresAutoCastAvailabl() => false;
+    
+    public virtual bool RequiresTimeWindow() => false;
+    
     public virtual int Priority { get; set; }
 
     public ActionType ActionType { get; protected init; }
+    
+    
 
     public virtual void SetThreshold(int newCost)
     {
@@ -62,8 +67,10 @@ public abstract class BaseActionCast
         if (!Enabled)
             return false;
 
-        if (DoesCancelMooch && PlayerResources.IsMoochAvailable() && DontCancelMooch)
+        if (DoesCancelMooch() && PlayerResources.IsMoochAvailable() && DontCancelMooch)
+        {
             return false;
+        }
 
         var condition = CastCondition();
 
@@ -78,7 +85,7 @@ public abstract class BaseActionCast
 
         var actionAvailable = PlayerResources.ActionTypeAvailable(Id, ActionType);
 
-        Service.PluginLog.Debug($"[BaseAction] {Name} - {hasGp} - {actionAvailable} - {condition}");
+        Service.PrintDebug(@$"[BaseAction] Name:{Name} - has:{hasGp} - Available: {actionAvailable} - Condition: {condition}");
         return hasGp && actionAvailable && condition;
     }
 
@@ -93,21 +100,24 @@ public abstract class BaseActionCast
     protected virtual DrawOptionsDelegate? DrawOptions => null;
 
     public abstract bool IsExcludedPriority { get; set; }
-    public virtual void DrawConfig(List<BaseActionCast> availableActs = null)
+    public virtual void DrawConfig(List<BaseActionCast>? availableActs = null)
     {
-        ImGui.PushID($"{GetName()}_cfg");
+        ImGui.PushID(@$"{GetName()}_cfg");
 
         ImGui.Columns(3, null, false);
         ImGui.SetColumnWidth(0, 200f);
         ImGui.SetColumnWidth(1, 40f);
         if (DrawOptions != null)
         {
-            if (DrawUtil.Checkbox($"###{GetName()}", ref Enabled, HelpText, true))
+            if (DrawUtil.Checkbox(@$"###{GetName()}", ref Enabled, HelpText, true))
+            {
+                Service.PrintDebug(@$"[BaseAction] {Name} - {(Enabled ? @"Enabled" : @"Disabled")}");
                 Service.Save();
+            }
 
             ImGui.SameLine();
 
-            if (ImGui.TreeNodeEx($"{GetName()}", ImGuiTreeNodeFlags.FramePadding))
+            if (ImGui.TreeNodeEx(@$"{GetName()}", ImGuiTreeNodeFlags.FramePadding))
             {
                 ImGui.SameLine();
                 ImGui.NextColumn();
@@ -130,11 +140,14 @@ public abstract class BaseActionCast
         }
         else
         {
-            if (DrawUtil.Checkbox($"###{GetName()}", ref Enabled, HelpText, true))
+            if (DrawUtil.Checkbox(@$"###{GetName()}", ref Enabled, HelpText, true))
+            {
+                Service.PrintDebug(@$"[BaseAction] {Name} - {(Enabled ? @"Enabled" : @"Disabled")}");
                 Service.Save();
+            }
 
             ImGui.SameLine();
-            ImGui.Text($"{GetName()}");
+            ImGui.Text(@$"{GetName()}");
             ImGui.NextColumn();
             DrawGpThreshold();
             DrawUpDownArrows(availableActs);
@@ -144,12 +157,13 @@ public abstract class BaseActionCast
         ImGui.PopID();
     }
 
-    private void DrawUpDownArrows(List<BaseActionCast> availableActs)
+    private void DrawUpDownArrows(List<BaseActionCast>? availableActs)
     {
         if (availableActs is null || IsExcludedPriority) return;
+        
         if (GetPriority() == 0) //failsafe I guess
         {
-            Priority = availableActs.MaxBy(x => x.Priority).Priority + 1;
+            Priority = availableActs.MaxBy(x => x.Priority)!.Priority + 1;
         }
 
         ImGui.NextColumn();
@@ -159,7 +173,7 @@ public abstract class BaseActionCast
         if (!availableActs.Any(x => x.Priority < Priority && !x.IsExcludedPriority))
             ImGui.BeginDisabled();
 
-        if (ImGui.ArrowButton("###UpArrow", ImGuiDir.Up))
+        if (ImGui.ArrowButton(@"###UpArrow", ImGuiDir.Up))
         {
             if (availableActs.Any(x => x.Priority < Priority && !x.IsExcludedPriority))
             {
@@ -177,7 +191,7 @@ public abstract class BaseActionCast
         if (!availableActs.Any(x => x.Priority > Priority && !x.IsExcludedPriority))
             ImGui.BeginDisabled();
 
-        if (ImGui.ArrowButton("###DownArrow", ImGuiDir.Down))
+        if (ImGui.ArrowButton(@"###DownArrow", ImGuiDir.Down))
         {
             if (availableActs.Any(x => x.Priority > Priority && !x.IsExcludedPriority))
             {
@@ -193,20 +207,20 @@ public abstract class BaseActionCast
 
     public virtual void DrawGpThreshold()
     {
-        ImGui.PushID($"{GetName()}_gp");
-        if (ImGui.Button("GP"))
+        ImGui.PushID(@$"{GetName()}_gp");
+        if (ImGui.Button(@"GP"))
         {
             ImGui.OpenPopup(str_id: @"gp_cfg");
         }
 
         if (ImGui.BeginPopup(@"gp_cfg"))
         {
-            if (ImGui.BeginChild("gp_cfg2", new Vector2(175, 125), true))
+            if (ImGui.BeginChild(@"gp_cfg2", new Vector2(175, 125), true))
             {
-                if (ImGui.Button(" X "))
+                if (ImGui.Button(@" X "))
                     ImGui.CloseCurrentPopup();
                 ImGui.SameLine();
-                ImGui.TextColored(ImGuiColors.DalamudYellow, $"GP - {GetName()}");
+                ImGui.TextColored(ImGuiColors.DalamudYellow, @$"GP - {GetName()}");
 
                 if (ImGui.IsItemHovered())
                     ImGui.SetTooltip(
@@ -236,9 +250,7 @@ public abstract class BaseActionCast
                     SetThreshold(GpThreshold);
                     Service.Save();
                 }
-
-                // add a button to close the pop up
-
+                
                 ImGui.EndChild();
             }
 
@@ -247,4 +259,7 @@ public abstract class BaseActionCast
 
         ImGui.PopID();
     }
+    
+    
+    
 }

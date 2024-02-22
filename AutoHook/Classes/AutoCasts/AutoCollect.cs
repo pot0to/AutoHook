@@ -2,6 +2,7 @@
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.Game;
+
 namespace AutoHook.Classes.AutoCasts;
 
 public class AutoCollect : BaseActionCast
@@ -11,7 +12,7 @@ public class AutoCollect : BaseActionCast
 
     public AutoCollect() : base(UIStrings.Collect, IDs.Actions.Collect, ActionType.Ability)
     {
-
+        HelpText = UIStrings.CollectHelpText;
     }
 
     public override string GetName()

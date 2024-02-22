@@ -1,4 +1,4 @@
-﻿using AutoHook.Data;
+using AutoHook.Data;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -10,10 +10,12 @@ public class AutoMooch : BaseActionCast
     public AutoMooch2 Mooch2 = new();
 
     public bool OnlyMoochIntuition = false;
+    
+    public override bool RequiresTimeWindow() => true;
 
     public AutoMooch() : base(UIStrings.AutoMooch, Data.IDs.Actions.Mooch, ActionType.Action)
     {
-        DoesCancelMooch = false;
+        HelpText = UIStrings.AutoMooch_HelpText;
     }
 
     public override string GetName()

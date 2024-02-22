@@ -13,9 +13,10 @@ public class AutoPrizeCatch : BaseActionCast
 
     public bool UseOnlyWithActiveSlap = false;
 
+    public override bool DoesCancelMooch() => true;
+    
     public AutoPrizeCatch() : base(UIStrings.Prize_Catch, Data.IDs.Actions.PrizeCatch, ActionType.Action)
     {
-        DoesCancelMooch = true;
         HelpText = UIStrings.Use_Prize_Catch_HelpText;
     }
 

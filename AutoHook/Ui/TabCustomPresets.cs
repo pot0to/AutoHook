@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
+using AutoHook.Utils;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using ImGuiNET;
@@ -15,7 +16,7 @@ public class TabCustomPresets : BaseTab
     public override bool Enabled => true;
     public override string TabName => UIStrings.TabNameCustomPresets;
 
-    private PresetConfig? _tempImport = null;
+    private PresetConfig? _tempImport;
 
     private HookPresets _hookPresets = Service.Configuration.HookPresets;
 
@@ -24,49 +25,28 @@ public class TabCustomPresets : BaseTab
     private SubTabFish _subTabFish = new();
     private SubTabExtra _subTabExtra = new();
 
-    private bool _showDescription;
-
     public override void DrawHeader()
     {
+        DrawTabDescription(UIStrings.TabPresets_DrawHeader_NewTabDescription);
+
+        if (Service.Configuration.ShowPresetsAsSidebar)
+            return;
+        
+        DrawPresetSelectionDropdown();
+
+        ImGui.SameLine();
+
+        DrawAddPresetButton();
+
+        ImGui.SameLine();
+
+        DrawImportExport();
+
+        ImGui.SameLine();
+
+        DrawDeletePreset();
+
         ImGui.Spacing();
-
-
-        if (ImGui.TreeNodeEx(UIStrings.Tab_Description,
-                ImGuiTreeNodeFlags.DefaultOpen | ImGuiTreeNodeFlags.FramePadding))
-        {
-            _showDescription = true;
-            ImGui.TreePop();
-        }
-        else
-            _showDescription = false;
-
-        ImGui.Spacing();
-
-        if (_showDescription)
-        {
-            ImGui.TextWrapped(UIStrings.TabPresets_DrawHeader_NewTabDescription);
-
-            ImGui.Spacing();
-        }
-
-        if (!Service.Configuration.ShowPresetsAsSidebar)
-        {
-            DrawPresetSelectionDropdown();
-
-            ImGui.SameLine();
-
-            DrawAddPresetButton();
-
-            ImGui.SameLine();
-
-            DrawImportExport();
-
-            ImGui.SameLine();
-
-            DrawDeletePreset();
-
-            ImGui.Spacing();
-        }
     }
 
     public override void Draw()
@@ -75,13 +55,9 @@ public class TabCustomPresets : BaseTab
         {
             DrawListboxPresets();
         }
-        else
-        {
-            if (_hookPresets.SelectedPreset == null)
-                return;
-
+        else 
             DrawStandardTabs();
-        }
+        
     }
 
     private void DrawListboxPresets()
@@ -102,7 +78,7 @@ public class TabCustomPresets : BaseTab
 
         if (ImGui.BeginListBox("", new Vector2(175, -1)))
         {
-            if (ImGui.Selectable("None", _hookPresets.SelectedPreset == null))
+            if (ImGui.Selectable(UIStrings.None, _hookPresets.SelectedPreset == null))
             {
                 _hookPresets.SelectedPreset = null;
             }
@@ -116,6 +92,7 @@ public class TabCustomPresets : BaseTab
 
                 if (ImGui.IsItemHovered())
                     ImGui.SetTooltip(UIStrings.RightClickToRename);
+                
                 DrawEditPresetNameListbox(preset.PresetName);
             }
             ImGui.EndListBox();
@@ -124,42 +101,61 @@ public class TabCustomPresets : BaseTab
         ImGui.EndGroup();
 
         ImGui.SameLine();
-
-        if (_hookPresets.SelectedPreset == null)
-            return;
-
-        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1)))
-        {
-            DrawStandardTabs();
-            ImGui.EndChild();
-        }
+        
+        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1))) 
+        { 
+            DrawStandardTabs(); 
+            ImGui.EndChild(); 
+        } 
     }
 
     private void DrawStandardTabs()
     {
+        if (_hookPresets.SelectedPreset == null)
+            return;
+        
         if (ImGui.BeginTabBar(@"TabBarsPreset", ImGuiTabBarFlags.NoTooltip))
         {
-            if (ImGui.BeginTabItem(UIStrings.Bait))
-            {
-                _subTabBaitMooch.IsMooch = false;
-                _subTabBaitMooch.DrawHookTab(_hookPresets.SelectedPreset);
+            if (ImGui.BeginTabItem(UIStrings.Hooking))
+            {   
+                DrawUtil.HoveredTooltip(UIStrings.HookingTabHelpText);
+                
+                if (ImGui.BeginTabBar(@"TabBarCustomHooking", ImGuiTabBarFlags.NoTooltip))
+                {
+                    if (ImGui.BeginTabItem(UIStrings.Bait))
+                    {
+                        ImGui.PushID(@"TabCustomBait");
+                        DrawUtil.HoveredTooltip(UIStrings.BaitTabHelpText);
+                        _subTabBaitMooch.IsMooch = false;
+                        _subTabBaitMooch.DrawHookTab(_hookPresets.SelectedPreset);
+                        ImGui.PopID();
+                        ImGui.EndTabItem();
+                    }
+                    else DrawUtil.HoveredTooltip(UIStrings.BaitTabHelpText);
+
+                    if (ImGui.BeginTabItem(UIStrings.Mooch))
+                    {
+                        ImGui.PushID(@"TabMoochBait");
+                        DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
+                        _subTabBaitMooch.IsMooch = true;
+                        _subTabBaitMooch.DrawHookTab(_hookPresets.SelectedPreset);
+                        ImGui.PopID();
+                        ImGui.EndTabItem();
+                    }
+                    else DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
+                    ImGui.EndTabBar();
+                }
+                
                 ImGui.EndTabItem();
             }
-
-            if (ImGui.BeginTabItem(UIStrings.Mooch))
-            {
-                _subTabBaitMooch.IsMooch = true;
-                _subTabBaitMooch.DrawHookTab(_hookPresets.SelectedPreset);
-                ImGui.EndTabItem();
-            }
-
-            if (ImGui.BeginTabItem(UIStrings.Fish))
+            
+            if (ImGui.BeginTabItem(_subTabFish.TabName))
             {
                 _subTabFish.DrawFishTab(_hookPresets.SelectedPreset);
                 ImGui.EndTabItem();
             }
 
-            if (ImGui.BeginTabItem(UIStrings.Extra))
+            if (ImGui.BeginTabItem(UIStrings.ExtraOptions))
             {
                 _subTabExtra.DrawExtraTab(_hookPresets.SelectedPreset.ExtraCfg);
                 ImGui.EndTabItem();
@@ -208,7 +204,7 @@ public class TabCustomPresets : BaseTab
 
         if (_hookPresets.SelectedPreset == null) ImGui.BeginDisabled();
 
-        if (ImGui.Button($"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) &&
+        if (ImGui.Button(@$"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) &&
             ImGui.GetIO().KeyShift)
         {
             if (_hookPresets.SelectedPreset != null)
@@ -234,7 +230,7 @@ public class TabCustomPresets : BaseTab
         if (_hookPresets.SelectedPreset == null)
             return;
 
-        if (ImGui.BeginPopupContextItem("PresetName###name"))
+        if (ImGui.BeginPopupContextItem(@"PresetName###name"))
         {
             string name = _hookPresets.SelectedPreset.PresetName;
 
@@ -264,7 +260,7 @@ public class TabCustomPresets : BaseTab
 
     private void DrawEditPresetNameListbox(string presetName)
     {
-        if (ImGui.BeginPopupContextItem($"PresetName###{presetName}"))
+        if (ImGui.BeginPopupContextItem(@$"PresetName###{presetName}"))
         {
             string name = presetName;
 
@@ -286,8 +282,7 @@ public class TabCustomPresets : BaseTab
                 ImGui.CloseCurrentPopup();
                 Service.Save();
             }
-
-
+            
             ImGui.EndPopup();
         }
     }
@@ -296,8 +291,13 @@ public class TabCustomPresets : BaseTab
     {
         ImGui.TextWrapped(UIStrings.Current_Selected_Preset);
         ImGui.SetNextItemWidth(230);
-        if (ImGui.BeginCombo("", _hookPresets.SelectedPreset?.PresetName ?? UIStrings.None))
+        if (ImGui.BeginCombo(@"", _hookPresets.SelectedPreset?.PresetName ?? UIStrings.None))
         {
+            if (ImGui.Selectable(@$"{UIStrings.None}###disabled", _hookPresets.SelectedPreset == null))
+            {
+                _hookPresets.SelectedPreset = null;
+            }
+            
             foreach (var preset in _hookPresets.CustomPresets)
             {
                 if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
@@ -356,12 +356,12 @@ public class TabCustomPresets : BaseTab
 
                 if (_tempImport != null)
                 {
-                    ImGui.OpenPopup("import_new_preset");
+                    ImGui.OpenPopup(@"import_new_preset");
                 }
             }
             catch (Exception e)
             {
-                Service.PrintDebug($"[TabCustomPresets] {e.Message}");
+                Service.PrintDebug(@$"[TabCustomPresets] {e.Message}");
                 _alertMessage = e.Message;
                 _alertTimer.Start();
             }
@@ -371,11 +371,11 @@ public class TabCustomPresets : BaseTab
 
         if (_tempImport != null)
         {
-            if (ImGui.BeginPopup("import_new_preset"))
+            if (ImGui.BeginPopup(@"import_new_preset"))
             {
                 string name = _tempImport.PresetName;
 
-                if (_tempImport.PresetName.StartsWith("[Old Version]"))
+                if (_tempImport.PresetName.StartsWith(@"[Old Version]"))
                     ImGui.TextColored(ImGuiColors.ParsedOrange, UIStrings.Old_Preset_Warning);
                 else
                     ImGui.TextWrapped(UIStrings.ImportThisPreset);
@@ -424,9 +424,9 @@ public class TabCustomPresets : BaseTab
         }
     }
 
-    private static readonly double _timelimit = 5000;
+    private const double TimeLimit = 5000;
     private readonly Stopwatch _alertTimer = new();
-    private string _alertMessage = "-";
+    private string _alertMessage = @"-";
 
     private void TimedWarning()
     {
@@ -434,7 +434,7 @@ public class TabCustomPresets : BaseTab
         {
             ImGui.TextColored(ImGuiColors.DalamudYellow, _alertMessage);
 
-            if (_alertTimer.ElapsedMilliseconds > _timelimit)
+            if (_alertTimer.ElapsedMilliseconds > TimeLimit)
             {
                 _alertTimer.Reset();
             }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
@@ -8,14 +7,14 @@ using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
-using FFXIVClientStructs.FFXIV.Component.GUI;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
 
 public class SubTabAutoCast
 {
-    public bool IsDefaultPreset { get; set; }
+    public bool IsGlobalPreset { get; set; }
 
     private List<BaseActionCast> actionsAvailable = new();
     public void DrawAutoCastTab(AutoCastsConfig acCfg)
@@ -28,12 +27,9 @@ public class SubTabAutoCast
             acCfg.CastCollect,
             acCfg.CastCordial,
             acCfg.CastFishEyes,
-            //acCfg.CastIdenticalCast,
             acCfg.CastMakeShiftBait,
             acCfg.CastPatience,
             acCfg.CastPrizeCatch,
-            //acCfg.CastReleaseFish,
-            //acCfg.CastSurfaceSlap,
             acCfg.CastThaliaksFavor,
         };
         
@@ -49,11 +45,11 @@ public class SubTabAutoCast
         {
             if (acCfg.EnableAll)
             {
-                if (IsDefaultPreset && (Service.Configuration.HookPresets.SelectedPreset?.AutoCastsCfg.EnableAll ?? false))
+                if (IsGlobalPreset && (Service.Configuration.HookPresets.SelectedPreset?.AutoCastsCfg.EnableAll ?? false))
                 {
                     Service.Configuration.HookPresets.SelectedPreset.AutoCastsCfg.EnableAll = false;
                 }
-                else if (!IsDefaultPreset)
+                else if (!IsGlobalPreset)
                 {
                     Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll = false;
                 }
@@ -79,10 +75,10 @@ public class SubTabAutoCast
             
         }
 
-        if (!IsDefaultPreset)
+        if (!IsGlobalPreset)
         {
             if (Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll && !acCfg.EnableAll)
-                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Default_AutoCast_Being_Used);
+                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Global_AutoCast_Being_Used);
             else if (!acCfg.EnableAll)
                 ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.SubAuto_Disabled);
         }
@@ -108,6 +104,34 @@ public class SubTabAutoCast
         
         ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Auto_Cast_Alert_Manual_Hook);
         ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
+        
+        DrawUtil.SpacingSeparator();
+
+        DrawUtil.DrawCheckboxTree(UIStrings.AutoCastOnlyAtSpecificTimes, ref acCfg.OnlyCastDuringSpecificTime, () =>
+        {
+            var startTime = acCfg.StartTime.ToString(@"HH:mm");
+            var endTime = acCfg.EndTime.ToString(@"HH:mm");
+
+            ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
+            var startTimeGui = ImGui.InputText(@$"{UIStrings.AutoCastStartTime}", ref startTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
+            ImGui.PopItemWidth();
+            if (startTimeGui && TimeOnly.TryParse(startTime, out var newStartTime))
+            {
+                acCfg.StartTime = newStartTime;
+                Service.Save();
+            }
+
+            ImGui.PushItemWidth(40 * ImGuiHelpers.GlobalScale);
+            var endTimeGui = ImGui.InputText(@$"{UIStrings.AutoCastEndTime}", ref endTime, 5, ImGuiInputTextFlags.EnterReturnsTrue);
+            ImGui.PopItemWidth();
+            if (endTimeGui && TimeOnly.TryParse(endTime, out var newEndTime))
+            {
+                acCfg.EndTime = newEndTime;
+                Service.Save();
+            }
+        });
+        
+        DrawUtil.SpacingSeparator();
         foreach (var action in actionsAvailable.OrderBy(x => x.GetType() == typeof(AutoCastLine)).ThenBy(x => x.GetType() == typeof(AutoMooch)).ThenBy(x => x.GetType() == typeof(AutoCollect)).ThenBy(x => x.Priority))
         {
             try

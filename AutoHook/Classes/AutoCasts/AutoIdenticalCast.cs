@@ -16,9 +16,10 @@ public class AutoIdenticalCast : BaseActionCast
     public bool OnlyUseAfterXAmount;
     public int CaughtAmountLimit = 1;
 
+    public override bool DoesCancelMooch() => true;
+    
     public AutoIdenticalCast() : base(UIStrings.Identical_Cast, IDs.Actions.IdenticalCast, ActionType.Action)
     {
-        DoesCancelMooch = true;
         HelpText = UIStrings.OverridesSurfaceSlap;
     }
 

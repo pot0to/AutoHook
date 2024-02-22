@@ -10,9 +10,10 @@ public class AutoChum : BaseActionCast
     private bool _onlyUseWithIntuition;
     public int _useWhenIntuitionExceeds = 0;
 
+    public override bool DoesCancelMooch() => true;
+
     public AutoChum() : base(UIStrings.Chum, IDs.Actions.Chum)
     {
-        DoesCancelMooch = true;
         HelpText = UIStrings.CancelsCurrentMooch;
     }
 

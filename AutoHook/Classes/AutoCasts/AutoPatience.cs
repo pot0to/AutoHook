@@ -11,11 +11,12 @@ public class AutoPatience : BaseActionCast
 {
     public bool EnableMakeshiftPatience;
     public int RefreshEarlyTime = 0;
-    public override bool RequiresAutoCastAvailable() => true;
+    public override bool RequiresTimeWindow() => true;
 
+    public override bool DoesCancelMooch() => true;
+    
     public AutoPatience() : base(UIStrings.AutoPatience_Patience, Data.IDs.Actions.Patience2, ActionType.Action)
     {
-        DoesCancelMooch = true;
         HelpText = UIStrings.CancelsCurrentMooch;
     }
 

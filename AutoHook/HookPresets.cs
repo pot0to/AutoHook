@@ -6,7 +6,9 @@ namespace AutoHook;
 
 public class HookPresets
 {
-    public PresetConfig DefaultPreset = new(@"DefaultPreset");
+    // Global preset, cant rename rn 
+    
+    public PresetConfig DefaultPreset = new(Service.GlobalPresetName);
     
     public List<PresetConfig> CustomPresets = new();
 
@@ -19,7 +21,6 @@ public class HookPresets
         set => SwapPreset(value);
     }
     
-    // create two methods to add and remove presets
     public void AddPreset(PresetConfig presetConfig)
     {
         if (CustomPresets.All(preset => preset.PresetName != presetConfig.PresetName))
@@ -35,7 +36,6 @@ public class HookPresets
             CustomPresets.Remove(presetConfig);
         }
     }
-
     private  void SwapPreset(PresetConfig? preset)
     {
         if (_selectedPreset is { ExtraCfg.ResetCounterPresetSwap: true })

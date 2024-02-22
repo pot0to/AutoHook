@@ -13,8 +13,14 @@ using ImGuiNET;
 
 namespace AutoHook.Ui;
 
-public class SubTabFish
+public class SubTabFish : BaseTab
 {
+    
+    public bool IsGlobalPreset { get; set; }
+    
+    public override string TabName { get; } = UIStrings.Fish_Caught;
+    public override bool Enabled { get; } = true;
+    
     private List<FishConfig> _listOfFish = new();
 
     public void DrawFishTab(PresetConfig presetCfg)
@@ -109,7 +115,7 @@ public class SubTabFish
 
     private void DrawDeleteButton(FishConfig fishConfig)
     {
-        if (IsDefault)
+        if (IsGlobalPreset)
             return;
         ImGui.SameLine();
         ImGui.PushFont(UiBuilder.IconFont);
@@ -284,17 +290,14 @@ public class SubTabFish
         ImGui.PopID();
     }
 
-    private void DrawNeverRelease(FishConfig fishConfig)
-    {
-        ImGui.PushID("DrawNeverRelease");
-        
-        if (DrawUtil.Checkbox(UIStrings.NeverRelease, ref fishConfig.NeverRelease, UIStrings.NeverReleaseHelptext))
-        {
-            Service.Save();
-        }
-         
-        ImGui.PopID();
-    }
     
-    public bool IsDefault { get; set; }
+    public override void DrawHeader()
+    {
+        
+    }
+
+    public override void Draw()
+    {
+       
+    }
 }

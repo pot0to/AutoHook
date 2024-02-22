@@ -15,26 +15,9 @@ internal class TabAutoGig : BaseTab
     private readonly List<SpearfishSpeed> _speedTypes = Enum.GetValues(typeof(SpearfishSpeed)).Cast<SpearfishSpeed>().ToList();
     private readonly List<SpearfishSize> _sizeTypes = Enum.GetValues(typeof(SpearfishSize)).Cast<SpearfishSize>().ToList();
     
-    private bool _showDescription;
     public override void DrawHeader()
     {
-        
-        ImGui.Spacing();
-        
-        if (ImGui.TreeNodeEx(UIStrings.Tab_Description, ImGuiTreeNodeFlags.DefaultOpen | ImGuiTreeNodeFlags.FramePadding))
-        {
-            _showDescription = true;
-            ImGui.TreePop();
-        }
-        else
-            _showDescription = false;
-
-        // Ugly implementation, but it looks good enough for now.
-        if (_showDescription)
-        {
-            ImGui.TextWrapped(UIStrings.TabAutoGigDescription);
-        }
-        ImGui.Spacing();
+        DrawTabDescription(UIStrings.TabAutoGigDescription);
     }
 
     public override void Draw()
