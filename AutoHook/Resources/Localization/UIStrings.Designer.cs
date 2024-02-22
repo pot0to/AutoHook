@@ -632,6 +632,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By default, cordial will not be used outside of the time window (if enabled). This option will override that behavior.
+        /// </summary>
+        internal static string CordialOutsideTimeWindowHelpText {
+            get {
+                return ResourceManager.GetString("CordialOutsideTimeWindowHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current selected preset:.
         /// </summary>
         internal static string Current_Selected_Preset {

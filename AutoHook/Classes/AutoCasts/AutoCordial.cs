@@ -98,7 +98,7 @@ public class AutoCordial : BaseActionCast
             Service.Save(); 
         }
         
-        if (DrawUtil.Checkbox(UIStrings.CordialOutsideTimeWindow, ref IgnoreTimeWindow, "By default, cordial will not be used outside of the time window (if enabled). This option will override that behavior"))
+        if (DrawUtil.Checkbox(UIStrings.CordialOutsideTimeWindow, ref IgnoreTimeWindow, UIStrings.CordialOutsideTimeWindowHelpText))
         {
             Service.Save();
         }

@@ -1052,4 +1052,7 @@ Check the Guide Tab for Guides.</value>
   <data name="SpecificTimeWindowHelpText" xml:space="preserve">
     <value>Affected actions: Auto Cast Line, Auto Mooch I/II, Cordial (optional), Fish Eyes, Makeshift Bait, Patience I/II</value>
   </data>
+  <data name="CordialOutsideTimeWindowHelpText" xml:space="preserve">
+    <value>By default, cordial will not be used outside of the time window (if enabled). This option will override that behavior</value>
+  </data>
 </root>
