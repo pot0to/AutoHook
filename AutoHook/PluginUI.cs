@@ -303,7 +303,7 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
-            new Version("4.1.0.0")
+            new Version("4.1.0.1")
             {
                 MainChanges =
                 {
