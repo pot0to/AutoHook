@@ -171,6 +171,9 @@
   <data name="NewBaitMooch" xml:space="preserve">
     <value>Nouveau appât/pêche au vif</value>
   </data>
+  <data name="EditMe" xml:space="preserve">
+    <value>Édite moi</value>
+  </data>
   <data name="Add" xml:space="preserve">
     <value>Ajouter</value>
   </data>
@@ -527,14 +530,23 @@ Cela pourrais vous sauvegarder 100PR</value>
   <data name="Double_Hook" xml:space="preserve">
     <value>Ferrage Double</value>
   </data>
+  <data name="Patience_II" xml:space="preserve">
+    <value>Patience II</value>
+  </data>
   <data name="Hi_Cordial" xml:space="preserve">
     <value>Breuvage Cordial Supérieur</value>
+  </data>
+  <data name="Patience_I" xml:space="preserve">
+    <value>Patience I</value>
   </data>
   <data name="Prize_Catch" xml:space="preserve">
     <value>Pêche au gros</value>
   </data>
   <data name="Surface_Slap" xml:space="preserve">
     <value>Pêche variée</value>
+  </data>
+  <data name="Surface_Slap_Options" xml:space="preserve">
+    <value>Options de la pêche variée</value>
   </data>
   <data name="Identical_Cast" xml:space="preserve">
     <value>Pêche Ciblée</value>
@@ -679,6 +691,9 @@ Si vous voulez lancer Pêche Au vif automatiquement seulement sur un poisson sp�
   <data name="All_Mooches" xml:space="preserve">
     <value>Toutes les pêches au vif</value>
   </data>
+  <data name="AutoPatience_Patience" xml:space="preserve">
+    <value>Patience</value>
+  </data>
   <data name="Fish" xml:space="preserve">
     <value>Poisson</value>
   </data>
@@ -742,6 +757,9 @@ Si vous voulez lancer Pêche Au vif automatiquement seulement sur un poisson sp�
   <data name="Quit_Action_HelpText" xml:space="preserve">
     <value>L'action de fermeture sera utilisée et arrêtera complètement la pêche</value>
   </data>
+  <data name="Tab_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="TabDefaultPreset_Description" xml:space="preserve">
     <value>Le préréglage par défaut est utilisé quand aucun appât/pêche au vif/poisson/ferrage automatique personnalisé n'est détecté. Ici, vous pouvez définir le comportement d'hameçonnage qui sera utilisé pour tous les appâts et pêches au vif à moins qu'un préréglage personnalisé ne soit créé. 
 Consultez l’onglet Guide pour trouver des guides.</value>
@@ -754,6 +772,12 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   </data>
   <data name="Show_Current_Status_Header" xml:space="preserve">
     <value>Afficher l'en-tête de statut actuel</value>
+  </data>
+  <data name="DrawConfigs_Max_" xml:space="preserve">
+    <value>Max.</value>
+  </data>
+  <data name="DrawConfigs_Min_" xml:space="preserve">
+    <value>Min.</value>
   </data>
   <data name="Delay_Between_Casts" xml:space="preserve">
     <value>Délai entre les lancés (en ms) :</value>
@@ -836,5 +860,65 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   </data>
   <data name="Delay_when_hooking" xml:space="preserve">
     <value>Temps pour Amorçage</value>
+  </data>
+  <data name="Preset_not_found" xml:space="preserve">
+    <value>Préréglage introuvable</value>
+  </data>
+  <data name="Set_preset_command" xml:space="preserve">
+    <value>Définir un préréglage personnalisé par ligne de commande -&gt; /ahpreset nom_du_préréglage</value>
+  </data>
+  <data name="Preset_set_to_" xml:space="preserve">
+    <value>Préréglage défini à :</value>
+  </data>
+  <data name="When_gaining_spectral_current" xml:space="preserve">
+    <value>Quand un courant spectral apparaît ...</value>
+  </data>
+  <data name="When_losing_spectral_current" xml:space="preserve">
+    <value>Quand un courant spectral disparaît ...</value>
+  </data>
+  <data name="UseWhenIntuitionTimeIsEqualOrGreaterThan" xml:space="preserve">
+    <value>Utiliser tant que le temps restant à l'intuition dépasse (secondes)</value>
+  </data>
+  <data name="OnlyUseWhenActiveSurfaceSlap" xml:space="preserve">
+    <value>Utiliser uniquement lorsque la pêche variée est active</value>
+  </data>
+  <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
+    <value>Utiliser uniquement lorsque la pêche variée n'est pas active</value>
+  </data>
+  <data name="Use_Cordials_First" xml:space="preserve">
+    <value>Utilise breuvage cordial avant la faveur de Thaliak</value>
+  </data>
+  <data name="Show_Presets_As_Sidebar" xml:space="preserve">
+    <value>Affiche le menu des préréglages dans une barre latérale</value>
+  </data>
+  <data name="Ignore_When_Intuition" xml:space="preserve">
+    <value>Non appliqué quand le buff d'intuition est actif</value>
+  </data>
+  <data name="Reset_the_counter" xml:space="preserve">
+    <value>Réinitialiser le compteur</value>
+  </data>
+  <data name="Reset_counter_after_swapping_presets" xml:space="preserve">
+    <value>Réinitialise le compteur d'hameçonnages / prises après un changement de préréglage</value>
+  </data>
+  <data name="AutoCastEndTime" xml:space="preserve">
+    <value>Heure de fin</value>
+  </data>
+  <data name="AutoCastStartTime" xml:space="preserve">
+    <value>Heure de démarrage</value>
+  </data>
+  <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
+    <value>Fonctionne uniquement sur une plage horaire éorzéenne spécifique</value>
+  </data>
+  <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
+    <value>Arrête la pêche quand le buff d'intuition disparaît</value>
+  </data>
+  <data name="Stop_Fishing_On_IntuitionLost" xml:space="preserve">
+    <value>Stop le lancement automatique quand le buff d'intuition disparaît</value>
+  </data>
+  <data name="Auto_Cast_Sort_Notice" xml:space="preserve">
+    <value>Les actions seront utilisées en priorité du haut vers le bas. Modifie la priorité en cliquant sur les flèches.</value>
+  </data>
+  <data name="Current_Selected_Preset" xml:space="preserve">
+    <value>Préréglage sélectionné :</value>
   </data>
 </root>
