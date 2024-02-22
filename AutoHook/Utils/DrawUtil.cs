@@ -186,7 +186,15 @@ public static class DrawUtil
         ImGui.SameLine();
         if (Service.Configuration.SwapToButtons)
         {
-            DrawPopup(treeName, action, helpText);
+            switch (Service.Configuration.SwapType)
+            {
+                case 0:
+                    DrawButtonPopupType0(treeName, action, helpText);
+                    break;
+                case 1:
+                    DrawButtonPopupType1(treeName, action, helpText);
+                    break;
+            }
         }
         else
         {
@@ -209,7 +217,15 @@ public static class DrawUtil
 
         if (Service.Configuration.SwapToButtons)
         {
-            DrawPopup(treeName, action, helpText);
+            switch (Service.Configuration.SwapType)
+            {
+                case 0:
+                    DrawButtonPopupType0(treeName, action, helpText);
+                    break;
+                case 1:
+                    DrawButtonPopupType1(treeName, action, helpText);
+                    break;
+            }
         }
         else
         {
@@ -229,7 +245,34 @@ public static class DrawUtil
         ImGui.PopID();
     }
 
-    public static void DrawPopup(string popupName, Action action, string helpText = "")
+    public static void DrawButtonPopupType0(string popupName, Action action, string helpText = "")
+    {
+        ImGui.PushID(popupName);
+        
+        TextV(popupName);
+        ImGui.SameLine();
+        if (ImGui.Button(UIStrings.Configure))
+        {
+            ImGui.OpenPopup(popupName);
+        }
+        
+        if (ImGui.IsItemHovered() && helpText != string.Empty)
+            ImGui.SetTooltip(helpText);
+
+        if (ImGui.BeginPopup(popupName, ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.Tooltip))
+        {
+            var windowPos = ImGui.GetWindowPos();
+            var windowSize = ImGui.GetWindowSize();
+            ImGui.GetForegroundDrawList().AddRect(windowPos, windowPos + windowSize, ImGui.GetColorU32(ImGuiCol.Separator));
+
+            action();
+            ImGui.EndPopup();
+        }
+        
+        ImGui.PopID();
+    }
+    
+    public static void DrawButtonPopupType1(string popupName, Action action, string helpText = "")
     {
         ImGui.PushID(popupName);
         if (ImGui.Button(popupName))

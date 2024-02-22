@@ -605,6 +605,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configure.
+        /// </summary>
+        internal static string Configure {
+            get {
+                return ResourceManager.GetString("Configure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cordial.
         /// </summary>
         internal static string Cordial {
@@ -2494,6 +2503,24 @@ namespace AutoHook.Resources.Localization {
         internal static string Triple_Hook {
             get {
                 return ResourceManager.GetString("Triple_Hook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type 1.
+        /// </summary>
+        internal static string Type_1 {
+            get {
+                return ResourceManager.GetString("Type_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type 2.
+        /// </summary>
+        internal static string Type_2 {
+            get {
+                return ResourceManager.GetString("Type_2", resourceCulture);
             }
         }
         

@@ -138,7 +138,6 @@ public class PluginUi : Window, IDisposable
     {
         if (ImGui.Button(@"Check"))
         {
-            Service.Configuration.Version = 3;
         }
     }
 
@@ -315,7 +314,8 @@ public class PluginUi : Window, IDisposable
                 MinorChanges =
                 {
                     "Bait/Mooch tab were moved to a new Hooking tab",
-                    "Default Preset was renamed to Global Preset"
+                    "Default Preset was renamed to Global Preset",
+                    "Added an option to swap the UI style (just a bit) in the config / guides tab"
                 }
             },
             new Version("4.0.0.8")

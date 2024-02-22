@@ -91,42 +91,45 @@ public class BaseHookset
 
     private void DrawPatience()
     {
-        DrawUtil.DrawTreeNodeEx(UIStrings.NormalPatienceHookset,
-            () =>
-            {
-                PatienceWeak.DrawOptions(UIStrings.HookWeakExclamation, true);
-                PatienceStrong.DrawOptions(UIStrings.HookStrongExclamation, true);
-                PatienceLegendary.DrawOptions(UIStrings.HookLegendaryExclamation, true);
-            });
-        
+        if (ImGui.TreeNodeEx(UIStrings.NormalPatienceHookset,
+                ImGuiTreeNodeFlags.FramePadding | ImGuiTreeNodeFlags.AllowItemOverlap))
+        {
+            PatienceWeak.DrawOptions(UIStrings.HookWeakExclamation, true);
+            PatienceStrong.DrawOptions(UIStrings.HookStrongExclamation, true);
+            PatienceLegendary.DrawOptions(UIStrings.HookLegendaryExclamation, true);
+            ImGui.TreePop();
+        }
     }
 
     private void DrawDoubleHook()
     {
-        DrawUtil.DrawTreeNodeEx(UIStrings.Double_Hook,
-            () =>
-            {
-                DrawUtil.Checkbox(UIStrings.UseDoubleHook, ref UseDoubleHook);
-                DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeDoubleHook, UIStrings.LetFishEscapeHelpText);
-                ImGui.Separator(); 
-                DoubleWeak.DrawOptions(UIStrings.HookWeakExclamation);
-                DoubleStrong.DrawOptions(UIStrings.HookStrongExclamation);
-                DoubleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
-            });
+        
+        if (ImGui.TreeNodeEx(UIStrings.Double_Hook,
+                ImGuiTreeNodeFlags.FramePadding | ImGuiTreeNodeFlags.AllowItemOverlap))
+        {
+            DrawUtil.Checkbox(UIStrings.UseDoubleHook, ref UseDoubleHook);
+            DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeDoubleHook, UIStrings.LetFishEscapeHelpText);
+            ImGui.Separator(); 
+            DoubleWeak.DrawOptions(UIStrings.HookWeakExclamation);
+            DoubleStrong.DrawOptions(UIStrings.HookStrongExclamation);
+            DoubleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
+            ImGui.TreePop();
+        }
     }
 
     private void DrawTripleHook()
     {
-        DrawUtil.DrawTreeNodeEx(UIStrings.Triple_Hook,
-            () =>
-            {
-                DrawUtil.Checkbox(UIStrings.UseTripleHook, ref UseTripleHook);
-                DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeTripleHook, UIStrings.LetFishEscapeHelpText);
-                ImGui.Separator(); 
-                TripleWeak.DrawOptions(UIStrings.HookWeakExclamation);
-                TripleStrong.DrawOptions(UIStrings.HookStrongExclamation);
-                TripleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
-            });
+        if (ImGui.TreeNodeEx(UIStrings.Triple_Hook,
+                ImGuiTreeNodeFlags.FramePadding | ImGuiTreeNodeFlags.AllowItemOverlap))
+        {
+            DrawUtil.Checkbox(UIStrings.UseTripleHook, ref UseTripleHook);
+            DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeTripleHook, UIStrings.LetFishEscapeHelpText);
+            ImGui.Separator(); 
+            TripleWeak.DrawOptions(UIStrings.HookWeakExclamation);
+            TripleStrong.DrawOptions(UIStrings.HookStrongExclamation);
+            TripleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
+            ImGui.TreePop();
+        }
     }
 
     private void DrawTimeout()

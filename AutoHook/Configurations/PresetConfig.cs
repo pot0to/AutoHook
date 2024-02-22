@@ -102,7 +102,7 @@ public class PresetConfig
         if (PresetName.Equals(Service.GlobalPresetName))
             return ListOfBaits.FirstOrDefault();
 
-        return ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == baitId);
+        return ListOfBaits.FirstOrDefault(hook => hook.BaitFish.Id == baitId);
     }
 
     public HookConfig? GetMoochByName(string baitName)

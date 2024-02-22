@@ -51,6 +51,7 @@ public class Configuration : IPluginConfiguration
     public bool HideTabDescription = false;
 
     public bool SwapToButtons = false;
+    public int SwapType;
 
     public bool ResetAfkTimer = true;
 

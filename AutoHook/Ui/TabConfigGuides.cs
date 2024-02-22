@@ -95,6 +95,19 @@ public class TabConfigGuides : BaseTab
         
         DrawUtil.DrawCheckboxTree(UIStrings.SwapTreeNodeButtons, ref Service.Configuration.SwapToButtons, () =>
         {
+            if (ImGui.RadioButton(UIStrings.Type_1, Service.Configuration.SwapType == 0))
+            {
+                Service.Configuration.SwapType = 0;
+                Service.Save();
+            }
+            
+            if (ImGui.RadioButton(UIStrings.Type_2, Service.Configuration.SwapType == 1))
+            {
+                Service.Configuration.SwapType = 1;
+                Service.Save();
+            }
+            
+            
             ImGui.Text("Hello, you're cute!");
         });
     }

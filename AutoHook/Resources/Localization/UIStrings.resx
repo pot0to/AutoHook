@@ -1036,4 +1036,13 @@ Check the Guide Tab for Guides.</value>
   <data name="AutoCastOnlyUnderFishEyesHelpText" xml:space="preserve">
     <value>If time filter is enabled, this is ignored during time window</value>
   </data>
+  <data name="Configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="Type_1" xml:space="preserve">
+    <value>Type 1</value>
+  </data>
+  <data name="Type_2" xml:space="preserve">
+    <value>Type 2</value>
+  </data>
 </root>
