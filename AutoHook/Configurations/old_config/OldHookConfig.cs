@@ -87,6 +87,8 @@ public class OldHookConfig
         
         Convert(NormalHook, false);
         Convert(IntuitionHook, true);
+
+        IntuitionHook.UseCustomStatusHook = UseCustomIntuitionHook;
     }
 
     private void Convert(BaseHookset hookset, bool isIntuition)

@@ -196,6 +196,8 @@ public class HookConfig
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
     public bool StopAfterResetCount = false;
+    
+    public bool UseCustomIntuitionHook = false;
 
     private FishingSteps StopFishingStep = FishingSteps.None;
 
@@ -211,6 +213,8 @@ public class HookConfig
         
         Convert(NormalHook, false);
         Convert(IntuitionHook, true);
+
+        IntuitionHook.UseCustomStatusHook = UseCustomIntuitionHook;
     }
 
     private void Convert(BaseHookset hookset, bool isIntuition)
