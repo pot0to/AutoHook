@@ -303,19 +303,20 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
-            new Version("4.1.0.3")
+            new Version("4.1.0.4")
             {
                 MainChanges =
                 {
-                    "!!! Another rework on the hooking configuration !!!",
-                    "Each Bite (!, !! ,!!!) has its own configuration",
-                    "You can now make a separate hooking config. for intuition"
+                    "Another rework on the hooking configuration",
+                    "Each Bite (!, !!, !!!) has its own configuration",
+                    "You can now make a separate hooking config for intuition"
                 },
                 MinorChanges =
                 {
                     "Bait/Mooch tab were moved to a new Hooking tab",
                     "Default Preset was renamed to Global Preset",
-                    "Added an option to swap the UI style (just a bit) in the config / guides tab"
+                    "Added an option to swap the UI style (just a bit) in the config / guides tab",
+                    "Added an option to cast cordial outside of the specified time window",
                 }
             },
             new Version("4.0.0.8")

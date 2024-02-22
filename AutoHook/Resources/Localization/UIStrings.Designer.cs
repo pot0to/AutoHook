@@ -623,6 +623,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use cordial outside of the specified auto cast time window.
+        /// </summary>
+        internal static string CordialOutsideTimeWindow {
+            get {
+                return ResourceManager.GetString("CordialOutsideTimeWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current selected preset:.
         /// </summary>
         internal static string Current_Selected_Preset {
@@ -1132,9 +1141,10 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hook will be used after the defined amount of time has passed
-        ///Min. time: 2s (because of animation lock)
-        ///
+        ///   Looks up a localized string similar to Hook will NOT be used after the defined amount of time has passed
+        ///      
+        ///Ex: If you set the number as 10 and something bites after 12 seconds, the fish will not to be hooked
+        ///      
         ///Set Zero (0) to disable, and dont make this lower than the Min. Wait.
         /// </summary>
         internal static string HelpMarkerMaxWaitTimer {
@@ -2030,6 +2040,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Affected actions: Auto Cast Line, Auto Mooch I/II, Cordial (optional), Fish Eyes, Makeshift Bait, Patience I/II.
+        /// </summary>
+        internal static string SpecificTimeWindowHelpText {
+            get {
+                return ResourceManager.GetString("SpecificTimeWindowHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Speed.
         /// </summary>
         internal static string Speed {
@@ -2471,7 +2490,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The hooking attempt will be canceled after the specified time has passed.
+        ///   Looks up a localized string similar to The fishing attempt will be canceled after the specified time has passed.
         /// </summary>
         internal static string TimeoutOption {
             get {
