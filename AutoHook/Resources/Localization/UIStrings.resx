@@ -980,7 +980,7 @@ Check the Guide Tab for Guides.</value>
     <value>Use Hooking Timer</value>
   </data>
   <data name="EnableChumTimer" xml:space="preserve">
-    <value>Use Mooch Timer</value>
+    <value>Use Chum Timer</value>
   </data>
   <data name="HookingTimerHelpText" xml:space="preserve">
     <value>Hook will only be used if the bite happens between the min. and max. values</value>

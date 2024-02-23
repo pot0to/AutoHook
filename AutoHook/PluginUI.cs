@@ -303,6 +303,13 @@ public class PluginUi : Window, IDisposable
     {
         public static readonly List<Version> Versions = new()
         {
+            new Version("4.1.0.5")
+            {
+                MinorChanges =
+                {
+                    "Fixed typo: Use Mooch Timer > Use Chum Timer",
+                }
+            },
             new Version("4.1.0.4")
             {
                 MainChanges =

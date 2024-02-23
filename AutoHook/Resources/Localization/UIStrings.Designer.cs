@@ -940,7 +940,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Mooch Timer.
+        ///   Looks up a localized string similar to Use Chum Timer.
         /// </summary>
         internal static string EnableChumTimer {
             get {
