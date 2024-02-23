@@ -146,7 +146,7 @@ public class BaseBiteConfig
         }
 
         ImGui.SameLine();
-        ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMinWaitTimer);
+        ImGuiComponents.HelpMarker($"{UIStrings.HelpMarkerMinWaitTimer}\n\n{UIStrings.DoesntHaveAffectUnderChum}");
 
         ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
         if (ImGui.InputDouble(UIStrings.MaxWait, ref maxTimeDelay, .1, 1, @"%.1f%"))

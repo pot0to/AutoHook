@@ -560,6 +560,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chum Timeout.
+        /// </summary>
+        internal static string Chum_Timeout {
+            get {
+                return ResourceManager.GetString("Chum Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chum Time Limit.
+        /// </summary>
+        internal static string ChumTimeLimit {
+            get {
+                return ResourceManager.GetString("ChumTimeLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chum Timer.
         /// </summary>
         internal static string ChumTimer {
@@ -738,6 +756,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Disables_AutoHook {
             get {
                 return ResourceManager.GetString("Disables_AutoHook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doesn&apos;t have affect when Chum is active.
+        /// </summary>
+        internal static string DoesntHaveAffectUnderChum {
+            get {
+                return ResourceManager.GetString("DoesntHaveAffectUnderChum", resourceCulture);
             }
         }
         
@@ -1151,10 +1178,7 @@ namespace AutoHook.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Hook will NOT be used after the defined amount of time has passed
-        ///      
-        ///Ex: If you set the number as 10 and something bites after 12 seconds, the fish will not to be hooked
-        ///      
-        ///Set Zero (0) to disable, and dont make this lower than the Min. Wait.
+        ///Ex: If you set the Max. Wait to 10 and something bites after 12 seconds, the fish will be ignored.
         /// </summary>
         internal static string HelpMarkerMaxWaitTimer {
             get {
@@ -1164,10 +1188,7 @@ namespace AutoHook.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to Hook will NOT be used until the minimum time has passed.
-        ///
-        ///Ex: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked
-        ///
-        ///Set Zero (0) to disable.
+        ///Ex: If you Min. Wait to 14 and something bites after 8 seconds, the fish will be ignored.
         /// </summary>
         internal static string HelpMarkerMinWaitTimer {
             get {
@@ -2478,6 +2499,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use when cordial is on cooldown.
+        /// </summary>
+        internal static string ThaliaksCordialOffCd {
+            get {
+                return ResourceManager.GetString("ThaliaksCordialOffCd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Limit.
+        /// </summary>
+        internal static string TimeLimit {
+            get {
+                return ResourceManager.GetString("TimeLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Timeout.
         /// </summary>
         internal static string Timeout {
@@ -2487,10 +2526,8 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hook will be used after the defined amount of time has passed
-        ///Min. time: 2s (because of animation lock)
-        ///
-        ///Set Zero (0) to disable.
+        ///   Looks up a localized string similar to Set Zero (0) to disable.
+        ///Cancels the fishing attempt by using hook when the time limit is reached..
         /// </summary>
         internal static string TimeoutHelpText {
             get {

@@ -276,26 +276,21 @@ If a bait/mooch is not specified, the Global Preset will be used instead.</value
   </data>
   <data name="HelpMarkerMaxWaitTimer" xml:space="preserve">
     <value>Hook will NOT be used after the defined amount of time has passed
-      
-Ex: If you set the number as 10 and something bites after 12 seconds, the fish will not to be hooked
-      
-Set Zero (0) to disable, and dont make this lower than the Min. Wait</value>
+Ex: If you set the Max. Wait to 10 and something bites after 12 seconds, the fish will be ignored</value>
   </data>
   <data name="TimeoutHelpText" xml:space="preserve">
-    <value>Hook will be used after the defined amount of time has passed
-Min. time: 2s (because of animation lock)
-
-Set Zero (0) to disable</value>
+    <value>Set Zero (0) to disable.
+Cancels the fishing attempt by using hook when the time limit is reached.</value>
+  </data>
+  <data name="DoesntHaveAffectUnderChum" xml:space="preserve">
+    <value>Doesn't have affect when Chum is active</value>
   </data>
   <data name="MinWait" xml:space="preserve">
     <value>Min. Wait</value>
   </data>
   <data name="HelpMarkerMinWaitTimer" xml:space="preserve">
     <value>Hook will NOT be used until the minimum time has passed.
-
-Ex: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked
-
-Set Zero (0) to disable</value>
+Ex: If you Min. Wait to 14 and something bites after 8 seconds, the fish will be ignored</value>
   </data>
   <data name="StopFishingAfter" xml:space="preserve">
     <value>Stop fishing after...</value>
@@ -919,6 +914,9 @@ Check the Guide Tab for Guides.</value>
   <data name="Use_Cordials_First" xml:space="preserve">
     <value>Use Cordials before Thaliak's Favor</value>
   </data>
+  <data name="ThaliaksCordialOffCd" xml:space="preserve">
+    <value>Only use when cordial is on cooldown</value>
+  </data>
   <data name="Use_Cordials_First_Help" xml:space="preserve">
     <value>Only applies when Cordial is enabled</value>
   </data>
@@ -997,6 +995,9 @@ Check the Guide Tab for Guides.</value>
   <data name="Timeout" xml:space="preserve">
     <value>Timeout</value>
   </data>
+  <data name="Chum Timeout" xml:space="preserve">
+    <value>Chum Timeout</value>
+  </data>
   <data name="TimeoutOption" xml:space="preserve">
     <value>The fishing attempt will be canceled after the specified time has passed</value>
   </data>
@@ -1054,5 +1055,11 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="CordialOutsideTimeWindowHelpText" xml:space="preserve">
     <value>By default, cordial will not be used outside of the time window (if enabled). This option will override that behavior</value>
+  </data>
+  <data name="TimeLimit" xml:space="preserve">
+    <value>Time Limit</value>
+  </data>
+  <data name="ChumTimeLimit" xml:space="preserve">
+    <value>Chum Time Limit</value>
   </data>
 </root>

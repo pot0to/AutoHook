@@ -99,7 +99,11 @@ public class HookingManager : IDisposable
 
         var selected = GetHookCfg();
         if (selected.Enabled)
-            _timeout = selected.Hookset.TimeoutMax;
+        {
+            _timeout = PlayerResources.HasStatus(IDs.Status.Chum)
+                ? selected.Hookset.ChumTimeoutMax
+                : selected.Hookset.TimeoutMax;
+        }
         else
             _timeout = 0;
 
@@ -240,12 +244,12 @@ public class HookingManager : IDisposable
         if (_lastStep == FishingSteps.BeganFishing &&
             (_lastState != FishingState.PoleReady || _lastState != FishingState.NotFishing))
             return;
-        
+
         CastCollect();
-        
+
         _lastStep = FishingSteps.BeganFishing;
         _isMooching = false;
-        
+
         UpdateStatusAndTimer();
     }
 
@@ -253,12 +257,12 @@ public class HookingManager : IDisposable
     {
         if (_lastStep == FishingSteps.BeganMooching && _lastState != FishingState.PoleReady)
             return;
-        
+
         CastCollect();
-        
+
         _lastStep = FishingSteps.BeganMooching;
         _isMooching = true;
-        
+
         UpdateStatusAndTimer();
     }
 
@@ -279,12 +283,11 @@ public class HookingManager : IDisposable
         _lastStep = FishingSteps.FishBit;
         HookFish(Service.TugType?.Bite ?? BiteType.Unknown, currentHook);
     }
-    
+
     private async void HookFish(BiteType bite, HookConfig currentHook)
     {
         var delay = new Random().Next(Service.Configuration.DelayBetweenHookMin,
             Service.Configuration.DelayBetweenHookMax);
-        await Task.Delay(delay);
 
         if (!currentHook.Enabled)
             return;
@@ -296,24 +299,10 @@ public class HookingManager : IDisposable
         if (hook is null or HookType.None)
             return;
 
-        if (PlayerResources.ActionTypeAvailable((uint)hook))
-        {
-            Service.PrintDebug(@$"[HookManager] Using {hook.ToString()} hook. (Bite: {bite})");
-            PlayerResources.CastActionDelayed((uint)hook, ActionType.Action, @$"{hook.ToString()}");
-        }
-        else
-        {
-            if ((hook == HookType.Triple && currentHook.Hookset.LetFishEscapeTripleHook) ||
-                (hook == HookType.Double && currentHook.Hookset.LetFishEscapeDoubleHook))
-            {
-                Service.PrintDebug(@$"[HookManager] {hook.ToString()} not available. Letting fish escape");
-                return;
-            }
+        await Task.Delay(delay);
 
-            Service.PrintDebug($@"[HookManager] {hook.ToString()} not available. Using normal hook. (Bite: {bite})");
-            PlayerResources.CastActionDelayed((uint)HookType.Normal, ActionType.Action,
-                @$"{HookType.Normal.ToString()}");
-        }
+        PlayerResources.CastActionDelayed((uint)hook, ActionType.Action, @$"{hook.ToString()}");
+        Service.PrintDebug(@$"[HookManager] Using {hook.ToString()} hook. (Bite: {bite})");
     }
 
     private void OnCatch(uint fishId, uint amount)
@@ -354,7 +343,7 @@ public class HookingManager : IDisposable
             _timerState.Reset();
 
         Service.Status = "";
-        
+
         _lastTickMs = 0;
 
         FishingCounter.Reset();
@@ -371,36 +360,36 @@ public class HookingManager : IDisposable
 
         if (!_recastTimer.IsRunning)
             _recastTimer.Start();
-        
+
         if (!(_recastTimer.ElapsedMilliseconds > _lastTickMs + 500))
             return;
-        
+
         _lastTickMs = _recastTimer.ElapsedMilliseconds;
-        
+
         if (!PlayerResources.IsCastAvailable())
             return;
-        
+
         CheckExtraActions();
-        
+
         if (CheckFishCaughtActions())
             return;
-        
+
         CheckFishCaughtSwap();
-        
+
         var acCfg = GetAutoCastCfg();
-        
-        var autoCast =  acCfg.GetNextAutoCast();
-        
+
+        var autoCast = acCfg.GetNextAutoCast();
+
         if (acCfg.TryCastAction(autoCast))
             return;
-        
+
         CastLineMoochOrRelease(acCfg);
     }
 
     private bool CheckFishCaughtActions()
     {
         var lastFishCatchCfg = GetLastCatchConfig();
-        
+
         BaseActionCast? cast = null;
 
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
@@ -416,25 +405,25 @@ public class HookingManager : IDisposable
 
         if (lastFishCatchCfg.SurfaceSlap.IsAvailableToCast())
             cast = lastFishCatchCfg.SurfaceSlap;
-        
+
         if (cast != null)
         {
             PlayerResources.CastActionDelayed(cast.Id, cast.ActionType, cast.Name);
             return true;
         }
-        
+
         return false;
     }
 
     private void CheckFishCaughtSwap()
     {
         var lastFishCatchCfg = GetLastCatchConfig();
-        
+
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
             return;
-        
+
         var caughtCount = FishingCounter.GetCount(lastFishCatchCfg.GetUniqueId());
-        
+
         if (_lastStep != FishingSteps.BaitSwapped && lastFishCatchCfg.SwapBait)
         {
             if (caughtCount == lastFishCatchCfg.SwapBaitCount &&
@@ -471,7 +460,7 @@ public class HookingManager : IDisposable
                     Service.PrintChat(@$"Preset {lastFishCatchCfg.PresetToSwap} not found.");
             }
         }
-    } 
+    }
 
     private void CheckExtraActions()
     {
@@ -669,7 +658,7 @@ public class HookingManager : IDisposable
         var lastFishCatchCfg = GetLastCatchConfig();
 
         var blockMooch = lastFishCatchCfg is { Enabled: true, NeverMooch: true };
-        
+
         if (!blockMooch)
         {
             if (lastFishCatchCfg is { Enabled: true } && lastFishCatchCfg.Mooch.IsAvailableToCast())
