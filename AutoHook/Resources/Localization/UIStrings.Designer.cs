@@ -2052,6 +2052,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set zero (0) to ignore Min. or Max. timers.
+        /// </summary>
+        internal static string SetZeroToIgnore {
+            get {
+                return ResourceManager.GetString("SetZeroToIgnore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Chat Logs.
         /// </summary>
         internal static string Show_Chat_Logs {
