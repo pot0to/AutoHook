@@ -893,11 +893,23 @@ Check the Guide Tab for Guides.</value>
   <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
     <value>Only use when Surface Slap is not active</value>
   </data>
+  <data name="OnlyHookWhenActiveSurfaceSlap" xml:space="preserve">
+    <value>Only hook when Surface Slap is active</value>
+  </data>
+  <data name="OnlyHookWhenNOTActiveSurfaceSlap" xml:space="preserve">
+    <value>Only hook when Surface Slap is not active</value>
+  </data>
   <data name="OnlyUseWhenActiveIdentical" xml:space="preserve">
     <value>Only use when Identical Cast is active</value>
   </data>
   <data name="OnlyUseWhenNOTActiveIdentical" xml:space="preserve">
     <value>Only use when Identical Cast is not active</value>
+  </data>
+  <data name="OnlyHookWhenActiveIdentical" xml:space="preserve">
+    <value>Only hook when Identical Cast is active</value>
+  </data>
+  <data name="OnlyHookWhenNOTActiveIdentical" xml:space="preserve">
+    <value>Only hook when Identical Cast is not active</value>
   </data>
   <data name="Collect" xml:space="preserve">
     <value>Collect</value>

@@ -1665,6 +1665,42 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only hook when Identical Cast is active.
+        /// </summary>
+        internal static string OnlyHookWhenActiveIdentical {
+            get {
+                return ResourceManager.GetString("OnlyHookWhenActiveIdentical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only hook when Surface Slap is active.
+        /// </summary>
+        internal static string OnlyHookWhenActiveSurfaceSlap {
+            get {
+                return ResourceManager.GetString("OnlyHookWhenActiveSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only hook when Identical Cast is not active.
+        /// </summary>
+        internal static string OnlyHookWhenNOTActiveIdentical {
+            get {
+                return ResourceManager.GetString("OnlyHookWhenNOTActiveIdentical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only hook when Surface Slap is not active.
+        /// </summary>
+        internal static string OnlyHookWhenNOTActiveSurfaceSlap {
+            get {
+                return ResourceManager.GetString("OnlyHookWhenNOTActiveSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only use when Identical Cast is active.
         /// </summary>
         internal static string OnlyUseWhenActiveIdentical {

@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.1.0.7")
+        {
+            MinorChanges =
+            {
+                "Changed some text to make the Surface Slap and Identical options on the hooking tab more clear",
+            }
+        },
         new Version("4.1.0.6")
         {
             MainChanges =
