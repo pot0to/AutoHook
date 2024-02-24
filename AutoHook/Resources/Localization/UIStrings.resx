@@ -1074,4 +1074,7 @@ Check the Guide Tab for Guides.</value>
   <data name="ChumTimeLimit" xml:space="preserve">
     <value>Chum Time Limit</value>
   </data>
+  <data name="SetZeroToIgnore" xml:space="preserve">
+    <value>Set zero (0) to ignore Min. or Max. timers</value>
+  </data>
 </root>

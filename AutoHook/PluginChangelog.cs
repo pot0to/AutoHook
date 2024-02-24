@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.1.0.8")
+        {
+            MinorChanges =
+            {
+                "Fixed hook timers for Normal/Patience Hooks",
+            }
+        },
         new Version("4.1.0.7")
         {
             MinorChanges =

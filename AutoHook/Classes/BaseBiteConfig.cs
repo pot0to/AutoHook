@@ -1,6 +1,7 @@
 ﻿using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
+using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
@@ -51,6 +52,7 @@ public class BaseBiteConfig
                     () =>
                     {
                         ImGui.PushID(@"HookingTimer");
+                        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.SetZeroToIgnore);
                         DrawUtil.Checkbox(UIStrings.EnableHookingTimer, ref HookTimerEnabled);
                         DrawTimer(ref MinHookTimer, ref MaxHookTimer);
                         ImGui.PopID();

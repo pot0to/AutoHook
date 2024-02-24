@@ -60,43 +60,35 @@ public class HookConfig
             // Triple Hook
             if (hookset.UseTripleHook && hook.th.HooksetEnabled)
             {
-                if (CheckHookAvailable(hook.th, timePassed))
-                    return hook.th.HooksetType;
+                if (CheckHookCondition(hook.th, timePassed))
+                    if (IsHookAvailable(hook.th)) return hook.th.HooksetType;
 
                 if (Hookset.LetFishEscapeTripleHook)
-                {
-                    Service.PrintDebug(@$"[HookConfig] Triple Hook not available. Letting fish escape");
                     return HookType.None;
-                }
             }
 
             // Double Hook
             if (hookset.UseDoubleHook && hook.dh.HooksetEnabled)
             {
-                if (CheckHookAvailable(hook.dh, timePassed))
-                    return hook.dh.HooksetType;
-
-                if (Hookset.LetFishEscapeDoubleHook)
-                {
-                    Service.PrintDebug(@$"[HookConfig] Double Hook not available. Letting fish escape");
+                if (CheckHookCondition(hook.dh, timePassed))
+                    if (IsHookAvailable(hook.dh)) return hook.dh.HooksetType;
+                
+                if (Hookset.LetFishEscapeDoubleHook) 
                     return HookType.None;
-                }
             }
 
             // Normal - Patience
             if (hook.ph.HooksetEnabled)
             {
-                if (CheckHookAvailable(hook.ph, timePassed))
-                    return hook.ph.HooksetType;
-
-                return HookType.Normal;
+                if (CheckHookCondition(hook.ph, timePassed))
+                    return IsHookAvailable(hook.ph) ? hook.ph.HooksetType : HookType.Normal;
             }
         }
 
         return HookType.None;
     }
 
-    private bool CheckHookAvailable(BaseBiteConfig hookType, double timePassed)
+    private bool CheckHookCondition(BaseBiteConfig hookType, double timePassed)
     {
         if (!CheckIdenticalCast(hookType))
             return false;
@@ -106,13 +98,18 @@ public class HookConfig
 
         if (!CheckTimer(hookType, timePassed))
             return false;
-
+        
+        return true;
+    }
+    
+    private bool IsHookAvailable(BaseBiteConfig hookType)
+    {
         if (!PlayerResources.ActionTypeAvailable((uint)hookType.HooksetType))
             return false;
 
         return true;
     }
-
+    
     private bool CheckIdenticalCast(BaseBiteConfig hookType)
     {
         if (hookType.OnlyWhenActiveIdentical && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
