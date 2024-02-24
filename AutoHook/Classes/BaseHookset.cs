@@ -37,10 +37,11 @@ public class BaseHookset
     public BaseBiteConfig TripleWeak = new(HookType.Triple);
     public BaseBiteConfig TripleStrong = new(HookType.Triple);
     public BaseBiteConfig TripleLegendary = new(HookType.Triple);
-    
+
     // Timeout
     //public double TimeoutMin = 0;
     public double TimeoutMax = 0;
+    public double ChumTimeoutMax = 0;
 
     // Stop condition
     public bool StopAfterCaught;
@@ -48,7 +49,7 @@ public class BaseHookset
     public int StopAfterCaughtLimit = 1;
 
     public FishingSteps StopFishingStep = FishingSteps.None;
-    
+
     public bool UseCustomStatusHook;
 
     public Guid GetUniqueId()
@@ -72,9 +73,10 @@ public class BaseHookset
         {
             ImGui.Spacing();
             var statusName = MultiString.GetStatusName(RequiredStatus);
-            DrawUtil.Checkbox(string.Format(UIStrings.UseConfigRequiredStatus, statusName), ref UseCustomStatusHook, UIStrings.RequiredStatusSettingHelpText);
+            DrawUtil.Checkbox(string.Format(UIStrings.UseConfigRequiredStatus, statusName), ref UseCustomStatusHook,
+                UIStrings.RequiredStatusSettingHelpText);
         }
-        
+
         ImGui.Spacing();
         DrawPatience();
         DrawUtil.SpacingSeparator();
@@ -103,13 +105,12 @@ public class BaseHookset
 
     private void DrawDoubleHook()
     {
-        
         if (ImGui.TreeNodeEx(UIStrings.Double_Hook,
                 ImGuiTreeNodeFlags.FramePadding | ImGuiTreeNodeFlags.AllowItemOverlap))
         {
             DrawUtil.Checkbox(UIStrings.UseDoubleHook, ref UseDoubleHook);
             DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeDoubleHook, UIStrings.LetFishEscapeHelpText);
-            ImGui.Separator(); 
+            ImGui.Separator();
             DoubleWeak.DrawOptions(UIStrings.HookWeakExclamation);
             DoubleStrong.DrawOptions(UIStrings.HookStrongExclamation);
             DoubleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
@@ -124,7 +125,7 @@ public class BaseHookset
         {
             DrawUtil.Checkbox(UIStrings.UseTripleHook, ref UseTripleHook);
             DrawUtil.Checkbox(UIStrings.LetTheFishEscape, ref LetFishEscapeTripleHook, UIStrings.LetFishEscapeHelpText);
-            ImGui.Separator(); 
+            ImGui.Separator();
             TripleWeak.DrawOptions(UIStrings.HookWeakExclamation);
             TripleStrong.DrawOptions(UIStrings.HookStrongExclamation);
             TripleLegendary.DrawOptions(UIStrings.HookLegendaryExclamation);
@@ -134,12 +135,12 @@ public class BaseHookset
 
     private void DrawTimeout()
     {
-       DrawUtil.DrawTreeNodeEx(UIStrings.Timeout,
+        DrawUtil.DrawTreeNodeEx(UIStrings.Timeout,
             () =>
             {
                 ImGui.Text(UIStrings.TimeoutOption);
                 ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
-                if (ImGui.InputDouble(UIStrings.MaxWait, ref TimeoutMax, .1, 1, @"%.1f%"))
+                if (ImGui.InputDouble(UIStrings.TimeLimit, ref TimeoutMax, .1, 1, @"%.1f%"))
                 {
                     switch (TimeoutMax)
                     {
@@ -154,11 +155,36 @@ public class BaseHookset
                             TimeoutMax = 99;
                             break;
                     }
+
                     Service.Save();
                 }
+
+                ImGui.SameLine();
+                ImGuiComponents.HelpMarker($"{UIStrings.TimeoutHelpText}\n\n{UIStrings.DoesntHaveAffectUnderChum}");
+
+                ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputDouble(UIStrings.ChumTimeLimit, ref ChumTimeoutMax, .1, 1, @"%.1f%"))
+                {
+                    switch (ChumTimeoutMax)
+                    {
+                        case 0.1:
+                            ChumTimeoutMax = 2;
+                            break;
+                        case <= 0:
+                        case <= 1.9: //This makes the option turn off if delay = 2 seconds when clicking the minus.
+                            ChumTimeoutMax = 0;
+                            break;
+                        case > 99:
+                            ChumTimeoutMax = 99;
+                            break;
+                    }
+
+                    Service.Save();
+                }
+
                 ImGui.SameLine();
                 ImGuiComponents.HelpMarker(UIStrings.TimeoutHelpText);
-            }, UIStrings.TimeoutOption);
+            }, @$"{UIStrings.TimeoutOption}");
     }
 
     private void DrawStopCondition()

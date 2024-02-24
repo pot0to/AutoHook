@@ -99,13 +99,13 @@ public class BaseBiteConfig
 
     private void DrawSurfaceSwap()
     {
-        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveSurfaceSlap, ref OnlyWhenActiveSlap))
+        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenActiveSurfaceSlap, ref OnlyWhenActiveSlap))
         {
             OnlyWhenNotActiveSlap = false;
             Service.Save();
         }
 
-        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenNOTActiveSurfaceSlap, ref OnlyWhenNotActiveSlap))
+        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenNOTActiveSurfaceSlap, ref OnlyWhenNotActiveSlap))
         {
             OnlyWhenActiveSlap = false;
             Service.Save();
@@ -114,13 +114,13 @@ public class BaseBiteConfig
 
     private void DrawIdenticalCast()
     {
-        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenActiveIdentical, ref OnlyWhenActiveIdentical))
+        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenActiveIdentical, ref OnlyWhenActiveIdentical))
         {
             OnlyWhenNotActiveIdentical = false;
             Service.Save();
         }
 
-        if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenNOTActiveIdentical, ref OnlyWhenNotActiveIdentical))
+        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenNOTActiveIdentical, ref OnlyWhenNotActiveIdentical))
         {
             OnlyWhenActiveIdentical = false;
             Service.Save();
@@ -146,7 +146,7 @@ public class BaseBiteConfig
         }
 
         ImGui.SameLine();
-        ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMinWaitTimer);
+        ImGuiComponents.HelpMarker($"{UIStrings.HelpMarkerMinWaitTimer}\n\n{UIStrings.DoesntHaveAffectUnderChum}");
 
         ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
         if (ImGui.InputDouble(UIStrings.MaxWait, ref maxTimeDelay, .1, 1, @"%.1f%"))

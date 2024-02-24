@@ -18,8 +18,10 @@ public class AutoCordial : BaseActionCast
     public bool InvertCordialPriority;
     
     public bool AllowOvercapIC;
+    
+    public bool IgnoreTimeWindow;
 
-    public override bool RequiresTimeWindow() => true;
+    public override bool RequiresTimeWindow() => !IgnoreTimeWindow;
 
     [NonSerialized]
     public readonly List<(uint, uint)> _cordialList = new()
@@ -92,6 +94,11 @@ public class AutoCordial : BaseActionCast
         }
         
         if (DrawUtil.Checkbox(UIStrings.Allow_Gp_Overcap, ref AllowOvercapIC))
+        {
+            Service.Save(); 
+        }
+        
+        if (DrawUtil.Checkbox(UIStrings.CordialOutsideTimeWindow, ref IgnoreTimeWindow, UIStrings.CordialOutsideTimeWindowHelpText))
         {
             Service.Save();
         }

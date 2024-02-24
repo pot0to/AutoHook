@@ -275,26 +275,22 @@ If a bait/mooch is not specified, the Global Preset will be used instead.</value
     <comment>Maximum time to wait</comment>
   </data>
   <data name="HelpMarkerMaxWaitTimer" xml:space="preserve">
-    <value>Hook will be used after the defined amount of time has passed
-Min. time: 2s (because of animation lock)
-
-Set Zero (0) to disable, and dont make this lower than the Min. Wait</value>
+    <value>Hook will NOT be used after the defined amount of time has passed
+Ex: If you set the Max. Wait to 10 and something bites after 12 seconds, the fish will be ignored</value>
   </data>
   <data name="TimeoutHelpText" xml:space="preserve">
-    <value>Hook will be used after the defined amount of time has passed
-Min. time: 2s (because of animation lock)
-
-Set Zero (0) to disable</value>
+    <value>Set Zero (0) to disable.
+Cancels the fishing attempt by using hook when the time limit is reached.</value>
+  </data>
+  <data name="DoesntHaveAffectUnderChum" xml:space="preserve">
+    <value>Doesn't have affect when Chum is active</value>
   </data>
   <data name="MinWait" xml:space="preserve">
     <value>Min. Wait</value>
   </data>
   <data name="HelpMarkerMinWaitTimer" xml:space="preserve">
     <value>Hook will NOT be used until the minimum time has passed.
-
-Ex: If you set the number as 14 and something bites after 8 seconds, the fish will not to be hooked
-
-Set Zero (0) to disable</value>
+Ex: If you Min. Wait to 14 and something bites after 8 seconds, the fish will be ignored</value>
   </data>
   <data name="StopFishingAfter" xml:space="preserve">
     <value>Stop fishing after...</value>
@@ -897,11 +893,23 @@ Check the Guide Tab for Guides.</value>
   <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
     <value>Only use when Surface Slap is not active</value>
   </data>
+  <data name="OnlyHookWhenActiveSurfaceSlap" xml:space="preserve">
+    <value>Only hook when Surface Slap is active</value>
+  </data>
+  <data name="OnlyHookWhenNOTActiveSurfaceSlap" xml:space="preserve">
+    <value>Only hook when Surface Slap is not active</value>
+  </data>
   <data name="OnlyUseWhenActiveIdentical" xml:space="preserve">
     <value>Only use when Identical Cast is active</value>
   </data>
   <data name="OnlyUseWhenNOTActiveIdentical" xml:space="preserve">
     <value>Only use when Identical Cast is not active</value>
+  </data>
+  <data name="OnlyHookWhenActiveIdentical" xml:space="preserve">
+    <value>Only hook when Identical Cast is active</value>
+  </data>
+  <data name="OnlyHookWhenNOTActiveIdentical" xml:space="preserve">
+    <value>Only hook when Identical Cast is not active</value>
   </data>
   <data name="Collect" xml:space="preserve">
     <value>Collect</value>
@@ -917,6 +925,9 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Use_Cordials_First" xml:space="preserve">
     <value>Use Cordials before Thaliak's Favor</value>
+  </data>
+  <data name="ThaliaksCordialOffCd" xml:space="preserve">
+    <value>Only use when cordial is on cooldown</value>
   </data>
   <data name="Use_Cordials_First_Help" xml:space="preserve">
     <value>Only applies when Cordial is enabled</value>
@@ -979,7 +990,7 @@ Check the Guide Tab for Guides.</value>
     <value>Use Hooking Timer</value>
   </data>
   <data name="EnableChumTimer" xml:space="preserve">
-    <value>Use Mooch Timer</value>
+    <value>Use Chum Timer</value>
   </data>
   <data name="HookingTimerHelpText" xml:space="preserve">
     <value>Hook will only be used if the bite happens between the min. and max. values</value>
@@ -996,8 +1007,11 @@ Check the Guide Tab for Guides.</value>
   <data name="Timeout" xml:space="preserve">
     <value>Timeout</value>
   </data>
+  <data name="Chum Timeout" xml:space="preserve">
+    <value>Chum Timeout</value>
+  </data>
   <data name="TimeoutOption" xml:space="preserve">
-    <value>The hooking attempt will be canceled after the specified time has passed</value>
+    <value>The fishing attempt will be canceled after the specified time has passed</value>
   </data>
   <data name="Hook" xml:space="preserve">
     <value>Hook</value>
@@ -1028,7 +1042,7 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="UseConfigRequiredStatus" xml:space="preserve">
     <value>Use this setting when {0} is active</value>
-    <comment>{0} Represents a status effect. For Exemple: Use this setting when Fishe's Intuition is active</comment>
+    <comment>{0} Represents a status effect. For Example: Use this setting when Fisher's Intuition is active</comment>
   </data>
   <data name="NormalPatienceHookset" xml:space="preserve">
     <value>Normal Hook / Patience Hookset</value>
@@ -1044,5 +1058,20 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Type_2" xml:space="preserve">
     <value>Type 2</value>
+  </data>
+  <data name="CordialOutsideTimeWindow" xml:space="preserve">
+    <value>Use cordial outside of the specified auto cast time window</value>
+  </data>
+  <data name="SpecificTimeWindowHelpText" xml:space="preserve">
+    <value>Affected actions: Auto Cast Line, Auto Mooch I/II, Cordial (optional), Fish Eyes, Makeshift Bait, Patience I/II</value>
+  </data>
+  <data name="CordialOutsideTimeWindowHelpText" xml:space="preserve">
+    <value>By default, cordial will not be used outside of the time window (if enabled). This option will override that behavior</value>
+  </data>
+  <data name="TimeLimit" xml:space="preserve">
+    <value>Time Limit</value>
+  </data>
+  <data name="ChumTimeLimit" xml:space="preserve">
+    <value>Chum Time Limit</value>
   </data>
 </root>

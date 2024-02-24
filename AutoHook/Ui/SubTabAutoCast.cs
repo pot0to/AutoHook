@@ -129,7 +129,7 @@ public class SubTabAutoCast
                 acCfg.EndTime = newEndTime;
                 Service.Save();
             }
-        });
+        }, UIStrings.SpecificTimeWindowHelpText);
         
         DrawUtil.SpacingSeparator();
         foreach (var action in actionsAvailable.OrderBy(x => x.GetType() == typeof(AutoCastLine)).ThenBy(x => x.GetType() == typeof(AutoMooch)).ThenBy(x => x.GetType() == typeof(AutoCollect)).ThenBy(x => x.Priority))
