@@ -152,7 +152,7 @@ public class SubTabExtra
             () =>
             {
                 DrawUtil.DrawComboSelector(
-                    PlayerResources.Baits,
+                    GameRes.Baits,
                     bait => bait.Name,
                     config.BaitToSwapIntuitionGain.Name,
                     bait => config.BaitToSwapIntuitionGain = bait);
@@ -185,7 +185,7 @@ public class SubTabExtra
             () =>
             {
                 DrawUtil.DrawComboSelector(
-                    PlayerResources.Baits,
+                    GameRes.Baits,
                     bait => bait.Name,
                     config.BaitToSwapIntuitionLost.Name,
                     bait => config.BaitToSwapIntuitionLost = bait);
@@ -220,7 +220,7 @@ public class SubTabExtra
             () =>
             {
                 DrawUtil.DrawComboSelector(
-                    PlayerResources.Baits,
+                    GameRes.Baits,
                     bait => bait.Name,
                     config.BaitToSwapSpectralCurrentGain.Name,
                     bait => config.BaitToSwapSpectralCurrentGain = bait);
@@ -253,7 +253,7 @@ public class SubTabExtra
             () =>
             {
                 DrawUtil.DrawComboSelector(
-                    PlayerResources.Baits,
+                    GameRes.Baits,
                     bait => bait.Name,
                     config.BaitToSwapSpectralCurrentLost.Name,
                     bait => config.BaitToSwapSpectralCurrentLost = bait);

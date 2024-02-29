@@ -63,7 +63,7 @@ public class BaitConfig
 
     public HookType? GetHook(BiteType bite)
     {
-        bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+        bool hasIntuition = PlayerRes.HasStatus(IDs.Status.FishersIntuition);
 
         if (hasIntuition && UseCustomIntuitionHook)
         {
@@ -86,7 +86,7 @@ public class BaitConfig
 
     public HookType? GetHookIgnoreEnable(BiteType bite)
     {
-        bool hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+        bool hasIntuition = PlayerRes.HasStatus(IDs.Status.FishersIntuition);
 
         var hook = GetDoubleTripleHook(bite);
 
@@ -138,16 +138,16 @@ public class BaitConfig
     {
         if (UseTripleHook || UseDoubleHook)
         {
-            if (UseDHTHOnlySurfaceSlap && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+            if (UseDHTHOnlySurfaceSlap && !PlayerRes.HasStatus(IDs.Status.IdenticalCast))
                 return HookType.None;
 
-            if (PlayerResources.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
+            if (PlayerRes.HasStatus(IDs.Status.AnglersFortune) && !UseDHTHPatience)
                 return HookType.None;
 
-            if (UseTripleHook && PlayerResources.GetCurrentGp() >= 700 && CheckHookDHTHEnabled(bite))
+            if (UseTripleHook && PlayerRes.GetCurrentGp() >= 700 && CheckHookDHTHEnabled(bite))
                 return HookType.Triple;
 
-            if (UseDoubleHook && PlayerResources.GetCurrentGp() >= 400 && CheckHookDHTHEnabled(bite))
+            if (UseDoubleHook && PlayerRes.GetCurrentGp() >= 400 && CheckHookDHTHEnabled(bite))
                 return HookType.Double;
 
             if (LetFishEscape)

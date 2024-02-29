@@ -14,8 +14,7 @@ public enum SpearfishSpeed : ushort
     SuperFast     = 500,
     HyperFast     = 550,
     LynFast       = 600,
-
-    
+    Unknown       = 65535,
 }
 
 public static class SpearFishSpeedExtensions
@@ -32,7 +31,7 @@ public static class SpearFishSpeedExtensions
             SpearfishSpeed.Fast          => "Fast",
             SpearfishSpeed.VeryFast      => "Very Fast",
             SpearfishSpeed.ExtremelyFast => "Extremely Fast",
-            SpearfishSpeed.SuperFast     => "Super Fast",
+            SpearfishSpeed.SuperFast     => "Super Fast", 
             SpearfishSpeed.HyperFast     => "Hyper Fast",
             SpearfishSpeed.LynFast       => "Mega Fast",
             

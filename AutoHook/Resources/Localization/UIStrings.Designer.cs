@@ -69,6 +69,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string AboutTab {
+            get {
+                return ResourceManager.GetString("AboutTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Above.
         /// </summary>
         internal static string Above {
@@ -2052,6 +2061,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set zero (0) to ignore Min. or Max. timers.
         /// </summary>
         internal static string SetZeroToIgnore {
@@ -2766,6 +2784,15 @@ namespace AutoHook.Resources.Localization {
         internal static string UseMoochII {
             get {
                 return ResourceManager.GetString("UseMoochII", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Natures Bounty.
+        /// </summary>
+        internal static string UseNaturesBounty {
+            get {
+                return ResourceManager.GetString("UseNaturesBounty", resourceCulture);
             }
         }
         

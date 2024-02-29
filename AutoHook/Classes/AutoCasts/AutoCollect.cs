@@ -18,7 +18,7 @@ public class AutoCollect : BaseActionCast
     public override string GetName()
         => Name = UIStrings.Collect;
 
-    public override bool CastCondition() => !PlayerResources.HasStatus(IDs.Status.CollectorsGlove);
+    public override bool CastCondition() => !PlayerRes.HasStatus(IDs.Status.CollectorsGlove);
 
     //protected override DrawOptionsDelegate DrawOptions => () =>
     //{

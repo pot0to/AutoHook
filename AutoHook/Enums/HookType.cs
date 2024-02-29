@@ -10,4 +10,5 @@ public enum HookType : uint
     Powerful = IDs.Actions.PowerfulHS,
     Double = IDs.Actions.DoubleHook,
     Triple = IDs.Actions.TripleHook,
+    Unknown    = 255,
 }

@@ -43,9 +43,11 @@ public class SubTabBaitMooch
             ImGui.PushID(@$"id###{idx}");
             ImGui.Spacing();
 
+            string baitName = !IsGlobal ? hook.BaitFish.Name : IsMooch ? UIStrings.All_Mooches : UIStrings.All_Baits;
+
             var count = HookingManager.FishingCounter.GetCount(hook.GetUniqueId());
             var hookCounter = count > 0 ? @$"({UIStrings.Hooked_Counter} {count})" : "";
-            if (ImGui.CollapsingHeader(@$"{hook.BaitFish.Name} {hookCounter}###{idx}"))
+            if (ImGui.CollapsingHeader(@$"{baitName} {hookCounter}###{idx}"))
             {
                 ImGui.Spacing();
                 DrawEnabledButtonCustomBait(hook);
@@ -64,7 +66,6 @@ public class SubTabBaitMooch
 
                     if (ImGui.BeginTabItem($"Default###DefaultBait"))
                     {
-                        
                         DrawNormalTab(hook);
                         ImGui.EndTabItem();
                     }
@@ -127,7 +128,7 @@ public class SubTabBaitMooch
 
     private void DrawInputSearchBar(HookConfig hookConfig)
     {
-        var list = IsMooch ? PlayerResources.Fishes : PlayerResources.Baits;
+        var list = IsMooch ? GameRes.Fishes : GameRes.Baits;
 
         DrawUtil.DrawComboSelector(
             list,
@@ -183,9 +184,7 @@ public class SubTabBaitMooch
     {
         try
         {
-           
             hook.IntuitionHook.DrawOptions();
-            
         }
         catch (Exception e)
         {

@@ -35,7 +35,7 @@ public class HookConfig
 
         foreach (var preset in requiredStatusPreset)
         {
-            if (PlayerResources.HasStatus(preset.RequiredStatus) && preset.UseCustomStatusHook)
+            if (PlayerRes.HasStatus(preset.RequiredStatus) && preset.UseCustomStatusHook)
             {
                 return preset;
             }
@@ -104,7 +104,7 @@ public class HookConfig
     
     private bool IsHookAvailable(BaseBiteConfig hookType)
     {
-        if (!PlayerResources.ActionTypeAvailable((uint)hookType.HooksetType))
+        if (!PlayerRes.ActionTypeAvailable((uint)hookType.HooksetType))
             return false;
 
         return true;
@@ -112,10 +112,10 @@ public class HookConfig
     
     private bool CheckIdenticalCast(BaseBiteConfig hookType)
     {
-        if (hookType.OnlyWhenActiveIdentical && !PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+        if (hookType.OnlyWhenActiveIdentical && !PlayerRes.HasStatus(IDs.Status.IdenticalCast))
             return false;
 
-        if (hookType.OnlyWhenNotActiveIdentical && PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+        if (hookType.OnlyWhenNotActiveIdentical && PlayerRes.HasStatus(IDs.Status.IdenticalCast))
             return false;
 
         return true;
@@ -123,10 +123,10 @@ public class HookConfig
 
     private bool CheckSurfaceSlap(BaseBiteConfig hookType)
     {
-        if (hookType.OnlyWhenActiveSlap && !PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+        if (hookType.OnlyWhenActiveSlap && !PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
             return false;
 
-        if (hookType.OnlyWhenNotActiveSlap && PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+        if (hookType.OnlyWhenNotActiveSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
             return false;
 
         return true;
@@ -137,7 +137,7 @@ public class HookConfig
         double minimumTime = 0;
         double maximumTime = 0;
 
-        if (PlayerResources.HasStatus(IDs.Status.Chum))
+        if (PlayerRes.HasStatus(IDs.Status.Chum))
         {
             if (hookType.ChumTimerEnabled)
             {

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
 using AutoHook.Utils;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace AutoHook.Configurations;
@@ -90,9 +89,9 @@ public class AutoCastsConfig
             return false;
         
         if (noDelay)
-            PlayerResources.CastActionNoDelay(action.Id, action.ActionType, action.GetName());
+            PlayerRes.CastActionNoDelay(action.Id, action.ActionType, action.GetName());
         else 
-            PlayerResources.CastActionDelayed(action.Id, action.ActionType, action.GetName());
+            PlayerRes.CastActionDelayed(action.Id, action.ActionType, action.GetName());
             
         return true;
 

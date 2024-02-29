@@ -28,13 +28,13 @@ public class AutoIdenticalCast : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (PlayerResources.HasStatus(IDs.Status.IdenticalCast) || PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+        if (PlayerRes.HasStatus(IDs.Status.IdenticalCast) || PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
             return false;
 
-        if (OnlyWhenCordialAvailable && PlayerResources.ActionOnCoolDown(IDs.Item.HiCordial, ActionType.Item))
+        if (OnlyWhenCordialAvailable && PlayerRes.ActionOnCoolDown(IDs.Item.HiCordial, ActionType.Item))
             return false;
         
-        if (OnlyUseUnderPatience && !PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+        if (OnlyUseUnderPatience && !PlayerRes.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
         return true;

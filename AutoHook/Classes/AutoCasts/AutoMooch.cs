@@ -10,12 +10,13 @@ public class AutoMooch : BaseActionCast
     public AutoMooch2 Mooch2 = new();
 
     public bool OnlyMoochIntuition = false;
-    
+
     public override bool RequiresTimeWindow() => true;
 
     public AutoMooch() : base(UIStrings.AutoMooch, Data.IDs.Actions.Mooch, ActionType.Action)
     {
         HelpText = UIStrings.AutoMooch_HelpText;
+        Enabled = true;
     }
 
     public override string GetName()
@@ -23,7 +24,7 @@ public class AutoMooch : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (OnlyMoochIntuition && !PlayerResources.HasStatus(IDs.Status.FishersIntuition))
+        if (OnlyMoochIntuition && !PlayerRes.HasStatus(IDs.Status.FishersIntuition))
             return false;
 
         if (Mooch2.IsAvailableToCast())
@@ -33,7 +34,7 @@ public class AutoMooch : BaseActionCast
             return true;
         }
 
-        if (PlayerResources.ActionTypeAvailable(IDs.Actions.Mooch))
+        if (PlayerRes.ActionTypeAvailable(IDs.Actions.Mooch))
         {
             Service.PrintDebug(@$"Mooch Available, casting normal mooch");
             Id = IDs.Actions.Mooch;

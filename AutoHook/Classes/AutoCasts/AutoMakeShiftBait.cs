@@ -25,21 +25,21 @@ public class AutoMakeShiftBait : BaseActionCast
         if (!Enabled)
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.MakeshiftBait))
+        if (PlayerRes.HasStatus(IDs.Status.MakeshiftBait))
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.PrizeCatch))
+        if (PlayerRes.HasStatus(IDs.Status.PrizeCatch))
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.AnglersFortune))
+        if (PlayerRes.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
-        if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition) && _onlyUseWithIntuition)
+        if (!PlayerRes.HasStatus(IDs.Status.FishersIntuition) && _onlyUseWithIntuition)
             return false;
 
 
-        bool available = PlayerResources.ActionTypeAvailable(IDs.Actions.MakeshiftBait);
-        bool hasStacks = PlayerResources.HasAnglersArtStacks(MakeshiftBaitStacks);
+        bool available = PlayerRes.ActionTypeAvailable(IDs.Actions.MakeshiftBait);
+        bool hasStacks = PlayerRes.HasAnglersArtStacks(MakeshiftBaitStacks);
 
         return hasStacks && available;
     }

@@ -22,11 +22,11 @@ public class AutoChum : BaseActionCast
 
     public override bool CastCondition()
     {
-        var hasIntuition = PlayerResources.HasStatus(IDs.Status.FishersIntuition);
+        var hasIntuition = PlayerRes.HasStatus(IDs.Status.FishersIntuition);
         if (!hasIntuition && _onlyUseWithIntuition)
             return false;
 
-        if (hasIntuition && _onlyUseWithIntuition && PlayerResources.GetStatusTime(IDs.Status.FishersIntuition) <= _useWhenIntuitionExceeds)
+        if (hasIntuition && _onlyUseWithIntuition && PlayerRes.GetStatusTime(IDs.Status.FishersIntuition) <= _useWhenIntuitionExceeds)
             return false;
 
         return true;

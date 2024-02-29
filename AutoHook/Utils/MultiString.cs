@@ -1,3 +1,4 @@
+using AutoHook.Resources.Localization;
 using Lumina.Excel.GeneratedSheets;
 using Lumina.Text;
 
@@ -12,4 +13,9 @@ public readonly struct MultiString
     {
         return ParseSeStringLumina(Service.DataManager.GetExcelSheet<Status>()!.GetRow(statusId)?.Name);
     }
+    
+    public static string GetItemName(uint id)
+    {
+        return id == 0 ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
+    } 
 }

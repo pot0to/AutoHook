@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Resources.Localization;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace AutoHook.Classes;
 
@@ -24,12 +23,12 @@ public abstract class BaseActionCast
         ActionType = actionType;
 
         if (actionType == ActionType.Action && id != IDs.Actions.ThaliaksFavor)
-            GpThreshold = (int)PlayerResources.CastActionCost(Id, ActionType);
+            GpThreshold = (int)PlayerRes.CastActionCost(Id, ActionType);
     }
 
-    public string Name;
-    
-    public string HelpText = @"";
+    [NonSerialized] public string Name;
+
+    [NonSerialized] public string HelpText = @"";
 
     public bool Enabled;
 
@@ -37,25 +36,25 @@ public abstract class BaseActionCast
 
     public int GpThreshold;
 
+    public bool IsSpearFishing;
+
     public bool GpThresholdAbove { get; set; } = true;
 
     public virtual bool DoesCancelMooch() => false;
 
     public bool DontCancelMooch = true;
-    
+
     public virtual bool RequiresAutoCastAvailabl() => false;
-    
+
     public virtual bool RequiresTimeWindow() => false;
-    
+
     public virtual int Priority { get; set; }
 
-    public ActionType ActionType { get; protected init; }
-    
-    
+    [NonSerialized] public ActionType ActionType;
 
     public virtual void SetThreshold(int newCost)
     {
-        var actionCost = Id == IDs.Actions.ThaliaksFavor ? 0 : (int)PlayerResources.CastActionCost(Id, ActionType);
+        var actionCost = Id == IDs.Actions.ThaliaksFavor ? 0 : (int)PlayerRes.CastActionCost(Id, ActionType);
 
         GpThreshold = (newCost < 0) ? 0 : Math.Max(newCost, actionCost);
 
@@ -67,14 +66,14 @@ public abstract class BaseActionCast
         if (!Enabled)
             return false;
 
-        if (DoesCancelMooch() && PlayerResources.IsMoochAvailable() && DontCancelMooch)
+        if (DoesCancelMooch() && PlayerRes.IsMoochAvailable() && DontCancelMooch)
         {
             return false;
         }
 
         var condition = CastCondition();
 
-        var currentGp = PlayerResources.GetCurrentGp();
+        var currentGp = PlayerRes.GetCurrentGp();
 
         bool hasGp;
 
@@ -83,9 +82,12 @@ public abstract class BaseActionCast
         else
             hasGp = currentGp <= GpThreshold;
 
-        var actionAvailable = PlayerResources.ActionTypeAvailable(Id, ActionType);
+        var actionAvailable = PlayerRes.ActionTypeAvailable(Id, ActionType);
 
-        Service.PrintDebug(@$"[BaseAction] Name:{Name} - has:{hasGp} - Available: {actionAvailable} - Condition: {condition}");
+        if (!IsSpearFishing) // the spam was too much lmao
+            Service.PrintDebug(
+                @$"[BaseAction] {Name} - GpCheck:{hasGp}, ActionAvailable: {actionAvailable}, OtherConditions: {condition}");
+
         return hasGp && actionAvailable && condition;
     }
 
@@ -100,6 +102,7 @@ public abstract class BaseActionCast
     protected virtual DrawOptionsDelegate? DrawOptions => null;
 
     public abstract bool IsExcludedPriority { get; set; }
+
     public virtual void DrawConfig(List<BaseActionCast>? availableActs = null)
     {
         ImGui.PushID(@$"{GetName()}_cfg");
@@ -160,7 +163,7 @@ public abstract class BaseActionCast
     private void DrawUpDownArrows(List<BaseActionCast>? availableActs)
     {
         if (availableActs is null || IsExcludedPriority) return;
-        
+
         if (GetPriority() == 0) //failsafe I guess
         {
             Priority = availableActs.MaxBy(x => x.Priority)!.Priority + 1;
@@ -177,7 +180,8 @@ public abstract class BaseActionCast
         {
             if (availableActs.Any(x => x.Priority < Priority && !x.IsExcludedPriority))
             {
-                var nextAct = availableActs.Where(x => x.Priority < Priority && !x.IsExcludedPriority).OrderByDescending(x => x.Priority).First();
+                var nextAct = availableActs.Where(x => x.Priority < Priority && !x.IsExcludedPriority)
+                    .OrderByDescending(x => x.Priority).First();
                 nextAct.Priority = this.Priority;
                 this.Priority--;
             }
@@ -195,7 +199,8 @@ public abstract class BaseActionCast
         {
             if (availableActs.Any(x => x.Priority > Priority && !x.IsExcludedPriority))
             {
-                var lastAct = availableActs.Where(x => x.Priority > Priority && !x.IsExcludedPriority).OrderBy(x => x.Priority).First();
+                var lastAct = availableActs.Where(x => x.Priority > Priority && !x.IsExcludedPriority)
+                    .OrderBy(x => x.Priority).First();
                 lastAct.Priority = this.Priority;
                 this.Priority++;
             }
@@ -208,7 +213,7 @@ public abstract class BaseActionCast
     public virtual void DrawGpThreshold()
     {
         ImGui.PushID(@$"{GetName()}_gp");
-        if (ImGui.Button(@"GP"))
+        if (ImGui.Button($"GP"))
         {
             ImGui.OpenPopup(str_id: @"gp_cfg");
         }
@@ -250,7 +255,7 @@ public abstract class BaseActionCast
                     SetThreshold(GpThreshold);
                     Service.Save();
                 }
-                
+
                 ImGui.EndChild();
             }
 
@@ -259,7 +264,4 @@ public abstract class BaseActionCast
 
         ImGui.PopID();
     }
-    
-    
-    
 }

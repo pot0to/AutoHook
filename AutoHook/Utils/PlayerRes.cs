@@ -1,46 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoHook.Classes;
 using AutoHook.Data;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Lumina.Excel.GeneratedSheets;
-using LuminaAction = Lumina.Excel.GeneratedSheets.Action;
 using Task = System.Threading.Tasks.Task;
 
 namespace AutoHook.Utils;
 
-public class PlayerResources : IDisposable
+public static class PlayerRes
 {
-    public static List<BaitFishClass> Baits { get; set; } = new();
-    public static List<BaitFishClass> Fishes { get; set; } = new();
-
-    public void Initialize()
-    {
-        //Service.GameInteropProvider.InitializeFromAttributes(this);
-        
-        Baits = Service.DataManager.GetExcelSheet<Item>()?
-                    .Where(i => i.ItemSearchCategory.Row == BaitFishClass.FishingTackleRow)
-                    .Select(b => new BaitFishClass(b))
-                    .ToList()
-                ?? new List<BaitFishClass>();
-        
-        Fishes = Service.DataManager.GetExcelSheet<FishParameter>()?
-                     .Where(f => f.Item != 0 && f.Item < 1000000)
-                     .Select(f => new BaitFishClass(f))
-                     .GroupBy(f => f.Id)
-                     .Select(group => group.First())
-                     .ToList()
-                 ?? new List<BaitFishClass>();
-    }
-    
-    public void Dispose()
-    {
-        //receiveActionEffectHook?.Disable();
-    }
-
     public static bool IsMoochAvailable()
     {
         if (ActionTypeAvailable(IDs.Actions.Mooch))
@@ -66,7 +34,7 @@ public class PlayerResources : IDisposable
         return false;
     }
 
-    public unsafe static bool IsInActiveSpectralCurrent()
+    public static unsafe bool IsInActiveSpectralCurrent()
     {
         if (EventFramework.Instance()->GetInstanceContentOceanFishing() is null)
             return false;
@@ -103,7 +71,7 @@ public class PlayerResources : IDisposable
 
         return false;
     }
-    
+
     public static float GetStatusTime(uint statusId)
     {
         if (Service.ClientState.LocalPlayer?.StatusList == null)
@@ -124,10 +92,10 @@ public class PlayerResources : IDisposable
     {
         return ActionStatus(id, actionType) == 0 && !ActionOnCoolDown(id, actionType);
     }
-    
+
     public static unsafe bool IsCastAvailable()
     {
-        return ActionStatus(IDs.Actions.Cast) == 0 && !ActionOnCoolDown(IDs.Actions.Cast) && !_blockCasting; 
+        return ActionStatus(IDs.Actions.Cast) == 0 && !ActionOnCoolDown(IDs.Actions.Cast) && !_blockCasting;
     }
 
     public static unsafe bool ActionOnCoolDown(uint id, ActionType actionType = ActionType.Action)
@@ -151,7 +119,6 @@ public class PlayerResources : IDisposable
     {
         return ActionManager.Instance()->UseAction(ActionType.Action, id);
     }
-    
 
     public static unsafe int GetRecastGroups(uint id, ActionType actionType = ActionType.Action)
     {
@@ -167,7 +134,7 @@ public class PlayerResources : IDisposable
     public static unsafe bool IsPotOffCooldown()
     {
         var recast = ActionManager.Instance()->GetRecastGroupDetail(68);
-        return recast->Total - recast->Elapsed == 0; 
+        return recast->Total - recast->Elapsed == 0;
     }
 
     public static unsafe uint CastActionCost(uint id, ActionType actionType = ActionType.Action)
@@ -194,20 +161,21 @@ public class PlayerResources : IDisposable
     {
         return InventoryManager.Instance()->GetInventoryItemCount(id) > 0;
     }
-    
+
 
     private static bool _blockCasting = false;
-    
-    public static void CastActionDelayed(uint actionId, ActionType actionType = ActionType.Action, string actionName = "")
+
+    public static void CastActionDelayed(uint actionId, ActionType actionType = ActionType.Action,
+        string actionName = "")
     {
         if (_blockCasting)
             return;
-        
+
         if (actionType is ActionType.Action or ActionType.Ability)
         {
             if (!ActionTypeAvailable(actionId, actionType))
                 return;
-            
+
             _blockCasting = true;
             Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
             try
@@ -218,6 +186,7 @@ public class PlayerResources : IDisposable
             {
                 Service.PrintDebug(@$"Error casting action: {actionName}, Id: {actionId}, {e}");
             }
+
             DelayNextCast(actionId);
         }
         else if (actionType == ActionType.Item)
@@ -233,14 +202,15 @@ public class PlayerResources : IDisposable
             {
                 Service.PrintDebug(@$"Error casting action: {actionName}, Id: {actionId}, {e}");
             }
-            
+
             DelayNextCast(actionId);
         }
     }
 
     private static bool _blockActionNoDelay = false;
 
-    public static void CastActionNoDelay(uint actionId, ActionType actionType = ActionType.Action, string actionName = "")
+    public static void CastActionNoDelay(uint actionId, ActionType actionType = ActionType.Action,
+        string actionName = "")
     {
         // sometimes it tries to cast the same action while, this prevents that
         if (_blockActionNoDelay)
@@ -266,10 +236,19 @@ public class PlayerResources : IDisposable
 
     public static async void DelayNextCast(uint actionId)
     {
-        var delay = new Random().Next(Service.Configuration.DelayBetweenCastsMin, Service.Configuration.DelayBetweenCastsMax);
+        var delay = 0;
+        try
+        {
+            delay = new Random().Next(Service.Configuration.DelayBetweenCastsMin,
+                Service.Configuration.DelayBetweenCastsMax);
+        }
+        catch (Exception e)
+        {
+            Service.PrintDebug(@$"Error getting delay between casts: {e}");
+        }
 
         await Task.Delay(delay + ConditionalDelay(actionId));
-        
+
         _blockCasting = false;
     }
 

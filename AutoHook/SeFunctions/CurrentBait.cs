@@ -39,7 +39,7 @@ public sealed class CurrentBait : SeAddressBase
         if (baitId == Current)
             return ChangeBaitReturn.AlreadyEquipped;
         
-        if (baitId == 0 || PlayerResources.Baits.All(b => b.Id != baitId))
+        if (baitId == 0 || GameRes.Baits.All(b => b.Id != baitId))
             return ChangeBaitReturn.InvalidBait;
         
         if (HasItem(baitId) <= 0)
@@ -56,7 +56,7 @@ public sealed class CurrentBait : SeAddressBase
             return ChangeBaitReturn.AlreadyEquipped;
         }
 
-        if (bait.Id == 0 || PlayerResources.Baits.All(b => b.Id != bait.Id))
+        if (bait.Id == 0 || GameRes.Baits.All(b => b.Id != bait.Id))
         {
             Service.PrintChat($"Bait \"{bait.Name}\" is not a valid bait.");
             return ChangeBaitReturn.InvalidBait;

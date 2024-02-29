@@ -9,7 +9,7 @@ namespace AutoHook.Ui;
 
 public class TabConfigGuides : BaseTab
 {
-    public override string TabName { get; } = UIStrings.TabName_Config_Guides;
+    public override string TabName { get; } = UIStrings.Settings;
     public override bool Enabled { get; } = true;
     
     public override void DrawHeader()
@@ -17,6 +17,8 @@ public class TabConfigGuides : BaseTab
         DrawTabDescription(
             "Localization options were added, but currently only English is available. If you want to help with the translation, please visit the link below");
 
+        ImGui.Spacing();
+        
         if (ImGui.Button(UIStrings.TabGeneral_DrawHeader_Localization_Help))
         {
             Process.Start(new ProcessStartInfo
@@ -25,73 +27,62 @@ public class TabConfigGuides : BaseTab
 
         ImGui.Spacing();
 
-        ImGui.TextWrapped(
-            "This page will be updated more in the future.");
+        if (ImGui.Button(UIStrings.TabAutoCasts_DrawHeader_Guide_Collectables))
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/PunishXIV/AutoHook/blob/main/AcceptCollectable.md",
+                UseShellExecute = true
+            });
+        }
 
         ImGui.Spacing();
     }
 
     public override void Draw()
     {
-        if (ImGui.BeginTabBar(@"TabBarsConfig", ImGuiTabBarFlags.NoTooltip))
-        {
-            if (ImGui.BeginTabItem(UIStrings.Draw_Configs))
-            {
-                ImGui.Spacing();
-                DrawConfigs();
-                ImGui.EndTabItem();
-            }
-
-            if (ImGui.BeginTabItem(UIStrings.Draw_Guides))
-            {
-                ImGui.Spacing();
-                DrawGuides();
-                ImGui.EndTabItem();
-            }
-
-            ImGui.EndTabBar();
-        }
+        DrawConfigs();
     }
 
     private void DrawConfigs()
     {
-        if (DrawUtil.Checkbox(UIStrings.Show_Debug_Console, ref Service.Configuration.ShowDebugConsole))
+        DrawDelayHook();
+        DrawUtil.SpacingSeparator();
+        DrawDelayCasts();
+        DrawUtil.SpacingSeparator();
+        
+        if (DrawUtil.Checkbox(UIStrings.AntiAfkOption, ref Service.Configuration.ResetAfkTimer))
         {
             Service.Save();
         }
         
-
+        if (DrawUtil.Checkbox(UIStrings.Hide_Tab_Description, ref Service.Configuration.HideTabDescription))
+        {
+            Service.Save();
+        }
+        
+        if (DrawUtil.Checkbox(UIStrings.Show_Current_Status_Header, ref Service.Configuration.ShowStatusHeader))
+        {
+            Service.Save();
+        }
+        
         if (DrawUtil.Checkbox(UIStrings.Show_Chat_Logs, ref Service.Configuration.ShowChatLogs,
                 UIStrings.Show_Chat_Logs_HelpText))
         {
             Service.Save();
         }
         
-        DrawUtil.SpacingSeparator();
-        DrawDelayHook();
-        DrawUtil.SpacingSeparator();
-        DrawDelayCasts();
-        DrawUtil.SpacingSeparator();
-
-        if (DrawUtil.Checkbox(UIStrings.Show_Current_Status_Header, ref Service.Configuration.ShowStatusHeader))
+        if (DrawUtil.Checkbox(UIStrings.Show_Debug_Console, ref Service.Configuration.ShowDebugConsole))
         {
             Service.Save();
         }
-
+        
+        
         if (DrawUtil.Checkbox(UIStrings.Show_Presets_As_Sidebar, ref Service.Configuration.ShowPresetsAsSidebar))
         {
             Service.Save();
         }
 
-        if (DrawUtil.Checkbox(UIStrings.Hide_Tab_Description, ref Service.Configuration.HideTabDescription))
-        {
-            Service.Save();
-        }
-        
-        if (DrawUtil.Checkbox(UIStrings.AntiAfkOption, ref Service.Configuration.ResetAfkTimer))
-        {
-            Service.Save();
-        }
         
         DrawUtil.DrawCheckboxTree(UIStrings.SwapTreeNodeButtons, ref Service.Configuration.SwapToButtons, () =>
         {
@@ -106,7 +97,6 @@ public class TabConfigGuides : BaseTab
                 Service.Configuration.SwapType = 1;
                 Service.Save();
             }
-            
             
             ImGui.Text("Hello, you're cute!");
         });
@@ -164,16 +154,5 @@ public class TabConfigGuides : BaseTab
         
         ImGui.PopID();
     }
-
-    private void DrawGuides()
-    {
-        if (ImGui.Button(UIStrings.TabAutoCasts_DrawHeader_Guide_Collectables))
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "https://github.com/PunishXIV/AutoHook/blob/main/AcceptCollectable.md",
-                UseShellExecute = true
-            });
-        }
-    }
+    
 }

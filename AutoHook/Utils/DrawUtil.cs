@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using AutoHook.Configurations;
+using AutoHook.Interfaces;
 using AutoHook.Resources.Localization;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
@@ -132,7 +135,7 @@ public static class DrawUtil
         string selectedItem,
         Action<T> onSelect)
     {
-        ImGui.SetNextItemWidth(200 * ImGuiHelpers.GlobalScale);
+        ImGui.SetNextItemWidth(220 * ImGuiHelpers.GlobalScale);
 
         if (ImGui.BeginCombo("###search", selectedItem))
         {
@@ -160,8 +163,8 @@ public static class DrawUtil
                         onSelect(item);
                         _filterText = "";
                         clearText = "";
-                        ImGui.CloseCurrentPopup();
                         Service.Save();
+                        ImGui.CloseCurrentPopup();
                     }
                 }
 
@@ -172,10 +175,135 @@ public static class DrawUtil
         }
     }
 
+    private static string _presetFilter = "";
+
+    public static void DrawComboSelectorPreset(IPresetConfig itemList)
+    {
+        ImGui.SetNextItemWidth(220 * ImGuiHelpers.GlobalScale);
+
+        var selectedPreset = itemList.GetISelectedPreset();
+        if (ImGui.BeginCombo("###search", selectedPreset?.Name ?? UIStrings.None))
+        {
+            string clearText = "";
+            ImGui.SetNextItemWidth(210 * ImGuiHelpers.GlobalScale);
+            if (ImGui.InputTextWithHint("", UIStrings.Search_Hint, ref clearText, 100))
+            {
+                _presetFilter = new string(clearText);
+            } else _presetFilter = string.Empty;
+
+            ImGui.Separator();
+
+            if (ImGui.BeginChild("ComboSelector", new Vector2(0, 100 * ImGuiHelpers.GlobalScale), false))
+            {
+                foreach (var item in itemList.GetIPresets())
+                {
+                    if (item.UniqueId == selectedPreset?.UniqueId)
+                        continue;
+
+                    var itemName = new string(item.Name);
+                    var filterTextLower = _presetFilter.ToLower();
+
+                    if (_presetFilter.Length != 0 && !itemName.ToLower().Contains(filterTextLower))
+                        continue;
+
+                    if (ImGui.Selectable(itemName, false))
+                    {
+                        itemList.SetSelectedPreset(item.UniqueId);
+                        _presetFilter = string.Empty;
+                        clearText = string.Empty;
+                        Service.Save();
+                        ImGui.CloseCurrentPopup();
+                    }
+                }
+
+                ImGui.EndChild();
+            }
+
+            ImGui.EndCombo();
+        }
+        else if (selectedPreset != null)
+        {
+            if (ImGui.IsItemHovered())
+                ImGui.SetTooltip(UIStrings.RightClickToRename);
+
+            if (!ImGui.BeginPopupContextItem(@$"PresetName###{selectedPreset.Name}"))
+                return;
+            ImGui.Text(UIStrings.TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm);
+            var name = selectedPreset.Name;
+            if (ImGui.InputText(UIStrings.PresetName, ref name, 64,
+                    ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
+            {
+                selectedPreset.Rename(name);
+                Service.Save();
+                ImGui.CloseCurrentPopup();
+            }
+
+            if (ImGui.Button(UIStrings.Close))
+            {
+                Service.Save();
+                ImGui.CloseCurrentPopup();
+            }
+
+            ImGui.EndPopup();
+        }
+    }
+
+    public static void DrawAddNewPresetButton(IPresetConfig presetConfig)
+    {
+        ImGui.PushFont(UiBuilder.IconFont);
+        var buttonSize = ImGui.CalcTextSize(FontAwesomeIcon.Plus.ToIconString()) + ImGui.GetStyle().FramePadding * 2;
+        if (ImGui.Button(FontAwesomeIcon.Plus.ToIconString(), buttonSize))
+        {
+            try
+            {
+                presetConfig.AddPresetItem(new(@$"{UIStrings.NewPreset} {DateTime.Now}"));
+                Service.Save();
+            }
+            catch (Exception e)
+            {
+                Service.PluginLog.Error(e.ToString());
+            }
+        }
+
+        ImGui.PopFont();
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(UIStrings.AddNewPreset);
+    }
+
+    public static void DrawDeletePresetButton(IPresetConfig itemList)
+    {
+        var selectedPreset = itemList.GetISelectedPreset();
+
+        if (selectedPreset == null) ImGui.BeginDisabled();
+        ImGui.PushFont(UiBuilder.IconFont);
+        var buttonSize = ImGui.CalcTextSize(FontAwesomeIcon.Trash.ToIconString()) + ImGui.GetStyle().FramePadding * 2;
+        if (ImGui.Button(FontAwesomeIcon.Trash.ToIconString(), buttonSize))
+        {
+            try
+            {
+                itemList.RemovePresetItem(selectedPreset?.UniqueId ?? Guid.Empty);
+
+                Service.Save();
+            }
+            catch (Exception e)
+            {
+                Service.PluginLog.Error(e.ToString());
+            }
+        }
+
+        ImGui.PopFont();
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
+
+        if (selectedPreset == null) ImGui.EndDisabled();
+    }
+
     public static void DrawCheckboxTree(string treeName, ref bool enable, Action action, string helpText = "")
     {
         ImGui.PushID(treeName);
-        ImGui.Checkbox($"##{treeName}###", ref enable);
+        
+        if (ImGui.Checkbox($"##{treeName}###", ref enable))
+            Service.Save();
 
         if (helpText != string.Empty)
         {
@@ -248,14 +376,14 @@ public static class DrawUtil
     public static void DrawButtonPopupType0(string popupName, Action action, string helpText = "")
     {
         ImGui.PushID(popupName);
-        
+
         TextV(popupName);
         ImGui.SameLine();
         if (ImGui.Button(UIStrings.Configure))
         {
             ImGui.OpenPopup(popupName);
         }
-        
+
         if (ImGui.IsItemHovered() && helpText != string.Empty)
             ImGui.SetTooltip(helpText);
 
@@ -263,15 +391,16 @@ public static class DrawUtil
         {
             var windowPos = ImGui.GetWindowPos();
             var windowSize = ImGui.GetWindowSize();
-            ImGui.GetForegroundDrawList().AddRect(windowPos, windowPos + windowSize, ImGui.GetColorU32(ImGuiCol.Separator));
+            ImGui.GetForegroundDrawList()
+                .AddRect(windowPos, windowPos + windowSize, ImGui.GetColorU32(ImGuiCol.Separator));
 
             action();
             ImGui.EndPopup();
         }
-        
+
         ImGui.PopID();
     }
-    
+
     public static void DrawButtonPopupType1(string popupName, Action action, string helpText = "")
     {
         ImGui.PushID(popupName);
@@ -279,7 +408,7 @@ public static class DrawUtil
         {
             ImGui.OpenPopup(popupName);
         }
-        
+
         if (ImGui.IsItemHovered() && helpText != string.Empty)
             ImGui.SetTooltip(helpText);
 
@@ -287,12 +416,13 @@ public static class DrawUtil
         {
             var windowPos = ImGui.GetWindowPos();
             var windowSize = ImGui.GetWindowSize();
-            ImGui.GetForegroundDrawList().AddRect(windowPos, windowPos + windowSize, ImGui.GetColorU32(ImGuiCol.Separator));
+            ImGui.GetForegroundDrawList()
+                .AddRect(windowPos, windowPos + windowSize, ImGui.GetColorU32(ImGuiCol.Separator));
 
             action();
             ImGui.EndPopup();
         }
-        
+
         ImGui.PopID();
     }
 

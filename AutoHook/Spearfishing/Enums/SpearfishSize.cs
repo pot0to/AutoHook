@@ -8,7 +8,7 @@ public enum SpearfishSize : byte
     Small   = 1,
     Average = 2,
     Large   = 3,
-   
+    Unknown = 255,
 }
 
 public static class SpearFishSizeExtensions

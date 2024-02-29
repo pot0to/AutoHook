@@ -31,7 +31,7 @@ public class TabCustomPresets : BaseTab
 
         if (Service.Configuration.ShowPresetsAsSidebar)
             return;
-        
+
         DrawPresetSelectionDropdown();
 
         ImGui.SameLine();
@@ -55,9 +55,8 @@ public class TabCustomPresets : BaseTab
         {
             DrawListboxPresets();
         }
-        else 
+        else
             DrawStandardTabs();
-        
     }
 
     private void DrawListboxPresets()
@@ -92,34 +91,35 @@ public class TabCustomPresets : BaseTab
 
                 if (ImGui.IsItemHovered())
                     ImGui.SetTooltip(UIStrings.RightClickToRename);
-                
+
                 DrawEditPresetNameListbox(preset.PresetName);
             }
+
             ImGui.EndListBox();
         }
 
         ImGui.EndGroup();
 
         ImGui.SameLine();
-        
-        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1))) 
-        { 
-            DrawStandardTabs(); 
-            ImGui.EndChild(); 
-        } 
+
+        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1)))
+        {
+            DrawStandardTabs();
+            ImGui.EndChild();
+        }
     }
 
     private void DrawStandardTabs()
     {
         if (_hookPresets.SelectedPreset == null)
             return;
-        
+
         if (ImGui.BeginTabBar(@"TabBarsPreset", ImGuiTabBarFlags.NoTooltip))
         {
             if (ImGui.BeginTabItem(UIStrings.Hooking))
-            {   
+            {
                 DrawUtil.HoveredTooltip(UIStrings.HookingTabHelpText);
-                
+
                 if (ImGui.BeginTabBar(@"TabBarCustomHooking", ImGuiTabBarFlags.NoTooltip))
                 {
                     if (ImGui.BeginTabItem(UIStrings.Bait))
@@ -143,12 +143,13 @@ public class TabCustomPresets : BaseTab
                         ImGui.EndTabItem();
                     }
                     else DrawUtil.HoveredTooltip(UIStrings.MoochTabHelpText);
+
                     ImGui.EndTabBar();
                 }
-                
+
                 ImGui.EndTabItem();
             }
-            
+
             if (ImGui.BeginTabItem(_subTabFish.TabName))
             {
                 _subTabFish.DrawFishTab(_hookPresets.SelectedPreset);
@@ -174,15 +175,12 @@ public class TabCustomPresets : BaseTab
     private void DrawAddPresetButton()
     {
         ImGui.PushFont(UiBuilder.IconFont);
-
         var buttonSize = ImGui.CalcTextSize(FontAwesomeIcon.Plus.ToIconString()) + ImGui.GetStyle().FramePadding * 2;
         if (ImGui.Button(FontAwesomeIcon.Plus.ToIconString(), buttonSize))
         {
             try
             {
                 PresetConfig preset = new(@$"{UIStrings.NewPreset} {DateTime.Now}");
-
-                Service.PrintDebug(@$"{UIStrings.NewPreset} {_hookPresets.CustomPresets.Count + 1}");
                 _hookPresets.AddPreset(preset);
                 _hookPresets.SelectedPreset = preset;
                 Service.Save();
@@ -215,7 +213,6 @@ public class TabCustomPresets : BaseTab
 
             Service.Save();
         }
-
 
         if (_hookPresets.SelectedPreset == null) ImGui.EndDisabled();
 
@@ -253,7 +250,6 @@ public class TabCustomPresets : BaseTab
                 Service.Save();
             }
 
-
             ImGui.EndPopup();
         }
     }
@@ -282,7 +278,7 @@ public class TabCustomPresets : BaseTab
                 ImGui.CloseCurrentPopup();
                 Service.Save();
             }
-            
+
             ImGui.EndPopup();
         }
     }
@@ -297,7 +293,7 @@ public class TabCustomPresets : BaseTab
             {
                 _hookPresets.SelectedPreset = null;
             }
-            
+
             foreach (var preset in _hookPresets.CustomPresets)
             {
                 if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
@@ -352,7 +348,7 @@ public class TabCustomPresets : BaseTab
         {
             try
             {
-                _tempImport = Configuration.ImportActionStack(ImGui.GetClipboardText());
+                _tempImport = Configuration.ImportPreset(ImGui.GetClipboardText());
 
                 if (_tempImport != null)
                 {

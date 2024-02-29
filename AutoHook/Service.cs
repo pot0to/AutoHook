@@ -8,6 +8,8 @@ using AutoHook.SeFunctions;
 using Dalamud.Plugin.Services;
 using Dalamud;
 using AutoHook.Configurations;
+using Dalamud.Game.ClientState.Objects;
+
 namespace AutoHook;
 
 public class Service
@@ -30,6 +32,7 @@ public class Service
     [PluginService] public static IGameInteropProvider GameInteropProvider { get; private set; } = null!;
     [PluginService] public static IPluginLog  PluginLog { get; private set; } = null!;
     [PluginService] public static ICondition Condition { get;private set; } = null!;
+    [PluginService] public static ITargetManager TargetManager { get; private set; } = null!;
 
 
     public static EventFramework EventFramework { get; set; } = null!;

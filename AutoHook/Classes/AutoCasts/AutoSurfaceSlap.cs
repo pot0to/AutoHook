@@ -21,7 +21,7 @@ public class AutoSurfaceSlap : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (PlayerResources.HasStatus(IDs.Status.IdenticalCast) || PlayerResources.HasStatus(IDs.Status.SurfaceSlap))
+        if (PlayerRes.HasStatus(IDs.Status.IdenticalCast) || PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
             return false;
 
         return true;

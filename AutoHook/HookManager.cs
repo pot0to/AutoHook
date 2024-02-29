@@ -100,7 +100,7 @@ public class HookingManager : IDisposable
         var selected = GetHookCfg();
         if (selected.Enabled)
         {
-            _timeout = PlayerResources.HasStatus(IDs.Status.Chum)
+            _timeout = PlayerRes.HasStatus(IDs.Status.Chum)
                 ? selected.Hookset.ChumTimeoutMax
                 : selected.Hookset.TimeoutMax;
         }
@@ -193,9 +193,9 @@ public class HookingManager : IDisposable
 
         if (currentState != FishingState.Quit && _lastStep == FishingSteps.Quitting)
         {
-            if (PlayerResources.IsCastAvailable())
+            if (PlayerRes.IsCastAvailable())
             {
-                PlayerResources.CastActionDelayed(IDs.Actions.Quit, ActionType.Action, @"Quit");
+                PlayerRes.CastActionDelayed(IDs.Actions.Quit, ActionType.Action, @"Quit");
                 currentState = FishingState.Quit;
             }
         }
@@ -301,13 +301,13 @@ public class HookingManager : IDisposable
 
         await Task.Delay(delay);
 
-        PlayerResources.CastActionDelayed((uint)hook, ActionType.Action, @$"{hook.ToString()}");
+        PlayerRes.CastActionDelayed((uint)hook, ActionType.Action, @$"{hook.ToString()}");
         Service.PrintDebug(@$"[HookManager] Using {hook.ToString()} hook. (Bite: {bite})");
     }
 
     private void OnCatch(uint fishId, uint amount)
     {
-        _lastCatch = PlayerResources.Fishes.FirstOrDefault(fish => fish.Id == fishId) ?? new BaitFishClass(@"-", -1);
+        _lastCatch = GameRes.Fishes.FirstOrDefault(fish => fish.Id == fishId) ?? new BaitFishClass(@"-", -1);
         var lastFishCatchCfg = GetLastCatchConfig();
 
         Service.LastCatch = _lastCatch;
@@ -348,8 +348,8 @@ public class HookingManager : IDisposable
 
         FishingCounter.Reset();
 
-        PlayerResources.CastActionNoDelay(IDs.Actions.Quit);
-        PlayerResources.DelayNextCast(0);
+        PlayerRes.CastActionNoDelay(IDs.Actions.Quit);
+        PlayerRes.DelayNextCast(0);
     }
 
     private void UseAutoCasts()
@@ -366,7 +366,7 @@ public class HookingManager : IDisposable
 
         _lastTickMs = _recastTimer.ElapsedMilliseconds;
 
-        if (!PlayerResources.IsCastAvailable())
+        if (!PlayerRes.IsCastAvailable())
             return;
 
         CheckExtraActions();
@@ -395,7 +395,7 @@ public class HookingManager : IDisposable
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
             return false;
 
-        if (PlayerResources.HasStatus(IDs.Status.FishersIntuition) && lastFishCatchCfg.IgnoreOnIntuition)
+        if (PlayerRes.HasStatus(IDs.Status.FishersIntuition) && lastFishCatchCfg.IgnoreOnIntuition)
             return false;
 
         var caughtCount = FishingCounter.GetCount(lastFishCatchCfg.GetUniqueId());
@@ -408,7 +408,7 @@ public class HookingManager : IDisposable
 
         if (cast != null)
         {
-            PlayerResources.CastActionDelayed(cast.Id, cast.ActionType, cast.Name);
+            PlayerRes.CastActionDelayed(cast.Id, cast.ActionType, cast.Name);
             return true;
         }
 
@@ -472,7 +472,7 @@ public class HookingManager : IDisposable
     {
         if (_spectralCurrentStatus == SpectralCurrentStatus.NotActive)
         {
-            if (!PlayerResources.IsInActiveSpectralCurrent())
+            if (!PlayerRes.IsInActiveSpectralCurrent())
                 return;
 
             _spectralCurrentStatus = SpectralCurrentStatus.Active; // only one try
@@ -511,7 +511,7 @@ public class HookingManager : IDisposable
 
         if (_spectralCurrentStatus == SpectralCurrentStatus.Active)
         {
-            if (PlayerResources.IsInActiveSpectralCurrent())
+            if (PlayerRes.IsInActiveSpectralCurrent())
                 return;
 
             _spectralCurrentStatus = SpectralCurrentStatus.NotActive; // only one try
@@ -555,7 +555,7 @@ public class HookingManager : IDisposable
     {
         if (_intuitionStatus == IntuitionStatus.NotActive)
         {
-            if (!PlayerResources.HasStatus(IDs.Status.FishersIntuition))
+            if (!PlayerRes.HasStatus(IDs.Status.FishersIntuition))
                 return;
 
             ExtraCfgGainedIntuition();
@@ -563,7 +563,7 @@ public class HookingManager : IDisposable
 
         if (_intuitionStatus == IntuitionStatus.Active)
         {
-            if (PlayerResources.HasStatus(IDs.Status.FishersIntuition))
+            if (PlayerRes.HasStatus(IDs.Status.FishersIntuition))
                 return;
 
             ExtraCfgLostIntuition();
@@ -663,7 +663,7 @@ public class HookingManager : IDisposable
         {
             if (lastFishCatchCfg is { Enabled: true } && lastFishCatchCfg.Mooch.IsAvailableToCast())
             {
-                PlayerResources.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType,
+                PlayerRes.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType,
                     UIStrings.Mooch);
                 return;
             }
@@ -726,7 +726,7 @@ public class HookingManager : IDisposable
 
         Service.PrintDebug(@"[HookManager] Timeout. Hooking fish.");
         _lastStep = FishingSteps.TimeOut;
-        PlayerResources.CastActionDelayed(IDs.Actions.Hook, ActionType.Action, UIStrings.Hook);
+        PlayerRes.CastActionDelayed(IDs.Actions.Hook, ActionType.Action, UIStrings.Hook);
     }
 
     private static void ResetAfkTimer()
@@ -765,11 +765,11 @@ public class HookingManager : IDisposable
                 switch (actionId)
                 {
                     case IDs.Actions.Cast:
-                        if (PlayerResources.ActionTypeAvailable(actionId)) OnBeganFishing();
+                        if (PlayerRes.ActionTypeAvailable(actionId)) OnBeganFishing();
                         break;
                     case IDs.Actions.Mooch:
                     case IDs.Actions.Mooch2:
-                        if (PlayerResources.ActionTypeAvailable(actionId)) OnBeganMooch();
+                        if (PlayerRes.ActionTypeAvailable(actionId)) OnBeganMooch();
                         break;
                 }
             }

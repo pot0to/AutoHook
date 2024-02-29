@@ -12,10 +12,11 @@ public class AutoCastLine : BaseActionCast
     public bool OnlyCastWithFishEyes = false;
 
     public override bool RequiresTimeWindow() => true;
-
+    
     public AutoCastLine() : base(UIStrings.AutoCastLine_Auto_Cast_Line, Data.IDs.Actions.Cast)
     {
         Priority = 1;
+        Enabled = true;
     }
 
     public override int Priority { get; set; } = 0;
@@ -23,7 +24,7 @@ public class AutoCastLine : BaseActionCast
 
     public override bool CastCondition()
     {
-        if (OnlyCastWithFishEyes && !PlayerResources.HasStatus(Data.IDs.Status.FishEyes))
+        if (OnlyCastWithFishEyes && !PlayerRes.HasStatus(Data.IDs.Status.FishEyes))
             return false;
 
         return true;

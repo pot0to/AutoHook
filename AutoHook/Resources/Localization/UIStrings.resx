@@ -1077,4 +1077,13 @@ Check the Guide Tab for Guides.</value>
   <data name="SetZeroToIgnore" xml:space="preserve">
     <value>Set zero (0) to ignore Min. or Max. timers</value>
   </data>
+  <data name="AboutTab" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="UseNaturesBounty" xml:space="preserve">
+    <value>Use Natures Bounty</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

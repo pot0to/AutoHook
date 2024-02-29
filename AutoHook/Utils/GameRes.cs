@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using AutoHook.Classes;
+using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
+
+namespace AutoHook.Utils;
+
+public static class GameRes
+{
+    public const uint FishingTackleRow = 30;
+
+    public static List<BaitFishClass> Baits { get; private set; } = new();
+    public static List<BaitFishClass> Fishes { get; private set; } = new();
+    public static List<Fish> ImportedFishes { get; private set; } = new();
+
+
+    public static void Initialize()
+    {
+        Baits = Service.DataManager.GetExcelSheet<Item>()?
+                    .Where(i => i.ItemSearchCategory.Row == FishingTackleRow)
+                    .Select(b => new BaitFishClass(b))
+                    .ToList()
+                ?? new List<BaitFishClass>();
+
+        Fishes = Service.DataManager.GetExcelSheet<FishParameter>()?
+                     .Where(f => f.Item != 0 && f.Item < 1000000)
+                     .Select(f => new BaitFishClass(f))
+                     .GroupBy(f => f.Id)
+                     .Select(group => group.First())
+                     .ToList()
+                 ?? new List<BaitFishClass>();
+        try
+        {
+            var path = Path.Combine(Service.PluginInterface.AssemblyLocation.DirectoryName!, $"Data\\FishData\\fish_list.json");
+
+            if (File.Exists(path))
+            {
+                var json = File.ReadAllText(path);
+                
+                ImportedFishes = JsonSerializer.Deserialize<List<Fish>>(json)!;
+            }
+        }
+        catch (Exception e)
+        {
+            ImGui.SetClipboardText(e.Message);
+            Service.PluginLog.Error($"{e.Message}");
+        }
+    }
+}

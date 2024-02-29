@@ -138,7 +138,7 @@ public class SubTabFish : BaseTab
 
         ImGui.Spacing();
         DrawUtil.DrawComboSelector<BaitFishClass>(
-            PlayerResources.Fishes,
+            GameRes.Fishes,
             (BaitFishClass fish) => fish.Name,
             fishConfig.Fish.Name,
             (BaitFishClass fish) => fishConfig.Fish = fish);
@@ -188,7 +188,7 @@ public class SubTabFish : BaseTab
             () =>
             {
                 DrawUtil.DrawComboSelector(
-                    PlayerResources.Baits,
+                    GameRes.Baits,
                     bait => bait.Name,
                     fishConfig.BaitToSwap.Name,
                     bait => fishConfig.BaitToSwap = bait);

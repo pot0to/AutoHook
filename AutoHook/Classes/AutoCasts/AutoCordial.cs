@@ -20,7 +20,7 @@ public class AutoCordial : BaseActionCast
     public bool AllowOvercapIC;
     
     public bool IgnoreTimeWindow;
-
+    
     public override bool RequiresTimeWindow() => !IgnoreTimeWindow;
 
     [NonSerialized]
@@ -42,10 +42,12 @@ public class AutoCordial : BaseActionCast
         (IDs.Item.Cordial,          CordialRecovery),
         (IDs.Item.HiCordial,        CordialHiRecovery)
     };
+    
+    
 
-    public AutoCordial() : base(UIStrings.Cordial, IDs.Item.Cordial, ActionType.Item)
+    public AutoCordial(bool isSpearFishing = false) : base(UIStrings.Cordial, IDs.Item.Cordial, ActionType.Item)
     {
-       
+        IsSpearFishing = isSpearFishing;
     }
     
     public override string GetName()
@@ -59,7 +61,7 @@ public class AutoCordial : BaseActionCast
         
         foreach (var (id, recovery) in cordialList)
         {
-            if (!PlayerResources.HaveCordialInInventory(id))
+            if (!PlayerRes.HaveCordialInInventory(id))
                 continue;
             
             Id = id;
@@ -80,10 +82,10 @@ public class AutoCordial : BaseActionCast
     
     private bool CheckNotOvercaped(uint recovery)
     {
-        if (AllowOvercapIC && PlayerResources.HasStatus(IDs.Status.IdenticalCast))
+        if (AllowOvercapIC && PlayerRes.HasStatus(IDs.Status.IdenticalCast))
             return true;
         
-        return PlayerResources.GetCurrentGp() + recovery <= PlayerResources.GetMaxGp(); 
+        return PlayerRes.GetCurrentGp() + recovery <= PlayerRes.GetMaxGp(); 
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>
@@ -92,15 +94,18 @@ public class AutoCordial : BaseActionCast
         {
             Service.Save();
         }
-        
-        if (DrawUtil.Checkbox(UIStrings.Allow_Gp_Overcap, ref AllowOvercapIC))
+
+        if (!IsSpearFishing)
         {
-            Service.Save(); 
-        }
+            if (DrawUtil.Checkbox(UIStrings.Allow_Gp_Overcap, ref AllowOvercapIC))
+            {
+                Service.Save(); 
+            }
         
-        if (DrawUtil.Checkbox(UIStrings.CordialOutsideTimeWindow, ref IgnoreTimeWindow, UIStrings.CordialOutsideTimeWindowHelpText))
-        {
-            Service.Save();
+            if (DrawUtil.Checkbox(UIStrings.CordialOutsideTimeWindow, ref IgnoreTimeWindow, UIStrings.CordialOutsideTimeWindowHelpText))
+            {
+                Service.Save();
+            }
         }
     };
 

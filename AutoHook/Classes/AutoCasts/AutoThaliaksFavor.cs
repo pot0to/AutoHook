@@ -10,11 +10,12 @@ public class AutoThaliaksFavor : BaseActionCast
 {
     public int ThaliaksFavorStacks = 3;
     public int ThaliaksFavorRecover = 150;
-    public bool UseWhenCordialCD = false;
+    public bool UseWhenCordialCD;
 
-    public AutoThaliaksFavor() : base(UIStrings.Thaliaks_Favor, IDs.Actions.ThaliaksFavor, ActionType.Action)
+    public AutoThaliaksFavor(bool isSpearfishing = false) : base(UIStrings.Thaliaks_Favor, IDs.Actions.ThaliaksFavor, ActionType.Action)
     {
         HelpText = UIStrings.TabAutoCasts_DrawThaliaksFavor_HelpText;
+        IsSpearFishing = isSpearfishing;
     }
 
     public override string GetName()
@@ -23,9 +24,9 @@ public class AutoThaliaksFavor : BaseActionCast
     public override bool CastCondition()
     {
         bool allowedToUseThaliaks = true;
-        bool hasStacks = PlayerResources.HasAnglersArtStacks(ThaliaksFavorStacks);
+        bool hasStacks = PlayerRes.HasAnglersArtStacks(ThaliaksFavorStacks);
 
-        bool notOvercaped = (PlayerResources.GetCurrentGp() + ThaliaksFavorRecover) < PlayerResources.GetMaxGp();
+        bool notOvercaped = (PlayerRes.GetCurrentGp() + ThaliaksFavorRecover) < PlayerRes.GetMaxGp();
 
         if (UseWhenCordialCD)
         {
@@ -33,10 +34,10 @@ public class AutoThaliaksFavor : BaseActionCast
             bool hasCordial = false;
             foreach (var cordial in cordialConfig._cordialList)
             {
-                hasCordial |= PlayerResources.HaveCordialInInventory(cordial.Item1);
+                hasCordial |= PlayerRes.HaveCordialInInventory(cordial.Item1);
             }
 
-            bool cordialAvailable = cordialConfig.Enabled && PlayerResources.IsPotOffCooldown() && hasCordial;
+            bool cordialAvailable = cordialConfig.Enabled && PlayerRes.IsPotOffCooldown() && hasCordial;
 
             allowedToUseThaliaks = !cordialAvailable;
         }

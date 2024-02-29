@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Interface.Components;
 
 namespace AutoHook;
 
@@ -21,7 +22,6 @@ public class PluginUi : Window, IDisposable
     {
         new TabGlobalPreset(),
         new TabCustomPresets(),
-        //new CastAndGPChangeLater(),
         new TabAutoGig(),
         new TabConfigGuides()
     };
@@ -53,36 +53,53 @@ public class PluginUi : Window, IDisposable
 
         //ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
         ImGui.Spacing();
-        DrawUtil.Checkbox(UIStrings.Enable_AutoHook, ref Service.Configuration.PluginEnabled,
-            UIStrings.PluginUi_Draw_Enables_Disables);
+        DrawUtil.Checkbox("", ref Service.Configuration.PluginEnabled);
 
-        ImGui.Indent();
+        ImGui.SameLine();
 
         if (Service.Configuration.PluginEnabled)
             ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Plugin_Enabled);
         else
             ImGui.TextColored(ImGuiColors.DalamudRed, UIStrings.Plugin_Disabled);
 
-        ImGui.Unindent();
+        ImGuiComponents.HelpMarker(UIStrings.PluginUi_Draw_Enables_Disables);
+
+        ImGui.SameLine();
+
+        DrawLanguageSelector();
+        ImGui.SameLine();
+        DrawChangelog();
         ImGui.Spacing();
 
-        DrawChangelog();
-        ImGui.SameLine();
-        DrawLanguageSelector();
-        ImGui.Spacing();
+        if (!Service.Configuration.HideLocButton)
+        {
+            if (ImGui.Button(UIStrings.TabGeneral_DrawHeader_Localization_Help))
+            {
+                if (ImGui.GetIO().KeyShift)
+                {
+                    Service.Configuration.HideLocButton = true;
+                }
+                else Process.Start(new ProcessStartInfo
+                    { FileName = "https://crowdin.com/project/autohook", UseShellExecute = true });
+            }
+
+            if (ImGui.IsItemHovered())
+                ImGui.SetTooltip(
+                    "This button will be removed soon, im just bringing attention to the localization for a bit. Or if you've read this message, hold shift and click to hide ");
+        }
+        
+
         if (Service.Configuration.ShowDebugConsole)
         {
             if (ImGui.Button(UIStrings.Open_Console))
-            {
                 Service.OpenConsole = !Service.OpenConsole;
-            }
 
             ImGui.SameLine();
 #if DEBUG
             TestButtons();
 #endif
-
-            Debug();
+            if (Service.OpenConsole)
+                Debug();
 
             ImGui.Spacing();
         }
@@ -133,13 +150,6 @@ public class PluginUi : Window, IDisposable
         ImGui.PopID();
     }
 
-    private static unsafe void TestButtons()
-    {
-        if (ImGui.Button(@"Check"))
-        {
-        }
-    }
-
     private void DrawTabs()
     {
         if (ImGui.BeginTabBar(@"AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
@@ -163,7 +173,7 @@ public class PluginUi : Window, IDisposable
                 }
             }
 
-            if (ImGui.BeginTabItem("About"))
+            if (ImGui.BeginTabItem(UIStrings.AboutTab))
             {
                 AboutTab.Draw("AutoHook");
                 ImGui.EndTabItem();
@@ -181,12 +191,11 @@ public class PluginUi : Window, IDisposable
     public static void ShowKofi()
     {
         ImGui.SameLine();
-        string buttonText = UIStrings.Support_me_on_Ko_fi;
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
 
-        if (ImGui.Button(buttonText))
+        if (ImGui.Button("Ko-fi"))
         {
             OpenBrowser(@"https://ko-fi.com/initialdet");
         }
@@ -210,7 +219,7 @@ public class PluginUi : Window, IDisposable
         };
         var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
 
-        if (!ImGui.Combo(UIStrings.PluginUi_Language, ref currentLanguage, languages.ToArray(), languages.Count))
+        if (!ImGui.Combo("", ref currentLanguage, languages.ToArray(), languages.Count))
             return;
 
         Service.Configuration.CurrentLanguage = languages[currentLanguage];
@@ -294,5 +303,9 @@ public class PluginUi : Window, IDisposable
         }
 
         ImGui.End();
+    }
+
+    private static unsafe void TestButtons()
+    {
     }
 }

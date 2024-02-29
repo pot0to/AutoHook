@@ -21,7 +21,7 @@ public class AutoFood : BaseActionCast //todo
 
     public override bool CastCondition()
     {
-        if (PlayerResources.GetStatusTime(IDs.Status.FoodBuff) > SecondsRemaining)
+        if (PlayerRes.GetStatusTime(IDs.Status.FoodBuff) > SecondsRemaining)
         {
             return false;
         }

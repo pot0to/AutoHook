@@ -9,7 +9,6 @@ using System.Text;
 using AutoHook.Classes;
 using AutoHook.Configurations.old_config;
 using AutoHook.Resources.Localization;
-using AutoHook.Spearfishing.Enums;
 using AutoHook.Utils;
 
 namespace AutoHook.Configurations;
@@ -19,22 +18,15 @@ public class Configuration : IPluginConfiguration
 {
     public int Version { get; set; } = 4;
     public string CurrentLanguage { get; set; } = @"en";
+    
+    public bool HideLocButton = false;
 
     public bool PluginEnabled = true;
 
     public HookPresets HookPresets = new();
-
-    public bool AutoGigEnabled = false;
-    public bool AutoGigHideOverlay = false;
-    public bool AutoGigNaturesBountyEnabled = false;
-    public bool AutoGigDrawFishHitbox = false;
-    public bool AutoGigDrawGigHitbox = true;
-
-    public SpearfishSpeed CurrentSpeed = SpearfishSpeed.All;
-    public SpearfishSize CurrentSize = SpearfishSize.All;
-
-    public Dictionary<string, int> GigSpacing = new Dictionary<string, int>();
-
+    
+    public AutoGigConfig AutoGigConfig = new();
+    
     public bool ShowDebugConsole = false;
 
     public bool ShowChatLogs = true;
@@ -178,10 +170,11 @@ public class Configuration : IPluginConfiguration
     // Got the export/import function from the UnknownX7's ReAction repo
     public static string ExportActionStack(PresetConfig preset)
     {
-        return CompressString(JsonConvert.SerializeObject(preset));
+        return CompressString(JsonConvert.SerializeObject(preset, 
+            new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
     }
 
-    public static PresetConfig? ImportActionStack(string import)
+    public static PresetConfig? ImportPreset(string import)
     {
         if (import.StartsWith(ExportPrefixV2))
         {
@@ -241,6 +234,25 @@ public class Configuration : IPluginConfiguration
 
         return Encoding.UTF8.GetString(buffer);
     }
+    
+    public static string DecompressBase64(string base64)
+    {
+        try
+        {
+            var bytes            = Convert.FromBase64String(base64);
+            using var compressedStream = new MemoryStream(bytes);
+            using var zipStream        = new GZipStream(compressedStream, CompressionMode.Decompress);
+            using var resultStream     = new MemoryStream();
+            zipStream.CopyTo(resultStream);
+            bytes   = resultStream.ToArray();
+            return Encoding.UTF8.GetString(bytes, 1, bytes.Length - 1);
+        }
+        catch (Exception e)
+        {
+            Service.PluginLog.Error(@$"Failed to DecompressBase64: {e.Message}");
+            return "";
+        }
+    }
 
     private static PresetConfig? ConvertOldPreset(BaitPresetConfig? preset)
     {
@@ -251,8 +263,8 @@ public class Configuration : IPluginConfiguration
         var filteredMooch = new List<HookConfig>();
         foreach (var old in preset.ListOfBaits)
         {
-            var matchingBait = PlayerResources.Baits.FirstOrDefault(b => b.Name == old.BaitName);
-            var matchingFish = PlayerResources.Fishes.FirstOrDefault(f => f.Name == old.BaitName);
+            var matchingBait = GameRes.Baits.FirstOrDefault(b => b.Name == old.BaitName);
+            var matchingFish = GameRes.Fishes.FirstOrDefault(f => f.Name == old.BaitName);
 
             if (matchingBait != null)
             {

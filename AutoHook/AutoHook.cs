@@ -9,7 +9,6 @@ using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
-using Dalamud.Plugin.Services;
 using PunishLib;
 
 namespace AutoHook;
@@ -46,8 +45,7 @@ public class AutoHook : IDalamudPlugin
     private static AutoGig _autoGig = null!;
 
     public readonly HookingManager HookManager;
-
-    private readonly PlayerResources _playerResources;
+    
 
     public AutoHook(DalamudPluginInterface pluginInterface)
     {
@@ -61,8 +59,8 @@ public class AutoHook : IDalamudPlugin
         Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi += OnOpenConfigUi;
         Service.Language = Service.ClientState.ClientLanguage;
-        _playerResources = new PlayerResources();
-        _playerResources.Initialize();
+       
+        GameRes.Initialize();
 
         Service.Configuration = Configuration.Load();
         UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
@@ -133,7 +131,6 @@ public class AutoHook : IDalamudPlugin
         _pluginUi.Dispose();
         _autoGig.Dispose();
         HookManager.Dispose();
-        _playerResources.Dispose();
         AutoHookIPC.Dispose();
         Service.Save();
         Service.PluginInterface.UiBuilder.Draw -= Service.WindowSystem.Draw;
