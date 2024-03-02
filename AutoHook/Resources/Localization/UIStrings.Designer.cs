@@ -1476,6 +1476,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignore Mooch.
+        /// </summary>
+        internal static string IgnoreMooch {
+            get {
+                return ResourceManager.GetString("IgnoreMooch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If disabled, the mooch attempt will not be cancelled, even if the Auto Mooch option is disabled.
+        /// </summary>
+        internal static string IgnoreMoochHelpText {
+            get {
+                return ResourceManager.GetString("IgnoreMoochHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         internal static string Import {
@@ -1625,6 +1643,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Never_Mooch {
             get {
                 return ResourceManager.GetString("Never_Mooch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If enabled, mooch won&apos;t be used, and actions will cancel thsi fish mooch attempt.
+        /// </summary>
+        internal static string NeverMoochHelpText {
+            get {
+                return ResourceManager.GetString("NeverMoochHelpText", resourceCulture);
             }
         }
         

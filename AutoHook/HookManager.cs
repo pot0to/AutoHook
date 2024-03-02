@@ -381,9 +381,10 @@ public class HookingManager : IDisposable
 
         var acCfg = GetAutoCastCfg();
 
-        var autoCast = acCfg.GetNextAutoCast(lastFishCatchCfg);
+        var ignoreMooch = lastFishCatchCfg?.NeverMooch ?? false;
+        var autoCast = acCfg.GetNextAutoCast(ignoreMooch);
 
-        if (acCfg.TryCastAction(autoCast))
+        if (acCfg.TryCastAction(autoCast, false, ignoreMooch))
             return;
 
         CastLineMoochOrRelease(acCfg, lastFishCatchCfg);
@@ -660,8 +661,7 @@ public class HookingManager : IDisposable
         {
             if (lastFishCatchCfg is { Enabled: true } && lastFishCatchCfg.Mooch.IsAvailableToCast())
             {
-                PlayerRes.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType,
-                    UIStrings.Mooch);
+                PlayerRes.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType, UIStrings.Mooch);
                 return;
             }
 

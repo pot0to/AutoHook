@@ -167,7 +167,7 @@ public class SubTabFish : BaseTab
         {
             fishConfig.Mooch.DrawConfig();
 
-            if (DrawUtil.Checkbox(UIStrings.Never_Mooch, ref fishConfig.NeverMooch))
+            if (DrawUtil.Checkbox(UIStrings.Never_Mooch, ref fishConfig.NeverMooch, UIStrings.NeverMoochHelpText))
             {
                 fishConfig.Mooch.Enabled = false;
                 Service.Save();

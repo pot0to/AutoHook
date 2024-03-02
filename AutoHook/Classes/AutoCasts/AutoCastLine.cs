@@ -1,9 +1,7 @@
-﻿using AutoHook.Resources.Localization;
+﻿using System.ComponentModel;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
-using Dalamud.Interface.Utility;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
-using ImGuiNET;
-using System;
+
 
 namespace AutoHook.Classes.AutoCasts;
 
@@ -11,7 +9,11 @@ public class AutoCastLine : BaseActionCast
 {
     public bool OnlyCastWithFishEyes = false;
 
+    [DefaultValue(true)] public bool IgnoreMooch = true;
+
     public override bool RequiresTimeWindow() => true;
+    
+    public override bool DoesCancelMooch() => !IgnoreMooch;
     
     public AutoCastLine() : base(UIStrings.AutoCastLine_Auto_Cast_Line, Data.IDs.Actions.Cast)
     {
@@ -37,5 +39,8 @@ public class AutoCastLine : BaseActionCast
     {
         DrawUtil.Checkbox(UIStrings.AutoCastOnlyUnderFishEyes, ref OnlyCastWithFishEyes,
             UIStrings.AutoCastOnlyUnderFishEyesHelpText);
+        
+        DrawUtil.Checkbox(UIStrings.IgnoreMooch, ref IgnoreMooch,
+            UIStrings.IgnoreMoochHelpText);
     };
 }

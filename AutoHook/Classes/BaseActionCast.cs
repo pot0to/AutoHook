@@ -67,7 +67,7 @@ public abstract class BaseActionCast
         if (!Enabled)
             return false;
 
-        if (DoesCancelMooch() && PlayerRes.IsMoochAvailable() && DontCancelMooch)
+        if (DoesCancelMooch() && PlayerRes.IsMoochAvailable() && DontCancelMooch && !ignoreCurrentMooch)
         {
             return false;
         }

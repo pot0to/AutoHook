@@ -1107,4 +1107,13 @@ Check the Guide Tab for Guides.</value>
   <data name="DontHideExtraAutoCast" xml:space="preserve">
     <value>Don't hide Extra/AutoCast options when disabled</value>
   </data>
+  <data name="IgnoreMooch" xml:space="preserve">
+    <value>Ignore Mooch</value>
+  </data>
+  <data name="IgnoreMoochHelpText" xml:space="preserve">
+    <value>If disabled, the mooch attempt will not be cancelled, even if the Auto Mooch option is disabled</value>
+  </data>
+  <data name="NeverMoochHelpText" xml:space="preserve">
+    <value>If enabled, mooch won't be used, and actions will cancel thsi fish mooch attempt</value>
+  </data>
 </root>

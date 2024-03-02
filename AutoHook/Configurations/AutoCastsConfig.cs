@@ -48,13 +48,11 @@ public class AutoCastsConfig
         return output;
     }
 
-    public BaseActionCast? GetNextAutoCast(FishConfig? lastFishCatchCfg)
+    public BaseActionCast? GetNextAutoCast(bool ignoreCurrentMooch)
     {
         if (!EnableAll)
             return null;
-
-        var ignoreCurrentMooch = lastFishCatchCfg != null && lastFishCatchCfg.NeverMooch;
-
+        
         BaseActionCast? cast = null;
 
         var order = GetAutoCastOrder();
@@ -80,7 +78,7 @@ public class AutoCastsConfig
     }
 
 
-    public bool TryCastAction(BaseActionCast? action, bool noDelay = false)
+    public bool TryCastAction(BaseActionCast? action, bool noDelay = false, bool ignoreCurrentMooch = false)
     {
         if (action == null || EnableAll == false)
             return false;
@@ -88,7 +86,7 @@ public class AutoCastsConfig
         if (OnlyCastDuringSpecificTime && action.RequiresTimeWindow() && !InsideCastWindow())
             return false;
 
-        if (!action.Enabled || !action.IsAvailableToCast())
+        if (!action.Enabled || !action.IsAvailableToCast(ignoreCurrentMooch))
             return false;
 
         if (noDelay)

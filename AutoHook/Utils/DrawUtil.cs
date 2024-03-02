@@ -76,8 +76,14 @@ public static class DrawUtil
 
     public static bool Checkbox(string label, ref bool refValue, string helpText = "", bool hoverHelpText = false)
     {
-        var clicked = ImGui.Checkbox($"{label}", ref refValue);
+        bool clicked = false;
 
+        if (ImGui.Checkbox($"{label}", ref refValue))
+        {
+            clicked = true;
+            Service.Save();
+        }
+        
         if (helpText != string.Empty)
         {
             if (hoverHelpText)
