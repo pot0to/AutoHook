@@ -931,9 +931,6 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="AutoCastStartTime" xml:space="preserve">
     <value>Heure de démarrage</value>
   </data>
-  <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
-    <value>Fonctionne uniquement sur une plage horaire éorzéenne spécifique</value>
-  </data>
   <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
     <value>Arrête la pêche quand le buff d'intuition disparaît</value>
   </data>
