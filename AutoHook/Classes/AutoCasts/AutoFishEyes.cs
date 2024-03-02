@@ -1,5 +1,6 @@
 ﻿using AutoHook.Data;
 using AutoHook.Resources.Localization;
+using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace AutoHook.Classes.AutoCasts;
@@ -22,6 +23,9 @@ public class AutoFishEyes : BaseActionCast
 
     public override bool CastCondition()
     {
+        if (PlayerRes.HasStatus(IDs.Status.FishEyes))
+            return false;
+        
         return true;
     }
 

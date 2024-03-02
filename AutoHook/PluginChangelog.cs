@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.0.5")
+        new Version("4.2.0.6")
         {
             MainChanges =
             {
@@ -17,10 +17,11 @@ public static class PluginChangelog
             },
             MinorChanges =
             {
+                "4.2.0.6 - Fixed Fish Eyes recasting even when already up",
+                "4.2.0.5 - You can now choose to let Cast Line cancel mooch or not (always cancelled before)",
                 "Reduced the size of preset exports (by a lot)",
                 "When a fish is set to Never Mooch, actions will now be able to cancel that mooching attempt",
                 "Added option to not hide Extra/Autocast when they are disabled",
-                "You can now choose to let Cast Line cancel mooch or not (always cancelled before)"
             }
         },
         new Version("4.1.0.8")
