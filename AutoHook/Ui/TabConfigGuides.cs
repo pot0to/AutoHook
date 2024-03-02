@@ -56,6 +56,11 @@ public class TabConfigGuides : BaseTab
             Service.Save();
         }
         
+        if (DrawUtil.Checkbox(UIStrings.DontHideExtraAutoCast, ref Service.Configuration.DontHideOptionsDisabled))
+        {
+            Service.Save();
+        }
+        
         if (DrawUtil.Checkbox(UIStrings.Hide_Tab_Description, ref Service.Configuration.HideTabDescription))
         {
             Service.Save();

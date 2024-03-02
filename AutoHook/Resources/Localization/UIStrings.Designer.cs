@@ -805,6 +805,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t hide Extra/AutoCast options when disabled.
+        /// </summary>
+        internal static string DontHideExtraAutoCast {
+            get {
+                return ResourceManager.GetString("DontHideExtraAutoCast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Double Hook.
         /// </summary>
         internal static string Double_Hook {

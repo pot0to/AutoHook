@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.0.2")
+        new Version("4.2.0.3")
         {
             MainChanges =
             {
@@ -18,7 +18,8 @@ public static class PluginChangelog
             MinorChanges =
             {
                 "Reduced the size of preset exports (by a lot)",
-                "When a fish is set to Never Mooch, actions will now be able to cancel that mooching attempt"
+                "When a fish is set to Never Mooch, actions will now be able to cancel that mooching attempt",
+                "Added option to not hide Extra/Autocast when they are disabled"
             }
         },
         new Version("4.1.0.8")

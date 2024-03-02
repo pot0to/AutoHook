@@ -14,7 +14,7 @@ public class SubTabExtra
     {
         DrawHeader(config);
         
-        if (config.Enabled)
+        if (config.Enabled || Service.Configuration.DontHideOptionsDisabled)
             DrawBody(config);
     }
 

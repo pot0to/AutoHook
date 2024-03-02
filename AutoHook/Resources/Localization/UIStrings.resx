@@ -1104,4 +1104,7 @@ Check the Guide Tab for Guides.</value>
   <data name="EnableActions" xml:space="preserve">
     <value>Enable Actions</value>
   </data>
+  <data name="DontHideExtraAutoCast" xml:space="preserve">
+    <value>Don't hide Extra/AutoCast options when disabled</value>
+  </data>
 </root>

@@ -46,6 +46,8 @@ public class Configuration : IPluginConfiguration
     public bool SwapToButtons = false;
     public int SwapType;
 
+    public bool DontHideOptionsDisabled = false;
+
     [DefaultValue(true)] public bool ResetAfkTimer = true;
 
     // old config

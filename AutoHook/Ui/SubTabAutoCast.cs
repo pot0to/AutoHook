@@ -57,22 +57,19 @@ public class SubTabAutoCast
             Service.Save();
         }
 
-        if (acCfg.EnableAll)
+        ImGui.SameLine();
+        
+        if (DrawUtil.Checkbox(UIStrings.Dont_Cancel_Mooch, ref acCfg.DontCancelMooch,
+                UIStrings.TabAutoCasts_DrawHeader_HelpText))
         {
-            ImGui.SameLine();
-            if (DrawUtil.Checkbox(UIStrings.Dont_Cancel_Mooch, ref acCfg.DontCancelMooch,
-                    UIStrings.TabAutoCasts_DrawHeader_HelpText))
+            foreach (var action in actionsAvailable.Where(action => action != null))
             {
-                foreach (var action in actionsAvailable.Where(action => action != null))
-                {
-                    action.DontCancelMooch = acCfg.DontCancelMooch;
+                action.DontCancelMooch = acCfg.DontCancelMooch;
 
-                    Service.PrintDebug($"{action.Name} DontCancelMooch: {action.DontCancelMooch}");
-                }
-
-                Service.Save();
+                Service.PrintDebug($"{action.Name} DontCancelMooch: {action.DontCancelMooch}");
             }
-            
+
+            Service.Save();
         }
 
         if (!IsGlobalPreset)
@@ -99,7 +96,7 @@ public class SubTabAutoCast
 
     private void DrawBody(AutoCastsConfig acCfg)
     {
-        if (!acCfg.EnableAll)
+        if (!acCfg.EnableAll && !Service.Configuration.DontHideOptionsDisabled)
             return;
         
         ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
