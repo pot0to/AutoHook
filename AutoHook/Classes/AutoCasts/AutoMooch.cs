@@ -16,7 +16,6 @@ public class AutoMooch : BaseActionCast
     public AutoMooch() : base(UIStrings.AutoMooch, Data.IDs.Actions.Mooch, ActionType.Action)
     {
         HelpText = UIStrings.AutoMooch_HelpText;
-        Enabled = true;
     }
 
     public override string GetName()

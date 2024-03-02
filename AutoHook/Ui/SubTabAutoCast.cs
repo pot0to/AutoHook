@@ -41,7 +41,7 @@ public class SubTabAutoCast
     {
         ImGui.Spacing();
 
-        if (DrawUtil.Checkbox(UIStrings.Enable_Auto_Casts, ref acCfg.EnableAll))
+        if (DrawUtil.Checkbox(UIStrings.EnableActions, ref acCfg.EnableAll, UIStrings.Acton_Alert_Manual_Hook))
         {
             if (acCfg.EnableAll)
             {
@@ -78,9 +78,9 @@ public class SubTabAutoCast
         if (!IsGlobalPreset)
         {
             if (Service.Configuration.HookPresets.DefaultPreset.AutoCastsCfg.EnableAll && !acCfg.EnableAll)
-                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.Global_AutoCast_Being_Used);
+                ImGui.TextColored(ImGuiColors.DalamudViolet, UIStrings.GlobalActionsBeingUsed);
             else if (!acCfg.EnableAll)
-                ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.SubAuto_Disabled);
+                ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.AllActionsDisabled);
         }
         else
         {
@@ -102,12 +102,11 @@ public class SubTabAutoCast
         if (!acCfg.EnableAll)
             return;
         
-        ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Auto_Cast_Alert_Manual_Hook);
         ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
         
         DrawUtil.SpacingSeparator();
 
-        DrawUtil.DrawCheckboxTree(UIStrings.AutoCastOnlyAtSpecificTimes, ref acCfg.OnlyCastDuringSpecificTime, () =>
+        DrawUtil.DrawCheckboxTree(UIStrings.Acton_Alert_Manual_Hook, ref acCfg.OnlyCastDuringSpecificTime, () =>
         {
             var startTime = acCfg.StartTime.ToString(@"HH:mm");
             var endTime = acCfg.EndTime.ToString(@"HH:mm");

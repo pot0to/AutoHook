@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using AutoHook.Interfaces;
 using AutoHook.Resources.Localization;
@@ -9,7 +10,9 @@ namespace AutoHook.Classes;
 
 public class BaseGig : IBaseOption
 {
+    [DefaultValue(true)]
     public bool Enabled = true;
+    
     public Fish? Fish;
     
     public bool UseNaturesBounty;

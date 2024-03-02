@@ -1,4 +1,5 @@
-﻿using AutoHook.Enums;
+﻿using System.ComponentModel;
+using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
@@ -10,6 +11,7 @@ namespace AutoHook.Classes;
 
 public class BaseBiteConfig
 {
+    [DefaultValue(true)]
     public bool HooksetEnabled = true;
 
     public bool EnableHooksetSwap;

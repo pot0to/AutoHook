@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
 using AutoHook.Enums;
@@ -9,10 +10,13 @@ namespace AutoHook.Configurations;
 public class FishConfig
 {
     private Guid _uniqueId;
+    
+    [DefaultValue(true)]
     public bool Enabled = true;
+    
     public bool IgnoreOnIntuition = false;
 
-    public BaitFishClass Fish;
+    public BaitFishClass Fish = new();
     
     public bool StopAfterCaught = false;
     public int StopAfterCaughtLimit = 1;
@@ -35,7 +39,9 @@ public class FishConfig
     public bool NeverRelease = false;
     
     public FishingSteps StopFishingStep = FishingSteps.None;
-
+    
+    public FishConfig(){}
+    
     public FishConfig(BaitFishClass fish)
     {
         Fish = fish;
@@ -43,6 +49,12 @@ public class FishConfig
         Mooch.Name = UIStrings.Always_Mooch; 
         
         _uniqueId = Guid.NewGuid();
+    }
+    
+    public FishConfig(int fishId) 
+    { 
+        Fish = new BaitFishClass(fishId); 
+        _uniqueId = Guid.NewGuid(); 
     }
     
     public Guid GetUniqueId()

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Compression;
 using System.IO;
 using System.Linq;
@@ -18,18 +19,18 @@ public class Configuration : IPluginConfiguration
 {
     public int Version { get; set; } = 4;
     public string CurrentLanguage { get; set; } = @"en";
-    
+
     public bool HideLocButton = false;
 
-    public bool PluginEnabled = true;
+    [DefaultValue(true)] public bool PluginEnabled = true;
 
     public HookPresets HookPresets = new();
-    
+
     public AutoGigConfig AutoGigConfig = new();
-    
+
     public bool ShowDebugConsole = false;
 
-    public bool ShowChatLogs = true;
+    [DefaultValue(true)] public bool ShowChatLogs = true;
 
     public int DelayBetweenCastsMin = 600;
     public int DelayBetweenCastsMax = 1000;
@@ -37,7 +38,7 @@ public class Configuration : IPluginConfiguration
     public int DelayBetweenHookMin = 0;
     public int DelayBetweenHookMax = 0;
 
-    public bool ShowStatusHeader = true;
+    [DefaultValue(true)] public bool ShowStatusHeader = true;
     public bool ShowPresetsAsSidebar = false;
 
     public bool HideTabDescription = false;
@@ -45,7 +46,7 @@ public class Configuration : IPluginConfiguration
     public bool SwapToButtons = false;
     public int SwapType;
 
-    public bool ResetAfkTimer = true;
+    [DefaultValue(true)] public bool ResetAfkTimer = true;
 
     // old config
     public List<BaitPresetConfig> BaitPresetList = new();
@@ -103,7 +104,7 @@ public class Configuration : IPluginConfiguration
             Version = 4;
         }
     }
-    
+
     private static void SetFieldNewClass(HookConfig newOne, BaitConfig old)
     {
         var oldType = old.GetType();
@@ -168,9 +169,9 @@ public class Configuration : IPluginConfiguration
     }
 
     // Got the export/import function from the UnknownX7's ReAction repo
-    public static string ExportActionStack(PresetConfig preset)
+    public static string ExportPreset(PresetConfig preset)
     {
-        return CompressString(JsonConvert.SerializeObject(preset, 
+        return CompressString(JsonConvert.SerializeObject(preset,
             new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
     }
 
@@ -211,6 +212,7 @@ public class Configuration : IPluginConfiguration
         using var ms = new MemoryStream();
         using (var gs = new GZipStream(ms, CompressionMode.Compress))
             gs.Write(bytes, 0, bytes.Length);
+
         return ExportPrefixV4 + Convert.ToBase64String(ms.ToArray());
     }
 
@@ -234,17 +236,17 @@ public class Configuration : IPluginConfiguration
 
         return Encoding.UTF8.GetString(buffer);
     }
-    
+
     public static string DecompressBase64(string base64)
     {
         try
         {
-            var bytes            = Convert.FromBase64String(base64);
+            var bytes = Convert.FromBase64String(base64);
             using var compressedStream = new MemoryStream(bytes);
-            using var zipStream        = new GZipStream(compressedStream, CompressionMode.Decompress);
-            using var resultStream     = new MemoryStream();
+            using var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress);
+            using var resultStream = new MemoryStream();
             zipStream.CopyTo(resultStream);
-            bytes   = resultStream.ToArray();
+            bytes = resultStream.ToArray();
             return Encoding.UTF8.GetString(bytes, 1, bytes.Length - 1);
         }
         catch (Exception e)

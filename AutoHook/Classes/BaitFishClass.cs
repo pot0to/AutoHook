@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using AutoHook.Utils;
 using Lumina.Excel.GeneratedSheets;
 using FishRow = Lumina.Excel.GeneratedSheets.FishParameter;
@@ -8,7 +9,7 @@ namespace AutoHook.Classes;
 
 public class BaitFishClass : IComparable<BaitFishClass>
 {
-    public string Name => MultiString.GetItemName((uint)Id);
+    [JsonIgnore] public string Name => MultiString.GetItemName((uint)Id);
 
     public int Id;
 
@@ -33,6 +34,11 @@ public class BaitFishClass : IComparable<BaitFishClass>
     {
         Id = -1;
     }
+    
+    public BaitFishClass(int id) 
+    { 
+        Id = id; 
+    } 
 
     public int CompareTo(BaitFishClass? other)
         => Id.CompareTo(other?.Id ?? 0);

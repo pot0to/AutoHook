@@ -6,6 +6,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Resources.Localization;
@@ -30,19 +31,19 @@ public abstract class BaseActionCast
 
     [NonSerialized] public string HelpText = @"";
 
-    public bool Enabled;
+    [DefaultValue(false)] public bool Enabled;
 
-    public uint Id { get; set; }
+    [NonSerialized] public uint Id;
 
     public int GpThreshold;
 
-    public bool IsSpearFishing;
+    [NonSerialized] public bool IsSpearFishing;
 
-    public bool GpThresholdAbove { get; set; } = true;
+    [DefaultValue(true)] public bool GpThresholdAbove { get; set; } = true;
 
     public virtual bool DoesCancelMooch() => false;
 
-    public bool DontCancelMooch = true;
+    [DefaultValue(true)] public bool DontCancelMooch = true;
 
     public virtual bool RequiresAutoCastAvailabl() => false;
 

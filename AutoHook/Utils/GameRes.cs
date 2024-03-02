@@ -16,6 +16,8 @@ public static class GameRes
     public static List<BaitFishClass> Baits { get; private set; } = new();
     public static List<BaitFishClass> Fishes { get; private set; } = new();
     public static List<Fish> ImportedFishes { get; private set; } = new();
+    
+    public static List<BiteTimers> BiteTimers { get; private set; } = new();
 
 
     public static void Initialize()
@@ -35,13 +37,22 @@ public static class GameRes
                  ?? new List<BaitFishClass>();
         try
         {
-            var path = Path.Combine(Service.PluginInterface.AssemblyLocation.DirectoryName!, $"Data\\FishData\\fish_list.json");
-
-            if (File.Exists(path))
+            var fishList = Path.Combine(Service.PluginInterface.AssemblyLocation.DirectoryName!, $"Data\\FishData\\fish_list.json");
+            
+            if (File.Exists(fishList))
             {
-                var json = File.ReadAllText(path);
+                var json = File.ReadAllText(fishList);
                 
                 ImportedFishes = JsonSerializer.Deserialize<List<Fish>>(json)!;
+            }
+            
+            var biteTimers = Path.Combine(Service.PluginInterface.AssemblyLocation.DirectoryName!, $"Data\\FishData\\bitetimers.json");
+            
+            if (File.Exists(biteTimers))
+            {
+                var json = File.ReadAllText(biteTimers);
+                
+                BiteTimers = JsonSerializer.Deserialize<List<BiteTimers>>(json)!;
             }
         }
         catch (Exception e)

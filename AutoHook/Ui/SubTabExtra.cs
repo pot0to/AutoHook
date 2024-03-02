@@ -122,9 +122,7 @@ public class SubTabExtra
         }
 
         DrawUtil.SpacingSeparator();
-
         
-        DrawUtil.SpacingSeparator();
         ImGui.EndGroup();
     }
 

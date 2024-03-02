@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel;
 using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
 using AutoHook.Utils;
@@ -12,6 +13,7 @@ public class AutoCastsConfig
 {
     public bool EnableAll = false;
 
+    [DefaultValue(true)]
     public bool DontCancelMooch = true;
 
     public TimeOnly StartTime = new(0);

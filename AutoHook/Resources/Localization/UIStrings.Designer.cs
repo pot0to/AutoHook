@@ -87,6 +87,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Important! Actions wont be used if you hook manually..
+        /// </summary>
+        internal static string Acton_Alert_Manual_Hook {
+            get {
+                return ResourceManager.GetString("Acton_Alert_Manual_Hook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string Add {
@@ -183,6 +192,15 @@ namespace AutoHook.Resources.Localization {
         internal static string All_Mooches {
             get {
                 return ResourceManager.GetString("All_Mooches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All actions are disabled.
+        /// </summary>
+        internal static string AllActionsDisabled {
+            get {
+                return ResourceManager.GetString("AllActionsDisabled", resourceCulture);
             }
         }
         
@@ -304,7 +322,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Cast only at specific times (Eorzea Time).
+        ///   Looks up a localized string similar to Use actions only at specific times (Eorzea Time).
         /// </summary>
         internal static string AutoCastOnlyAtSpecificTimes {
             get {
@@ -967,6 +985,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Actions.
+        /// </summary>
+        internal static string EnableActions {
+            get {
+                return ResourceManager.GetString("EnableActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable AutoGig.
         /// </summary>
         internal static string EnableAutoGig {
@@ -1173,6 +1200,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Global_Extra_Being_Used {
             get {
                 return ResourceManager.GetString("Global_Extra_Being_Used", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Actions from the Global Preset are being used instead.
+        /// </summary>
+        internal static string GlobalActionsBeingUsed {
+            get {
+                return ResourceManager.GetString("GlobalActionsBeingUsed", resourceCulture);
             }
         }
         
@@ -1494,11 +1530,29 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max..
+        /// </summary>
+        internal static string Max {
+            get {
+                return ResourceManager.GetString("Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max. Wait.
         /// </summary>
         internal static string MaxWait {
             get {
                 return ResourceManager.GetString("MaxWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min..
+        /// </summary>
+        internal static string Min {
+            get {
+                return ResourceManager.GetString("Min", resourceCulture);
             }
         }
         

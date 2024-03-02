@@ -18,4 +18,9 @@ public readonly struct MultiString
     {
         return id == 0 ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
     } 
+    
+    public static string GetItemName(int id)
+    {
+        return id == 0 ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow((uint)id)?.Name);
+    } 
 }

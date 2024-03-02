@@ -288,6 +288,12 @@ Cancels the fishing attempt by using hook when the time limit is reached.</value
   <data name="MinWait" xml:space="preserve">
     <value>Min. Wait</value>
   </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min.</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max.</value>
+  </data>
   <data name="HelpMarkerMinWaitTimer" xml:space="preserve">
     <value>Hook will NOT be used until the minimum time has passed.
 Ex: If you Min. Wait to 14 and something bites after 8 seconds, the fish will be ignored</value>
@@ -796,6 +802,9 @@ Check the Guide Tab for Guides.</value>
   <data name="SubAuto_Disabled" xml:space="preserve">
     <value>Auto cast is disabled</value>
   </data>
+  <data name="AllActionsDisabled" xml:space="preserve">
+    <value>All actions are disabled</value>
+  </data>
   <data name="SubExtra_Disabled" xml:space="preserve">
     <value>Extra options disabled</value>
   </data>
@@ -804,6 +813,9 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Global_AutoCast_Being_Used" xml:space="preserve">
     <value>[Global] auto cast is being used instead</value>
+  </data>
+  <data name="GlobalActionsBeingUsed" xml:space="preserve">
+    <value>Auto Actions from the Global Preset are being used instead</value>
   </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
     <value>Custom preset [{0}] Auto cast is being used instead</value>
@@ -819,6 +831,9 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
     <value>Important! Auto Casts wont be used if you hook manually.</value>
+  </data>
+  <data name="Acton_Alert_Manual_Hook" xml:space="preserve">
+    <value>Important! Actions wont be used if you hook manually.</value>
   </data>
   <data name="Food_Buff" xml:space="preserve">
     <value>Food Buff</value>
@@ -963,7 +978,7 @@ Check the Guide Tab for Guides.</value>
     <value>Starting time to allow auto casting</value>
   </data>
   <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
-    <value>Auto Cast only at specific times (Eorzea Time)</value>
+    <value>Use actions only at specific times (Eorzea Time)</value>
   </data>
   <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
     <value>Quits fishing when intuition is lost</value>
@@ -1085,5 +1100,8 @@ Check the Guide Tab for Guides.</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="EnableActions" xml:space="preserve">
+    <value>Enable Actions</value>
   </data>
 </root>

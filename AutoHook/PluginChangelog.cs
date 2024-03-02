@@ -8,6 +8,18 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.0.0")
+        {
+            MainChanges =
+            {
+                "New Preset Generator (Custom Preset Tab)",
+                "AutoGig Rework"
+            },
+            MinorChanges =
+            {
+                "Reduced the size of preset exports (by a lot)",
+            }
+        },
         new Version("4.1.0.8")
         {
             MinorChanges =

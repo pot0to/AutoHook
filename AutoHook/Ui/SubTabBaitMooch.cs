@@ -47,13 +47,17 @@ public class SubTabBaitMooch
 
             var count = HookingManager.FishingCounter.GetCount(hook.GetUniqueId());
             var hookCounter = count > 0 ? @$"({UIStrings.Hooked_Counter} {count})" : "";
+
+            if (DrawUtil.Checkbox($"###checkbox{idx}", ref hook.Enabled, UIStrings.EnabledConfigArrowhelpMarker, true))
+                Service.Save();
+
+            ImGui.SameLine();
             if (ImGui.CollapsingHeader(@$"{baitName} {hookCounter}###{idx}"))
             {
-                ImGui.Spacing();
-                DrawEnabledButtonCustomBait(hook);
+                ImGui.Indent();
                 if (!IsGlobal)
                 {
-                    ImGui.SameLine();
+                    ImGui.Spacing();
                     DrawInputSearchBar(hook);
                     ImGui.SameLine();
                     DrawDeleteButton(hook);
@@ -78,6 +82,8 @@ public class SubTabBaitMooch
 
                     ImGui.EndTabBar();
                 }
+
+                ImGui.Unindent();
             }
 
             ImGui.Spacing();
@@ -159,13 +165,6 @@ public class SubTabBaitMooch
         }
     }
 
-    private void DrawEnabledButtonCustomBait(HookConfig hookConfig)
-    {
-        if (DrawUtil.Checkbox(UIStrings.Enabled, ref hookConfig.Enabled, UIStrings.EnabledConfigArrowhelpMarker))
-        {
-            Service.Save();
-        }
-    }
 
     private void DrawNormalTab(HookConfig bait)
     {

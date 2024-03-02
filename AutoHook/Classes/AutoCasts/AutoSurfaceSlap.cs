@@ -12,7 +12,6 @@ public class AutoSurfaceSlap : BaseActionCast
     
     public AutoSurfaceSlap() : base(UIStrings.Surface_Slap, Data.IDs.Actions.SurfaceSlap, ActionType.Action)
     {
-        
         HelpText = UIStrings.OverridesIdenticalCast;
     }
 

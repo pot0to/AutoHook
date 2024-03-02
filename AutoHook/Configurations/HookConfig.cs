@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using AutoHook.Classes;
 using AutoHook.Data;
 using AutoHook.Enums;
@@ -9,7 +10,7 @@ namespace AutoHook.Configurations;
 
 public class HookConfig
 {
-    public bool Enabled = true;
+    [DefaultValue(true)] public bool Enabled = true;
 
     private Guid _uniqueId;
 
@@ -23,10 +24,89 @@ public class HookConfig
 
     public BaseHookset Hookset => GetHookset();
 
+    public HookConfig()
+    {
+    }
+
     public HookConfig(BaitFishClass baitFish)
     {
         BaitFish = baitFish;
         _uniqueId = Guid.NewGuid();
+    }
+
+    public HookConfig(int baitFishId)
+    {
+        BaitFish = new BaitFishClass(baitFishId);
+        _uniqueId = Guid.NewGuid();
+    }
+
+    public void SetBiteAndHookType(BiteType bite, HookType hookType, bool isIntuition = false)
+    {
+        BaseHookset hookset = isIntuition ? IntuitionHook : NormalHook;
+        var hookDictionary = new Dictionary<BiteType, (BaseBiteConfig th, BaseBiteConfig dh, BaseBiteConfig ph)>
+        {
+            { BiteType.Weak, (hookset.TripleWeak, hookset.DoubleWeak, hookset.PatienceWeak) },
+            { BiteType.Strong, (hookset.TripleStrong, hookset.DoubleStrong, hookset.PatienceStrong) },
+            { BiteType.Legendary, (hookset.TripleLegendary, hookset.DoubleLegendary, hookset.PatienceLegendary) }
+        };
+
+        if (hookDictionary.TryGetValue(bite, out var hook))
+        {
+            hook.ph.HooksetEnabled = true;
+            hook.ph.HooksetType = hookType;
+            
+            hook.dh.HooksetEnabled = true;
+            hook.th.HooksetEnabled = true;
+        }
+    }
+
+    public void SetHooksetTimer(BiteType bite, double min, double max, bool isIntuition = false)
+    {
+        BaseHookset hookset = isIntuition ? IntuitionHook : NormalHook;
+        var hookDictionary = new Dictionary<BiteType, (BaseBiteConfig th, BaseBiteConfig dh, BaseBiteConfig ph)>
+        {
+            { BiteType.Weak, (hookset.TripleWeak, hookset.DoubleWeak, hookset.PatienceWeak) },
+            { BiteType.Strong, (hookset.TripleStrong, hookset.DoubleStrong, hookset.PatienceStrong) },
+            { BiteType.Legendary, (hookset.TripleLegendary, hookset.DoubleLegendary, hookset.PatienceLegendary) }
+        };
+
+        if (hookDictionary.TryGetValue(bite, out var hook))
+        {
+            hook.ph.MinHookTimer = min;
+            hook.ph.MaxHookTimer = max;
+            hook.ph.HookTimerEnabled = true;
+            
+            hook.dh.MinHookTimer = min;
+            hook.dh.MaxHookTimer = max;
+            hook.dh.HookTimerEnabled = true;
+            
+            hook.th.MinHookTimer = min;
+            hook.th.MaxHookTimer = max;
+            hook.th.HookTimerEnabled = true;
+        }
+    }
+
+    public void ResetAllHooksets()
+    {
+        ResetHooksets(NormalHook);
+        ResetHooksets(IntuitionHook);
+    }
+
+    private void ResetHooksets(BaseHookset hookset)
+    {
+        var hookDictionary = new Dictionary<BiteType, (BaseBiteConfig th, BaseBiteConfig dh, BaseBiteConfig ph)>
+        {
+            { BiteType.Weak, (hookset.TripleWeak, hookset.DoubleWeak, hookset.PatienceWeak) },
+            { BiteType.Strong, (hookset.TripleStrong, hookset.DoubleStrong, hookset.PatienceStrong) },
+            { BiteType.Legendary, (hookset.TripleLegendary, hookset.DoubleLegendary, hookset.PatienceLegendary) }
+        };
+
+        foreach (var hookDisable in hookDictionary)
+        {
+            hookDisable.Value.ph.HooksetEnabled = false;
+            hookDisable.Value.dh.HooksetEnabled = false;
+            hookDisable.Value.th.HooksetEnabled = false;
+        }
     }
 
     private BaseHookset GetHookset()
@@ -61,7 +141,8 @@ public class HookConfig
             if (hookset.UseTripleHook && hook.th.HooksetEnabled)
             {
                 if (CheckHookCondition(hook.th, timePassed))
-                    if (IsHookAvailable(hook.th)) return hook.th.HooksetType;
+                    if (IsHookAvailable(hook.th))
+                        return hook.th.HooksetType;
 
                 if (Hookset.LetFishEscapeTripleHook)
                     return HookType.None;
@@ -71,9 +152,10 @@ public class HookConfig
             if (hookset.UseDoubleHook && hook.dh.HooksetEnabled)
             {
                 if (CheckHookCondition(hook.dh, timePassed))
-                    if (IsHookAvailable(hook.dh)) return hook.dh.HooksetType;
-                
-                if (Hookset.LetFishEscapeDoubleHook) 
+                    if (IsHookAvailable(hook.dh))
+                        return hook.dh.HooksetType;
+
+                if (Hookset.LetFishEscapeDoubleHook)
                     return HookType.None;
             }
 
@@ -98,10 +180,10 @@ public class HookConfig
 
         if (!CheckTimer(hookType, timePassed))
             return false;
-        
+
         return true;
     }
-    
+
     private bool IsHookAvailable(BaseBiteConfig hookType)
     {
         if (!PlayerRes.ActionTypeAvailable((uint)hookType.HooksetType))
@@ -109,7 +191,7 @@ public class HookConfig
 
         return true;
     }
-    
+
     private bool CheckIdenticalCast(BaseBiteConfig hookType)
     {
         if (hookType.OnlyWhenActiveIdentical && !PlayerRes.HasStatus(IDs.Status.IdenticalCast))

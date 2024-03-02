@@ -25,10 +25,29 @@ public class TabCustomPresets : BaseTab
     private SubTabFish _subTabFish = new();
     private SubTabExtra _subTabExtra = new();
 
+    public static bool OpenPresetGen;
+    private PresetCreator PresetCreator = new(); 
+
     public override void DrawHeader()
     {
         DrawTabDescription(UIStrings.TabPresets_DrawHeader_NewTabDescription);
 
+        if (ImGui.Button("Preset Generator"))
+            OpenPresetGen = !OpenPresetGen;
+
+        if (OpenPresetGen)
+        {
+            ImGui.PushID(@"PresetGen"); 
+            ImGui.SetNextItemWidth(500); 
+            if (ImGui.Begin($"Preset Gen", ref OpenPresetGen, ImGuiWindowFlags.AlwaysUseWindowPadding)) 
+            { 
+                PresetCreator.PresetGenerator(); 
+                ImGui.End();
+            } 
+            
+            ImGui.PopID(); 
+        }
+        
         if (Service.Configuration.ShowPresetsAsSidebar)
             return;
 
@@ -322,7 +341,7 @@ public class TabCustomPresets : BaseTab
         {
             try
             {
-                ImGui.SetClipboardText(Configuration.ExportActionStack(_hookPresets.SelectedPreset!));
+                ImGui.SetClipboardText(Configuration.ExportPreset(_hookPresets.SelectedPreset!));
 
                 _alertMessage = UIStrings.PresetExportedToTheClipboard;
                 _alertTimer.Start();

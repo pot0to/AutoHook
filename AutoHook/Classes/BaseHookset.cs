@@ -78,13 +78,13 @@ public class BaseHookset
 
         ImGui.Spacing();
         DrawPatience();
-        DrawUtil.SpacingSeparator();
+        ImGui.Separator();
         DrawDoubleHook();
-        DrawUtil.SpacingSeparator();
+        ImGui.Separator();
         DrawTripleHook();
-        DrawUtil.SpacingSeparator();
+        ImGui.Separator();
         DrawTimeout();
-        DrawUtil.SpacingSeparator();
+        ImGui.Separator();
         DrawStopCondition();
 
         ImGui.PopID();

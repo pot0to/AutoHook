@@ -30,7 +30,7 @@ public class PresetConfig
             ListOfBaits.Add(hookConfig);
         }
     }
-
+    
     public void RemoveBaitConfig(HookConfig hookConfig)
     {
         if (ListOfBaits.Any(hook => hook.BaitFish.Id == hookConfig.BaitFish.Id))
@@ -38,7 +38,18 @@ public class PresetConfig
             ListOfBaits.Remove(hookConfig);
         }
     }
-
+    
+    public void ReplaceBaitConfig(HookConfig hookConfig)
+    {
+        var existing = ListOfBaits.FirstOrDefault(hook => hook.BaitFish.Id == hookConfig.BaitFish.Id);
+        if (existing != null)
+        {
+            ListOfBaits.Remove(existing);
+        }
+        
+        ListOfBaits.Add(hookConfig);
+    }
+    
     public void AddMoochConfig(HookConfig hookConfig)
     {
         if (ListOfMooch.All(hook => hook.BaitFish.Id != hookConfig.BaitFish.Id))
@@ -53,6 +64,17 @@ public class PresetConfig
         {
             ListOfBaits.Remove(hookConfig);
         }
+    }
+    
+    public void ReplaceMoochConfig(HookConfig moochConfig)
+    {
+        var existing = ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == moochConfig.BaitFish.Id);
+        if (existing != null)
+        {
+            ListOfMooch.Remove(existing);
+        }
+        
+        ListOfMooch.Add(moochConfig);
     }
 
     public void AddFishConfig(FishConfig fishConfig)

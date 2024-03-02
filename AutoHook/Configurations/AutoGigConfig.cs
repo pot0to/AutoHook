@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Classes;
@@ -18,6 +19,8 @@ public class AutoGigConfig : IPresetConfig
     public bool AutoGigEnabled = false;
     public bool AutoGigHideOverlay = false;
     public bool AutoGigDrawFishHitbox = false;
+    
+    [DefaultValue(true)]
     public bool AutoGigDrawGigHitbox = true;
 
     public AutoCordial Cordial = new(true);

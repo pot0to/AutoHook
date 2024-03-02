@@ -12,7 +12,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using AutoHook.Classes;
+using AutoHook.Configurations;
+using AutoHook.Enums;
 using Dalamud.Interface.Components;
+using Dalamud.Interface.Utility;
 
 namespace AutoHook;
 
@@ -79,15 +83,16 @@ public class PluginUi : Window, IDisposable
                 {
                     Service.Configuration.HideLocButton = true;
                 }
-                else Process.Start(new ProcessStartInfo
-                    { FileName = "https://crowdin.com/project/autohook", UseShellExecute = true });
+                else
+                    Process.Start(new ProcessStartInfo
+                        { FileName = "https://crowdin.com/project/autohook", UseShellExecute = true });
             }
 
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip(
                     "This button will be removed soon, im just bringing attention to the localization for a bit. Or if you've read this message, hold shift and click to hide ");
         }
-        
+
 
         if (Service.Configuration.ShowDebugConsole)
         {
@@ -121,9 +126,6 @@ public class PluginUi : Window, IDisposable
 
     private void Debug()
     {
-        if (!Service.OpenConsole)
-            return;
-
         ImGui.PushID(@"debug");
         ImGui.SetNextItemWidth(300);
         if (ImGui.Begin($"DebugWIndows", ref Service.OpenConsole))
@@ -219,7 +221,7 @@ public class PluginUi : Window, IDisposable
         };
         var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
 
-        if (!ImGui.Combo("", ref currentLanguage, languages.ToArray(), languages.Count))
+        if (!ImGui.Combo("###currentLanguage", ref currentLanguage, languages.ToArray(), languages.Count))
             return;
 
         Service.Configuration.CurrentLanguage = languages[currentLanguage];
@@ -307,5 +309,16 @@ public class PluginUi : Window, IDisposable
 
     private static unsafe void TestButtons()
     {
+        try
+        {
+            if (ImGui.Button("Check"))
+            {
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

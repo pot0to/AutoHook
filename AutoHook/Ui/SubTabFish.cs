@@ -15,12 +15,11 @@ namespace AutoHook.Ui;
 
 public class SubTabFish : BaseTab
 {
-    
     public bool IsGlobalPreset { get; set; }
-    
+
     public override string TabName { get; } = UIStrings.Fish_Caught;
     public override bool Enabled { get; } = true;
-    
+
     private List<FishConfig> _listOfFish = new();
 
     public void DrawFishTab(PresetConfig presetCfg)
@@ -44,16 +43,17 @@ public class SubTabFish : BaseTab
 
             var count = HookingManager.FishingCounter.GetCount(fish.GetUniqueId());
             var fishCount = count > 0 ? $"({UIStrings.Caught_Counter} {count})" : "";
+
+            if (DrawUtil.Checkbox($"###checkbox{idx}", ref fish.Enabled))
+                Service.Save();
+
+            ImGui.SameLine();
             if (ImGui.CollapsingHeader($"{fish.Fish.Name} {fishCount}###a{idx}"))
             {
-                ImGui.Spacing();
-                ImGui.Checkbox(UIStrings.Enable, ref fish.Enabled);
-                DrawDeleteButton(fish);
-                ImGui.Checkbox(UIStrings.Ignore_When_Intuition, ref fish.IgnoreOnIntuition);
-                ImGui.Spacing();
                 ImGui.Indent();
-
+                ImGui.Spacing();
                 DrawFishSearchBar(fish);
+                DrawDeleteButton(fish);
                 DrawUtil.SpacingSeparator();
 
                 DrawSurfaceSlapIdenticalCast(fish);
@@ -70,9 +70,9 @@ public class SubTabFish : BaseTab
 
                 DrawStopAfter(fish);
                 ImGui.Spacing();
-                
-                /*DrawNeverRelease(fish);
-                ImGui.Spacing();*/
+
+                if (DrawUtil.Checkbox(UIStrings.Ignore_When_Intuition, ref fish.IgnoreOnIntuition))
+                    Service.Save();
 
                 ImGui.Unindent();
             }
@@ -98,7 +98,7 @@ public class SubTabFish : BaseTab
         ImGui.SameLine();
         ImGui.Text($"{UIStrings.Add_new_fish} ({list.Count})");
         ImGui.SameLine();
-        
+
         ImGui.SameLine();
 
         if (ImGui.Button($"{UIStrings.AddLastCatch} {Service.LastCatch.Name ?? "-"}"))
@@ -107,7 +107,7 @@ public class SubTabFish : BaseTab
                 return;
             if (list.Any(x => x.Fish.Id == Service.LastCatch.Id))
                 return;
-            
+
             list.Add(new FishConfig(Service.LastCatch));
             Service.Save();
         }
@@ -135,8 +135,6 @@ public class SubTabFish : BaseTab
     private void DrawFishSearchBar(FishConfig fishConfig)
     {
         ImGui.PushID("DrawFishSearchBar");
-
-        ImGui.Spacing();
         DrawUtil.DrawComboSelector<BaitFishClass>(
             GameRes.Fishes,
             (BaitFishClass fish) => fish.Name,
@@ -153,9 +151,9 @@ public class SubTabFish : BaseTab
         if (ImGui.TreeNodeEx(UIStrings.SurfaceSlapIdenticalCast, ImGuiTreeNodeFlags.FramePadding))
         {
             fishConfig.SurfaceSlap.DrawConfig();
-            
+
             fishConfig.IdenticalCast.DrawConfig();
-            
+
             ImGui.TreePop();
         }
 
@@ -261,25 +259,25 @@ public class SubTabFish : BaseTab
 
                 Service.Save();
             }
-            
+
             if (ImGui.RadioButton(UIStrings.Stop_Casting, fishConfig.StopFishingStep == FishingSteps.None))
             {
                 fishConfig.StopFishingStep = FishingSteps.None;
                 Service.Save();
             }
-            
+
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
-            
+
             if (ImGui.RadioButton(UIStrings.Quit_Fishing, fishConfig.StopFishingStep == FishingSteps.Quitting))
             {
                 fishConfig.StopFishingStep = FishingSteps.Quitting;
                 Service.Save();
             }
-            
+
             ImGui.SameLine();
             ImGuiComponents.HelpMarker(UIStrings.Quit_Action_HelpText);
-            
+
             DrawUtil.Checkbox(UIStrings.Reset_the_counter, ref fishConfig.StopAfterResetCount);
 
             ImGui.Unindent();
@@ -290,14 +288,12 @@ public class SubTabFish : BaseTab
         ImGui.PopID();
     }
 
-    
+
     public override void DrawHeader()
     {
-        
     }
 
     public override void Draw()
     {
-       
     }
 }
