@@ -369,27 +369,28 @@ public class HookingManager : IDisposable
         if (!PlayerRes.IsCastAvailable())
             return;
 
+
+        var lastFishCatchCfg = GetLastCatchConfig();
+
         CheckExtraActions();
 
-        if (CheckFishCaughtActions())
+        if (CheckFishCaughtActions(lastFishCatchCfg))
             return;
 
-        CheckFishCaughtSwap();
+        CheckFishCaughtSwap(lastFishCatchCfg);
 
         var acCfg = GetAutoCastCfg();
 
-        var autoCast = acCfg.GetNextAutoCast();
+        var autoCast = acCfg.GetNextAutoCast(lastFishCatchCfg);
 
         if (acCfg.TryCastAction(autoCast))
             return;
 
-        CastLineMoochOrRelease(acCfg);
+        CastLineMoochOrRelease(acCfg, lastFishCatchCfg);
     }
 
-    private bool CheckFishCaughtActions()
+    private bool CheckFishCaughtActions(FishConfig? lastFishCatchCfg)
     {
-        var lastFishCatchCfg = GetLastCatchConfig();
-
         BaseActionCast? cast = null;
 
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
@@ -415,10 +416,8 @@ public class HookingManager : IDisposable
         return false;
     }
 
-    private void CheckFishCaughtSwap()
+    private void CheckFishCaughtSwap(FishConfig? lastFishCatchCfg)
     {
-        var lastFishCatchCfg = GetLastCatchConfig();
-
         if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
             return;
 
@@ -653,10 +652,8 @@ public class HookingManager : IDisposable
         }
     }
 
-    private void CastLineMoochOrRelease(AutoCastsConfig acCfg)
+    private void CastLineMoochOrRelease(AutoCastsConfig acCfg, FishConfig? lastFishCatchCfg)
     {
-        var lastFishCatchCfg = GetLastCatchConfig();
-
         var blockMooch = lastFishCatchCfg is { Enabled: true, NeverMooch: true };
 
         if (!blockMooch)

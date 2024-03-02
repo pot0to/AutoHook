@@ -62,7 +62,7 @@ public abstract class BaseActionCast
         Service.Save();
     }
 
-    public bool IsAvailableToCast()
+    public bool IsAvailableToCast(bool ignoreCurrentMooch = false)
     {
         if (!Enabled)
             return false;

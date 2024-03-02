@@ -13,8 +13,7 @@ public class AutoCastsConfig
 {
     public bool EnableAll = false;
 
-    [DefaultValue(true)]
-    public bool DontCancelMooch = true;
+    [DefaultValue(true)] public bool DontCancelMooch = true;
 
     public TimeOnly StartTime = new(0);
     public TimeOnly EndTime = new(0);
@@ -49,16 +48,18 @@ public class AutoCastsConfig
         return output;
     }
 
-    public BaseActionCast? GetNextAutoCast()
+    public BaseActionCast? GetNextAutoCast(FishConfig? lastFishCatchCfg)
     {
         if (!EnableAll)
             return null;
+
+        var ignoreCurrentMooch = lastFishCatchCfg != null && lastFishCatchCfg.NeverMooch;
 
         BaseActionCast? cast = null;
 
         var order = GetAutoCastOrder();
 
-        foreach (var action in order.Where(action => action.IsAvailableToCast()))
+        foreach (var action in order.Where(action => action.IsAvailableToCast(ignoreCurrentMooch)))
         {
             if (OnlyCastDuringSpecificTime && action.RequiresTimeWindow() && !InsideCastWindow())
                 continue;
@@ -89,13 +90,12 @@ public class AutoCastsConfig
 
         if (!action.Enabled || !action.IsAvailableToCast())
             return false;
-        
+
         if (noDelay)
             PlayerRes.CastActionNoDelay(action.Id, action.ActionType, action.GetName());
-        else 
+        else
             PlayerRes.CastActionDelayed(action.Id, action.ActionType, action.GetName());
-            
-        return true;
 
+        return true;
     }
 }
