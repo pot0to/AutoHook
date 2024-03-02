@@ -42,9 +42,9 @@ public class TabCustomPresets : BaseTab
             if (ImGui.Begin($"Preset Gen", ref OpenPresetGen, ImGuiWindowFlags.AlwaysUseWindowPadding)) 
             { 
                 PresetCreator.PresetGenerator(); 
-                ImGui.End();
+                
             } 
-            
+            ImGui.End();
             ImGui.PopID(); 
         }
         

@@ -21,7 +21,10 @@ internal class TabAutoGig : BaseTab
         DrawUtil.DrawCheckboxTree(UIStrings.EnableAutoGig, ref _gigCfg.AutoGigEnabled, () =>
         {
             if (_gigCfg is { AutoGigEnabled: true, AutoGigHideOverlay: true })
+            {
                 _gigCfg.AutoGigHideOverlay = false;
+                Service.Save();
+            }
 
             if (DrawUtil.Checkbox(UIStrings.HideOverlayDuringSpearfishing, ref _gigCfg.AutoGigHideOverlay,
                     UIStrings.AutoGigHideOverlayHelpMarker))

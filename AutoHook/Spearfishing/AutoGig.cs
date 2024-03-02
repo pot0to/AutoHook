@@ -63,7 +63,7 @@ internal class AutoGig : Window, IDisposable
 
     public override void Draw()
     {
-        if (!_gigCfg.AutoGigHideOverlay)
+        if (!_gigCfg.AutoGigHideOverlay || _gigCfg.AutoGigEnabled)
             DrawFishOverlay();
     }
 
@@ -122,7 +122,7 @@ internal class AutoGig : Window, IDisposable
             return;
 
         ImGui.SetNextWindowPos(new Vector2(_addon->Base.X + 5, _addon->Base.Y - 65));
-        if (ImGui.Begin("gig", ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoTitleBar))
+        if (ImGui.Begin("gig###gig", ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoTitleBar))
         {
             DrawSettings();
             ImGui.End();
