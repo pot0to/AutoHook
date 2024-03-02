@@ -23,7 +23,7 @@ public class AutoGigConfig : IPresetConfig
     [DefaultValue(true)]
     public bool AutoGigDrawGigHitbox = true;
 
-    public AutoCordial Cordial = new(true);
+    //public AutoCordial Cordial = new(true);
     public AutoThaliaksFavor ThaliaksFavor = new(true);
     
     public List<AutoGigPreset> Presets = new();
@@ -82,7 +82,7 @@ public class AutoGigPreset : IPresetItem
 
     public List<BaseGig> Gigs { get; set; } = new();
     
-    public int HitboxSize = 28;
+    public int HitboxSize = 25;
 
     public Guid UniqueId { get; set; } = Guid.NewGuid();
 

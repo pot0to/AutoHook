@@ -167,18 +167,17 @@ internal class AutoGig : Window, IDisposable
         float fishHitbox = 0;
 
         // Im so tired of trying to figure this out someone help
-        if (!info.InverseDirection)
-            fishHitbox = ((node->X * _uiScale) - (node->Width / 100 * 43)) * _uiScale;
-        else
-            fishHitbox = ((node->X * _uiScale) + (node->Width / 100 * 55)) * _uiScale;
-
+        /*if (!info.InverseDirection)
+            fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * 0.8f);
+        else*/
         
-
-        fishHitbox = (int)fishHitbox;
+        // did i fucking do it?
+        fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * 0.4f);
+        
 
         DrawFishHitbox(drawList, fishHitbox);
 
-        if (fishHitbox >= (centerX - gigHitbox) - 3 && fishHitbox <= (centerX + gigHitbox) + 3)
+        if (fishHitbox >= (centerX - gigHitbox) && fishHitbox <= (centerX + gigHitbox))
         {
             PlayerRes.CastActionNoDelay(IDs.Actions.Gig);
         }

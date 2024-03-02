@@ -34,7 +34,7 @@ internal class TabAutoGig : BaseTab
             if (DrawUtil.Checkbox(UIStrings.DrawGigHitbox, ref _gigCfg.AutoGigDrawGigHitbox))
                 Service.Save();
 
-            _gigCfg.Cordial.DrawConfig();
+            //_gigCfg.Cordial.DrawConfig();
             _gigCfg.ThaliaksFavor.DrawConfig();
         });
 
