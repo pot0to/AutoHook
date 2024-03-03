@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.0.6")
+        new Version("4.2.0.7")
         {
             MainChanges =
             {
@@ -17,6 +17,7 @@ public static class PluginChangelog
             },
             MinorChanges =
             {
+                "4.2.0.7 - Wrong text in the auto cast tab fixed",
                 "4.2.0.6 - Fixed Fish Eyes recasting even when already up",
                 "4.2.0.5 - You can now choose to let Cast Line cancel mooch or not (always cancelled before)",
                 "Reduced the size of preset exports (by a lot)",

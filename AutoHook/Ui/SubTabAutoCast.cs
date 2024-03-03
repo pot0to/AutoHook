@@ -101,9 +101,9 @@ public class SubTabAutoCast
         
         ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
         
-        DrawUtil.SpacingSeparator();
+        ImGui.Separator();
 
-        DrawUtil.DrawCheckboxTree(UIStrings.Acton_Alert_Manual_Hook, ref acCfg.OnlyCastDuringSpecificTime, () =>
+        DrawUtil.DrawCheckboxTree(UIStrings.AutoCastOnlyAtSpecificTimes, ref acCfg.OnlyCastDuringSpecificTime, () =>
         {
             var startTime = acCfg.StartTime.ToString(@"HH:mm");
             var endTime = acCfg.EndTime.ToString(@"HH:mm");
@@ -127,7 +127,8 @@ public class SubTabAutoCast
             }
         }, UIStrings.SpecificTimeWindowHelpText);
         
-        DrawUtil.SpacingSeparator();
+        ImGui.Separator();
+
         foreach (var action in actionsAvailable.OrderBy(x => x.GetType() == typeof(AutoCastLine)).ThenBy(x => x.GetType() == typeof(AutoMooch)).ThenBy(x => x.GetType() == typeof(AutoCollect)).ThenBy(x => x.Priority))
         {
             try
