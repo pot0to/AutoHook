@@ -19,6 +19,9 @@ public class AutoGigConfig : IPresetConfig
     public bool AutoGigEnabled = false;
     public bool AutoGigHideOverlay = false;
     public bool AutoGigDrawFishHitbox = false;
+
+    public bool CatchAll = false;
+    public bool CatchAllNaturesBounty = false;
     
     [DefaultValue(true)]
     public bool AutoGigDrawGigHitbox = true;

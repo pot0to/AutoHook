@@ -3,6 +3,7 @@ using AutoHook.Classes;
 using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
+using Dalamud.Interface.Colors;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -39,6 +40,18 @@ internal class TabAutoGig : BaseTab
 
             //_gigCfg.Cordial.DrawConfig();
             _gigCfg.ThaliaksFavor.DrawConfig();
+
+            if (DrawUtil.Checkbox(UIStrings.CatchEverythingIgnorePresets, ref _gigCfg.CatchAll))
+                Service.Save();
+
+            if (_gigCfg.CatchAll)
+            {
+                ImGui.Text($"└");
+                ImGui.SameLine();
+                if (DrawUtil.Checkbox(UIStrings.CatchAllNaturesBounty, ref _gigCfg.CatchAllNaturesBounty))
+                    Service.Save();
+            }
+
         });
 
         DrawPresetSelector();
@@ -51,6 +64,11 @@ internal class TabAutoGig : BaseTab
 
         if (selectedPreset == null)
             return;
+
+        if (_gigCfg.CatchAll)
+        {
+            ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllNotice);
+        }
 
         // add new gig button
         if (ImGui.Button(UIStrings.Add_new_fish))

@@ -15,6 +15,7 @@ using System.Numerics;
 using AutoHook.Classes;
 using AutoHook.Configurations;
 using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Interface.Colors;
 
 namespace AutoHook.Spearfishing;
 
@@ -89,6 +90,9 @@ internal class AutoGig : Window, IDisposable
 
         ImGui.SameLine();
 
+        if (ImGui.Checkbox(UIStrings.CatchEverythingIgnorePresets, ref _gigCfg.CatchAll))
+            Service.Save();
+
         PluginUi.ShowKofi();
 
         DrawUtil.DrawComboSelector(
@@ -96,6 +100,11 @@ internal class AutoGig : Window, IDisposable
             preset => preset.Name,
             _gigCfg.GetSelectedPreset()?.Name ?? UIStrings.None,
             gig => _gigCfg.SetSelectedPreset(gig.UniqueId));
+
+        ImGui.SameLine();
+
+        if (_gigCfg.CatchAll)
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllGigWindow);
     }
 
     private unsafe void DrawFishOverlay()
@@ -154,7 +163,7 @@ internal class AutoGig : Window, IDisposable
         if (!info.Available)
             return;
 
-        var fish = CheckFish(info);
+        var fish = _gigCfg.CatchAll ? GetCatchAllGig() : CheckFish(info);
 
         if (fish == null || !fish.Enabled)
             return;
@@ -191,6 +200,11 @@ internal class AutoGig : Window, IDisposable
             return null;
 
         return fishes.FirstOrDefault(f => f.Fish?.Speed == info.Speed && f.Fish?.Size == info.Size);
+    }
+
+    private BaseGig? GetCatchAllGig()
+    {
+        return new BaseGig(0) { Enabled = true, UseNaturesBounty = _gigCfg.CatchAllNaturesBounty };
     }
 
     private unsafe void DrawGigHitbox(ImDrawListPtr drawList, int gigHitbox)

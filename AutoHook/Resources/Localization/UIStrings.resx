@@ -1116,4 +1116,16 @@ Check the Guide Tab for Guides.</value>
   <data name="NeverMoochHelpText" xml:space="preserve">
     <value>If enabled, mooch won't be used, and actions will cancel thsi fish mooch attempt</value>
   </data>
+  <data name="CatchEverythingIgnorePresets" xml:space="preserve">
+    <value>Catch Everything (Ignore Presets)</value>
+  </data>
+  <data name="CatchAllNotice" xml:space="preserve">
+    <value>Catch all is enabled. Below settings will be ignored when spearfishing..</value>
+  </data>
+  <data name="CatchAllNaturesBounty" xml:space="preserve">
+    <value>Use Nature's Bounty (Only when Catch Everything is enabled)</value>
+  </data>
+  <data name="CatchAllGigWindow" xml:space="preserve">
+    <value>Catch All Enabled. Presets will be ignored.</value>
+  </data>
 </root>
