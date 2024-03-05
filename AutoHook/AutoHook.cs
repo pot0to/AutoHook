@@ -15,10 +15,6 @@ namespace AutoHook;
 
 public class AutoHook : IDalamudPlugin
 {
-    /*
-     todo: autofood (not yet)
-     todo: Add Guides
-     */
     public string Name => UIStrings.AutoHook;
 
     internal static AutoHook Plugin = null!;
@@ -29,6 +25,7 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAhOff = "/ahoff";
     private const string CmdAhtg = "/ahtg";
     private const string CmdAhPreset = "/ahpreset";
+    private const string CmdAhStart = "/ahstart";
     
     private static readonly Dictionary<string, string> CommandHelp = new()
     {
@@ -37,7 +34,8 @@ public class AutoHook : IDalamudPlugin
         {CmdAhCfg, UIStrings.Opens_Config_Window},
         {CmdAh, UIStrings.Opens_Config_Window},
         {CmdAhtg, UIStrings.Toggles_AutoHook_On_Off},
-        {CmdAhPreset, UIStrings.Set_preset_command}
+        {CmdAhPreset, UIStrings.Set_preset_command},
+        {CmdAhStart, UIStrings.Starts_AutoHook}
     };
     
     private static PluginUi _pluginUi = null!;
@@ -82,7 +80,7 @@ public class AutoHook : IDalamudPlugin
 #endif
     }
 
-    private static void OnCommand(string command, string args)
+    private void OnCommand(string command, string args)
     {
         switch (command.Trim())
         {
@@ -108,6 +106,9 @@ public class AutoHook : IDalamudPlugin
                 break;
             case CmdAhPreset:
                 SetPreset(args);
+                break;
+            case CmdAhStart:
+                HookManager.StartFishing();
                 break;
         }
     }

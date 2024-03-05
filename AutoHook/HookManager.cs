@@ -19,9 +19,10 @@ namespace AutoHook;
 
 public class HookingManager : IDisposable
 {
+    // todo: refactor this entire class
     private static readonly HookPresets Presets = Service.Configuration.HookPresets;
 
-    private static double _lastTickMs = 200;
+    private static double _lastTickMs = 0;
 
     private static double _debugValueLast = 3000;
     private readonly Stopwatch _recastTimer = new();
@@ -38,7 +39,8 @@ public class HookingManager : IDisposable
 
     private BaitFishClass? _lastCatch;
 
-    private IntuitionStatus _intuitionStatus = IntuitionStatus.NotActive;
+    public static IntuitionStatus IntuitionStatus { get; private set; } = IntuitionStatus.NotActive;
+
     private SpectralCurrentStatus _spectralCurrentStatus = SpectralCurrentStatus.NotActive;
 
     private bool _isMooching;
@@ -84,6 +86,31 @@ public class HookingManager : IDisposable
         _catchHook?.Disable();
     }
 
+    public void StartFishing()
+    {
+        if (!PlayerRes.IsCastAvailable())
+        {
+            Service.PrintChat(@"[AutoHook] You can't cast right now.");
+            return;
+        }
+
+        var extraCfg = GetExtraCfg();
+        if (extraCfg is { ForceBaitSwap: true, Enabled: true })
+        {
+            var result = Service.EquipedBait.ChangeBait((uint)extraCfg.ForcedBaitId);
+
+            if (result == CurrentBait.ChangeBaitReturn.Success)
+            {
+                Service.PrintChat(
+                    @$"[AutoHook] Starting with bait: {MultiString.GetItemName(extraCfg.ForcedBaitId)}");
+                Service.Save();
+            }
+        }
+
+        _lastStep = FishingSteps.StartedCasting;
+        UseAutoCasts();
+    }
+
     private int GetCurrentBaitMoochId()
     {
         if (_isMooching)
@@ -98,11 +125,12 @@ public class HookingManager : IDisposable
         ResetAfkTimer();
 
         var selected = GetHookCfg();
+        var hookset = selected.GetHookset();
         if (selected.Enabled)
         {
             _timeout = PlayerRes.HasStatus(IDs.Status.Chum)
-                ? selected.Hookset.ChumTimeoutMax
-                : selected.Hookset.TimeoutMax;
+                ? hookset.ChumTimeoutMax
+                : hookset.TimeoutMax;
         }
         else
             _timeout = 0;
@@ -111,9 +139,9 @@ public class HookingManager : IDisposable
         {
             string buffStatus = "";
 
-            if (selected.Hookset.RequiredStatus != 0)
+            if (hookset.RequiredStatus != 0)
             {
-                buffStatus = MultiString.GetStatusName(selected.Hookset.RequiredStatus);
+                buffStatus = MultiString.GetStatusName(hookset.RequiredStatus);
                 buffStatus = @$"({buffStatus})";
             }
 
@@ -191,7 +219,7 @@ public class HookingManager : IDisposable
         if (!Service.Configuration.PluginEnabled || currentState == FishingState.NotFishing)
             return;
 
-        if (currentState != FishingState.Quit && _lastStep == FishingSteps.Quitting)
+        if (currentState != FishingState.Quit && _lastStep.HasFlag(FishingSteps.Quitting))
         {
             if (PlayerRes.IsCastAvailable())
             {
@@ -200,13 +228,20 @@ public class HookingManager : IDisposable
             }
         }
 
-        //CheckState();
+        //CheckFishingState();
 
-        if (_lastStep != FishingSteps.Quitting && currentState == FishingState.PoleReady &&
-            _lastStep == FishingSteps.FishCaught)
+        if (!_lastStep.HasFlag(FishingSteps.Quitting) && _lastStep.HasFlag(FishingSteps.FishCaught) &&
+            currentState == FishingState.PoleReady)
+        {
+            var lastCatch = GetLastCatchConfig();
+            var extraCfg = GetExtraCfg();
+
             CheckStopCondition();
+            CheckExtraActions(extraCfg);
+            CheckFishCaughtSwap(lastCatch);
+        }
 
-        if (_lastStep != FishingSteps.Quitting && currentState == FishingState.PoleReady)
+        if (!_lastStep.HasFlag(FishingSteps.Quitting) && currentState == FishingState.PoleReady)
             UseAutoCasts();
 
         if (currentState == FishingState.Waiting2)
@@ -223,7 +258,8 @@ public class HookingManager : IDisposable
         switch (currentState)
         {
             case FishingState.PullPoleIn: // If a hook is manually used before a bite, dont use auto cast
-                if (_lastStep is FishingSteps.BeganFishing or FishingSteps.BeganMooching) _lastStep = FishingSteps.None;
+                if (_lastStep.HasFlag(FishingSteps.BeganFishing) || _lastStep.HasFlag(FishingSteps.BeganMooching))
+                    _lastStep = FishingSteps.None;
                 _fishingTimer.Reset();
                 _lastTickMs = 0;
                 break;
@@ -231,7 +267,7 @@ public class HookingManager : IDisposable
                 if (!_fishingTimer.IsRunning) _fishingTimer.Start();
                 break;
             case FishingState.Bite:
-                if (_lastStep != FishingSteps.FishBit) OnBite();
+                if (!_lastStep.HasFlag(FishingSteps.FishBit)) OnBite();
                 break;
             case FishingState.Quit:
                 OnFishingStop();
@@ -241,7 +277,7 @@ public class HookingManager : IDisposable
 
     private void OnBeganFishing()
     {
-        if (_lastStep == FishingSteps.BeganFishing &&
+        if (_lastStep.HasFlag(FishingSteps.BeganFishing) &&
             (_lastState != FishingState.PoleReady || _lastState != FishingState.NotFishing))
             return;
 
@@ -255,7 +291,7 @@ public class HookingManager : IDisposable
 
     private void OnBeganMooch()
     {
-        if (_lastStep == FishingSteps.BeganMooching && _lastState != FishingState.PoleReady)
+        if (_lastStep.HasFlag(FishingSteps.BeganMooching) && _lastState != FishingState.PoleReady)
             return;
 
         CastCollect();
@@ -320,13 +356,13 @@ public class HookingManager : IDisposable
         {
             for (var i = 0; i < amount; i++)
             {
-                FishingCounter.Add(lastFishCatchCfg.GetUniqueId());
+                FishingHelper.AddFishCount(lastFishCatchCfg.GetUniqueId());
             }
         }
 
         var hook = GetHookCfg();
         if (hook.Enabled)
-            FishingCounter.Add(hook.GetUniqueId());
+            FishingHelper.AddFishCount(hook.GetUniqueId());
     }
 
     private void OnFishingStop()
@@ -346,7 +382,7 @@ public class HookingManager : IDisposable
 
         _lastTickMs = 0;
 
-        FishingCounter.Reset();
+        FishingHelper.Reset();
 
         PlayerRes.CastActionNoDelay(IDs.Actions.Quit);
         PlayerRes.DelayNextCast(0);
@@ -355,29 +391,27 @@ public class HookingManager : IDisposable
     private void UseAutoCasts()
     {
         // if _lastStep is FishBit but currentState is FishingState.PoleReady, it means that the fish was hooked, but it escaped.
-        if (_lastStep is FishingSteps.None or FishingSteps.BeganFishing or FishingSteps.BeganMooching)
+        if (_lastStep.HasFlag(FishingSteps.None) || _lastStep.HasFlag(FishingSteps.BeganFishing) ||
+            _lastStep.HasFlag(FishingSteps.BeganMooching))
+        {
             return;
+        }
 
         if (!_recastTimer.IsRunning)
             _recastTimer.Start();
 
-        if (!(_recastTimer.ElapsedMilliseconds > _lastTickMs + 500))
+        if (!(_recastTimer.ElapsedMilliseconds >= _lastTickMs))
             return;
 
-        _lastTickMs = _recastTimer.ElapsedMilliseconds;
+        _lastTickMs = _recastTimer.ElapsedMilliseconds + 500;
 
         if (!PlayerRes.IsCastAvailable())
             return;
 
-
         var lastFishCatchCfg = GetLastCatchConfig();
-
-        CheckExtraActions();
 
         if (CheckFishCaughtActions(lastFishCatchCfg))
             return;
-
-        CheckFishCaughtSwap(lastFishCatchCfg);
 
         var acCfg = GetAutoCastCfg();
 
@@ -400,7 +434,7 @@ public class HookingManager : IDisposable
         if (PlayerRes.HasStatus(IDs.Status.FishersIntuition) && lastFishCatchCfg.IgnoreOnIntuition)
             return false;
 
-        var caughtCount = FishingCounter.GetCount(lastFishCatchCfg.GetUniqueId());
+        var caughtCount = FishingHelper.GetFishCount(lastFishCatchCfg.GetUniqueId());
 
         if (lastFishCatchCfg.IdenticalCast.IsAvailableToCast(caughtCount))
             cast = lastFishCatchCfg.IdenticalCast;
@@ -417,93 +451,99 @@ public class HookingManager : IDisposable
         return false;
     }
 
-    private void CheckFishCaughtSwap(FishConfig? lastFishCatchCfg)
+    private void CheckFishCaughtSwap(FishConfig? lastCatchCfg)
     {
-        if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
+        if (lastCatchCfg == null || !lastCatchCfg.Enabled)
             return;
 
-        var caughtCount = FishingCounter.GetCount(lastFishCatchCfg.GetUniqueId());
-
-        if (_lastStep != FishingSteps.BaitSwapped && lastFishCatchCfg.SwapBait)
+        var caughtCount = FishingHelper.GetFishCount(lastCatchCfg.GetUniqueId());
+        var guid = lastCatchCfg.GetUniqueId();
+        
+        if (lastCatchCfg.SwapPresets && !FishingHelper.SwappedPreset(guid) && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
         {
-            if (caughtCount == lastFishCatchCfg.SwapBaitCount &&
-                lastFishCatchCfg.BaitToSwap.Id != Service.EquipedBait.Current)
-            {
-                var result = Service.EquipedBait.ChangeBait(lastFishCatchCfg.BaitToSwap);
-
-                _lastStep |= FishingSteps.BaitSwapped; // one try per catch
-
-                if (result == CurrentBait.ChangeBaitReturn.Success)
-                {
-                    Service.PrintChat(@$"[Fish] Swapping bait to {lastFishCatchCfg.BaitToSwap.Name}");
-                    Service.Save();
-                }
-            }
-        }
-
-        if (_lastStep != FishingSteps.PresetSwapped && lastFishCatchCfg.SwapPresets)
-        {
-            if (caughtCount == lastFishCatchCfg.SwapPresetCount &&
-                lastFishCatchCfg.PresetToSwap != Presets.SelectedPreset?.PresetName)
+            if (caughtCount >= lastCatchCfg.SwapPresetCount && lastCatchCfg.PresetToSwap != Presets.SelectedPreset?.PresetName)
             {
                 var preset =
-                    Presets.CustomPresets.FirstOrDefault(preset => preset.PresetName == lastFishCatchCfg.PresetToSwap);
-                _lastStep |= FishingSteps.PresetSwapped; // one try per catch
+                    Presets.CustomPresets.FirstOrDefault(preset => preset.PresetName == lastCatchCfg.PresetToSwap);
 
-                if (preset != null)
+                FishingHelper.AddPresetSwap(guid); // one try per catch
+                _lastStep |= FishingSteps.PresetSwapped;
+                
+                if (preset == null)
+                    Service.PrintChat(@$"Preset {lastCatchCfg.PresetToSwap} not found.");
+                else
                 {
                     Presets.SelectedPreset = preset;
-                    Service.PrintChat(@$"[Fish] Swapping current preset to {lastFishCatchCfg.PresetToSwap}");
+                    Service.PrintChat(@$"[Fish Caught] Swapping current preset to {lastCatchCfg.PresetToSwap}");
                     Service.Save();
                 }
-                else
-                    Service.PrintChat(@$"Preset {lastFishCatchCfg.PresetToSwap} not found.");
+            }
+        }
+        
+        if (lastCatchCfg.SwapBait && !FishingHelper.SwappedBait(guid) && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
+        {
+            if (caughtCount >= lastCatchCfg.SwapBaitCount && lastCatchCfg.BaitToSwap.Id != Service.EquipedBait.Current)
+            {
+                var result = Service.EquipedBait.ChangeBait(lastCatchCfg.BaitToSwap);
+
+                FishingHelper.AddBaitSwap(guid); // one try per catch
+                _lastStep |= FishingSteps.BaitSwapped;
+                if (result == CurrentBait.ChangeBaitReturn.Success)
+                {
+                    Service.PrintChat(@$"[Fish Caught] Swapping bait to {lastCatchCfg.BaitToSwap.Name}");
+                    Service.Save();
+                }
             }
         }
     }
 
-    private void CheckExtraActions()
+    private void CheckExtraActions(ExtraConfig extraCfg)
     {
-        CheckSpectral();
-        CheckIntuition();
+        if (!extraCfg.Enabled)
+            return;
+
+        CheckIntuition(extraCfg);
+        CheckSpectral(extraCfg);
+        CheckAnglersArt(extraCfg);
     }
 
-    private void CheckSpectral()
+    private void CheckSpectral(ExtraConfig extraCfg)
     {
         if (_spectralCurrentStatus == SpectralCurrentStatus.NotActive)
         {
             if (!PlayerRes.IsInActiveSpectralCurrent())
                 return;
 
-            _spectralCurrentStatus = SpectralCurrentStatus.Active; // only one try
+            _spectralCurrentStatus = SpectralCurrentStatus.Active;
 
-            var extraCfg = GetExtraCfg();
-
-            if (extraCfg.SwapPresetSpectralCurrentGain)
+            // Check if the preset was already swapped
+            if (extraCfg.SwapPresetSpectralCurrentGain && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
             {
                 var preset =
                     Presets.CustomPresets.FirstOrDefault(preset =>
                         preset.PresetName == extraCfg.PresetToSwapSpectralCurrentGain);
 
+                _lastStep |= FishingSteps.PresetSwapped; // one try
                 if (preset != null)
                 {
                     Presets.SelectedPreset = preset;
                     Service.PrintChat(
-                        @$"[Extra] Swapping current preset to {extraCfg.PresetToSwapSpectralCurrentGain}");
+                        @$"[Extra] Spectral Current Active: Swapping preset to {extraCfg.PresetToSwapSpectralCurrentGain}");
                     Service.Save();
                 }
                 else
                     Service.PrintChat(@$"Preset {extraCfg.PresetToSwapSpectralCurrentGain} not found.");
             }
 
-            if (extraCfg.SwapBaitSpectralCurrentGain)
+            // Check if the bait was already swapped
+            if (extraCfg.SwapBaitSpectralCurrentGain && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
             {
                 var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapSpectralCurrentGain);
 
+                _lastStep |= FishingSteps.BaitSwapped; // one try
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
-                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapSpectralCurrentGain.Name}");
-                    _lastStep |= FishingSteps.BaitSwapped; // one try per catch
+                    Service.PrintChat(@$"[Extra] Spectral Current Active: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentGain.Name}");
                     Service.Save();
                 }
             }
@@ -514,122 +554,124 @@ public class HookingManager : IDisposable
             if (PlayerRes.IsInActiveSpectralCurrent())
                 return;
 
-            _spectralCurrentStatus = SpectralCurrentStatus.NotActive; // only one try
+            _spectralCurrentStatus = SpectralCurrentStatus.NotActive;
 
-            var extraCfg = GetExtraCfg();
-
-            if (extraCfg.SwapPresetSpectralCurrentLost)
+            // Check if the preset was already swapped
+            if (extraCfg.SwapPresetSpectralCurrentLost && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
             {
                 var preset =
                     Presets.CustomPresets.FirstOrDefault(preset =>
                         preset.PresetName == extraCfg.PresetToSwapSpectralCurrentLost);
 
+                _lastStep |= FishingSteps.PresetSwapped; // one try
+                
                 if (preset != null)
                 {
-                    // one try per catch
-                    _lastStep |= FishingSteps.PresetSwapped;
                     Presets.SelectedPreset = preset;
-                    Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.SwapPresetSpectralCurrentLost}");
+                    Service.PrintChat(@$"[Extra] Spectral Current Ended: Swapping preset to {extraCfg.SwapPresetSpectralCurrentLost}");
                     Service.Save();
                 }
                 else
                     Service.PrintChat(@$"Preset {extraCfg.SwapPresetSpectralCurrentLost} not found.");
             }
 
-            if (extraCfg.SwapBaitSpectralCurrentLost)
+            // Check if the bait was already swapped
+            if (extraCfg.SwapBaitSpectralCurrentLost && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
             {
                 var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapSpectralCurrentLost);
-
-                // one try per catch
-                _lastStep |= FishingSteps.BaitSwapped;
+                
+                _lastStep |= FishingSteps.BaitSwapped; // one try
+                
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
-                    Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
+                    Service.PrintChat(@$"[Extra] Spectral Current Ended: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
                     Service.Save();
                 }
             }
         }
     }
 
-    private void CheckIntuition()
+    private void CheckIntuition(ExtraConfig extraCfg)
     {
-        if (_intuitionStatus == IntuitionStatus.NotActive)
+        if (IntuitionStatus == IntuitionStatus.NotActive)
         {
             if (!PlayerRes.HasStatus(IDs.Status.FishersIntuition))
                 return;
 
-            ExtraCfgGainedIntuition();
+            ExtraCfgGainedIntuition(extraCfg);
         }
 
-        if (_intuitionStatus == IntuitionStatus.Active)
+        if (IntuitionStatus == IntuitionStatus.Active)
         {
             if (PlayerRes.HasStatus(IDs.Status.FishersIntuition))
                 return;
 
-            ExtraCfgLostIntuition();
+            ExtraCfgLostIntuition(extraCfg);
         }
     }
 
-    private void ExtraCfgGainedIntuition()
+    private void ExtraCfgGainedIntuition(ExtraConfig extraCfg)
     {
-        _intuitionStatus = IntuitionStatus.Active; // only one try
+        IntuitionStatus = IntuitionStatus.Active; // only one try
 
-        var extraCfg = GetExtraCfg();
-
-        if (extraCfg.SwapPresetIntuitionGain)
+        // Check if the preset was already swapped
+        if (extraCfg.SwapPresetIntuitionGain && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
         {
-            var preset =
-                Presets.CustomPresets.FirstOrDefault(preset =>
-                    preset.PresetName == extraCfg.PresetToSwapIntuitionGain);
+            var preset = Presets.CustomPresets.FirstOrDefault(preset =>
+                preset.PresetName == extraCfg.PresetToSwapIntuitionGain);
 
+            _lastStep |= FishingSteps.PresetSwapped;
             if (preset != null)
             {
                 Presets.SelectedPreset = preset;
-                Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapIntuitionGain}");
+                Service.PrintChat(@$"[Extra] Intuition Active - Swapping preset to {extraCfg.PresetToSwapIntuitionGain}");
                 Service.Save();
             }
             else
-                Service.PrintChat(@$"Preset {extraCfg.PresetToSwapIntuitionGain} not found.");
+                Service.PrintChat(@$"[Extra] Intuition Active - Preset {extraCfg.PresetToSwapIntuitionGain} not found.");
         }
 
-        if (extraCfg.SwapBaitIntuitionGain)
+        // Check if the bait was already swapped
+        if (extraCfg.SwapBaitIntuitionGain && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
         {
             var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionGain);
 
+            _lastStep |= FishingSteps.BaitSwapped; // one try per catch
+            
             if (result == CurrentBait.ChangeBaitReturn.Success)
             {
-                Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
-                _lastStep |= FishingSteps.BaitSwapped; // one try per catch
+                Service.PrintChat(@$"[Extra] Intuition Active - Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
                 Service.Save();
             }
         }
     }
 
-    private void ExtraCfgLostIntuition()
+    private void ExtraCfgLostIntuition(ExtraConfig extraCfg)
     {
-        _intuitionStatus = IntuitionStatus.NotActive; // only one try
+        IntuitionStatus = IntuitionStatus.NotActive; // only one try
 
-        var extraCfg = GetExtraCfg();
-
-        if (extraCfg.SwapPresetIntuitionLost)
+        // Check if the preset was already swapped
+        if (extraCfg.SwapPresetIntuitionLost && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
         {
             var preset =
                 Presets.CustomPresets.FirstOrDefault(preset =>
                     preset.PresetName == extraCfg.PresetToSwapIntuitionLost);
 
+            _lastStep |= FishingSteps.PresetSwapped;
+
             if (preset != null)
             {
                 // one try per catch
-                _lastStep |= FishingSteps.PresetSwapped;
                 Presets.SelectedPreset = preset;
-                Service.PrintChat(@$"[Extra] Swapping current preset to {extraCfg.PresetToSwapIntuitionLost}");
+                Service.PrintChat(@$"[Extra] Intuition Lost - Swapping preset to {extraCfg.PresetToSwapIntuitionLost}");
                 Service.Save();
             }
             else
-                Service.PrintChat(@$"Preset {extraCfg.PresetToSwapIntuitionLost} not found.");
+                Service.PrintChat(@$"[Extra] Intuition Lost - Preset {extraCfg.PresetToSwapIntuitionLost} not found.");
         }
 
-        if (extraCfg.SwapBaitIntuitionLost)
+        // Check if the bait was already swapped
+        if (extraCfg.SwapBaitIntuitionLost && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
         {
             var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionLost);
 
@@ -637,7 +679,7 @@ public class HookingManager : IDisposable
             _lastStep |= FishingSteps.BaitSwapped;
             if (result == CurrentBait.ChangeBaitReturn.Success)
             {
-                Service.PrintChat(@$"[Extra] Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
+                Service.PrintChat(@$"[Extra] Intuition Lost - Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
                 Service.Save();
             }
         }
@@ -653,6 +695,43 @@ public class HookingManager : IDisposable
         }
     }
 
+    private void CheckAnglersArt(ExtraConfig extraCfg)
+    {
+        if (!PlayerRes.HasAnglersArtStacks(extraCfg.AnglerStackQtd))
+            return;
+
+        if (extraCfg.SwapPresetAnglersArt && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
+        {
+            var preset =
+                Presets.CustomPresets.FirstOrDefault(preset =>
+                    preset.PresetName == extraCfg.PresetToSwapAnglersArt);
+
+            _lastStep |= FishingSteps.PresetSwapped;
+
+            if (preset != null)
+            {
+                Presets.SelectedPreset = preset;
+                Service.PrintChat(
+                    @$"[Extra] Angler's Stack - Swapping preset to {extraCfg.PresetToSwapAnglersArt}");
+                Service.Save();
+            }
+            else
+                Service.PrintChat(@$"[Extra] Anglers Stack - Preset {extraCfg.PresetToSwapAnglersArt} not found.");
+        }
+
+        if (extraCfg.SwapBaitAnglersArt && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
+        {
+            var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapAnglersArt);
+            _lastStep |= FishingSteps.BaitSwapped;
+            if (result == CurrentBait.ChangeBaitReturn.Success)
+            {
+                Service.PrintChat(
+                    @$"[Extra] Angler's Stack - Swapping bait to {extraCfg.BaitToSwapAnglersArt.Name}");
+                Service.Save();
+            }
+        }
+    }
+
     private void CastLineMoochOrRelease(AutoCastsConfig acCfg, FishConfig? lastFishCatchCfg)
     {
         var blockMooch = lastFishCatchCfg is { Enabled: true, NeverMooch: true };
@@ -661,7 +740,8 @@ public class HookingManager : IDisposable
         {
             if (lastFishCatchCfg is { Enabled: true } && lastFishCatchCfg.Mooch.IsAvailableToCast())
             {
-                PlayerRes.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType, UIStrings.Mooch);
+                PlayerRes.CastActionNoDelay(lastFishCatchCfg.Mooch.Id, lastFishCatchCfg.Mooch.ActionType,
+                    UIStrings.Mooch);
                 return;
             }
 
@@ -677,11 +757,13 @@ public class HookingManager : IDisposable
     {
         var lastFishCatchCfg = GetLastCatchConfig();
         var currentHook = GetHookCfg();
+        var hookset = currentHook.GetHookset();
+        var extra = GetExtraCfg();
 
         if (lastFishCatchCfg?.StopAfterCaught ?? false)
         {
             var guid = lastFishCatchCfg.GetUniqueId();
-            var total = FishingCounter.GetCount(guid);
+            var total = FishingHelper.GetFishCount(guid);
 
             if (total >= lastFishCatchCfg.StopAfterCaughtLimit)
             {
@@ -689,23 +771,32 @@ public class HookingManager : IDisposable
                     @$"{lastFishCatchCfg.Fish.Name}: {lastFishCatchCfg.StopAfterCaughtLimit}"));
 
                 _lastStep = lastFishCatchCfg.StopFishingStep;
-                if (lastFishCatchCfg.StopAfterResetCount) FishingCounter.Remove(guid);
+                if (lastFishCatchCfg.StopAfterResetCount) FishingHelper.RemoveId(guid);
             }
         }
 
-        if (currentHook.Enabled && currentHook.Hookset.StopAfterCaught)
+        if (currentHook.Enabled && hookset.StopAfterCaught)
         {
             var guid = currentHook.GetUniqueId();
-            var total = FishingCounter.GetCount(guid);
+            var total = FishingHelper.GetFishCount(guid);
 
-            if (total >= currentHook.Hookset.StopAfterCaughtLimit)
+            if (total >= hookset.StopAfterCaughtLimit)
             {
                 Service.PrintChat(string.Format(UIStrings.Hooking_Limited_Reached_Chat_Message,
-                    @$"{currentHook.BaitFish.Name}: {currentHook.Hookset.StopAfterCaughtLimit}"));
+                    @$"{currentHook.BaitFish.Name}: {hookset.StopAfterCaughtLimit}"));
 
-                _lastStep = currentHook.Hookset.StopFishingStep;
-                if (currentHook.Hookset.StopAfterResetCount) FishingCounter.Remove(guid);
+                _lastStep = hookset.StopFishingStep;
+                if (hookset.StopAfterResetCount) FishingHelper.RemoveId(guid);
             }
+        }
+
+        if (extra.StopAfterAnglersArt && extra.Enabled)
+        {
+            if (!PlayerRes.HasAnglersArtStacks(extra.AnglerStackQtd))
+                return;
+
+            _lastStep = extra.AnglerStopFishingStep;
+            Service.PrintChat(@$"[Extra] Angler's Stack Reached: Stopping fishing");
         }
     }
 
@@ -718,7 +809,7 @@ public class HookingManager : IDisposable
 
         var currentTime = Math.Truncate(_fishingTimer.ElapsedMilliseconds / 1000.0 * 100) / 100;
 
-        if (!(maxTime > 0) || !(currentTime > maxTime) || _lastStep == FishingSteps.TimeOut)
+        if (!(maxTime > 0) || !(currentTime > maxTime) || _lastStep.HasFlag(FishingSteps.TimeOut))
             return;
 
         Service.PrintDebug(@"[HookManager] Timeout. Hooking fish.");
@@ -739,7 +830,7 @@ public class HookingManager : IDisposable
     }
 
     // ReSharper disable once UnusedMember.Local
-    private void CheckState()
+    private void CheckFishingState()
     {
         if (!_timerState.IsRunning)
             _timerState.Start();
@@ -791,32 +882,65 @@ public class HookingManager : IDisposable
         OnCatch(fishId, amount);
     }
 
-    public static class FishingCounter
+    // This is my stupid way of handling the counter for stop/quit fishing and bait/preset swap
+    public static class FishingHelper
     {
-        public static Dictionary<Guid, int> _fishCount = new();
+        public static Dictionary<Guid, int> FishCount = new();
+        public static List<Guid> FishPresetSwapped = new();
+        public static List<Guid> FishBaitSwapped = new();
 
-        public static int Add(Guid guid)
+        public static void AddFishCount(Guid guid)
         {
-            _fishCount.TryAdd(guid, 0);
-            _fishCount[guid]++;
+            FishCount.TryAdd(guid, 0);
+            FishCount[guid]++;
 
-            return GetCount(guid);
+            GetFishCount(guid);
         }
 
-        public static int GetCount(Guid guid)
+        public static void AddBaitSwap(Guid guid)
         {
-            return !_fishCount.ContainsKey(guid) ? 0 : _fishCount[guid];
+            if (!FishBaitSwapped.Contains(guid))
+                FishBaitSwapped.Add(guid);
         }
 
-        public static void Remove(Guid guid)
+        public static void AddPresetSwap(Guid guid)
         {
-            if (_fishCount.ContainsKey(guid))
-                _fishCount.Remove(guid);
+            if (!FishPresetSwapped.Contains(guid))
+                FishPresetSwapped.Add(guid);
+        }
+
+        public static int GetFishCount(Guid guid)
+        {
+            return !FishCount.ContainsKey(guid) ? 0 : FishCount[guid];
+        }
+
+        public static bool SwappedBait(Guid guid)
+        {
+            return FishBaitSwapped.Any(g => g == guid);
+        }
+
+        public static bool SwappedPreset(Guid guid)
+        {
+            return FishPresetSwapped.Any(g => g == guid);
+        }
+
+        public static void RemoveId(Guid guid)
+        {
+            if (FishCount.ContainsKey(guid))
+                FishCount.Remove(guid);
+
+            if (FishPresetSwapped.Contains(guid))
+                FishCount.Remove(guid);
+
+            if (FishBaitSwapped.Contains(guid))
+                FishCount.Remove(guid);
         }
 
         public static void Reset()
         {
-            _fishCount = new Dictionary<Guid, int>();
+            FishCount = new Dictionary<Guid, int>();
+            FishPresetSwapped = [];
+            FishBaitSwapped = [];
         }
     }
 }

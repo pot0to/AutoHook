@@ -350,6 +350,9 @@ Ex: If you Min. Wait to 14 and something bites after 8 seconds, the fish will be
   <data name="FisherSIntuitionSettingsHelpMarker" xml:space="preserve">
     <value>Enable Custom Hooks when Fisher's Intuition is detected</value>
   </data>
+  <data name="SpectralCurrentSettings" xml:space="preserve">
+    <value>Spectral Current Settings</value>
+  </data>
   <data name="HoldShiftBothDHTH" xml:space="preserve">
     <value>Hold SHIFT to select both Double and Triple Hook (not recommended)</value>
   </data>
@@ -591,6 +594,9 @@ If Auto Mooch (Global or Custom Preset) is not enabled, the line will be casted 
   </data>
   <data name="Hitbox" xml:space="preserve">
     <value>Hitbox</value>
+  </data>
+  <data name="GigHitbox" xml:space="preserve">
+    <value>Gig Hitbox</value>
   </data>
   <data name="Use_Makeshift_Bait" xml:space="preserve">
     <value>Use Makeshift Bait</value>
@@ -890,6 +896,9 @@ Check the Guide Tab for Guides.</value>
   <data name="Set_preset_command" xml:space="preserve">
     <value>Set custom preset by chat command -&gt; /ahpreset presetName</value>
   </data>
+  <data name="Starts_AutoHook" xml:space="preserve">
+    <value>Start casting with your selected preset</value>
+  </data>
   <data name="Preset_set_to_" xml:space="preserve">
     <value>Preset set to:</value>
   </data>
@@ -1114,6 +1123,41 @@ Check the Guide Tab for Guides.</value>
     <value>If disabled, the mooch attempt will not be cancelled, even if the Auto Mooch option is disabled</value>
   </data>
   <data name="NeverMoochHelpText" xml:space="preserve">
-    <value>If enabled, mooch won't be used, and actions will cancel thsi fish mooch attempt</value>
+    <value>If enabled, actions will also cancel this fish mooch attempt</value>
+  </data>
+  <data name="OnlyWhenMakeshiftOrPatience" xml:space="preserve">
+    <value>Only use when Makeshift or Patience is active</value>
+  </data>
+  <data name="IgnoreMoochFishEyes" xml:space="preserve">
+    <value>Fish Eyes will be used and cancel the mooch attempt.</value>
+  </data>
+  <data name="StartActions" xml:space="preserve">
+    <value>Start Actions</value>
+  </data>
+  <data name="StartActionHelpText" xml:space="preserve">
+    <value>Start using your Auto Casts! You can also set a bait swap to start fishing with in the Extra Tab
+
+You may also use the command /ahstart to start. Try making a macro with it!</value>
+  </data>
+  <data name="ForceBaitSwap" xml:space="preserve">
+    <value>Force bait swap when using "Start Actions"</value>
+  </data>
+  <data name="SelectBaitStartFishing" xml:space="preserve">
+    <value>Select bait to start fishing with:</value>
+  </data>
+  <data name="BaitPresetPriorityWarning" xml:space="preserve">
+    <value>Bait and Preset swaps here have priority over the Fish Caught swaps</value>
+  </data>
+  <data name="WhenAnglersAt" xml:space="preserve">
+    <value>When Angler's Art stack is at...</value>
+  </data>
+  <data name="StacksOrMore" xml:space="preserve">
+    <value>Stacks or more</value>
+  </data>
+  <data name="StopQuitFishing" xml:space="preserve">
+    <value>Stop/Quit Fishing</value>
+  </data>
+  <data name="AnglersArt" xml:space="preserve">
+    <value>Angler's Art</value>
   </data>
 </root>

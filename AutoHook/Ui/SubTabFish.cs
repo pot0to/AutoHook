@@ -28,60 +28,60 @@ public class SubTabFish : BaseTab
 
         if (_listOfFish == null)
             return;
-
-        ImGui.Spacing();
+        
         DrawDescription(_listOfFish);
-        ImGui.Spacing();
-
-        ImGui.Separator();
-
-        ImGui.BeginGroup();
-        for (var idx = 0; idx < _listOfFish.Count; idx++)
+        
+        if (ImGui.BeginChild("FishItems", new Vector2(0, 0), true))
         {
-            var fish = _listOfFish[idx];
-            ImGui.PushID($"fishTab###{idx}");
-
-            var count = HookingManager.FishingCounter.GetCount(fish.GetUniqueId());
-            var fishCount = count > 0 ? $"({UIStrings.Caught_Counter} {count})" : "";
-
-            if (DrawUtil.Checkbox($"###checkbox{idx}", ref fish.Enabled))
-                Service.Save();
-
-            ImGui.SameLine();
-            if (ImGui.CollapsingHeader($"{fish.Fish.Name} {fishCount}###a{idx}"))
+            for (var idx = 0; idx < _listOfFish.Count; idx++)
             {
-                ImGui.Indent();
-                ImGui.Spacing();
-                DrawFishSearchBar(fish);
-                DrawDeleteButton(fish);
-                DrawUtil.SpacingSeparator();
+                var fish = _listOfFish[idx];
+                ImGui.PushID($"fishTab###{idx}");
 
-                DrawSurfaceSlapIdenticalCast(fish);
-                ImGui.Spacing();
+                var count = HookingManager.FishingHelper.GetFishCount(fish.GetUniqueId());
+                var fishCount = count > 0 ? $"({UIStrings.Caught_Counter} {count})" : "";
 
-                DrawMooch(fish);
-                ImGui.Spacing();
-
-                DrawSwapBait(fish);
-                ImGui.Spacing();
-
-                DrawSwapPreset(fish);
-                ImGui.Spacing();
-
-                DrawStopAfter(fish);
-                ImGui.Spacing();
-
-                if (DrawUtil.Checkbox(UIStrings.Ignore_When_Intuition, ref fish.IgnoreOnIntuition))
+                if (DrawUtil.Checkbox($"###checkbox{idx}", ref fish.Enabled))
                     Service.Save();
 
-                ImGui.Unindent();
+                ImGui.SameLine(0,6);
+                var x = ImGui.GetCursorPosX();
+                if (ImGui.CollapsingHeader($"{fish.Fish.Name} {fishCount}###a{idx}"))
+                {
+                    ImGui.SetCursorPosX(x);
+                    ImGui.BeginGroup();
+                    ImGui.Spacing();
+                    DrawFishSearchBar(fish);
+                    DrawDeleteButton(fish);
+                    DrawUtil.SpacingSeparator();
+
+                    DrawSurfaceSlapIdenticalCast(fish);
+                    ImGui.Spacing();
+
+                    DrawMooch(fish);
+                    ImGui.Spacing();
+
+                    DrawSwapBait(fish);
+                    ImGui.Spacing();
+
+                    DrawSwapPreset(fish);
+                    ImGui.Spacing();
+
+                    DrawStopAfter(fish);
+                    ImGui.Spacing();
+
+                    if (DrawUtil.Checkbox(UIStrings.Ignore_When_Intuition, ref fish.IgnoreOnIntuition))
+                        Service.Save();
+                
+                    ImGui.EndGroup();
+                }
+
+                ImGui.Spacing();
+                ImGui.PopID();
             }
-
-            ImGui.Spacing();
-            ImGui.PopID();
+            
+            ImGui.EndChild();
         }
-
-        ImGui.EndGroup();
     }
 
     private void DrawDescription(List<FishConfig> list)
@@ -182,7 +182,12 @@ public class SubTabFish : BaseTab
     private void DrawSwapBait(FishConfig fishConfig)
     {
         ImGui.PushID("DrawSwapBait");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref fishConfig.SwapBait,
+        
+        var alreadySwapped = "";
+        if (HookingManager.FishingHelper.SwappedBait(fishConfig.GetUniqueId()))
+            alreadySwapped = "(Already Swapped)";
+        
+        DrawUtil.DrawCheckboxTree($"{UIStrings.Swap_Bait} {alreadySwapped}", ref fishConfig.SwapBait,
             () =>
             {
                 DrawUtil.DrawComboSelector(
@@ -213,7 +218,11 @@ public class SubTabFish : BaseTab
     private void DrawSwapPreset(FishConfig fishConfig)
     {
         ImGui.PushID("DrawSwapPreset");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref fishConfig.SwapPresets,
+        
+        var alreadySwapped = "";
+        if (HookingManager.FishingHelper.SwappedPreset(fishConfig.GetUniqueId()))
+            alreadySwapped = "(Already Swapped)";
+        DrawUtil.DrawCheckboxTree($"{UIStrings.Swap_Preset} {alreadySwapped}", ref fishConfig.SwapPresets,
             () =>
             {
                 DrawUtil.DrawComboSelector(
@@ -244,47 +253,39 @@ public class SubTabFish : BaseTab
     private void DrawStopAfter(FishConfig fishConfig)
     {
         ImGui.PushID("DrawStopAfter");
-        if (DrawUtil.Checkbox("", ref fishConfig.StopAfterCaught))
-            Service.Save();
-
-        ImGui.SameLine();
-        if (ImGui.TreeNodeEx(UIStrings.Stop_After_Caught, ImGuiTreeNodeFlags.FramePadding))
-        {
-            ImGui.Indent();
-            ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputInt(UIStrings.TimeS, ref fishConfig.StopAfterCaughtLimit))
+        
+        DrawUtil.DrawCheckboxTree(UIStrings.Stop_After_Caught, ref fishConfig.StopAfterCaught,
+            () =>
             {
-                if (fishConfig.StopAfterCaughtLimit < 1)
-                    fishConfig.StopAfterCaughtLimit = 1;
+                ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputInt(UIStrings.TimeS, ref fishConfig.StopAfterCaughtLimit))
+                {
+                    if (fishConfig.StopAfterCaughtLimit < 1)
+                        fishConfig.StopAfterCaughtLimit = 1;
 
-                Service.Save();
-            }
+                    Service.Save();
+                }
 
-            if (ImGui.RadioButton(UIStrings.Stop_Casting, fishConfig.StopFishingStep == FishingSteps.None))
-            {
-                fishConfig.StopFishingStep = FishingSteps.None;
-                Service.Save();
-            }
+                if (ImGui.RadioButton(UIStrings.Stop_Casting, fishConfig.StopFishingStep == FishingSteps.None))
+                {
+                    fishConfig.StopFishingStep = FishingSteps.None;
+                    Service.Save();
+                }
 
-            ImGui.SameLine();
-            ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
+                ImGui.SameLine();
+                ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
 
-            if (ImGui.RadioButton(UIStrings.Quit_Fishing, fishConfig.StopFishingStep == FishingSteps.Quitting))
-            {
-                fishConfig.StopFishingStep = FishingSteps.Quitting;
-                Service.Save();
-            }
+                if (ImGui.RadioButton(UIStrings.Quit_Fishing, fishConfig.StopFishingStep == FishingSteps.Quitting))
+                {
+                    fishConfig.StopFishingStep = FishingSteps.Quitting;
+                    Service.Save();
+                }
 
-            ImGui.SameLine();
-            ImGuiComponents.HelpMarker(UIStrings.Quit_Action_HelpText);
+                ImGui.SameLine();
+                ImGuiComponents.HelpMarker(UIStrings.Quit_Action_HelpText);
 
-            DrawUtil.Checkbox(UIStrings.Reset_the_counter, ref fishConfig.StopAfterResetCount);
-
-            ImGui.Unindent();
-            ImGui.Separator();
-            ImGui.TreePop();
-        }
-
+                DrawUtil.Checkbox(UIStrings.Reset_the_counter, ref fishConfig.StopAfterResetCount);
+            });
         ImGui.PopID();
     }
 

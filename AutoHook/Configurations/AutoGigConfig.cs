@@ -132,7 +132,7 @@ public class AutoGigPreset : IPresetItem
                 ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
 
             ImGui.SameLine();
-            DrawUtil.DrawCheckboxTree(@$"{gig.Fish?.Name ?? UIStrings.None}###{UniqueId.ToString()}", ref gig.Enabled,
+            DrawUtil.DrawCheckboxTree($"{gig.Fish?.Name ?? UIStrings.None}", ref gig.Enabled,
                 () => { gig.DrawOptions(); });
 
             ImGui.PopID();

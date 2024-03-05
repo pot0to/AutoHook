@@ -20,7 +20,7 @@ public class Configuration : IPluginConfiguration
     public int Version { get; set; } = 4;
     public string CurrentLanguage { get; set; } = @"en";
 
-    public bool HideLocButton = false;
+    public bool HideLocButtonn = true;
 
     [DefaultValue(true)] public bool PluginEnabled = true;
 

@@ -223,6 +223,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Angler&apos;s Art.
+        /// </summary>
+        internal static string AnglersArt {
+            get {
+                return ResourceManager.GetString("AnglersArt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Anti-Afk while fishing.
         /// </summary>
         internal static string AntiAfkOption {
@@ -511,6 +520,15 @@ namespace AutoHook.Resources.Localization {
         internal static string BaitName_Default {
             get {
                 return ResourceManager.GetString("BaitName_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bait and Preset swaps here have priority over the Fish Caught swaps.
+        /// </summary>
+        internal static string BaitPresetPriorityWarning {
+            get {
+                return ResourceManager.GetString("BaitPresetPriorityWarning", resourceCulture);
             }
         }
         
@@ -1177,6 +1195,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Force bait swap when using &quot;Start Actions&quot;.
+        /// </summary>
+        internal static string ForceBaitSwap {
+            get {
+                return ResourceManager.GetString("ForceBaitSwap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gig Hitbox.
+        /// </summary>
+        internal static string GigHitbox {
+            get {
+                return ResourceManager.GetString("GigHitbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Global Auto Cast Line.
         /// </summary>
         internal static string Global_Auto_Cast_Line {
@@ -1485,6 +1521,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fish Eyes will be used and cancel the mooch attempt..
+        /// </summary>
+        internal static string IgnoreMoochFishEyes {
+            get {
+                return ResourceManager.GetString("IgnoreMoochFishEyes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If disabled, the mooch attempt will not be cancelled, even if the Auto Mooch option is disabled.
         /// </summary>
         internal static string IgnoreMoochHelpText {
@@ -1647,7 +1692,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If enabled, mooch won&apos;t be used, and actions will cancel thsi fish mooch attempt.
+        ///   Looks up a localized string similar to If enabled, actions will also cancel this fish mooch attempt.
         /// </summary>
         internal static string NeverMoochHelpText {
             get {
@@ -1850,6 +1895,15 @@ namespace AutoHook.Resources.Localization {
         internal static string OnlyUseWhenNOTActiveSurfaceSlap {
             get {
                 return ResourceManager.GetString("OnlyUseWhenNOTActiveSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use when Makeshift or Patience is active.
+        /// </summary>
+        internal static string OnlyWhenMakeshiftOrPatience {
+            get {
+                return ResourceManager.GetString("OnlyWhenMakeshiftOrPatience", resourceCulture);
             }
         }
         
@@ -2133,6 +2187,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select bait to start fishing with:.
+        /// </summary>
+        internal static string SelectBaitStartFishing {
+            get {
+                return ResourceManager.GetString("SelectBaitStartFishing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select the Size and Speed of the fish you want (Gatherbuddy&apos;s Spearfishing overlay helps a lot).
         /// </summary>
         internal static string SelectTheSizeAndSpeed {
@@ -2232,11 +2295,58 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Spectral Current Settings.
+        /// </summary>
+        internal static string SpectralCurrentSettings {
+            get {
+                return ResourceManager.GetString("SpectralCurrentSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Speed.
         /// </summary>
         internal static string Speed {
             get {
                 return ResourceManager.GetString("Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stacks or more.
+        /// </summary>
+        internal static string StacksOrMore {
+            get {
+                return ResourceManager.GetString("StacksOrMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start using your Auto Casts! You can also set a bait swap to start fishing with in the Extra Tab
+        ///
+        ///You may also use the command /ahstart to start. Try making a macro with it!.
+        /// </summary>
+        internal static string StartActionHelpText {
+            get {
+                return ResourceManager.GetString("StartActionHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Actions.
+        /// </summary>
+        internal static string StartActions {
+            get {
+                return ResourceManager.GetString("StartActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start casting with your selected preset.
+        /// </summary>
+        internal static string Starts_AutoHook {
+            get {
+                return ResourceManager.GetString("Starts_AutoHook", resourceCulture);
             }
         }
         
@@ -2300,6 +2410,15 @@ namespace AutoHook.Resources.Localization {
         internal static string StopFishingAfter {
             get {
                 return ResourceManager.GetString("StopFishingAfter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop/Quit Fishing.
+        /// </summary>
+        internal static string StopQuitFishing {
+            get {
+                return ResourceManager.GetString("StopQuitFishing", resourceCulture);
             }
         }
         
@@ -2982,6 +3101,15 @@ namespace AutoHook.Resources.Localization {
         internal static string When_losing_spectral_current {
             get {
                 return ResourceManager.GetString("When_losing_spectral_current", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When Angler&apos;s Art stack is at....
+        /// </summary>
+        internal static string WhenAnglersAt {
+            get {
+                return ResourceManager.GetString("WhenAnglersAt", resourceCulture);
             }
         }
         

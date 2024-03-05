@@ -46,7 +46,7 @@ public static class DrawUtil
         ImGui.SameLine();
 
         ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
-        var clicked = ImGui.InputInt($"##{label}###", ref refValue, 0, 0, ImGuiInputTextFlags.EnterReturnsTrue);
+        var clicked = ImGui.InputInt($"##{label}###", ref refValue, 0, 0);
         ImGui.PopItemWidth();
 
         if (helpText != string.Empty)
@@ -67,7 +67,22 @@ public static class DrawUtil
         ImGui.SetCursorPos(cur);
         ImGui.TextUnformatted(s);
     }
-
+    
+    public static void Info(string text)
+    {
+        var cur = ImGui.GetCursorPos();
+        ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0);
+        ImGui.Button("");
+        ImGui.PopStyleVar();
+        ImGui.SameLine(0,1);
+        ImGui.SetCursorPos(cur);
+        ImGui.PushFont(UiBuilder.IconFont);
+        ImGui.TextDisabled(FontAwesomeIcon.QuestionCircle.ToIconString());
+        ImGui.PopFont();
+        
+        HoveredTooltip(text);
+    }
+    
     public static void HoveredTooltip(string text)
     {
         if (ImGui.IsItemHovered())
@@ -317,7 +332,7 @@ public static class DrawUtil
                 ImGui.SetTooltip(helpText);
         }
 
-        ImGui.SameLine();
+        ImGui.SameLine(0,3);
         if (Service.Configuration.SwapToButtons)
         {
             switch (Service.Configuration.SwapType)
@@ -332,12 +347,18 @@ public static class DrawUtil
         }
         else
         {
+            var x = ImGui.GetCursorPosX();
             if (ImGui.TreeNodeEx(treeName, ImGuiTreeNodeFlags.FramePadding))
             {
-                ImGui.Indent();
+                if (ImGui.IsItemHovered() && helpText != string.Empty)
+                    ImGui.SetTooltip(helpText);
+                
+                ImGui.SetCursorPosX(x);
+                ImGui.BeginGroup();
                 action();
                 ImGui.Separator();
-                ImGui.Unindent();
+                ImGui.EndGroup();
+                
                 ImGui.TreePop();
             }
         }
@@ -363,13 +384,17 @@ public static class DrawUtil
         }
         else
         {
+            var x = ImGui.GetCursorPosX();
             if (ImGui.TreeNodeEx(treeName, ImGuiTreeNodeFlags.FramePadding | ImGuiTreeNodeFlags.AllowItemOverlap))
             {
                 if (ImGui.IsItemHovered() && helpText != string.Empty)
                     ImGui.SetTooltip(helpText);
 
+                ImGui.SetCursorPosX(x);
+                ImGui.BeginGroup();
                 action();
                 ImGui.Separator();
+                ImGui.EndGroup();
                 ImGui.TreePop();
             }
             else if (ImGui.IsItemHovered() && helpText != string.Empty)

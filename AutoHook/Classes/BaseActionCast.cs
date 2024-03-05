@@ -33,7 +33,7 @@ public abstract class BaseActionCast
 
     [DefaultValue(false)] public bool Enabled;
 
-    [NonSerialized] public uint Id;
+    public uint Id;
 
     public int GpThreshold;
 
@@ -86,7 +86,7 @@ public abstract class BaseActionCast
         var actionAvailable = PlayerRes.ActionTypeAvailable(Id, ActionType);
 
         if (!IsSpearFishing) // the spam was too much lmao
-            Service.PrintDebug(
+            Service.PrintVerbose(
                 @$"[BaseAction] {Name} - GpCheck:{hasGp}, ActionAvailable: {actionAvailable}, OtherConditions: {condition}");
 
         return hasGp && actionAvailable && condition;
@@ -107,10 +107,7 @@ public abstract class BaseActionCast
     public virtual void DrawConfig(List<BaseActionCast>? availableActs = null)
     {
         ImGui.PushID(@$"{GetName()}_cfg");
-
-        ImGui.Columns(3, null, false);
-        ImGui.SetColumnWidth(0, 200f);
-        ImGui.SetColumnWidth(1, 40f);
+        
         if (DrawOptions != null)
         {
             if (DrawUtil.Checkbox(@$"###{GetName()}", ref Enabled, HelpText, true))
@@ -119,25 +116,24 @@ public abstract class BaseActionCast
                 Service.Save();
             }
 
-            ImGui.SameLine();
-
+            ImGui.SameLine(0,3);
+            
+            var x = ImGui.GetCursorPosX();
             if (ImGui.TreeNodeEx(@$"{GetName()}", ImGuiTreeNodeFlags.FramePadding))
             {
-                ImGui.SameLine();
-                ImGui.NextColumn();
+                ImGui.SameLine(200);
                 DrawGpThreshold();
                 DrawUpDownArrows(availableActs);
-                ImGui.Columns(1);
+                ImGui.SetCursorPosX(x);
+                ImGui.BeginGroup();
                 DrawOptions?.Invoke();
-                ImGui.NextColumn();
-                ImGui.NextColumn();
                 ImGui.Separator();
+                ImGui.EndGroup();
                 ImGui.TreePop();
             }
             else
             {
-                ImGui.SameLine();
-                ImGui.NextColumn();
+                ImGui.SameLine(200);
                 DrawGpThreshold();
                 DrawUpDownArrows(availableActs);
             }
@@ -150,14 +146,12 @@ public abstract class BaseActionCast
                 Service.Save();
             }
 
-            ImGui.SameLine();
+            ImGui.SameLine(0, 28);
             ImGui.Text(@$"{GetName()}");
-            ImGui.NextColumn();
+            ImGui.SameLine(200);
             DrawGpThreshold();
             DrawUpDownArrows(availableActs);
         }
-
-        ImGui.Columns(1, null, false);
         ImGui.PopID();
     }
 

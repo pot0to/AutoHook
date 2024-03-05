@@ -1,10 +1,14 @@
-﻿using AutoHook.Classes;
+﻿using System;
+using AutoHook.Classes;
+using AutoHook.Enums;
 
 namespace AutoHook.Configurations;
 
 public class ExtraConfig
 {
     public bool Enabled = false;
+    
+    private Guid _uniqueId;
     
     public bool SwapBaitIntuitionGain = false;
     public BaitFishClass BaitToSwapIntuitionGain = new();
@@ -33,4 +37,24 @@ public class ExtraConfig
     public bool ResetCounterPresetSwap = false;
     public bool QuitOnIntuitionLost = false;
     public bool StopOnIntuitionLost = false;
+    
+    public bool ForceBaitSwap;
+    public int ForcedBaitId;
+    
+    // Angler's Art
+    public bool StopAfterAnglersArt = false;
+    public int AnglerStackQtd = 0;
+    public FishingSteps AnglerStopFishingStep = FishingSteps.None;
+    public bool SwapBaitAnglersArt = false;
+    public BaitFishClass BaitToSwapAnglersArt = new();
+    public bool SwapPresetAnglersArt = false;
+    public string PresetToSwapAnglersArt = "-";
+    
+    public Guid GetUniqueId()
+    {
+        if (_uniqueId == Guid.Empty)
+            _uniqueId = Guid.NewGuid();
+        
+        return _uniqueId;
+    }
 }

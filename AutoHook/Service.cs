@@ -65,6 +65,17 @@ public class Service
         PluginLog.Debug(msg);
     }
     
+    public static void PrintVerbose(string msg)
+    {
+        if (LogMessages.Count >= MaxLogSize)
+        {
+            LogMessages.Dequeue(); 
+        }
+       
+        LogMessages.Enqueue(msg);
+        PluginLog.Verbose(msg);
+    }
+    
     public static void PrintChat(string msg)
     {
         PrintDebug(msg);

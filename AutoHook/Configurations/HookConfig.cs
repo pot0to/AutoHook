@@ -22,8 +22,6 @@ public class HookConfig
     //todo enable more hook settings based on the current status
     //List<BaseHookset> CustomHooksets = new();
 
-    public BaseHookset Hookset => GetHookset();
-
     public HookConfig()
     {
     }
@@ -73,15 +71,15 @@ public class HookConfig
         if (hookDictionary.TryGetValue(bite, out var hook))
         {
             hook.ph.MinHookTimer = min;
-            hook.ph.MaxHookTimer = max;
+            hook.ph.MaxHookTimer = max+1;
             hook.ph.HookTimerEnabled = true;
             
             hook.dh.MinHookTimer = min;
-            hook.dh.MaxHookTimer = max;
+            hook.dh.MaxHookTimer = max+1;
             hook.dh.HookTimerEnabled = true;
             
             hook.th.MinHookTimer = min;
-            hook.th.MaxHookTimer = max;
+            hook.th.MaxHookTimer = max+1;
             hook.th.HookTimerEnabled = true;
         }
     }
@@ -109,8 +107,8 @@ public class HookConfig
         }
     }
 
-    private BaseHookset GetHookset()
-    {
+    public BaseHookset GetHookset()
+    {/*
         var requiredStatusPreset = new List<BaseHookset> { IntuitionHook };
 
         foreach (var preset in requiredStatusPreset)
@@ -119,6 +117,11 @@ public class HookConfig
             {
                 return preset;
             }
+        }*/
+
+        if (HookingManager.IntuitionStatus == IntuitionStatus.Active)
+        {
+            return IntuitionHook;
         }
 
         return NormalHook;
@@ -144,7 +147,7 @@ public class HookConfig
                     if (IsHookAvailable(hook.th))
                         return hook.th.HooksetType;
 
-                if (Hookset.LetFishEscapeTripleHook)
+                if (hookset.LetFishEscapeTripleHook)
                     return HookType.None;
             }
 
@@ -155,7 +158,7 @@ public class HookConfig
                     if (IsHookAvailable(hook.dh))
                         return hook.dh.HooksetType;
 
-                if (Hookset.LetFishEscapeDoubleHook)
+                if (hookset.LetFishEscapeDoubleHook)
                     return HookType.None;
             }
 

@@ -47,33 +47,11 @@ public class BaseBiteConfig
             {
                 if (EnableHooksetSwap)
                     DrawUtil.DrawTreeNodeEx(UIStrings.HookType, DrawBite, UIStrings.HookWillBeUsedIfPatienceIsNotUp);
-
-                ImGui.Spacing();
-
-                DrawUtil.DrawTreeNodeEx(UIStrings.HookingTimer,
-                    () =>
-                    {
-                        ImGui.PushID(@"HookingTimer");
-                        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.SetZeroToIgnore);
-                        DrawUtil.Checkbox(UIStrings.EnableHookingTimer, ref HookTimerEnabled);
-                        DrawTimer(ref MinHookTimer, ref MaxHookTimer);
-                        ImGui.PopID();
-
-                        DrawUtil.SpacingSeparator();
-
-                        //ImGui.TextWrapped(UIStrings.ChumTimer);
-                        ImGui.PushID(@"MoochTimer");
-                        DrawUtil.Checkbox(UIStrings.EnableChumTimer, ref ChumTimerEnabled);
-                        DrawTimer(ref ChumMinHookTimer, ref ChumMaxHookTimer);
-                        ImGui.PopID();
-                    }
-                    , UIStrings.HookingTimerHelpText);
-
-                ImGui.Spacing();
-
-
+                
+                DrawUtil.DrawTreeNodeEx(UIStrings.HookingTimer,DrawTimers, UIStrings.HookingTimerHelpText);
+                
                 DrawUtil.DrawTreeNodeEx(UIStrings.Surface_Slap_Options, DrawSurfaceSwap);
-                ImGui.Spacing();
+               
                 DrawUtil.DrawTreeNodeEx(UIStrings.Identical_Cast_Options, DrawIdenticalCast);
             });
 
@@ -82,6 +60,8 @@ public class BaseBiteConfig
 
     private void DrawBite()
     {
+        ImGui.Indent();
+        
         if (ImGui.RadioButton(UIStrings.Normal_Hook, HooksetType == HookType.Normal))
         {
             HooksetType = HookType.Normal;
@@ -99,10 +79,14 @@ public class BaseBiteConfig
             HooksetType = HookType.Powerful;
             Service.Save();
         }
+        
+        ImGui.Unindent();
     }
 
     private void DrawSurfaceSwap()
     {
+        ImGui.Indent();
+        
         if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenActiveSurfaceSlap, ref OnlyWhenActiveSlap))
         {
             OnlyWhenNotActiveSlap = false;
@@ -114,10 +98,14 @@ public class BaseBiteConfig
             OnlyWhenActiveSlap = false;
             Service.Save();
         }
+        
+        ImGui.Unindent();
     }
 
     private void DrawIdenticalCast()
     {
+        ImGui.Indent();
+        
         if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenActiveIdentical, ref OnlyWhenActiveIdentical))
         {
             OnlyWhenNotActiveIdentical = false;
@@ -129,10 +117,32 @@ public class BaseBiteConfig
             OnlyWhenActiveIdentical = false;
             Service.Save();
         }
+        
+        ImGui.Unindent();
     }
 
-    private void DrawTimer(ref double minTimeDelay, ref double maxTimeDelay)
+    private void DrawTimers()
     {
+        ImGui.Indent();
+        ImGui.PushID(@"HookingTimer");
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.SetZeroToIgnore);
+        DrawUtil.Checkbox(UIStrings.EnableHookingTimer, ref HookTimerEnabled);
+        SetupTimer(ref MinHookTimer, ref MaxHookTimer);
+        ImGui.PopID();
+
+        DrawUtil.SpacingSeparator();
+
+        //ImGui.TextWrapped(UIStrings.ChumTimer);
+        ImGui.PushID(@"MoochTimer");
+        DrawUtil.Checkbox(UIStrings.EnableChumTimer, ref ChumTimerEnabled);
+        SetupTimer(ref ChumMinHookTimer, ref ChumMaxHookTimer);
+        ImGui.PopID();
+        ImGui.Unindent();
+    }
+    
+    private void SetupTimer(ref double minTimeDelay, ref double maxTimeDelay)
+    {
+        
         ImGui.SetNextItemWidth(100 * ImGuiHelpers.GlobalScale);
         if (ImGui.InputDouble(UIStrings.MinWait, ref minTimeDelay, .1, 1, @"%.1f%"))
         {
@@ -171,9 +181,7 @@ public class BaseBiteConfig
 
             Service.Save();
         }
-
-        ImGui.SameLine();
-
+        
         ImGuiComponents.HelpMarker(UIStrings.HelpMarkerMaxWaitTimer);
     }
 }

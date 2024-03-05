@@ -16,11 +16,16 @@ public readonly struct MultiString
     
     public static string GetItemName(uint id)
     {
-        return id == 0 ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
+        if (id == 0)
+            return UIStrings.None;
+       
+        var item = ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
+        
+        return item == string.Empty ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
     } 
     
     public static string GetItemName(int id)
     {
-        return id == 0 ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow((uint)id)?.Name);
+        return GetItemName((uint)id);
     } 
 }

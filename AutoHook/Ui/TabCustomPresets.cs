@@ -7,6 +7,7 @@ using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -26,28 +27,28 @@ public class TabCustomPresets : BaseTab
     private SubTabExtra _subTabExtra = new();
 
     public static bool OpenPresetGen;
-    private PresetCreator PresetCreator = new(); 
+    private PresetCreator PresetCreator = new();
 
     public override void DrawHeader()
     {
         DrawTabDescription(UIStrings.TabPresets_DrawHeader_NewTabDescription);
 
-        if (ImGui.Button("Preset Generator"))
+        if (ImGuiComponents.IconButtonWithText(FontAwesomeIcon.ArrowsSpin, "Generate Preset"))
             OpenPresetGen = !OpenPresetGen;
 
         if (OpenPresetGen)
         {
-            ImGui.PushID(@"PresetGen"); 
-            ImGui.SetNextItemWidth(500); 
-            if (ImGui.Begin($"Preset Gen", ref OpenPresetGen, ImGuiWindowFlags.AlwaysUseWindowPadding)) 
-            { 
-                PresetCreator.PresetGenerator(); 
-                
-            } 
+            ImGui.PushID(@"PresetGen");
+            ImGui.SetNextItemWidth(500);
+            if (ImGui.Begin($"Preset Gen", ref OpenPresetGen, ImGuiWindowFlags.AlwaysUseWindowPadding))
+            {
+                PresetCreator.DrawPresetGenerator();
+            }
+
             ImGui.End();
-            ImGui.PopID(); 
+            ImGui.PopID();
         }
-        
+
         if (Service.Configuration.ShowPresetsAsSidebar)
             return;
 
@@ -121,7 +122,7 @@ public class TabCustomPresets : BaseTab
 
         ImGui.SameLine();
 
-        if (ImGui.BeginChild("ChildPresetTabs", new Vector2(-1)))
+        if (ImGui.BeginChild("ChildPresetTabs"))
         {
             DrawStandardTabs();
             ImGui.EndChild();
@@ -141,6 +142,7 @@ public class TabCustomPresets : BaseTab
 
                 if (ImGui.BeginTabBar(@"TabBarCustomHooking", ImGuiTabBarFlags.NoTooltip))
                 {
+                    ImGui.Spacing();
                     if (ImGui.BeginTabItem(UIStrings.Bait))
                     {
                         ImGui.PushID(@"TabCustomBait");

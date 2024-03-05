@@ -9,7 +9,7 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoPatience : BaseActionCast
 {
-    public bool EnableMakeshiftPatience;
+    //public bool EnableMakeshiftPatience;
     public int RefreshEarlyTime = 0;
     public override bool RequiresTimeWindow() => true;
 
@@ -31,7 +31,7 @@ public class AutoPatience : BaseActionCast
         if (PlayerRes.HasStatus(IDs.Status.PrizeCatch))
             return false;
 
-        if (PlayerRes.HasStatus(IDs.Status.MakeshiftBait) && !EnableMakeshiftPatience)
+        if (PlayerRes.HasStatus(IDs.Status.MakeshiftBait))
             return false;
 
         return true;
@@ -39,10 +39,10 @@ public class AutoPatience : BaseActionCast
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
-        if (DrawUtil.Checkbox(UIStrings.TabAutoCasts_DrawExtraOptionsPatience, ref EnableMakeshiftPatience))
+        /*if (DrawUtil.Checkbox(UIStrings.TabAutoCasts_DrawExtraOptionsPatience, ref EnableMakeshiftPatience))
         {
             Service.Save();
-        }
+        }*/
 
         if (ImGui.RadioButton(UIStrings.Patience_I, Id == IDs.Actions.Patience))
         {

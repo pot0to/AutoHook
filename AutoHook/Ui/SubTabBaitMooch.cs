@@ -27,70 +27,74 @@ public class SubTabBaitMooch
             _listOfHooks = presetCfg.ListOfMooch;
         else
             _listOfHooks = presetCfg.ListOfBaits;
-
+        
         if (!IsGlobal)
         {
             ImGui.Spacing();
             DrawDescription();
-            ImGui.Separator();
         }
-
-        ImGui.BeginGroup();
-
-        for (int idx = 0; idx < _listOfHooks?.Count; idx++)
+        
+        if (ImGui.BeginChild("BaitMoochItems", new Vector2(0, 0), true))
         {
-            var hook = _listOfHooks[idx];
-            ImGui.PushID(@$"id###{idx}");
-            ImGui.Spacing();
-
-            string baitName = !IsGlobal ? hook.BaitFish.Name : IsMooch ? UIStrings.All_Mooches : UIStrings.All_Baits;
-
-            var count = HookingManager.FishingCounter.GetCount(hook.GetUniqueId());
-            var hookCounter = count > 0 ? @$"({UIStrings.Hooked_Counter} {count})" : "";
-
-            if (DrawUtil.Checkbox($"###checkbox{idx}", ref hook.Enabled, UIStrings.EnabledConfigArrowhelpMarker, true))
-                Service.Save();
-
-            ImGui.SameLine();
-            if (ImGui.CollapsingHeader(@$"{baitName} {hookCounter}###{idx}"))
+            for (int idx = 0; idx < _listOfHooks?.Count; idx++)
             {
-                ImGui.Indent();
-                if (!IsGlobal)
-                {
-                    ImGui.Spacing();
-                    DrawInputSearchBar(hook);
-                    ImGui.SameLine();
-                    DrawDeleteButton(hook);
-                }
+                var hook = _listOfHooks[idx];
+                ImGui.PushID(@$"id###{idx}");
 
-                ImGui.Spacing();
-                if (ImGui.BeginTabBar(@"TabBarsBaitMooch", ImGuiTabBarFlags.NoTooltip))
-                {
-                    ImGui.Spacing();
+                string baitName = !IsGlobal ? hook.BaitFish.Name :
+                    IsMooch ? UIStrings.All_Mooches : UIStrings.All_Baits;
 
-                    if (ImGui.BeginTabItem($"Default###DefaultBait"))
+                var count = HookingManager.FishingHelper.GetFishCount(hook.GetUniqueId());
+                var hookCounter = count > 0 ? @$"({UIStrings.Hooked_Counter} {count})" : "";
+
+                if (DrawUtil.Checkbox($"###checkbox{idx}", ref hook.Enabled, UIStrings.EnabledConfigArrowhelpMarker,
+                        true))
+                    Service.Save();
+
+                ImGui.SameLine(0, 6);
+                var x = ImGui.GetCursorPosX();
+                if (ImGui.CollapsingHeader(@$"{baitName} {hookCounter}###{idx}"))
+                {
+                    ImGui.SetCursorPosX(x);
+                    ImGui.BeginGroup();
+                    if (!IsGlobal)
                     {
-                        DrawNormalTab(hook);
-                        ImGui.EndTabItem();
+                        ImGui.Spacing();
+                        DrawInputSearchBar(hook);
+                        ImGui.SameLine();
+                        DrawDeleteButton(hook);
+                        ImGui.Spacing();
                     }
 
-                    if (ImGui.BeginTabItem($"Intuition"))
+                    if (ImGui.BeginTabBar(@"TabBarsBaitMooch", ImGuiTabBarFlags.NoTooltip))
                     {
-                        DrawIntuitionTab(hook);
-                        ImGui.EndTabItem();
-                    }
+                        ImGui.Spacing();
 
-                    ImGui.EndTabBar();
+                        if (ImGui.BeginTabItem($"Default###DefaultBait"))
+                        {
+                            DrawNormalTab(hook);
+                            ImGui.EndTabItem();
+                        }
+
+                        if (ImGui.BeginTabItem($"Intuition"))
+                        {
+                            DrawIntuitionTab(hook);
+                            ImGui.EndTabItem();
+                        }
+
+                        ImGui.EndTabBar();
+                    }
+                    
+                    ImGui.EndGroup();
                 }
 
-                ImGui.Unindent();
+                DrawUtil.SpacingSeparator();
+
+                ImGui.PopID();
             }
 
-            ImGui.Spacing();
-            ImGui.PopID();
+            ImGui.EndChild();
         }
-
-        ImGui.EndGroup();
     }
 
     private void DrawDescription()
@@ -112,26 +116,7 @@ public class SubTabBaitMooch
         ImGuiComponents.HelpMarker(UIStrings.TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName);
         ImGui.Spacing();
     }
-
-    private void DrawDeleteButton(HookConfig hookConfig)
-    {
-        if (IsGlobal)
-            return;
-
-        ImGui.PushFont(UiBuilder.IconFont);
-        if (ImGui.Button(@$"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) &&
-            ImGui.GetIO().KeyShift)
-        {
-            _listOfHooks.RemoveAll(x => x.BaitFish.Id == hookConfig.BaitFish.Id);
-            Service.Save();
-        }
-
-        ImGui.PopFont();
-
-        if (ImGui.IsItemHovered())
-            ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
-    }
-
+    
     private void DrawInputSearchBar(HookConfig hookConfig)
     {
         var list = IsMooch ? GameRes.Fishes : GameRes.Baits;
@@ -163,6 +148,25 @@ public class SubTabBaitMooch
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip(UIStrings.UIUseCurrentBait);
         }
+    }
+    
+    private void DrawDeleteButton(HookConfig hookConfig)
+    {
+        if (IsGlobal)
+            return;
+
+        ImGui.PushFont(UiBuilder.IconFont);
+        if (ImGui.Button(@$"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) &&
+            ImGui.GetIO().KeyShift)
+        {
+            _listOfHooks.RemoveAll(x => x.BaitFish.Id == hookConfig.BaitFish.Id);
+            Service.Save();
+        }
+
+        ImGui.PopFont();
+
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
     }
 
 

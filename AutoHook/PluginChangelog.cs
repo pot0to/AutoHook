@@ -8,6 +8,24 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.1.0")
+        {
+            MainChanges =
+            {
+                "New \"Start Actions\" option, hover the Info symbol for more details",
+                "[AutoCast] Added new Option to only use Fish Eyes when Makeshift Bait or Patience is active",
+                "[Extra Tab] Added New Angler's Art option",
+                "[Extra] Added an option to force a bait swap when starting fishing (using the new Start Fishing button or /ahstart command)",
+                "[AutoGig] Added an option to gig everything"
+            },
+            MinorChanges =
+            {
+                "Fixed wrong hook being used if intuition falls off while still fishing",
+                "Small Improvements to the Preset Generator",
+                "Fixed an issue when swapping bait/preset while using double/triple hook",
+                "Some UI changes",
+            }
+        },
         new Version("4.2.0.7")
         {
             MainChanges =

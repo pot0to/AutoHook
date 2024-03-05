@@ -1,4 +1,3 @@
-using AutoHook.Resources.Localization;
 using AutoHook.Ui;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
@@ -9,12 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using AutoHook.Classes;
-using AutoHook.Configurations;
-using AutoHook.Enums;
+using AutoHook.Resources.Localization;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 
@@ -55,58 +52,42 @@ public class PluginUi : Window, IDisposable
         if (!IsOpen)
             return;
 
-        //ImGui.TextColored(ImGuiColors.DalamudYellow, "Major plugin rework!!! Please, recheck all of your presets");
-        ImGui.Spacing();
-        DrawUtil.Checkbox("", ref Service.Configuration.PluginEnabled);
+        DrawUtil.Info(UIStrings.StartActionHelpText);
+
+        ImGui.SameLine(0, 3);
+        if (ImGuiComponents.IconButtonWithText(FontAwesomeIcon.Play, UIStrings.StartActions))
+            AutoHook.Plugin.HookManager.StartFishing();
 
         ImGui.SameLine();
+
+        DrawUtil.Checkbox("###PluginEnable", ref Service.Configuration.PluginEnabled);
+
+        ImGui.SameLine(0, 1);
 
         if (Service.Configuration.PluginEnabled)
             ImGui.TextColored(ImGuiColors.HealerGreen, UIStrings.Plugin_Enabled);
         else
             ImGui.TextColored(ImGuiColors.DalamudRed, UIStrings.Plugin_Disabled);
 
-        ImGuiComponents.HelpMarker(UIStrings.PluginUi_Draw_Enables_Disables);
-
         ImGui.SameLine();
 
-        DrawLanguageSelector();
-        ImGui.SameLine();
         DrawChangelog();
-        ImGui.Spacing();
-
-        if (!Service.Configuration.HideLocButton)
-        {
-            if (ImGui.Button(UIStrings.TabGeneral_DrawHeader_Localization_Help))
-            {
-                if (ImGui.GetIO().KeyShift)
-                {
-                    Service.Configuration.HideLocButton = true;
-                }
-                else
-                    Process.Start(new ProcessStartInfo
-                        { FileName = "https://crowdin.com/project/autohook", UseShellExecute = true });
-            }
-
-            if (ImGui.IsItemHovered())
-                ImGui.SetTooltip(
-                    "This button will be removed soon, im just bringing attention to the localization for a bit. Or if you've read this message, hold shift and click to hide ");
-        }
-
+       
+        /*if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(
+                "Start using your Auto Casts!\n\nYou can also use the command /ahstart to start fishing based on your Auto Cast settings. Try making a macro with it!");*/
 
         if (Service.Configuration.ShowDebugConsole)
         {
+            ImGui.Spacing();
             if (ImGui.Button(UIStrings.Open_Console))
                 Service.OpenConsole = !Service.OpenConsole;
-
-            ImGui.SameLine();
 #if DEBUG
+            ImGui.SameLine();
             TestButtons();
 #endif
             if (Service.OpenConsole)
                 Debug();
-
-            ImGui.Spacing();
         }
 
         if (Service.Configuration.ShowStatusHeader)
@@ -121,6 +102,7 @@ public class PluginUi : Window, IDisposable
             }
         }
 
+        ImGui.Spacing();
         DrawTabs();
     }
 
@@ -164,12 +146,7 @@ public class PluginUi : Window, IDisposable
                 {
                     ImGui.PushID(tab.TabName);
                     tab.DrawHeader();
-                    if (ImGui.BeginChild(tab.TabName, new Vector2(0, 0), true))
-                    {
-                        tab.Draw();
-                        ImGui.EndChild();
-                    }
-
+                    tab.Draw();
                     ImGui.PopID();
                     ImGui.EndTabItem();
                 }
@@ -205,30 +182,6 @@ public class PluginUi : Window, IDisposable
         ImGui.PopStyleColor(3);
     }
 
-    private void DrawLanguageSelector()
-    {
-        ImGui.SetNextItemWidth(55);
-        var languages = new List<string>
-        {
-            @"en",
-            @"es",
-            @"fr",
-            @"de",
-            @"ja",
-            @"ko",
-            @"ru",
-            @"zh"
-        };
-        var currentLanguage = languages.IndexOf(Service.Configuration.CurrentLanguage);
-
-        if (!ImGui.Combo("###currentLanguage", ref currentLanguage, languages.ToArray(), languages.Count))
-            return;
-
-        Service.Configuration.CurrentLanguage = languages[currentLanguage];
-        UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);
-        Service.Save();
-        //Service.Chat.Print("Saved");
-    }
 
     private static void OpenBrowser(string url)
     {
@@ -240,14 +193,17 @@ public class PluginUi : Window, IDisposable
     [Localizable(false)]
     private void DrawChangelog()
     {
-        if (ImGui.Button(UIStrings.Changelog))
+        var text = UIStrings.Changelog;
+        ImGui.SetCursorPosX(ImGui.GetWindowWidth() - ImGuiHelpers.GetButtonSize(text).X - 5);
+
+        if (ImGui.Button(text))
             _openChangelog = !_openChangelog;
 
         if (!_openChangelog)
             return;
 
         ImGui.SetNextItemWidth(400);
-        if (ImGui.Begin($"{UIStrings.Changelog}", ref _openChangelog))
+        if (ImGui.Begin($"{text}", ref _openChangelog))
         {
             var changes = PluginChangelog.Versions;
 

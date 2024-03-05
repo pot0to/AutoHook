@@ -1,7 +1,13 @@
-﻿using AutoHook.Configurations;
+﻿using System;
+using AutoHook.Classes;
+using AutoHook.Configurations;
+using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
+using Dalamud.Interface.Components;
+using Dalamud.Interface.Utility;
+using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -21,7 +27,6 @@ public class SubTabExtra
     public void DrawHeader(ExtraConfig config)
     {
         ImGui.Spacing();
-        
         if (DrawUtil.Checkbox(UIStrings.Enable_Extra_Configs, ref config.Enabled))
         {
             if (config.Enabled)
@@ -53,212 +58,182 @@ public class SubTabExtra
             else if (!config.Enabled)
                 ImGui.TextColored(ImGuiColors.ParsedBlue, UIStrings.SubExtra_Disabled);
         }
+        ImGui.Spacing();
     }
 
     public void DrawBody(ExtraConfig config)
     {
-        DrawUtil.SpacingSeparator();
-        ImGui.BeginGroup();
-        if (ImGui.TreeNodeEx(UIStrings.When_gaining_fishers_intuition, ImGuiTreeNodeFlags.FramePadding))
+        if (ImGui.BeginChild("ExtraItems", new Vector2(0, 0), true))
         {
-            ImGui.PushID(@"gaining_intuition");
-            ImGui.Spacing();
-            DrawSwapPresetIntuitionGain(config);
-            DrawSwapBaitIntuitionGain(config);
-            ImGui.PopID();
-            ImGui.TreePop();
-        }
-        
-        DrawUtil.SpacingSeparator();
-        
-        if (ImGui.TreeNodeEx(UIStrings.When_losing_fishers_intuition, ImGuiTreeNodeFlags.FramePadding))
-        {
-            ImGui.PushID(@"losing_intuition");
-            ImGui.Spacing();
-            DrawSwapPresetIntuitionLost(config);
-            DrawSwapBaitIntuitionLost(config);
-            if (DrawUtil.Checkbox(UIStrings.Quit_Fishing_On_IntuitionLost, ref config.QuitOnIntuitionLost))
-                Service.Save();
+            ImGui.BeginGroup();
             
-            if (DrawUtil.Checkbox(UIStrings.Stop_Fishing_On_IntuitionLost, ref config.StopOnIntuitionLost))
-                Service.Save();
+            ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.BaitPresetPriorityWarning);
             
             DrawUtil.SpacingSeparator();
             
-            ImGui.PopID();
-            ImGui.TreePop();
-        }
-        
-        DrawUtil.SpacingSeparator();
-        
-        ImGui.Spacing();
-        if (ImGui.TreeNodeEx(UIStrings.When_gaining_spectral_current, ImGuiTreeNodeFlags.FramePadding))
-        {
-            ImGui.PushID(@"gaining_spectral");
-            ImGui.Spacing();
-            DrawSwapPresetSpectralGain(config);
-            DrawSwapBaitSpectralGain(config);
-            ImGui.PopID();
-            ImGui.TreePop();
-        }
+            DrawUtil.DrawCheckboxTree(UIStrings.ForceBaitSwap, ref config.ForceBaitSwap,
+                () =>
+                {
+                    DrawUtil.TextV(UIStrings.SelectBaitStartFishing);
+                    DrawUtil.DrawComboSelector(
+                        GameRes.Baits,
+                        bait => bait.Name,
+                        $"{MultiString.GetItemName(config.ForcedBaitId)}",
+                        bait => config.ForcedBaitId = bait.Id);
+                }
+            );
 
-        DrawUtil.SpacingSeparator();
+            DrawUtil.SpacingSeparator();
+            
+            if (ImGui.TreeNodeEx(UIStrings.FisherSIntuitionSettings, ImGuiTreeNodeFlags.FramePadding))
+            {
+                DrawFishersIntuition(config);
+                ImGui.TreePop();
+            }
+            
+            DrawUtil.SpacingSeparator();
 
-        if (ImGui.TreeNodeEx(UIStrings.When_losing_spectral_current, ImGuiTreeNodeFlags.FramePadding))
-        {
-            ImGui.PushID(@"losing_spectral");
-            ImGui.Spacing();
-            DrawSwapPresetSpectralLost(config);
-            DrawSwapBaitSpectralLost(config);
-            ImGui.PopID();
-            ImGui.TreePop();
+            if (ImGui.TreeNodeEx(UIStrings.SpectralCurrentSettings, ImGuiTreeNodeFlags.FramePadding))
+            {
+                DrawSpectralCurrent(config);
+                ImGui.TreePop();
+            }
+            
+            DrawUtil.SpacingSeparator();
+            
+            if (ImGui.TreeNodeEx(UIStrings.AnglersArt, ImGuiTreeNodeFlags.FramePadding))
+            {
+                DrawAnglersArt(config);
+                ImGui.TreePop();
+            }
+            
+            DrawUtil.SpacingSeparator();
+
+            if (DrawUtil.Checkbox(UIStrings.Reset_counter_after_swapping_presets, ref config.ResetCounterPresetSwap))
+            {
+                Service.Save();
+            }
+            
+            ImGui.EndGroup();
+            ImGui.EndChild();
         }
+    }
 
+    private void DrawSpectralCurrent(ExtraConfig config)
+    {
+        ImGui.PushID(@"gaining_spectral");
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.When_gaining_spectral_current);
+        DrawPresetSwap(ref config.SwapPresetSpectralCurrentGain, ref config.PresetToSwapSpectralCurrentGain);
+        DrawBaitSwap(ref config.SwapBaitSpectralCurrentGain, ref config.BaitToSwapSpectralCurrentGain);
+        ImGui.PopID();
+
+        ImGui.PushID(@"losing_spectral");
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.When_losing_spectral_current);
+        DrawPresetSwap(ref config.SwapPresetSpectralCurrentLost, ref config.PresetToSwapSpectralCurrentLost);
+        DrawBaitSwap(ref config.SwapBaitSpectralCurrentLost, ref config.BaitToSwapSpectralCurrentLost);
+        ImGui.PopID();
         DrawUtil.SpacingSeparator();
-        
-        if (DrawUtil.Checkbox(UIStrings.Reset_counter_after_swapping_presets, ref config.ResetCounterPresetSwap))
+
+    }
+
+    private void DrawFishersIntuition(ExtraConfig config)
+    {
+        ImGui.PushID(@"gaining_intuition");
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.When_gaining_fishers_intuition);
+
+        DrawPresetSwap(ref config.SwapPresetIntuitionGain, ref config.PresetToSwapIntuitionGain);
+        DrawBaitSwap(ref config.SwapBaitIntuitionGain, ref config.BaitToSwapIntuitionGain);
+        ImGui.PopID();
+
+        ImGui.PushID(@"losing_intuition");
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.When_losing_fishers_intuition);
+        DrawPresetSwap(ref config.SwapPresetIntuitionLost, ref config.PresetToSwapIntuitionLost);
+        DrawBaitSwap(ref config.SwapBaitIntuitionLost, ref config.BaitToSwapIntuitionLost);
+
+        if (DrawUtil.Checkbox(UIStrings.Quit_Fishing_On_IntuitionLost, ref config.QuitOnIntuitionLost))
+            Service.Save();
+
+        if (DrawUtil.Checkbox(UIStrings.Stop_Fishing_On_IntuitionLost, ref config.StopOnIntuitionLost))
+            Service.Save();
+
+        ImGui.PopID();
+        DrawUtil.SpacingSeparator();
+    }
+
+    private void DrawAnglersArt(ExtraConfig config)
+    {
+        ImGui.PushID(@"anglers_art");
+        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.WhenAnglersAt);
+        ImGui.SetNextItemWidth(90 * ImGuiHelpers.GlobalScale);
+        if (ImGui.InputInt(UIStrings.StacksOrMore, ref config.AnglerStackQtd))
         {
+            config.AnglerStackQtd = Math.Clamp(config.AnglerStackQtd, 0, 10);
             Service.Save();
         }
-
+        
+        DrawUtil.DrawCheckboxTree(UIStrings.StopQuitFishing, ref config.StopAfterAnglersArt,
+            () =>
+            {
+                if (ImGui.RadioButton(UIStrings.Stop_Casting, config.AnglerStopFishingStep == FishingSteps.None))
+                {
+                    config.AnglerStopFishingStep = FishingSteps.None;
+                    Service.Save();
+                }
+                ImGui.SameLine();
+                ImGuiComponents.HelpMarker(UIStrings.Auto_Cast_Stopped);
+                
+                if (ImGui.RadioButton(UIStrings.Quit_Fishing, config.AnglerStopFishingStep == FishingSteps.Quitting))
+                {
+                    config.AnglerStopFishingStep = FishingSteps.Quitting;
+                    Service.Save();
+                }
+            }
+        );
+        
+        DrawPresetSwap(ref config.SwapPresetAnglersArt, ref config.PresetToSwapAnglersArt);
+        DrawBaitSwap(ref config.SwapBaitAnglersArt, ref config.BaitToSwapAnglersArt);
+        ImGui.PopID();
         DrawUtil.SpacingSeparator();
         
-        ImGui.EndGroup();
-    }
-
-    #region Fishers Intuition
-    private void DrawSwapPresetIntuitionGain(ExtraConfig config)
-    {
-        ImGui.PushID(@"DrawSwapPresetIntuitionGain");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetIntuitionGain,
-            () =>
-            {
-                DrawUtil.DrawComboSelector(
-                    Service.Configuration.HookPresets.CustomPresets,
-                    preset => preset.PresetName,
-                    config.PresetToSwapIntuitionGain,
-                    preset => config.PresetToSwapIntuitionGain = preset.PresetName);
-            }
-        );
-        ImGui.PopID();
-    }
-
-    private void DrawSwapBaitIntuitionGain(ExtraConfig config)
-    {
-        ImGui.PushID(@"DrawSwapBaitIntuitionGain");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitIntuitionGain,
-            () =>
-            {
-                DrawUtil.DrawComboSelector(
-                    GameRes.Baits,
-                    bait => bait.Name,
-                    config.BaitToSwapIntuitionGain.Name,
-                    bait => config.BaitToSwapIntuitionGain = bait);
-            }
-        );
-
-        ImGui.PopID();
     }
     
-    private void DrawSwapPresetIntuitionLost(ExtraConfig config)
+    private void DrawPresetSwap(ref bool enable, ref string presetName)
     {
-        ImGui.PushID(@"DrawSwapPresetIntuitionLost");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetIntuitionLost,
+        ImGui.PushID(@$"{nameof(DrawPresetSwap)}");
+
+        var text = presetName;
+        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref enable,
             () =>
             {
                 DrawUtil.DrawComboSelector(
                     Service.Configuration.HookPresets.CustomPresets,
                     preset => preset.PresetName,
-                    config.PresetToSwapIntuitionLost,
-                    preset => config.PresetToSwapIntuitionLost = preset.PresetName);
+                    text,
+                    preset => text = preset.PresetName);
             }
         );
+
+        presetName = text;
         ImGui.PopID();
     }
 
-    private void DrawSwapBaitIntuitionLost(ExtraConfig config)
+    private void DrawBaitSwap(ref bool enable, ref BaitFishClass baitSwap)
     {
-        ImGui.PushID(@"DrawSwapBaitIntuitionLost");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitIntuitionLost,
+        ImGui.PushID(@$"{nameof(DrawBaitSwap)}");
+        
+        var newBait = baitSwap;
+        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref enable,
             () =>
             {
                 DrawUtil.DrawComboSelector(
                     GameRes.Baits,
                     bait => bait.Name,
-                    config.BaitToSwapIntuitionLost.Name,
-                    bait => config.BaitToSwapIntuitionLost = bait);
+                    newBait.Name,
+                    bait => newBait = bait);
             }
         );
-
+        
+        baitSwap = newBait;
         ImGui.PopID();
     }
-    #endregion
-
-    #region Spectral Current
-    private void DrawSwapPresetSpectralGain(ExtraConfig config)
-    {
-        ImGui.PushID(@$"{nameof(DrawSwapPresetSpectralGain)}");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetSpectralCurrentGain,
-            () =>
-            {
-                DrawUtil.DrawComboSelector(
-                    Service.Configuration.HookPresets.CustomPresets,
-                    preset => preset.PresetName,
-                    config.PresetToSwapSpectralCurrentGain,
-                    preset => config.PresetToSwapSpectralCurrentGain = preset.PresetName);
-            }
-        );
-        ImGui.PopID();
-    }
-
-    private void DrawSwapBaitSpectralGain(ExtraConfig config)
-    {
-        ImGui.PushID(@$"{nameof(DrawSwapBaitSpectralGain)}");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitSpectralCurrentGain,
-            () =>
-            {
-                DrawUtil.DrawComboSelector(
-                    GameRes.Baits,
-                    bait => bait.Name,
-                    config.BaitToSwapSpectralCurrentGain.Name,
-                    bait => config.BaitToSwapSpectralCurrentGain = bait);
-            }
-        );
-
-        ImGui.PopID();
-    }
-
-    private void DrawSwapPresetSpectralLost(ExtraConfig config)
-    {
-        ImGui.PushID(@$"{nameof(DrawSwapPresetSpectralLost)}");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Preset, ref config.SwapPresetSpectralCurrentLost,
-            () =>
-            {
-                DrawUtil.DrawComboSelector(
-                    Service.Configuration.HookPresets.CustomPresets,
-                    preset => preset.PresetName,
-                    config.PresetToSwapSpectralCurrentLost,
-                    preset => config.PresetToSwapSpectralCurrentLost = preset.PresetName);
-            }
-        );
-        ImGui.PopID();
-    }
-
-    private void DrawSwapBaitSpectralLost(ExtraConfig config)
-    {
-        ImGui.PushID(@$"{nameof(DrawSwapBaitSpectralLost)}");
-        DrawUtil.DrawCheckboxTree(UIStrings.Swap_Bait, ref config.SwapBaitSpectralCurrentLost,
-            () =>
-            {
-                DrawUtil.DrawComboSelector(
-                    GameRes.Baits,
-                    bait => bait.Name,
-                    config.BaitToSwapSpectralCurrentLost.Name,
-                    bait => config.BaitToSwapSpectralCurrentLost = bait);
-            }
-        );
-
-        ImGui.PopID();
-    }
-    #endregion
 }

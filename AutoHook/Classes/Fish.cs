@@ -22,7 +22,7 @@ public class Fish
     public bool OceanFish { get; set; } = new();
     public FishInterval Interval { get; set; } = new();
 
-    public string Name => MultiString.GetItemName((uint)ItemId);
+    public string Name => MultiString.GetItemName(ItemId);
 
     public class FishPredator
     {
