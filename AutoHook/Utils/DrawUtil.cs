@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using AutoHook.Configurations;
-using AutoHook.Interfaces;
+﻿using AutoHook.Interfaces;
 using AutoHook.Resources.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace AutoHook.Utils;
 
@@ -98,7 +97,7 @@ public static class DrawUtil
             clicked = true;
             Service.Save();
         }
-        
+
         if (helpText != string.Empty)
         {
             if (hoverHelpText)
@@ -210,7 +209,8 @@ public static class DrawUtil
             if (ImGui.InputTextWithHint("", UIStrings.Search_Hint, ref clearText, 100))
             {
                 _presetFilter = new string(clearText);
-            } else _presetFilter = string.Empty;
+            }
+            else _presetFilter = string.Empty;
 
             ImGui.Separator();
 
@@ -322,7 +322,7 @@ public static class DrawUtil
     public static void DrawCheckboxTree(string treeName, ref bool enable, Action action, string helpText = "")
     {
         ImGui.PushID(treeName);
-        
+
         if (ImGui.Checkbox($"##{treeName}###", ref enable))
             Service.Save();
 
@@ -407,6 +407,12 @@ public static class DrawUtil
     public static void DrawButtonPopupType0(string popupName, Action action, string helpText = "")
     {
         ImGui.PushID(popupName);
+
+        int indexOfId = popupName.IndexOf('#');
+        if (indexOfId != -1)
+        {
+            popupName = popupName.Substring(0, indexOfId);
+        }
 
         TextV(popupName);
         ImGui.SameLine();
