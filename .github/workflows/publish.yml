@@ -32,6 +32,9 @@ jobs:
       - name: Restore Project
         run: dotnet restore
 
+      - name: Build Submodule
+        run: dotnet build --configuration Release PunishLib/ECommons/ECommons/ECommons.csproj
+        
       - name: Build Project
         run: dotnet build --configuration Release AutoHook/AutoHook.csproj -p:AssemblyVersion=${{ env.tag }}
 
