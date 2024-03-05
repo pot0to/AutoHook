@@ -73,10 +73,23 @@ internal class AutoGig : Window, IDisposable
         if (ImGui.Checkbox(UIStrings.Enable_AutoGig, ref _gigCfg.AutoGigEnabled))
             Service.Save();
 
-        ImGui.SetNextItemWidth(90);
 
         var selectedPreset = _gigCfg.GetSelectedPreset();
+        
+        ImGui.SameLine();
 
+        if (DrawUtil.Checkbox(UIStrings.CatchEverything, ref _gigCfg.CatchAll, UIStrings.IgnoresPresets))
+            Service.Save();
+
+        PluginUi.ShowKofi();
+
+        DrawUtil.DrawComboSelector(
+            _gigCfg.Presets,
+            preset => preset.Name,
+            _gigCfg.GetSelectedPreset()?.Name ?? UIStrings.None,
+            gig => _gigCfg.SetSelectedPreset(gig.UniqueId));
+        
+        ImGui.SetNextItemWidth(90);
         if (selectedPreset != null)
         {
             ImGui.SameLine();
@@ -87,24 +100,11 @@ internal class AutoGig : Window, IDisposable
                 Service.Save();
             }
         }
-
-        ImGui.SameLine();
-
-        if (ImGui.Checkbox(UIStrings.CatchEverythingIgnorePresets, ref _gigCfg.CatchAll))
-            Service.Save();
-
-        PluginUi.ShowKofi();
-
-        DrawUtil.DrawComboSelector(
-            _gigCfg.Presets,
-            preset => preset.Name,
-            _gigCfg.GetSelectedPreset()?.Name ?? UIStrings.None,
-            gig => _gigCfg.SetSelectedPreset(gig.UniqueId));
-
+        
         ImGui.SameLine();
 
         if (_gigCfg.CatchAll)
-        ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllGigWindow);
+            ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllGigWindow);
     }
 
     private unsafe void DrawFishOverlay()
@@ -154,11 +154,12 @@ internal class AutoGig : Window, IDisposable
         var drawList = ImGui.GetWindowDrawList();
 
         var gigHitbox = _gigCfg.GetSelectedPreset()?.HitboxSize ?? 0;
-        
+
         DrawGigHitbox(drawList, gigHitbox);
 
         if (_gigCfg.ThaliaksFavor.IsAvailableToCast())
-            PlayerRes.CastActionDelayed(_gigCfg.ThaliaksFavor.Id, _gigCfg.ThaliaksFavor.ActionType, UIStrings.Thaliaks_Favor);
+            PlayerRes.CastActionDelayed(_gigCfg.ThaliaksFavor.Id, _gigCfg.ThaliaksFavor.ActionType,
+                UIStrings.Thaliaks_Favor);
 
         if (!info.Available)
             return;
@@ -179,10 +180,10 @@ internal class AutoGig : Window, IDisposable
         /*if (!info.InverseDirection)
             fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * 0.8f);
         else*/
-        
+
         // did i fucking do it?
         fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * 0.4f);
-        
+
 
         DrawFishHitbox(drawList, fishHitbox);
 
@@ -211,7 +212,7 @@ internal class AutoGig : Window, IDisposable
     {
         if (!_gigCfg.AutoGigDrawGigHitbox)
             return;
-        
+
         int space = gigHitbox;
 
         float startX = _uiSize.X / 2;
