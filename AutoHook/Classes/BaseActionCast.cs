@@ -121,7 +121,7 @@ public abstract class BaseActionCast
             var x = ImGui.GetCursorPosX();
             if (ImGui.TreeNodeEx(@$"{GetName()}", ImGuiTreeNodeFlags.FramePadding))
             {
-                ImGui.SameLine(200);
+                ImGui.SameLine(200 * ImGui.GetIO().FontGlobalScale * (ImGui.GetFontSize() / 12f));
                 DrawGpThreshold();
                 DrawUpDownArrows(availableActs);
                 ImGui.SetCursorPosX(x);
@@ -133,7 +133,7 @@ public abstract class BaseActionCast
             }
             else
             {
-                ImGui.SameLine(200);
+                ImGui.SameLine(200 * ImGui.GetIO().FontGlobalScale * (ImGui.GetFontSize() / 12f));
                 DrawGpThreshold();
                 DrawUpDownArrows(availableActs);
             }
@@ -148,7 +148,7 @@ public abstract class BaseActionCast
 
             ImGui.SameLine(0, 28);
             ImGui.Text(@$"{GetName()}");
-            ImGui.SameLine(200);
+            ImGui.SameLine(200 * ImGui.GetIO().FontGlobalScale * (ImGui.GetFontSize() / 12f));
             DrawGpThreshold();
             DrawUpDownArrows(availableActs);
         }
