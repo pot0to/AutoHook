@@ -169,7 +169,7 @@ public class HookingManager : IDisposable
         var presetName = customHook?.Enabled ?? false
             ? @$"{customHook.BaitFish.Name} ({Presets.SelectedPreset?.PresetName})"
             : globalHook?.Enabled ?? false
-                ? @$"{globalHook.BaitFish.Name} ({Presets.DefaultPreset.PresetName})"
+                ? @$"{(_isMooching ? UIStrings.All_Mooches : UIStrings.All_Baits)} ({Presets.DefaultPreset.PresetName})"
                 : @"None";
 
         return presetName;
@@ -229,20 +229,24 @@ public class HookingManager : IDisposable
         }
 
         //CheckFishingState();
-
-        if (!_lastStep.HasFlag(FishingSteps.Quitting) && _lastStep.HasFlag(FishingSteps.FishCaught) &&
-            currentState == FishingState.PoleReady)
+        
+        if (!_lastStep.HasFlag(FishingSteps.Quitting) && currentState == FishingState.PoleReady)
         {
             var lastCatch = GetLastCatchConfig();
             var extraCfg = GetExtraCfg();
 
-            CheckStopCondition();
+            if (_lastStep.HasFlag(FishingSteps.FishCaught))
+                CheckStopCondition();
+            
+            // the order matters
             CheckExtraActions(extraCfg);
-            CheckFishCaughtSwap(lastCatch);
-        }
 
-        if (!_lastStep.HasFlag(FishingSteps.Quitting) && currentState == FishingState.PoleReady)
+            if (_lastStep.HasFlag(FishingSteps.FishCaught))
+                CheckFishCaughtSwap(lastCatch);
+            
             UseAutoCasts();
+        }
+           
 
         if (currentState == FishingState.Waiting2)
             CheckTimeout();
@@ -391,8 +395,7 @@ public class HookingManager : IDisposable
     private void UseAutoCasts()
     {
         // if _lastStep is FishBit but currentState is FishingState.PoleReady, it means that the fish was hooked, but it escaped.
-        if (_lastStep.HasFlag(FishingSteps.None) || _lastStep.HasFlag(FishingSteps.BeganFishing) ||
-            _lastStep.HasFlag(FishingSteps.BeganMooching))
+        if (_lastStep.HasFlag(FishingSteps.None) || _lastStep.HasFlag(FishingSteps.BeganFishing) || _lastStep.HasFlag(FishingSteps.BeganMooching) || _lastStep.HasFlag(FishingSteps.Quitting))
         {
             return;
         }
@@ -499,9 +502,6 @@ public class HookingManager : IDisposable
 
     private void CheckExtraActions(ExtraConfig extraCfg)
     {
-        if (!extraCfg.Enabled)
-            return;
-
         CheckIntuition(extraCfg);
         CheckSpectral(extraCfg);
         CheckAnglersArt(extraCfg);
@@ -515,6 +515,9 @@ public class HookingManager : IDisposable
                 return;
 
             _spectralCurrentStatus = SpectralCurrentStatus.Active;
+
+            if (!extraCfg.Enabled)
+                return;
 
             // Check if the preset was already swapped
             if (extraCfg.SwapPresetSpectralCurrentGain && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
@@ -557,6 +560,9 @@ public class HookingManager : IDisposable
             _spectralCurrentStatus = SpectralCurrentStatus.NotActive;
 
             // Check if the preset was already swapped
+            if (!extraCfg.Enabled)
+                return;
+
             if (extraCfg.SwapPresetSpectralCurrentLost && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
             {
                 var preset =
@@ -564,7 +570,7 @@ public class HookingManager : IDisposable
                         preset.PresetName == extraCfg.PresetToSwapSpectralCurrentLost);
 
                 _lastStep |= FishingSteps.PresetSwapped; // one try
-                
+
                 if (preset != null)
                 {
                     Presets.SelectedPreset = preset;
@@ -579,9 +585,9 @@ public class HookingManager : IDisposable
             if (extraCfg.SwapBaitSpectralCurrentLost && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
             {
                 var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapSpectralCurrentLost);
-                
+
                 _lastStep |= FishingSteps.BaitSwapped; // one try
-                
+
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
                     Service.PrintChat(@$"[Extra] Spectral Current Ended: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
@@ -598,6 +604,10 @@ public class HookingManager : IDisposable
             if (!PlayerRes.HasStatus(IDs.Status.FishersIntuition))
                 return;
 
+            IntuitionStatus = IntuitionStatus.Active; // only one try
+
+            if (!extraCfg.Enabled)
+                return;
             ExtraCfgGainedIntuition(extraCfg);
         }
 
@@ -606,14 +616,17 @@ public class HookingManager : IDisposable
             if (PlayerRes.HasStatus(IDs.Status.FishersIntuition))
                 return;
 
+            IntuitionStatus = IntuitionStatus.NotActive; // only one try
+
+            if (!extraCfg.Enabled)
+                return;
+
             ExtraCfgLostIntuition(extraCfg);
         }
     }
 
     private void ExtraCfgGainedIntuition(ExtraConfig extraCfg)
     {
-        IntuitionStatus = IntuitionStatus.Active; // only one try
-
         // Check if the preset was already swapped
         if (extraCfg.SwapPresetIntuitionGain && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
         {
@@ -637,7 +650,7 @@ public class HookingManager : IDisposable
             var result = Service.EquipedBait.ChangeBait(extraCfg.BaitToSwapIntuitionGain);
 
             _lastStep |= FishingSteps.BaitSwapped; // one try per catch
-            
+
             if (result == CurrentBait.ChangeBaitReturn.Success)
             {
                 Service.PrintChat(@$"[Extra] Intuition Active - Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
@@ -648,8 +661,6 @@ public class HookingManager : IDisposable
 
     private void ExtraCfgLostIntuition(ExtraConfig extraCfg)
     {
-        IntuitionStatus = IntuitionStatus.NotActive; // only one try
-
         // Check if the preset was already swapped
         if (extraCfg.SwapPresetIntuitionLost && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
         {

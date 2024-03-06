@@ -119,7 +119,7 @@ public class HookConfig
             }
         }*/
 
-        if (HookingManager.IntuitionStatus == IntuitionStatus.Active)
+        if (HookingManager.IntuitionStatus == IntuitionStatus.Active && IntuitionHook.UseCustomStatusHook)
         {
             return IntuitionHook;
         }
