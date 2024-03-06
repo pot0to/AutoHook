@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.1.1")
+        new Version("4.2.1.2")
         {
             MainChanges =
             {
@@ -20,6 +20,7 @@ public static class PluginChangelog
             },
             MinorChanges =
             {
+                "[4.2.1.2] Localization Update",
                 "[4.2.1.1] Fixed an issue with intuition/spectral wave tracking",
                 "Fixed wrong hook being used if intuition falls off while still fishing",
                 "Small Improvements to the Preset Generator",

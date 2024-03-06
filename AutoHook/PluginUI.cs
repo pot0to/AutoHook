@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using AutoHook.Resources.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
@@ -27,7 +28,7 @@ public class PluginUi : Window, IDisposable
         new TabConfigGuides()
     };
 
-    public PluginUi() : base(string.Format(UIStrings.Plugin_Name_Settings, Service.PluginName))
+    public PluginUi() : base($"{Service.PluginName} {Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? ""}")
     {
         Service.WindowSystem.AddWindow(this);
 
