@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.1.6")
+        {
+            MinorChanges =
+            {
+                "Fixed UI being resized every update (sorry)",
+            }
+        },
         new Version("4.2.1.5")
         {
             MinorChanges =
