@@ -232,24 +232,7 @@ public class HookingManager : IDisposable
         
         if (!_lastStep.HasFlag(FishingSteps.Quitting) && currentState == FishingState.PoleReady)
         {
-            var lastCatch = GetLastCatchConfig();
-            var extraCfg = GetExtraCfg();
-            
-            if (_lastStep.HasFlag(FishingSteps.FishCaught))
-                CheckStopCondition();
-            
-            // the order matters
-            CheckExtraActions(extraCfg);
-
-            bool casted = false;
-            if (_lastStep.HasFlag(FishingSteps.FishCaught))
-            {
-                casted = UseFishCaughtActions(lastCatch);
-                CheckFishCaughtSwap(lastCatch);
-            }
-            
-            if(!casted)
-                UseAutoCasts();
+            CheckPluginActions();
         }
         
         if (currentState == FishingState.Waiting2)
@@ -281,6 +264,36 @@ public class HookingManager : IDisposable
                 OnFishingStop();
                 break;
         }
+    }
+
+    private void CheckPluginActions()
+    {
+        if (!_recastTimer.IsRunning)
+            _recastTimer.Start();
+
+        if (!(_recastTimer.ElapsedMilliseconds >= _lastTickMs))
+            return;
+
+        _lastTickMs = _recastTimer.ElapsedMilliseconds + 500;
+        
+        var lastCatch = GetLastCatchConfig();
+        var extraCfg = GetExtraCfg();
+            
+        if (_lastStep.HasFlag(FishingSteps.FishCaught))
+            CheckStopCondition();
+            
+        // the order matters
+        CheckExtraActions(extraCfg);
+
+        bool casted = false;
+        if (_lastStep.HasFlag(FishingSteps.FishCaught))
+        {
+            casted = UseFishCaughtActions(lastCatch);
+            CheckFishCaughtSwap(lastCatch);
+        }
+            
+        if(!casted)
+            UseAutoCasts();
     }
 
     private void OnBeganFishing()
@@ -403,15 +416,7 @@ public class HookingManager : IDisposable
         {
             return;
         }
-
-        if (!_recastTimer.IsRunning)
-            _recastTimer.Start();
-
-        if (!(_recastTimer.ElapsedMilliseconds >= _lastTickMs))
-            return;
-
-        _lastTickMs = _recastTimer.ElapsedMilliseconds + 500;
-
+        
         if (!PlayerRes.IsCastAvailable())
             return;
 
