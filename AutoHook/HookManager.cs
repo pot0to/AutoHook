@@ -234,20 +234,24 @@ public class HookingManager : IDisposable
         {
             var lastCatch = GetLastCatchConfig();
             var extraCfg = GetExtraCfg();
-
+            
             if (_lastStep.HasFlag(FishingSteps.FishCaught))
                 CheckStopCondition();
             
             // the order matters
             CheckExtraActions(extraCfg);
 
+            bool casted = false;
             if (_lastStep.HasFlag(FishingSteps.FishCaught))
+            {
+                casted = UseFishCaughtActions(lastCatch);
                 CheckFishCaughtSwap(lastCatch);
+            }
             
-            UseAutoCasts();
+            if(!casted)
+                UseAutoCasts();
         }
-           
-
+        
         if (currentState == FishingState.Waiting2)
             CheckTimeout();
 
@@ -412,10 +416,7 @@ public class HookingManager : IDisposable
             return;
 
         var lastFishCatchCfg = GetLastCatchConfig();
-
-        if (CheckFishCaughtActions(lastFishCatchCfg))
-            return;
-
+        
         var acCfg = GetAutoCastCfg();
 
         var ignoreMooch = lastFishCatchCfg?.NeverMooch ?? false;
@@ -427,7 +428,7 @@ public class HookingManager : IDisposable
         CastLineMoochOrRelease(acCfg, lastFishCatchCfg);
     }
 
-    private bool CheckFishCaughtActions(FishConfig? lastFishCatchCfg)
+    private bool UseFishCaughtActions(FishConfig? lastFishCatchCfg)
     {
         BaseActionCast? cast = null;
 

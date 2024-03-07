@@ -12,11 +12,15 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
 
+
 namespace AutoHook;
 
 // ReSharper disable LocalizableElement
 public class PresetCreator
 {
+    
+    private readonly HookPresets Presets = Service.Configuration.HookPresets;
+    
     private string _newPresetName = "";
     private Fish? _selectedTargetFish;
     private List<Fish> _presetMoochList = [];
@@ -50,9 +54,20 @@ public class PresetCreator
 
     private void SetSelectedFish(Fish fish)
     {
+        ResetOptions();
         _selectedTargetFish = fish;
-        _presetMoochList = [];
-        _presetPrepList = [];
+    }
+    
+    private void ResetOptions()
+    {
+        _newPresetName = string.Empty;
+        _selectedTargetFish = null;
+        _includeTimers = false;
+        _includeIntPrep = false;
+        _fishEyes = false;
+        _createAnglersPreset = false;
+        _presetMoochList = new List<Fish>();
+        _presetPrepList = new List<(Fish, int)>();
     }
 
     public void DrawPresetGenerator()
@@ -158,7 +173,7 @@ public class PresetCreator
         newPreset.ExtraCfg.ForcedBaitId = _selectedTargetFish!.InitialBait;
         
         if (_includeIntPrep)
-            SetupIntPrep(newPreset);
+            SetupIntPrep(newPreset, prepList);
         
         if (_fishEyes)
             SetupFishEyes(newPreset);
@@ -166,7 +181,15 @@ public class PresetCreator
         {
             newPreset.AutoCastsCfg.EnableAll = true;
             newPreset.AutoCastsCfg.CastLine.Enabled = true;
-            newPreset.AutoCastsCfg.CastMooch.Enabled = true;
+            newPreset.AutoCastsCfg.CastCordial.Enabled = true;
+
+            if (moochList.Count > 0)
+            {
+                newPreset.AutoCastsCfg.CastPatience.Enabled = true;
+                newPreset.AutoCastsCfg.CastMakeShiftBait.Enabled = true;
+            }
+            else
+                newPreset.AutoCastsCfg.CastChum.Enabled = true;
         }
 
         newPreset.AddFishConfig(new FishConfig(_selectedTargetFish.ItemId) { StopAfterCaught = true });
@@ -177,14 +200,15 @@ public class PresetCreator
             anglers.ExtraCfg.AnglerStackQtd = 10;
             anglers.ExtraCfg.SwapBaitAnglersArt = true;
             anglers.ExtraCfg.BaitToSwapAnglersArt = new BaitFishClass(newPreset.ExtraCfg.ForcedBaitId);
-            
             anglers.ExtraCfg.SwapPresetAnglersArt = true;
             anglers.ExtraCfg.PresetToSwapAnglersArt = newPreset.PresetName;
-            Service.Configuration.HookPresets.CustomPresets.Add(anglers);
+            
+            Presets.CustomPresets.Add(anglers);
         }
         
-        Service.Configuration.HookPresets.CustomPresets.Add(newPreset);
-        Service.Configuration.HookPresets.SelectedPreset = newPreset;
+        Presets.SelectedPreset = null;
+        Presets.CustomPresets.Add(newPreset);
+        Presets.SelectedPreset = newPreset;
 
         ResetOptions();
 
@@ -215,9 +239,9 @@ public class PresetCreator
         }
     }
 
-    private void SetupIntPrep(PresetConfig newPreset)
+    private void SetupIntPrep(PresetConfig newPreset, List<(Fish, int)> prepList)
     {
-        foreach (var fishPrep in _presetPrepList)
+        foreach (var fishPrep in prepList)
         {
             var fish = fishPrep.Item1;
             var mooches = fish.Mooches
@@ -380,16 +404,4 @@ public class PresetCreator
             BiteType.Legendary => "(!!!)",
             _ => "Error",
         };
-
-    private void ResetOptions()
-    {
-        _newPresetName = "";
-        _selectedTargetFish = null;
-
-        _includeTimers = false;
-
-        _includeIntPrep = false;
-        _fishEyes = false;
-        _createAnglersPreset = false;
-    }
 }

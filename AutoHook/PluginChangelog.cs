@@ -8,6 +8,14 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.1.3")
+        {
+            MinorChanges =
+            {
+                "Preset Generator will include Patience and Makeshift bait if the target fish is a mooch",
+                "Fixed Identical Cast/Surface Slap not being used if a preset swap happened",
+            }
+        },
         new Version("4.2.1.2")
         {
             MainChanges =

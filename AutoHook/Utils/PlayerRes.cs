@@ -244,7 +244,7 @@ public static class PlayerRes
         }
         catch (Exception e)
         {
-            Service.PrintDebug(@$"Error getting delay between casts: {e}");
+            Service.PluginLog.Error(@$"Error getting delay between casts: {e}");
         }
 
         await Task.Delay(delay + ConditionalDelay(actionId));
