@@ -28,10 +28,10 @@ public class PluginUi : Window, IDisposable
         new TabConfigGuides()
     };
 
-    public PluginUi() : base($"{Service.PluginName} {Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? ""}")
+    public PluginUi() : base($"{Service.PluginName} {Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? ""}###MainAutoHook")
     {
         Service.WindowSystem.AddWindow(this);
-
+        
         Flags |= ImGuiWindowFlags.NoScrollbar;
         Flags |= ImGuiWindowFlags.NoScrollWithMouse;
     }
