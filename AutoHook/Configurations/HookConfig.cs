@@ -147,7 +147,7 @@ public class HookConfig
                     if (IsHookAvailable(hook.th))
                         return hook.th.HooksetType;
 
-                if (hookset.LetFishEscapeTripleHook)
+                if (hookset.LetFishEscapeTripleHook && PlayerRes.GetCurrentGp() < 700)
                     return HookType.None;
             }
 
@@ -158,7 +158,7 @@ public class HookConfig
                     if (IsHookAvailable(hook.dh))
                         return hook.dh.HooksetType;
 
-                if (hookset.LetFishEscapeDoubleHook)
+                if (hookset.LetFishEscapeDoubleHook && PlayerRes.GetCurrentGp() < 400)
                     return HookType.None;
             }
 

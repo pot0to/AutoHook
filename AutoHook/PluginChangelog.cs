@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.1.5")
+        {
+            MinorChanges =
+            {
+                "Fixed an issue with Double/Triple hook when Let Fish Escape is enabled with other conditions such as only hooking with identical cast",
+            }
+        },
         new Version("4.2.1.4")
         {
             MinorChanges =
