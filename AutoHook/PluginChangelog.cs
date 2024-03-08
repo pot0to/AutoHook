@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.1.7")
+        {
+            MinorChanges =
+            {
+                "Fixed AutoGig tab not working correctly",
+            }
+        },
         new Version("4.2.1.6")
         {
             MinorChanges =

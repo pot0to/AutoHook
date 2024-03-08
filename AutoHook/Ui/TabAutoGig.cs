@@ -59,12 +59,11 @@ internal class TabAutoGig : BaseTab
 
     public override void Draw()
     {
-        ImGui.PushID("AutoGigTab");
         var selectedPreset = _gigCfg.GetSelectedPreset();
 
         if (selectedPreset == null)
             return;
-
+        
         if (_gigCfg.CatchAll)
         {
             ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllNotice);
@@ -89,7 +88,6 @@ internal class TabAutoGig : BaseTab
         DrawUtil.SpacingSeparator();
 
         selectedPreset.DrawOptions();
-        ImGui.PopID();
     }
 
     public void DrawPresetSelector()
