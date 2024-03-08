@@ -38,6 +38,7 @@ namespace AutoHook.IPC
 
         private static void SetPreset(string preset)
         {
+            Service.Save();
             Service.Configuration.HookPresets.SelectedPreset =
                 Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == preset);
             Service.Save();
@@ -49,6 +50,7 @@ namespace AutoHook.IPC
             if (_import == null) return;
             var name = $"anon_{_import.PresetName}";
             _import.RenamePreset(name);
+            Service.Save();
             Service.Configuration.HookPresets.AddPreset(_import);
             Service.Configuration.HookPresets.SelectedPreset =
                 Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == name);

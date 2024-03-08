@@ -482,6 +482,7 @@ public class HookingManager : IDisposable
                     Service.PrintChat(@$"Preset {lastCatchCfg.PresetToSwap} not found.");
                 else
                 {
+                    Service.Save();
                     Presets.SelectedPreset = preset;
                     Service.PrintChat(@$"[Fish Caught] Swapping current preset to {lastCatchCfg.PresetToSwap}");
                     Service.Save();
@@ -535,6 +536,7 @@ public class HookingManager : IDisposable
                 _lastStep |= FishingSteps.PresetSwapped; // one try
                 if (preset != null)
                 {
+                    Service.Save();
                     Presets.SelectedPreset = preset;
                     Service.PrintChat(
                         @$"[Extra] Spectral Current Active: Swapping preset to {extraCfg.PresetToSwapSpectralCurrentGain}");
@@ -579,6 +581,7 @@ public class HookingManager : IDisposable
 
                 if (preset != null)
                 {
+                    Service.Save();
                     Presets.SelectedPreset = preset;
                     Service.PrintChat(@$"[Extra] Spectral Current Ended: Swapping preset to {extraCfg.SwapPresetSpectralCurrentLost}");
                     Service.Save();
@@ -642,6 +645,7 @@ public class HookingManager : IDisposable
             _lastStep |= FishingSteps.PresetSwapped;
             if (preset != null)
             {
+                Service.Save();
                 Presets.SelectedPreset = preset;
                 Service.PrintChat(@$"[Extra] Intuition Active - Swapping preset to {extraCfg.PresetToSwapIntuitionGain}");
                 Service.Save();
@@ -678,6 +682,7 @@ public class HookingManager : IDisposable
 
             if (preset != null)
             {
+                Service.Save();
                 // one try per catch
                 Presets.SelectedPreset = preset;
                 Service.PrintChat(@$"[Extra] Intuition Lost - Swapping preset to {extraCfg.PresetToSwapIntuitionLost}");
@@ -727,6 +732,7 @@ public class HookingManager : IDisposable
 
             if (preset != null)
             {
+                Service.Save();
                 Presets.SelectedPreset = preset;
                 Service.PrintChat(
                     @$"[Extra] Angler's Stack - Swapping preset to {extraCfg.PresetToSwapAnglersArt}");
@@ -946,11 +952,11 @@ public class HookingManager : IDisposable
             if (FishCount.ContainsKey(guid))
                 FishCount.Remove(guid);
 
-            if (FishPresetSwapped.Contains(guid))
-                FishCount.Remove(guid);
+            if (SwappedPreset(guid))
+                FishPresetSwapped.Remove(guid);
 
-            if (FishBaitSwapped.Contains(guid))
-                FishCount.Remove(guid);
+            if (SwappedBait(guid))
+                FishBaitSwapped.Remove(guid);
         }
 
         public static void Reset()

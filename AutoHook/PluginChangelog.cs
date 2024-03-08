@@ -8,11 +8,12 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.1.7")
+        new Version("4.2.1.8")
         {
             MinorChanges =
             {
                 "Fixed AutoGig tab not working correctly",
+                "Fixed an issue with the fish counter not being reset correctly after a swap"
             }
         },
         new Version("4.2.1.6")

@@ -38,7 +38,7 @@ public class HookPresets
     }
     private  void SwapPreset(PresetConfig? preset)
     {
-        if (_selectedPreset is { ExtraCfg.ResetCounterPresetSwap: true })
+        if (_selectedPreset is {ExtraCfg: { Enabled: true, ResetCounterPresetSwap: true } })
         {
             _selectedPreset.ResetCounter();
         }

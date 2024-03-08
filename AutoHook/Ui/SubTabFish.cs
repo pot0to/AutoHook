@@ -91,8 +91,8 @@ public class SubTabFish : BaseTab
             if (list.All(x => x.Fish.Id != -1))
             {
                 list.Add(new FishConfig(new BaitFishClass()));
-                Service.Save();
             }
+            Service.Save();
         }
 
         ImGui.SameLine();

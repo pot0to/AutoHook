@@ -121,7 +121,7 @@ public class AutoHook : IDalamudPlugin
             Service.Chat.Print(UIStrings.Preset_not_found);
             return;
         }
-         
+        Service.Save();
         Service.Configuration.HookPresets.SelectedPreset = preset;
         Service.Chat.Print(@$"{UIStrings.Preset_set_to_} {preset.PresetName}");
         Service.Save();

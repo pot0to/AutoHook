@@ -206,6 +206,7 @@ public class PresetCreator
             Presets.CustomPresets.Add(anglers);
         }
         
+        Service.Save();
         Presets.SelectedPreset = null;
         Presets.CustomPresets.Add(newPreset);
         Presets.SelectedPreset = newPreset;

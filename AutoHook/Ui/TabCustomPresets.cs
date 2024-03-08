@@ -99,6 +99,7 @@ public class TabCustomPresets : BaseTab
         {
             if (ImGui.Selectable(UIStrings.None, _hookPresets.SelectedPreset == null))
             {
+                Service.Save();
                 _hookPresets.SelectedPreset = null;
             }
 
@@ -106,6 +107,7 @@ public class TabCustomPresets : BaseTab
             {
                 if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
                 {
+                    Service.Save();
                     _hookPresets.SelectedPreset = preset;
                 }
 
@@ -201,6 +203,7 @@ public class TabCustomPresets : BaseTab
         {
             try
             {
+                Service.Save();
                 PresetConfig preset = new(@$"{UIStrings.NewPreset} {DateTime.Now}");
                 _hookPresets.AddPreset(preset);
                 _hookPresets.SelectedPreset = preset;
@@ -312,6 +315,7 @@ public class TabCustomPresets : BaseTab
         {
             if (ImGui.Selectable(@$"{UIStrings.None}###disabled", _hookPresets.SelectedPreset == null))
             {
+                Service.Save();
                 _hookPresets.SelectedPreset = null;
             }
 
@@ -319,6 +323,7 @@ public class TabCustomPresets : BaseTab
             {
                 if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
                 {
+                    Service.Save();
                     _hookPresets.SelectedPreset = preset;
                 }
             }
@@ -411,6 +416,7 @@ public class TabCustomPresets : BaseTab
                     }
                     else
                     {
+                        Service.Save();
                         _hookPresets.AddPreset(_tempImport);
                         _hookPresets.SelectedPreset = _tempImport;
                         _tempImport = null;
