@@ -33,7 +33,7 @@ public class TabCustomPresets : BaseTab
     {
         DrawTabDescription(UIStrings.TabPresets_DrawHeader_NewTabDescription);
 
-        if (ImGuiComponents.IconButtonWithText(FontAwesomeIcon.ArrowsSpin, "Generate Preset"))
+        if (ImGuiComponents.IconButtonWithText(FontAwesomeIcon.ArrowsSpin, UIStrings.GeneratePreset))
             OpenPresetGen = !OpenPresetGen;
 
         if (OpenPresetGen)

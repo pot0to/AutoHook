@@ -60,15 +60,6 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default.
-        /// </summary>
-        internal static string _default {
-            get {
-                return ResourceManager.GetString("default", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
         internal static string AboutTab {
@@ -803,6 +794,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string DefaultSubTab {
+            get {
+                return ResourceManager.GetString("DefaultSubTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delay Between Casts (in ms):.
         /// </summary>
         internal static string Delay_Between_Casts {
@@ -817,6 +817,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Delay_when_hooking {
             get {
                 return ResourceManager.GetString("Delay_when_hooking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delay Settings.
+        /// </summary>
+        internal static string DelaySettings {
+            get {
+                return ResourceManager.GetString("DelaySettings", resourceCulture);
             }
         }
         
@@ -1186,20 +1195,20 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fish Caught.
-        /// </summary>
-        internal static string Fish_Caught {
-            get {
-                return ResourceManager.GetString("Fish Caught", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fish Eyes.
         /// </summary>
         internal static string Fish_Eyes {
             get {
                 return ResourceManager.GetString("Fish_Eyes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fish Caught.
+        /// </summary>
+        internal static string FishCaught {
+            get {
+                return ResourceManager.GetString("FishCaught", resourceCulture);
             }
         }
         
@@ -1236,6 +1245,15 @@ namespace AutoHook.Resources.Localization {
         internal static string ForceBaitSwap {
             get {
                 return ResourceManager.GetString("ForceBaitSwap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate Preset.
+        /// </summary>
+        internal static string GeneratePreset {
+            get {
+                return ResourceManager.GetString("GeneratePreset", resourceCulture);
             }
         }
         
@@ -1616,6 +1634,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Incomplete {
             get {
                 return ResourceManager.GetString("Incomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intuition.
+        /// </summary>
+        internal static string Intuition {
+            get {
+                return ResourceManager.GetString("Intuition", resourceCulture);
             }
         }
         
@@ -2264,6 +2291,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SettingsTab {
+            get {
+                return ResourceManager.GetString("SettingsTab", resourceCulture);
             }
         }
         

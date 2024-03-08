@@ -12,7 +12,7 @@ namespace AutoHook.Ui;
 
 public class TabConfigGuides : BaseTab
 {
-    public override string TabName { get; } = UIStrings.Settings;
+    public override string TabName { get; } = UIStrings.SettingsTab;
     public override bool Enabled { get; } = true;
 
     public override void DrawHeader()
@@ -52,7 +52,7 @@ public class TabConfigGuides : BaseTab
 
     private void DrawConfigs()
     {
-        if (ImGui.TreeNodeEx("Delay Settings", ImGuiTreeNodeFlags.FramePadding))
+        if (ImGui.TreeNodeEx(UIStrings.DelaySettings, ImGuiTreeNodeFlags.FramePadding))
         {
             DrawDelayHook();
             DrawDelayCasts();

@@ -70,13 +70,13 @@ public class SubTabBaitMooch
                     {
                         ImGui.Spacing();
 
-                        if (ImGui.BeginTabItem($"Default###DefaultBait"))
+                        if (ImGui.BeginTabItem($"{UIStrings.DefaultSubTab}###Default"))
                         {
                             DrawNormalTab(hook);
                             ImGui.EndTabItem();
                         }
 
-                        if (ImGui.BeginTabItem($"Intuition"))
+                        if (ImGui.BeginTabItem($"{UIStrings.Intuition}###Intuition"))
                         {
                             DrawIntuitionTab(hook);
                             ImGui.EndTabItem();

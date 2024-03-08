@@ -120,7 +120,7 @@
   <data name="DrawHeader_Testing" xml:space="preserve">
     <value>Testing</value>
   </data>
-  <data name="default" xml:space="preserve">
+  <data name="DefaultSubTab" xml:space="preserve">
     <value>Default</value>
   </data>
   <data name="DrawImportExport_Cancel" xml:space="preserve">
@@ -702,7 +702,7 @@ If you want to Auto Mooch only a specific fish and ignore others, disable this o
   <data name="Fish" xml:space="preserve">
     <value>Fish</value>
   </data>
-  <data name="Fish Caught" xml:space="preserve">
+  <data name="FishCaught" xml:space="preserve">
     <value>Fish Caught</value>
   </data>
   <data name="Add_new_fish" xml:space="preserve">
@@ -1110,6 +1110,9 @@ Check the Guide Tab for Guides.</value>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SettingsTab" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="EnableActions" xml:space="preserve">
     <value>Enable Actions</value>
   </data>
@@ -1174,5 +1177,14 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   </data>
   <data name="CatchAllGigWindow" xml:space="preserve">
     <value>Catch All Enabled. Presets will be ignored.</value>
+  </data>
+  <data name="Intuition" xml:space="preserve">
+    <value>Intuition</value>
+  </data>
+  <data name="DelaySettings" xml:space="preserve">
+    <value>Delay Settings</value>
+  </data>
+  <data name="GeneratePreset" xml:space="preserve">
+    <value>Generate Preset</value>
   </data>
 </root>

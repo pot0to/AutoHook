@@ -17,7 +17,7 @@ public class SubTabFish : BaseTab
 {
     public bool IsGlobalPreset { get; set; }
 
-    public override string TabName { get; } = UIStrings.Fish_Caught;
+    public override string TabName { get; } = UIStrings.FishCaught;
     public override bool Enabled { get; } = true;
 
     private List<FishConfig> _listOfFish = new();
