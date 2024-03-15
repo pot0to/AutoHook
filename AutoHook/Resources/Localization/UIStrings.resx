@@ -1187,4 +1187,7 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="GeneratePreset" xml:space="preserve">
     <value>Generate Preset</value>
   </data>
+  <data name="OnlyWhenMoochNotAvailable" xml:space="preserve">
+    <value>Only when mooch is not available</value>
+  </data>
 </root>

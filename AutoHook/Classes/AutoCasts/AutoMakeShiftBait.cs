@@ -9,7 +9,10 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoMakeShiftBait : BaseActionCast
 {
     public int MakeshiftBaitStacks = 5;
-    private bool _onlyUseWithIntuition;
+    public bool _onlyUseWithIntuition;
+
+    public bool OnlyWhenMoochNotUp;
+    
     public override bool RequiresTimeWindow() => true;
 
     public AutoMakeShiftBait() : base(UIStrings.MakeShift_Bait, IDs.Actions.MakeshiftBait, ActionType.Action)
@@ -36,8 +39,10 @@ public class AutoMakeShiftBait : BaseActionCast
 
         if (!PlayerRes.HasStatus(IDs.Status.FishersIntuition) && _onlyUseWithIntuition)
             return false;
-
-
+        
+        if (PlayerRes.IsMoochAvailable() && OnlyWhenMoochNotUp)
+            return false;
+        
         bool available = PlayerRes.ActionTypeAvailable(IDs.Actions.MakeshiftBait);
         bool hasStacks = PlayerRes.HasAnglersArtStacks(MakeshiftBaitStacks);
 
@@ -55,6 +60,11 @@ public class AutoMakeShiftBait : BaseActionCast
         }
 
         if (DrawUtil.Checkbox(UIStrings.OnlyUseWhenFisherSIntutionIsActive, ref _onlyUseWithIntuition))
+        {
+            Service.Save();
+        }
+        
+        if (DrawUtil.Checkbox(UIStrings.OnlyWhenMoochNotAvailable, ref OnlyWhenMoochNotUp))
         {
             Service.Save();
         }

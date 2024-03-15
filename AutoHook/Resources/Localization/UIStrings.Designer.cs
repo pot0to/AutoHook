@@ -1980,6 +1980,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only when mooch is not available.
+        /// </summary>
+        internal static string OnlyWhenMoochNotAvailable {
+            get {
+                return ResourceManager.GetString("OnlyWhenMoochNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Console.
         /// </summary>
         internal static string Open_Console {

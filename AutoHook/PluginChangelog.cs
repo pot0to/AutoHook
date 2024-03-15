@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.1.9")
+        {
+            MainChanges =
+            {
+                "Added an option to only use Makeshift Bait when mooch is not available"
+            }
+        },
         new Version("4.2.1.8")
         {
             MinorChanges =
