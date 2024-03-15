@@ -120,9 +120,6 @@
   <data name="DrawHeader_Testing" xml:space="preserve">
     <value>测试</value>
   </data>
-  <data name="default" xml:space="preserve">
-    <value>默认</value>
-  </data>
   <data name="DrawImportExport_Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -702,7 +699,7 @@
   <data name="Fish" xml:space="preserve">
     <value>鱼</value>
   </data>
-  <data name="Fish Caught" xml:space="preserve">
+  <data name="FishCaught" xml:space="preserve">
     <value>已捕获的鱼</value>
   </data>
   <data name="Add_new_fish" xml:space="preserve">
@@ -1110,6 +1107,9 @@
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="SettingsTab" xml:space="preserve">
+    <value>设置</value>
+  </data>
   <data name="EnableActions" xml:space="preserve">
     <value>启用操作</value>
   </data>
@@ -1174,5 +1174,14 @@
   </data>
   <data name="CatchAllGigWindow" xml:space="preserve">
     <value>当钓全部已启用。预设将被忽略。</value>
+  </data>
+  <data name="Intuition" xml:space="preserve">
+    <value>感知</value>
+  </data>
+  <data name="DelaySettings" xml:space="preserve">
+    <value>延时设置</value>
+  </data>
+  <data name="GeneratePreset" xml:space="preserve">
+    <value>生成预设</value>
   </data>
 </root>
