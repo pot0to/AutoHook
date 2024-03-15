@@ -120,7 +120,7 @@
   <data name="DrawHeader_Testing" xml:space="preserve">
     <value>Tests en cours</value>
   </data>
-  <data name="default" xml:space="preserve">
+  <data name="DefaultSubTab" xml:space="preserve">
     <value>Défaut</value>
   </data>
   <data name="DrawImportExport_Cancel" xml:space="preserve">
@@ -142,7 +142,7 @@
     <value>Pêche au vif automatique</value>
   </data>
   <data name="AddLastCatch" xml:space="preserve">
-    <value>Ajouter la dernière capture :</value>
+    <value>Ajouter la dernière capture :</value>
   </data>
   <data name="ExportPresetToClipboard" xml:space="preserve">
     <value>Exporter le préréglage dans le presse-papiers.</value>
@@ -163,16 +163,16 @@
     <value>Ajouter l'appât/pêche au vif actuel</value>
   </data>
   <data name="TabPresets_DrawHeader_IsEnabledByDefault" xml:space="preserve">
-    <value>est activé par défaut lorsqu'un nouvel appât/pêche au vif est ajouté/activé </value>
+    <value>est activé par défaut lorsqu'un nouvel appât/pêche au vif est ajouté </value>
   </data>
   <data name="TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName" xml:space="preserve">
-    <value>Assurez-vous de bien modifier le nom de l'appât/Pêche au vif comme affiché en jeu (Ex: Leurre universel)</value>
+    <value>Assurez-vous de bien modifier le nom de l'appât/pêche au vif comme affiché en jeu (Ex : Leurre universel)</value>
   </data>
   <data name="NewBaitMooch" xml:space="preserve">
     <value>Nouveau appât/pêche au vif</value>
   </data>
   <data name="EditMe" xml:space="preserve">
-    <value>Édite moi</value>
+    <value>Édite-moi</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Ajouter</value>
@@ -184,7 +184,7 @@
     <value>Fermer</value>
   </data>
   <data name="RightClickToRename" xml:space="preserve">
-    <value>Clic droit pour renommer</value>
+    <value>Clic droit pour renommer ce préréglage personnalisé</value>
   </data>
   <data name="TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm" xml:space="preserve">
     <value>Modifier le nom du préréglage (appuyez sur Entrée pour confirmer)</value>
@@ -196,12 +196,12 @@
     <value>Ajouter un nouveau préréglage</value>
   </data>
   <data name="TabPresets_DrawHeader_TabDescription" xml:space="preserve">
-    <value>Ici, vous pouvez personnaliser l'hameçon à utiliser en fonction de l’appât actuel ou pêche au vif.
-Si aucun appât/pêche au vif n'est spécifié, le préréglage par défaut sera utilisé à la place.</value>
+    <value>Vous pouvez personnaliser quel type de ferrage qui sera utilisé en fonction de l’Appât ou Pêche au vif actuel.
+Si aucun Appât/Pêche au vif n'est spécifié. Le préréglage par défaut sera utilisé à la place.</value>
   </data>
   <data name="TabPresets_DrawHeader_NewTabDescription" xml:space="preserve">
-    <value>Ici, vous pouvez personnaliser l'hameçon à utiliser en fonction de l’appât actuel ou pêche au vif.
-Si aucun appât/pêche au vif n'est spécifié, le préréglage par défaut sera utilisé à la place.</value>
+    <value>Vous pouvez personnaliser quel type de ferrage qui sera utilisé en fonction de l’Appât ou Pêche au vif actuel.
+Si aucun Appât/Pêche au vif n'est spécifié. Le préréglage par défaut sera utilisé à la place.</value>
   </data>
   <data name="NewPreset" xml:space="preserve">
     <value>Nouveau Préréglage</value>
@@ -213,7 +213,7 @@ Si aucun appât/pêche au vif n'est spécifié, le préréglage par défaut sera
     <value>Configuration PR</value>
   </data>
   <data name="TabGPConfig_TabDescription" xml:space="preserve">
-    <value>Ici, vous pouvez personnaliser le seuil de PR pour les actions et les objets utilisés par la fonctionnalité de ferrage automatique.</value>
+    <value>Vous pouvez personnaliser le seuil de PR pour les actions et les objets utilisés par la fonctionnalité de ferrage automatique.</value>
   </data>
   <data name="GP" xml:space="preserve">
     <value>PR</value>
@@ -275,11 +275,28 @@ Si aucun appât/pêche au vif n'est spécifié, le préréglage par défaut sera
     <comment>Maximum time to wait</comment>
   </data>
   <data name="HelpMarkerMaxWaitTimer" xml:space="preserve">
-    <value>Le ferrage ne sera PAS utilisé après que le temps défini soit passé
-Ex: Si vous définissez au Max. Attend jusqu'à 10 et si quelque chose mord après 12 secondes, le poisson sera ignoré</value>
+    <value>L'action ferrage ne sera PAS utilisé après que le temps défini soit passé.
+Exemple : Si vous définissez un temps maximum de 10 secondes et qu'un poisson mord à 12 secondes, celui-ci sera ignoré</value>
+  </data>
+  <data name="TimeoutHelpText" xml:space="preserve">
+    <value>Définissez zéro (0) pour désactiver.
+Annule la tentative de pêche en utilisant l'hameçon lorsque la limite de temps est atteinte.</value>
+  </data>
+  <data name="DoesntHaveAffectUnderChum" xml:space="preserve">
+    <value>Lorsque l'amorçage est activé, il n'y a pas d'effet</value>
   </data>
   <data name="MinWait" xml:space="preserve">
     <value>Attente minimum</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Minimum.</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Maximum.</value>
+  </data>
+  <data name="HelpMarkerMinWaitTimer" xml:space="preserve">
+    <value>Le ferrage ne sera pas utilisé jusqu'à ce que le minimum du temps soit passé.
+Exemple : Si votre temps minimum est de 14 secondes et qu'un poisson mord après 8 secondes, le poisson sera ignoré</value>
   </data>
   <data name="StopFishingAfter" xml:space="preserve">
     <value>Arrêter la pêche après...</value>
@@ -291,8 +308,8 @@ Ex: Si vous définissez au Max. Attend jusqu'à 10 et si quelque chose mord apr�
     <value>Après avoir été attrapé...</value>
   </data>
   <data name="AfterBeingCaughtDescription" xml:space="preserve">
-    <value>- Si cette configuration est un appât : Arrête de pêcher après X la quantité de poissons est capturée
-- Si cette configuration est un poisson : arrête de pêcher après avoir été capturé X fois</value>
+    <value>- Si cette configuration est un appât : Arrête de pêcher après que la quantité X de poissons est capturée
+- Si cette configuration est un poisson : Arrête de pêcher après que ce poisson ait été capturé X fois</value>
   </data>
   <data name="TimeS" xml:space="preserve">
     <value>Temps(s)</value>
@@ -333,6 +350,9 @@ Ex: Si vous définissez au Max. Attend jusqu'à 10 et si quelque chose mord apr�
   <data name="FisherSIntuitionSettingsHelpMarker" xml:space="preserve">
     <value>Activer ferrage personnalisé lorsque l'intuition du pêcheur est détectée</value>
   </data>
+  <data name="SpectralCurrentSettings" xml:space="preserve">
+    <value>Paramètres de courant spectral</value>
+  </data>
   <data name="HoldShiftBothDHTH" xml:space="preserve">
     <value>Maintenez MAJ pour sélectionner à la fois Double et Triple Ferrage (non recommandé)</value>
   </data>
@@ -365,8 +385,7 @@ Si désactiver, ferrage précis/ferrage puissant sera utilisé quand Patience es
   <data name="EnabledConfigArrowhelpMarker" xml:space="preserve">
     <value>Important !!!
 
-Si désactivé, le poisson ne sera PAS accroché ou pêcher au vif.
-Pour utiliser le comportement par défaut (Onglet Général), veuillez supprimer cette configuration.</value>
+Si désactivé, le poisson ne sera PAS pêcher.</value>
   </data>
   <data name="ChumTimer" xml:space="preserve">
     <value>Temps pour Amorçage</value>
@@ -384,7 +403,7 @@ Pour utiliser le comportement par défaut (Onglet Général), veuillez supprimer
     <value>Harponnage Automatique</value>
   </data>
   <data name="TabAutoGigDescription" xml:space="preserve">
-    <value>Il s'agit d'une fonctionnalité expérimentale qui risque de manquer le poisson. Si vous trouvez qu'elle rate trop souvent, essayez d'ajuster l'échelle de la fenêtre hameçonnage ciblé à quelque chose de différent</value>
+    <value>Il s'agit d'une fonctionnalité expérimentale qui risque de faire manquer le poisson. Si vous trouvez qu'elle rate trop souvent, essayez d'ajuster l'échelle de la fenêtre hameçonnage ciblée vers quelque chose de différent</value>
   </data>
   <data name="EnableAutoGig" xml:space="preserve">
     <value>Activer Harponnage Automatique</value>
@@ -574,25 +593,31 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
     <value>Activer Harponnage Automatique</value>
   </data>
   <data name="Hitbox" xml:space="preserve">
-    <value>Collisions</value>
+    <value>Boîte de collision</value>
+  </data>
+  <data name="GigHitbox" xml:space="preserve">
+    <value>Boîte de collision pour le Harponnage</value>
   </data>
   <data name="Use_Makeshift_Bait" xml:space="preserve">
     <value>Activer l'action pêche au vif facile</value>
   </data>
   <data name="TabAutoCasts_DrawMakeShiftBait_HelpText" xml:space="preserve">
-    <value>Cela pourrait entrer en conflit avec l'action Faveur de Thaliak</value>
+    <value>Cela pourrait entrer en conflit avec l'action : Faveur de Thaliak</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsThaliaksFavor_" xml:space="preserve">
-    <value>Quand nombres =</value>
+    <value>Quand cumul =</value>
   </data>
   <data name="TabAutoCasts_DrawThaliaksFavor_HelpText" xml:space="preserve">
-    <value>Cela pourrait entrer en conflit avec l'action pêche au vif facile</value>
+    <value>Cela pourrait entrer en conflit avec l'action pêche au vif facile automatique</value>
   </data>
   <data name="Use_Patience_I_II" xml:space="preserve">
     <value>Utiliser Patience I/II</value>
   </data>
   <data name="TabAutoCasts_DrawPatience_HelpText" xml:space="preserve">
-    <value>Patience I/II sera utilisée lorsque votre PR actuel est égal (ou supérieur) au coût de l'action +20 (Ex : 220 pour I, 580 pour II), cela aide à éviter de ne pas avoir de PR pour les hooksets</value>
+    <value>Patience I/II sera utilisée lorsque votre PR actuel est égal ou supérieur au coût de l'action +20
+Exemple : Patience I demande 220 PR - Patience II demande 580 PR
+
+Cela peut aider à éviter d'être en manque de PR pour utiliser Ferrage Précis/Puissant</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsPatience" xml:space="preserve">
     <value>Utiliser quand l'action Pêche au vif facile est actif</value>
@@ -604,7 +629,7 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
     <value>Ne pas annuler Pêche au Vif</value>
   </data>
   <data name="TabAutoCasts_DrawHeader_HelpText" xml:space="preserve">
-    <value>L'action qui annule Pêche au vif ne sera pas utilisé (Ex: Amorçage, Yeux de poissons, Pêche au gros, etc.)</value>
+    <value>L'action qui annule Pêche au vif ne sera pas utilisé (Ex : Amorçage, Yeux de poissons, Pêche au gros, etc.)</value>
   </data>
   <data name="TabAutoCasts_DrawExtraOptionsAutoMooch_Extra_Only_Active" xml:space="preserve">
     <value>Utiliser uniquement lorsque l'action intuition du pêcheur est active</value>
@@ -616,10 +641,12 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
     <value>Pêche au vif automatique global</value>
   </data>
   <data name="TabAutoCasts_DrawHeader_Guide_Collectables" xml:space="preserve">
-    <value>Guide : Comment accepter automatiquement les poissons collectables</value>
+    <value>Guide : Comment accepter automatiquement les poissons collectionnables</value>
   </data>
   <data name="AutoMooch_HelpText" xml:space="preserve">
-    <value>Cette option prend priorité sur le lancer de ligne automatique</value>
+    <value>Pêche au vif tout type de poissons ! Cette option prend une priorité sur la pêche automatique
+
+Si vous voulez avoir une Pêche au vif automatique qui est spécifique à un certain type de poisson, désactiver cette option.</value>
   </data>
   <data name="Support_me_on_Ko_fi" xml:space="preserve">
     <value>Soutenez-moi sur Ko-fi</value>
@@ -678,7 +705,7 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
   <data name="Fish" xml:space="preserve">
     <value>Poisson</value>
   </data>
-  <data name="Fish Caught" xml:space="preserve">
+  <data name="FishCaught" xml:space="preserve">
     <value>Poissons pêchés</value>
   </data>
   <data name="Add_new_fish" xml:space="preserve">
@@ -695,7 +722,7 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
     <value>Ne jamais faire de pêche au vif</value>
   </data>
   <data name="Mooch_Setting" xml:space="preserve">
-    <value>Réglage de la pêche au vif</value>
+    <value>Réglage pêche au vif</value>
   </data>
   <data name="Swap_Preset" xml:space="preserve">
     <value>Changer de préréglage</value>
@@ -707,24 +734,24 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
     <value>Si désactivé, l'opportunité de pêche au vif sera perdue</value>
   </data>
   <data name="Always_Mooch" xml:space="preserve">
-    <value>Toujours faire de la pêche au vif</value>
+    <value>Toujours utiliser pêche au vif</value>
   </data>
   <data name="Caught_Counter" xml:space="preserve">
-    <value>Attrapés:</value>
+    <value>Attrapés :</value>
     <comment>It'll shows how many times the fish was caught. Example: Caught: 5x</comment>
   </data>
   <data name="Hooked_Counter" xml:space="preserve">
-    <value>Ferrés:</value>
+    <value>Ferrés :</value>
     <comment>It'll shows how many times the fish was caught. Example: Hooked: 5x</comment>
   </data>
   <data name="Enabled" xml:space="preserve">
     <value>Activé</value>
   </data>
   <data name="StopFishing_After_hooking" xml:space="preserve">
-    <value>Après l'hameçonnage...</value>
+    <value>Après le ferrage...</value>
   </data>
   <data name="Hooking_Limited_Reached_Chat_Message" xml:space="preserve">
-    <value>Limite d'hameçonnage atteint ({0}). Arrêt de la pêche.</value>
+    <value>Limite de ferrage atteint ({0}). Arrêt de la pêche.</value>
   </data>
   <data name="Caught_Limited_Reached_Chat_Message" xml:space="preserve">
     <value>Limite de capture atteinte ({0}). Arrêt de la pêche.</value>
@@ -745,11 +772,16 @@ Si Pêche au Vif automatique (Global ou Personnalisée) n'est pas activé, la p�
     <value>Description</value>
   </data>
   <data name="TabDefaultPreset_Description" xml:space="preserve">
-    <value>Le préréglage par défaut est utilisé quand aucun appât/pêche au vif/poisson/ferrage automatique personnalisé n'est détecté. Ici, vous pouvez définir le comportement d'hameçonnage qui sera utilisé pour tous les appâts et pêches au vif à moins qu'un préréglage personnalisé ne soit créé. 
-Consultez l’onglet Guide pour trouver des guides.</value>
+    <value>Le préréglage par défauts est utilisé quand aucun appât/pêche au vif/poisson/ferrage personnalisé est détecté.
+
+Vous pouvez définir le comportement du ferrage qui sera utilisé pour tous les appâts et pêche au vif, à moins qu'un préréglage personnalisé ne soit créé.
+Consultez l'onglet guide pour trouver des explications complémentaires.</value>
   </data>
   <data name="TabGlobalPreset_Description" xml:space="preserve">
-    <value>Le préréglage par défaut est utilisé quand aucun appât/pêche au vif/poisson/ferrage automatique personnalisé n'est détecté. Ici, vous pouvez définir le comportement d'hameçonnage qui sera utilisé pour tous les appâts et pêches au vif à moins qu'un préréglage personnalisé ne soit créé</value>
+    <value>Le Préréglage Global sera utilisé quand aucune des conditions suivantes est définie :
+- Appât / Pêche au vif / Poisson attraper / Ferrage automatique
+
+Vous pouvez définir ici le comportement global qui sera utilisé pour tous les Appâts et Pêches au vif, à moins qu'un préréglage personnalisé ne soit créé</value>
   </data>
   <data name="Old_Preset_Warning" xml:space="preserve">
     <value>Il s'agit d'une ancienne importation, certains paramètres peuvent être manquants.</value>
@@ -782,16 +814,22 @@ Consultez l’onglet Guide pour trouver des guides.</value>
     <value>Ouvrir la console</value>
   </data>
   <data name="SubAuto_Disabled" xml:space="preserve">
-    <value>Le lancé auto est désactivé</value>
+    <value>Pêche automatique est désactivé</value>
+  </data>
+  <data name="AllActionsDisabled" xml:space="preserve">
+    <value>Toutes les actions sont désactivées</value>
   </data>
   <data name="SubExtra_Disabled" xml:space="preserve">
     <value>Plus d'options désactivées</value>
   </data>
   <data name="Default_AutoCast_Being_Used" xml:space="preserve">
-    <value>[Default] lancé auto est utilisé à la place</value>
+    <value>[Default] Pêche automatique est utilisé à la place</value>
   </data>
   <data name="Global_AutoCast_Being_Used" xml:space="preserve">
     <value>[Default] Lancé automatique est utilisé à la place</value>
+  </data>
+  <data name="GlobalActionsBeingUsed" xml:space="preserve">
+    <value>Les actions automatiques du préréglage global sont utilisées à la place</value>
   </data>
   <data name="Custom_AutoCast_Being_Used" xml:space="preserve">
     <value>Préréglage personnalisé [{0}] Le lancer auto est utilisé à la place</value>
@@ -808,8 +846,11 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="Auto_Cast_Alert_Manual_Hook" xml:space="preserve">
     <value>Important ! Les lancés automatiques ne seront pas utilisés si vous hameçonnez manuellement.</value>
   </data>
+  <data name="Acton_Alert_Manual_Hook" xml:space="preserve">
+    <value>Important ! Les actions ne seront pas utilisées si vous pêcher manuellement.</value>
+  </data>
   <data name="Food_Buff" xml:space="preserve">
-    <value>Buff de repas</value>
+    <value>Effets de repas</value>
   </data>
   <data name="Only_When_Patience_Active" xml:space="preserve">
     <value>Utiliser uniquement lorsque patience est actif</value>
@@ -855,13 +896,16 @@ Consultez l’onglet Guide pour trouver des guides.</value>
     <value>Manuels</value>
   </data>
   <data name="Delay_when_hooking" xml:space="preserve">
-    <value>Temps pour Amorçage</value>
+    <value>Temps pour Ferrage (en secondes)</value>
   </data>
   <data name="Preset_not_found" xml:space="preserve">
     <value>Préréglage introuvable</value>
   </data>
   <data name="Set_preset_command" xml:space="preserve">
     <value>Définir un préréglage personnalisé par ligne de commande -&gt; /ahpreset nom_du_préréglage</value>
+  </data>
+  <data name="Starts_AutoHook" xml:space="preserve">
+    <value>Commencer la pêche avec le préréglage sélectionné</value>
   </data>
   <data name="Preset_set_to_" xml:space="preserve">
     <value>Préréglage défini à :</value>
@@ -881,11 +925,23 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="OnlyUseWhenNOTActiveSurfaceSlap" xml:space="preserve">
     <value>Utiliser uniquement lorsque la pêche variée n'est pas active</value>
   </data>
+  <data name="OnlyHookWhenActiveSurfaceSlap" xml:space="preserve">
+    <value>Utilise le ferrage seulement si la pêche variée est active</value>
+  </data>
+  <data name="OnlyHookWhenNOTActiveSurfaceSlap" xml:space="preserve">
+    <value>Utilise le ferrage seulement si la pêche variée n'est pas active</value>
+  </data>
   <data name="OnlyUseWhenActiveIdentical" xml:space="preserve">
     <value>Utiliser uniquement lorsque Pêche Ciblée est actif</value>
   </data>
   <data name="OnlyUseWhenNOTActiveIdentical" xml:space="preserve">
     <value>Utiliser uniquement lorsque Pêche Ciblée n'est pas actif</value>
+  </data>
+  <data name="OnlyHookWhenActiveIdentical" xml:space="preserve">
+    <value>Utilise le ferrage seulement si la pêche ciblée est active</value>
+  </data>
+  <data name="OnlyHookWhenNOTActiveIdentical" xml:space="preserve">
+    <value>Utilise le ferrage seulement si la pêche ciblée n'est pas active</value>
   </data>
   <data name="Collect" xml:space="preserve">
     <value>Collecter</value>
@@ -900,7 +956,10 @@ Consultez l’onglet Guide pour trouver des guides.</value>
     <value>Autoriser la surcapacité du PR si la Pêche ciblée est actif</value>
   </data>
   <data name="Use_Cordials_First" xml:space="preserve">
-    <value>Utilise breuvage cordial avant la faveur de Thaliak</value>
+    <value>Utilise Breuvage Cordial avant d'utiliser Faveur de Thaliak</value>
+  </data>
+  <data name="ThaliaksCordialOffCd" xml:space="preserve">
+    <value>Utilisé uniquement pendant que le breuvage cordial est en train d'être rechargé</value>
   </data>
   <data name="Use_Cordials_First_Help" xml:space="preserve">
     <value>S'applique uniquement lorsque Cordial est activé</value>
@@ -912,7 +971,7 @@ Consultez l’onglet Guide pour trouver des guides.</value>
     <value>Masquer les descriptions des onglets</value>
   </data>
   <data name="Ignore_When_Intuition" xml:space="preserve">
-    <value>Non appliqué quand le buff d'intuition est actif</value>
+    <value>Ignore le poisson quand l'effet Instinct de pêcheur est actif</value>
   </data>
   <data name="Reset_the_counter" xml:space="preserve">
     <value>Réinitialiser le compteur</value>
@@ -935,11 +994,14 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="AutoCastStartTime" xml:space="preserve">
     <value>Heure de démarrage</value>
   </data>
+  <data name="AutoCastOnlyAtSpecificTimes" xml:space="preserve">
+    <value>Utiliser des actions uniquement à des moments spécifiques (Heure éorzéenne)</value>
+  </data>
   <data name="Quit_Fishing_On_IntuitionLost" xml:space="preserve">
-    <value>Arrête la pêche quand le buff d'intuition disparaît</value>
+    <value>Abandonne la pêche quand l'effet Instinct de pêcheur se dissipe</value>
   </data>
   <data name="Stop_Fishing_On_IntuitionLost" xml:space="preserve">
-    <value>Stop le lancement automatique quand le buff d'intuition disparaît</value>
+    <value>Stop la pêche automatique quand l'effet Instinct de pêcheur se dissipe</value>
   </data>
   <data name="Auto_Cast_Sort_Notice" xml:space="preserve">
     <value>Les actions seront utilisées en priorité du haut vers le bas. Modifie la priorité en cliquant sur les flèches.</value>
@@ -953,6 +1015,15 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="HookType" xml:space="preserve">
     <value>Type de ferrage</value>
   </data>
+  <data name="HookingTimer" xml:space="preserve">
+    <value>Minuterie du Ferrage</value>
+  </data>
+  <data name="EnableHookingTimer" xml:space="preserve">
+    <value>Utiliser la minuterie du Ferrage</value>
+  </data>
+  <data name="EnableChumTimer" xml:space="preserve">
+    <value>Utiliser le minuteur pour Amorçage</value>
+  </data>
   <data name="HookingTimerHelpText" xml:space="preserve">
     <value>L'amorçage sera uniquement utilisé si l'appât mord entre la valeur minimum et la valeur maximum</value>
   </data>
@@ -963,10 +1034,13 @@ Consultez l’onglet Guide pour trouver des guides.</value>
     <value>Utiliser Ferrage Triple</value>
   </data>
   <data name="StopAfterHooking" xml:space="preserve">
-    <value>Arrêt après l'hameçonnage...</value>
+    <value>Arrêt après ferrage ...</value>
   </data>
   <data name="Timeout" xml:space="preserve">
     <value>Délai d'expiration</value>
+  </data>
+  <data name="Chum Timeout" xml:space="preserve">
+    <value>Délai d'expiration de l'amorçage</value>
   </data>
   <data name="TimeoutOption" xml:space="preserve">
     <value>La tentative de pêche sera annulée une fois le temps spécifié écoulé</value>
@@ -974,26 +1048,148 @@ Consultez l’onglet Guide pour trouver des guides.</value>
   <data name="Hook" xml:space="preserve">
     <value>Hameçon</value>
   </data>
+  <data name="Hooking" xml:space="preserve">
+    <value>Ferrage</value>
+  </data>
   <data name="HookingTabHelpText" xml:space="preserve">
-    <value>Paramètres d'accrochage lors de la pêche avec un appât ou une Pêche au vif</value>
+    <value>Paramètre de ferrage avec un appât ou Pêche au vif</value>
+  </data>
+  <data name="BaitTabHelpText" xml:space="preserve">
+    <value>Configuration du ferrage lors de la pêche en utilisant un appât</value>
+  </data>
+  <data name="MoochTabHelpText" xml:space="preserve">
+    <value>Configuration du ferrage pendant l'amorçage</value>
+  </data>
+  <data name="RequiredStatusSettingHelpText" xml:space="preserve">
+    <value>Si désactivé, le ferrage par défaut sera utilisé à la place</value>
   </data>
   <data name="AntiAfkOption" xml:space="preserve">
     <value>Retire l'état absent pendant la pêche</value>
   </data>
   <data name="LetFishEscapeHelpText" xml:space="preserve">
-    <value>Si désactivé, le Ferrage normal sera utilisé si le PR est inférieur au montant requis</value>
+    <value>En cas de désactivation, le Ferrage normal sera utilisé si le PR est inférieur au montant requis</value>
   </data>
   <data name="UseConfigRequiredStatus" xml:space="preserve">
     <value>Utiliser ce paramètre lorsque {0} est actif</value>
     <comment>{0} Represents a status effect. For Example: Use this setting when Fisher's Intuition is active</comment>
   </data>
+  <data name="NormalPatienceHookset" xml:space="preserve">
+    <value>Ferrage normal / Ferrage Patience</value>
+  </data>
+  <data name="AutoCastOnlyUnderFishEyesHelpText" xml:space="preserve">
+    <value>Si le filtre de temps est activé, ceci est ignoré pendant la fenêtre de temps</value>
+  </data>
   <data name="Configure" xml:space="preserve">
     <value>Configuration</value>
+  </data>
+  <data name="Type_1" xml:space="preserve">
+    <value>Type 1</value>
+  </data>
+  <data name="Type_2" xml:space="preserve">
+    <value>Type 2</value>
   </data>
   <data name="CordialOutsideTimeWindow" xml:space="preserve">
     <value>Utiliser cordial en dehors de la fenêtre de temps de ferrage automatique spécifiée</value>
   </data>
+  <data name="SpecificTimeWindowHelpText" xml:space="preserve">
+    <value>Actions affectées : Pêche, Pêche au vif I-II, Breuvage cordial (optionnel), Yeux de poisson, Pêche au vif facile, Patience I-II</value>
+  </data>
   <data name="CordialOutsideTimeWindowHelpText" xml:space="preserve">
     <value>Par défaut, cordial ne sera pas utilisé en dehors de la fenêtre de temps (si activé). Cette option remplacera ce comportement</value>
+  </data>
+  <data name="TimeLimit" xml:space="preserve">
+    <value>Limite de temps</value>
+  </data>
+  <data name="ChumTimeLimit" xml:space="preserve">
+    <value>Limite de temps pour Amorçage</value>
+  </data>
+  <data name="SetZeroToIgnore" xml:space="preserve">
+    <value>Définir zéro (0) pour ignorer les minuteurs : Min ou Max</value>
+  </data>
+  <data name="AboutTab" xml:space="preserve">
+    <value>À propos</value>
+  </data>
+  <data name="UseNaturesBounty" xml:space="preserve">
+    <value>Utiliser Trésor de la nature</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="SettingsTab" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="EnableActions" xml:space="preserve">
+    <value>Activer la pêche</value>
+  </data>
+  <data name="DontHideExtraAutoCast" xml:space="preserve">
+    <value>Ne pas masquer les options Extra/Action Auto lorsque désactivées</value>
+  </data>
+  <data name="IgnoreMooch" xml:space="preserve">
+    <value>Ignorer la Pêche au vif</value>
+  </data>
+  <data name="IgnoreMoochHelpText" xml:space="preserve">
+    <value>Si désactivé, la tentative de Pêche au vif ne sera pas annulée, même si l'option Pêche au vif automatique est désactivée</value>
+  </data>
+  <data name="NeverMoochHelpText" xml:space="preserve">
+    <value>Si activé, les actions annuleront également cette tentative de pêche au vif</value>
+  </data>
+  <data name="OnlyWhenMakeshiftOrPatience" xml:space="preserve">
+    <value>Utiliser uniquement lorsque Pêche au vif facile ou Patience est actif</value>
+  </data>
+  <data name="IgnoreMoochFishEyes" xml:space="preserve">
+    <value>Les Yeux de Poissons seront utilisés et annuleront la tentative de Pêche au vif.</value>
+  </data>
+  <data name="StartActions" xml:space="preserve">
+    <value>Commencer Pêche Automatique</value>
+  </data>
+  <data name="StartActionHelpText" xml:space="preserve">
+    <value>Commencez à utiliser votre Pêche Automatique ! Vous pouvez également définir un échange d'appâts pour commencer à pêcher dans l'onglet Extra
+
+Vous pouvez également utiliser la commande /ahstart pour commencer. Essayez de faire une macro avec ça !</value>
+  </data>
+  <data name="ForceBaitSwap" xml:space="preserve">
+    <value>Forcer l'échange d'appâts lorsque vous utilisez "Démarrer les actions"</value>
+  </data>
+  <data name="SelectBaitStartFishing" xml:space="preserve">
+    <value>Sélectionnez un appât pour commencer à pêcher avec :</value>
+  </data>
+  <data name="BaitPresetPriorityWarning" xml:space="preserve">
+    <value>La priorité est accordée au changement d'appât et au préréglage plutôt qu'aux paramètres des poissons capturés</value>
+  </data>
+  <data name="WhenAnglersAt" xml:space="preserve">
+    <value>Quand l'accumulation de Féru de pêche est à...</value>
+  </data>
+  <data name="StacksOrMore" xml:space="preserve">
+    <value>Cumul ou plus</value>
+  </data>
+  <data name="StopQuitFishing" xml:space="preserve">
+    <value>Arrêter/Quitter La pêche</value>
+  </data>
+  <data name="AnglersArt" xml:space="preserve">
+    <value>Féru de pêche</value>
+  </data>
+  <data name="CatchEverything" xml:space="preserve">
+    <value>Tout attraper</value>
+  </data>
+  <data name="IgnoresPresets" xml:space="preserve">
+    <value>Ignorer les préréglages</value>
+  </data>
+  <data name="CatchAllNotice" xml:space="preserve">
+    <value>Attrapez tous les poissons est activé. Les paramètres ci-dessous ne seront pas pris en compte lors du harponnage..</value>
+  </data>
+  <data name="CatchAllNaturesBountyHelpText" xml:space="preserve">
+    <value>Seulement lorsque attraper tous les poissons est activé</value>
+  </data>
+  <data name="CatchAllGigWindow" xml:space="preserve">
+    <value>Attraper tous les poissons. Les préréglages seront ignorés.</value>
+  </data>
+  <data name="Intuition" xml:space="preserve">
+    <value>Instinct de pêcheur</value>
+  </data>
+  <data name="DelaySettings" xml:space="preserve">
+    <value>Paramètres de délai</value>
+  </data>
+  <data name="GeneratePreset" xml:space="preserve">
+    <value>Générer le préréglage</value>
   </data>
 </root>
