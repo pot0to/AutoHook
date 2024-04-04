@@ -8,6 +8,14 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.2.0")
+        {
+            MainChanges =
+            {
+                "Update to net8",
+                "Added 'use only when mooch2 is on cd' options to msb and patience."
+            }
+        },        
         new Version("4.2.1.9")
         {
             MainChanges =
