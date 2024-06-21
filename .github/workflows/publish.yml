@@ -3,11 +3,11 @@ name: Build & Publish to Dynamis
 on:
   push:
     tags:
-      - "v*.*.*.*"
+      - 'v*.*.*.*'
 
 jobs:
   Build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
         DALAMUD_HOME: /tmp/dalamud
     steps:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 7.0.x
           
       - name: Download Dalamud Latest
         run: |
@@ -40,10 +40,10 @@ jobs:
         id: dynamis
         with:
           plugin_id: 47
-          internal_name: "AutoHook"
+          internal_name: 'AutoHook'
           version_number: ${{ env.tag }}
-          path: "AutoHook/bin/Release/AutoHook/latest.zip"
-          type: "latest"
-          dalamud_version: "9"
+          path: 'AutoHook/bin/Release/AutoHook/latest.zip'
+          type: 'latest'
+          dalamud_version: '9'
         env:
           PUBLISHER_KEY: ${{ secrets.PUBLISHER_KEY }}
