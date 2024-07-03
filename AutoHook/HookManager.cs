@@ -45,7 +45,7 @@ public class HookingManager : IDisposable
 
     private bool _isMooching;
 
-    private delegate bool UseActionDelegate(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId,
+    private delegate bool UseActionDelegate(IntPtr manager, ActionType actionType, uint actionId, GameObjectId targetId,
         uint a4, uint a5,
         uint a6, IntPtr a7);
 
@@ -866,7 +866,7 @@ public class HookingManager : IDisposable
             @$"[HookManager] Fishing State: {Service.EventFramework.FishingState}, LastStep: {_lastStep}");
     }
 
-    private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectID targetId, uint a4,
+    private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectId targetId, uint a4,
         uint a5, uint a6, IntPtr a7)
     {
         try

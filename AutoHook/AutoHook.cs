@@ -9,6 +9,7 @@ using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
+using ECommons;
 using PunishLib;
 
 namespace AutoHook;
@@ -44,14 +45,14 @@ public class AutoHook : IDalamudPlugin
 
     public readonly HookingManager HookManager;
     
-
-    public AutoHook(DalamudPluginInterface pluginInterface)
+    public AutoHook(IDalamudPluginInterface pluginInterface)
     {
         Service.Initialize(pluginInterface);
         AutoHookIPC.Init();
+        ECommonsMain.Init(pluginInterface, this, Module.All);
         PunishLibMain.Init(pluginInterface, "AutoHook", new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
         Plugin = this;
-        Service.EventFramework = new EventFramework(Service.SigScanner);
+        Service.EventFramework = new EventFramework();
         Service.EquipedBait = new CurrentBait(Service.SigScanner);
         Service.TugType = new SeTugType(Service.SigScanner);
         Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
@@ -141,6 +142,8 @@ public class AutoHook : IDalamudPlugin
         {
             Service.Commands.RemoveHandler(command);
         }
+        
+        ECommonsMain.Dispose();
     }
 
     private static void OnOpenConfigUi() => _pluginUi.Toggle();

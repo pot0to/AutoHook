@@ -7,7 +7,7 @@
   "RepoUrl": "https://github.com/PunishXIV/AutoHook",
   "ApplicableVersion": "any",
   "Tags": [ "Gathering", "Fishing" ],
-  "DalamudApiLevel": 9,
+  "DalamudApiLevel": 10,
   "AcceptsFeedback": false,
   "Changelog": "Click the Changelog button to see whats new",
   "IconURL": "https://s3.puni.sh/media/plugin/47/icon-k1slevjorpo.png"

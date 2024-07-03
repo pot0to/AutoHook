@@ -34,6 +34,13 @@ public class PluginUi : Window, IDisposable
         
         Flags |= ImGuiWindowFlags.NoScrollbar;
         Flags |= ImGuiWindowFlags.NoScrollWithMouse;
+        
+        TitleBarButtons.Add(new()
+        {
+            Click = (m) => { OpenBrowser(@"https://ko-fi.com/initialdet"); },
+            Icon = FontAwesomeIcon.Heart,
+            ShowTooltip = () => ImGui.SetTooltip("Support AutoHook"),
+        });
     }
 
     public void Dispose()

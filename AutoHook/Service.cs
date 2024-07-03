@@ -14,14 +14,14 @@ namespace AutoHook;
 
 public class Service
 {
-    public static void Initialize(DalamudPluginInterface pluginInterface)
+    public static void Initialize(IDalamudPluginInterface pluginInterface)
         => pluginInterface.Create<Service>();
 
     public const string PluginName = "AutoHook";
     
     public const string GlobalPresetName = "GlobalPreset";
 
-    [PluginService] public static DalamudPluginInterface PluginInterface { get; set; } = null!;
+    [PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
     [PluginService] public static ISigScanner SigScanner { get; private set; } = null!;
     [PluginService] public static IChatGui Chat { get; private set; } = null!;
     [PluginService] public static IClientState ClientState { get; private set; } = null!;
