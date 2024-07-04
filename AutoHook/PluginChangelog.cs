@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.4.0")
+        {
+            MainChanges = 
+            {
+                "7.0 Autogig support"
+            }
+        },   
         new Version("4.2.3.3")
         {
             MainChanges = 
