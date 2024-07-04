@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.3.1")
+        new Version("4.2.3.3")
         {
             MainChanges = 
             {
@@ -16,7 +16,8 @@ public static class PluginChangelog
             },
             MinorChanges =
             {
-                "Fixed Time Limit not working"
+                "Fixed Time Limit not working",
+                "Fixed filter menu not working"
             }
         },   
         new Version("4.2.3.0")
