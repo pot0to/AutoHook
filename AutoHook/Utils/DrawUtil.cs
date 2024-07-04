@@ -147,7 +147,7 @@ public static class DrawUtil
         ImGui.PopStyleVar();
     }
 
-    private static string _filterText = "";
+    //private static string _filterText = "";
 
     public static void DrawComboSelector<T>(
         List<T> itemList,
@@ -159,11 +159,11 @@ public static class DrawUtil
 
         if (ImGui.BeginCombo("###search", selectedItem))
         {
-            string clearText = "";
+            string filterText = "";
             ImGui.SetNextItemWidth(190 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputTextWithHint("", UIStrings.Search_Hint, ref clearText, 100))
+            if (ImGui.InputTextWithHint("", UIStrings.Search_Hint, ref filterText, 100))
             {
-                _filterText = new string(clearText);
+                //_filterText = new string(clearText);
             }
 
             ImGui.Separator();
@@ -173,16 +173,16 @@ public static class DrawUtil
                 foreach (var item in itemList)
                 {
                     var itemName = getItemName(item);
-                    var filterTextLower = _filterText.ToLower();
-
-                    if (_filterText.Length != 0 && !itemName.ToLower().Contains(filterTextLower))
+                    var filterTextLower = filterText.ToLower();
+                    
+                    if (filterText.Length != 0 && !itemName.ToLower().Contains(filterTextLower))
                         continue;
 
                     if (ImGui.Selectable(itemName, false))
                     {
                         onSelect(item);
-                        _filterText = "";
-                        clearText = "";
+                        //_filterText = "";
+                        filterText = "";
                         Service.Save();
                         ImGui.CloseCurrentPopup();
                     }

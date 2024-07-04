@@ -8,6 +8,17 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.3.1")
+        {
+            MainChanges = 
+            {
+                "New action Rest will be on unwanted bites, increasing recast speed"
+            },
+            MinorChanges =
+            {
+                "Fixed Time Limit not working"
+            }
+        },   
         new Version("4.2.3.0")
         {
             MainChanges = 

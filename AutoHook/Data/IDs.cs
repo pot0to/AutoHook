@@ -27,6 +27,7 @@ namespace AutoHook.Data
                 FishEyes = 4105,
                 Chum = 4104,
                 Collect = 4101,
+                Rest = 37047,
                 None = 0;
         }
 

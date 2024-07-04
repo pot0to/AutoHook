@@ -235,7 +235,7 @@ public class HookingManager : IDisposable
             CheckPluginActions();
         }
         
-        if (currentState == FishingState.Waiting2)
+        if (currentState == FishingState.Fishing)
             CheckTimeout();
 
         if (_lastState == currentState)
@@ -248,7 +248,7 @@ public class HookingManager : IDisposable
 
         switch (currentState)
         {
-            case FishingState.PullPoleIn: // If a hook is manually used before a bite, dont use auto cast
+            case FishingState.PullPoleIn: // If a hook is manually used before a bite, don't use auto cast
                 if (_lastStep.HasFlag(FishingSteps.BeganFishing) || _lastStep.HasFlag(FishingSteps.BeganMooching))
                     _lastStep = FishingSteps.None;
                 _fishingTimer.Reset();
@@ -354,7 +354,11 @@ public class HookingManager : IDisposable
         var hook = currentHook.GetHook(bite, timePassed);
 
         if (hook is null or HookType.None)
+        {
+            PlayerRes.CastActionDelayed(IDs.Actions.Rest, ActionType.Action, @$"Rest");
+            Service.PrintDebug(@$"[HookManager] No hook found, using Rest");
             return;
+        }
 
         await Task.Delay(delay);
 
