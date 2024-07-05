@@ -2,9 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Authors>Det</Authors>
-        <Version>4.2.4.0</Version>
+        <Version>4.2.5.0</Version>
         <Description>Auto hooks for you</Description>
-        <PackageProjectUrl>https://github.com/InitialDet/AutoHook</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/PunishXIV/AutoHook</PackageProjectUrl>
         <Configurations>Release;Debug</Configurations>
         <TargetFramework>net8.0-windows</TargetFramework>
         <Platforms>x64</Platforms>
