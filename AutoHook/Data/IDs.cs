@@ -28,6 +28,9 @@ namespace AutoHook.Data
                 Chum = 4104,
                 Collect = 4101,
                 Rest = 37047,
+                BigGameFishing = 37046,
+                AmbitiousLure = 37594,
+                ModestLure = 37595,
                 None = 0;
         }
 
@@ -46,6 +49,9 @@ namespace AutoHook.Data
                 Chum = 763,
                 CollectorsGlove = 805,
                 FishEyes = 762,
+                BigGameFishing = 3907,
+                AmbitiousLure = 3972,
+                ModestLure = 3973,
                 None = 0;
         }
 

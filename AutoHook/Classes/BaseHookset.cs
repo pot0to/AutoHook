@@ -1,4 +1,6 @@
 ﻿using System;
+using AutoHook.Classes.AutoCasts;
+using AutoHook.Data;
 using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
@@ -52,6 +54,8 @@ public class BaseHookset
 
     public bool UseCustomStatusHook;
 
+    public AutoLures CastLures = new();
+
     public Guid GetUniqueId()
     {
         if (_uniqueId == Guid.Empty)
@@ -87,6 +91,9 @@ public class BaseHookset
         ImGui.Spacing();
 
         DrawTimeout();
+        ImGui.Spacing();
+
+        DrawLures();
         ImGui.Spacing();
 
         DrawStopCondition();
@@ -189,6 +196,16 @@ public class BaseHookset
             ImGuiComponents.HelpMarker(UIStrings.TimeoutHelpText);
             ImGui.TreePop();
         }
+    }
+
+
+    private void DrawLures()
+    {
+        ImGui.PushID($"Lures");
+        
+        CastLures.DrawConfig();
+
+        ImGui.PopID();
     }
 
     private void DrawStopCondition()

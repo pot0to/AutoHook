@@ -30,6 +30,8 @@ public class AutoCastsConfig
     public AutoPatience CastPatience = new();
     public AutoPrizeCatch CastPrizeCatch = new();
     public AutoThaliaksFavor CastThaliaksFavor = new();
+    public AutoBigGameFishing CastBigGame = new();
+    //public AutoLures CastLures = new();
 
     private List<BaseActionCast> GetAutoCastOrder()
     {
@@ -42,7 +44,8 @@ public class AutoCastsConfig
             CastChum,
             CastFishEyes,
             CastPrizeCatch,
-            CastCollect
+            CastCollect,
+            CastBigGame
         }.OrderBy(x => x.Priority).ToList();
 
         return output;
@@ -52,7 +55,7 @@ public class AutoCastsConfig
     {
         if (!EnableAll)
             return null;
-        
+
         BaseActionCast? cast = null;
 
         var order = GetAutoCastOrder();
@@ -76,8 +79,7 @@ public class AutoCastsConfig
 
         return eorzeaTime.IsBetween(StartTime, EndTime);
     }
-
-
+    
     public bool TryCastAction(BaseActionCast? action, bool noDelay = false, bool ignoreCurrentMooch = false)
     {
         if (action == null || EnableAll == false)

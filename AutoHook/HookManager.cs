@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommons.Automation.NeoTaskManager;
+using ECommons.Throttlers;
 
 namespace AutoHook;
 
@@ -38,6 +40,8 @@ public class HookingManager : IDisposable
     private FishingSteps _lastStep = 0;
 
     private BaitFishClass? _lastCatch;
+
+    private TaskManager _taskManager = new TaskManager();
 
     public static IntuitionStatus IntuitionStatus { get; private set; } = IntuitionStatus.NotActive;
 
@@ -231,12 +235,13 @@ public class HookingManager : IDisposable
         //CheckFishingState();
         
         if (!_lastStep.HasFlag(FishingSteps.Quitting) && currentState == FishingState.PoleReady)
-        {
             CheckPluginActions();
-        }
-        
+
         if (currentState == FishingState.Fishing)
+        {
+            CheckWhileFishingActions();
             CheckTimeout();
+        }
 
         if (_lastState == currentState)
             return;
@@ -266,15 +271,24 @@ public class HookingManager : IDisposable
         }
     }
 
+    private void CheckWhileFishingActions()
+    {
+        if (!EzThrottler.Throttle("CheckWhileFishingActions", 300))
+            return;
+        
+        var cfg = GetAutoCastCfg();
+        
+        var lures = GetHookCfg().GetHookset().CastLures;
+        if (lures.IsAvailableToCast())
+        {
+            PlayerRes.CastActionDelayed(lures.Id, lures.ActionType, lures.GetName());
+            return;
+        }
+    }
     private void CheckPluginActions()
     {
-        if (!_recastTimer.IsRunning)
-            _recastTimer.Start();
-
-        if (!(_recastTimer.ElapsedMilliseconds >= _lastTickMs))
+        if (!EzThrottler.Throttle("CheckPluginActions", 500))
             return;
-
-        _lastTickMs = _recastTimer.ElapsedMilliseconds + 500;
         
         var lastCatch = GetLastCatchConfig();
         var extraCfg = GetExtraCfg();
@@ -302,7 +316,8 @@ public class HookingManager : IDisposable
             (_lastState != FishingState.PoleReady || _lastState != FishingState.NotFishing))
             return;
 
-        CastCollect();
+        _taskManager.EnqueueDelay(500); 
+        _taskManager.Enqueue(CastCollect);
 
         _lastStep = FishingSteps.BeganFishing;
         _isMooching = false;
@@ -315,7 +330,8 @@ public class HookingManager : IDisposable
         if (_lastStep.HasFlag(FishingSteps.BeganMooching) && _lastState != FishingState.PoleReady)
             return;
 
-        CastCollect();
+        _taskManager.EnqueueDelay(500); 
+        _taskManager.Enqueue(CastCollect);
 
         _lastStep = FishingSteps.BeganMooching;
         _isMooching = true;
@@ -841,7 +857,7 @@ public class HookingManager : IDisposable
 
         Service.PrintDebug(@"[HookManager] Timeout. Hooking fish.");
         _lastStep = FishingSteps.TimeOut;
-        PlayerRes.CastActionDelayed(IDs.Actions.Hook, ActionType.Action, UIStrings.Hook);
+        PlayerRes.CastActionDelayed(IDs.Actions.Rest, ActionType.Action, UIStrings.Hook);
     }
 
     private static void ResetAfkTimer()
@@ -859,13 +875,9 @@ public class HookingManager : IDisposable
     // ReSharper disable once UnusedMember.Local
     private void CheckFishingState()
     {
-        if (!_timerState.IsRunning)
-            _timerState.Start();
-
-        if (!(_timerState.ElapsedMilliseconds > _debugValueLast + 500))
+        if (!EzThrottler.Throttle("FishingState", 500))
             return;
-
-        _debugValueLast = _timerState.ElapsedMilliseconds;
+        
         Service.PrintDebug(
             @$"[HookManager] Fishing State: {Service.EventFramework.FishingState}, LastStep: {_lastStep}");
     }

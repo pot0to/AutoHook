@@ -57,6 +57,20 @@ public static class PlayerRes
 
         return Service.ClientState.LocalPlayer.MaxGp;
     }
+    
+    public static int GetStatusStacks(uint status)
+    {
+        if (Service.ClientState.LocalPlayer?.StatusList == null)
+            return 0;
+
+        foreach (var buff in Service.ClientState.LocalPlayer.StatusList)
+        {
+            if (buff.StatusId == status)
+                return buff.StackCount;
+        }
+
+        return 0;
+    }
 
     public static bool HasAnglersArtStacks(int amount)
     {

@@ -66,19 +66,24 @@ public static class DrawUtil
         return clicked;
     }
     
-    public static bool EditNumberField(string label, ref int refValue, string helpText = "")
+    public static bool EditNumberField(string label, ref int refValue, string helpText = "", int steps = 0)
     {
-        return EditNumberField(label, 30, ref refValue, helpText);
+        float fieldWidth = 30;
+        
+        if (steps > 0)
+            fieldWidth = 85;
+            
+        return EditNumberField(label, fieldWidth, ref refValue, helpText, steps);
     }
 
-    public static bool EditNumberField(string label, float fieldWidth, ref int refValue, string helpText = "")
+    public static bool EditNumberField(string label, float fieldWidth, ref int refValue, string helpText = "", int steps = 0)
     {
         TextV(label);
 
         ImGui.SameLine();
 
         ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
-        var clicked = ImGui.InputInt($"##{label}###", ref refValue, 0, 0);
+        var clicked = ImGui.InputInt($"##{label}###", ref refValue, steps, 0);
         ImGui.PopItemWidth();
 
         if (helpText != string.Empty)

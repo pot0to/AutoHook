@@ -223,17 +223,17 @@ public class PluginUi : Window, IDisposable
                 ImGui.Separator();
 
                 //First value is the current Version
-                foreach (var mainChange in changes[0].MainChanges)
+                foreach (var mainChange in changes[0].Main)
                 {
                     ImGui.TextWrapped($"- {mainChange}");
                 }
 
                 ImGui.Spacing();
 
-                if (changes[0].MinorChanges.Count > 0)
+                if (changes[0].Minor.Count > 0)
                 {
                     ImGui.TextWrapped("Minor Changes");
-                    foreach (var minorChange in changes[0].MinorChanges)
+                    foreach (var minorChange in changes[0].Minor)
                     {
                         ImGui.TextWrapped($"- {minorChange}");
                     }
@@ -248,15 +248,15 @@ public class PluginUi : Window, IDisposable
                         if (!ImGui.TreeNode($"{changes[i].VersionNumber}"))
                             continue;
 
-                        foreach (var mainChange in changes[i].MainChanges)
+                        foreach (var mainChange in changes[i].Main)
                             ImGui.TextWrapped($"- {mainChange}");
 
-                        if (changes[i].MinorChanges.Count > 0)
+                        if (changes[i].Minor.Count > 0)
                         {
                             ImGui.Spacing();
                             ImGui.TextWrapped("Minor Changes");
 
-                            foreach (var minorChange in changes[i].MinorChanges)
+                            foreach (var minorChange in changes[i].Minor)
                                 ImGui.TextWrapped($"- {minorChange}");
                         }
 

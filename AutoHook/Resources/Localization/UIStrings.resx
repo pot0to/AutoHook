@@ -1223,4 +1223,19 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="AutoCordialPandoras" xml:space="preserve">
     <value>Auto-Cordial can be found in Pandora's Box plugin</value>
   </data>
+  <data name="LureStacks" xml:space="preserve">
+    <value>Lure Stacks:</value>
+  </data>
+  <data name="UseLures" xml:space="preserve">
+    <value>Use Lures</value>
+  </data>
+  <data name="BigGameFishing" xml:space="preserve">
+    <value>Big-game Fishing</value>
+  </data>
+  <data name="AmbitiousLure" xml:space="preserve">
+    <value>Ambitious Lure</value>
+  </data>
+  <data name="ModestLure" xml:space="preserve">
+    <value>Modest Lure</value>
+  </data>
 </root>

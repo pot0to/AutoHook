@@ -33,6 +33,7 @@ public class SubTabAutoCast
             acCfg.CastPatience,
             acCfg.CastPrizeCatch,
             acCfg.CastThaliaksFavor,
+            acCfg.CastBigGame
         };
 
         DrawHeader(acCfg);

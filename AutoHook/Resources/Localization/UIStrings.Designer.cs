@@ -214,6 +214,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ambitious Lure.
+        /// </summary>
+        internal static string AmbitiousLure {
+            get {
+                return ResourceManager.GetString("AmbitiousLure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Angler&apos;s Art.
         /// </summary>
         internal static string AnglersArt {
@@ -565,6 +574,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Below {
             get {
                 return ResourceManager.GetString("Below", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Big-game Fishing.
+        /// </summary>
+        internal static string BigGameFishing {
+            get {
+                return ResourceManager.GetString("BigGameFishing", resourceCulture);
             }
         }
         
@@ -1710,6 +1728,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lure Stacks:.
+        /// </summary>
+        internal static string LureStacks {
+            get {
+                return ResourceManager.GetString("LureStacks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Makeshift Bait.
         /// </summary>
         internal static string MakeShift_Bait {
@@ -1751,6 +1778,15 @@ namespace AutoHook.Resources.Localization {
         internal static string MinWait {
             get {
                 return ResourceManager.GetString("MinWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modest Lure.
+        /// </summary>
+        internal static string ModestLure {
+            get {
+                return ResourceManager.GetString("ModestLure", resourceCulture);
             }
         }
         
@@ -3173,6 +3209,15 @@ namespace AutoHook.Resources.Localization {
         internal static string UseIdenticalCast {
             get {
                 return ResourceManager.GetString("UseIdenticalCast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Lures.
+        /// </summary>
+        internal static string UseLures {
+            get {
+                return ResourceManager.GetString("UseLures", resourceCulture);
             }
         }
         

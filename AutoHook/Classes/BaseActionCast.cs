@@ -155,6 +155,11 @@ public abstract class BaseActionCast
         ImGui.PopID();
     }
 
+    public virtual void DrawConfigOptions()
+    {
+        DrawOptions?.Invoke();
+    }
+    
     private void DrawUpDownArrows(List<BaseActionCast>? availableActs)
     {
         if (availableActs is null || IsExcludedPriority) return;

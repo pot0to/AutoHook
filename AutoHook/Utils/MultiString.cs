@@ -1,6 +1,7 @@
 using AutoHook.Resources.Localization;
 using Lumina.Excel.GeneratedSheets;
 using Lumina.Text;
+using Action = Lumina.Excel.GeneratedSheets2.Action;
 
 namespace AutoHook.Utils;
 
