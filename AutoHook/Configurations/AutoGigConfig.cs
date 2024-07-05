@@ -18,16 +18,19 @@ public class AutoGigConfig : IPresetConfig
 {
     public bool AutoGigEnabled = false;
     public bool AutoGigHideOverlay = false;
-    public bool AutoGigDrawFishHitbox = false;
-
-    public bool CatchAll = false;
-    public bool CatchAllNaturesBounty = false;
+    
+    [DefaultValue(true)]
+    public bool AutoGigDrawFishHitbox = true;
     
     [DefaultValue(true)]
     public bool AutoGigDrawGigHitbox = true;
-
-    //public AutoCordial Cordial = new(true);
+    
     public AutoThaliaksFavor ThaliaksFavor = new(true);
+    
+    public bool CatchAll = false;
+    public bool CatchAllNaturesBounty = false;
+
+    public bool NatureBountyBeforeFish = false;
     
     public List<AutoGigPreset> Presets = new();
 
@@ -122,7 +125,9 @@ public class AutoGigPreset : IPresetItem
             ImGui.PushID(gig.UniqueId.ToString());
             using (ImRaii.PushFont(UiBuilder.IconFont))
             {
-                if (ImGui.Button(@$"{FontAwesomeIcon.Trash.ToIconChar()}", new Vector2(ImGui.GetFrameHeight(), 0)) &&
+                var icon = FontAwesomeIcon.Trash.ToIconString();
+                var buttonSize = ImGui.CalcTextSize(icon) + ImGui.GetStyle().FramePadding * 2;
+                if (ImGui.Button(@$"{icon}", buttonSize) &&
                     ImGui.GetIO().KeyShift)
                 {
                     RemoveItem(gig.UniqueId);
@@ -134,9 +139,21 @@ public class AutoGigPreset : IPresetItem
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
 
-            ImGui.SameLine();
-            DrawUtil.DrawCheckboxTree($"{gig.Fish?.Name ?? UIStrings.None}", ref gig.Enabled,
-                () => { gig.DrawOptions(); });
+            ImGui.SameLine(0,3);
+            
+            DrawUtil.Checkbox(@$"", ref gig.Enabled);
+                
+            ImGui.SameLine(0,3);
+            
+            var x = ImGui.GetCursorPosX();
+            if (ImGui.TreeNodeEx($"{gig.Fish?.Name ?? UIStrings.None}", ImGuiTreeNodeFlags.FramePadding))
+            {
+                ImGui.SetCursorPosX(x);
+                ImGui.BeginGroup();
+                gig.DrawOptions();
+                ImGui.EndGroup();
+                ImGui.TreePop();
+            }
 
             ImGui.PopID();
         }

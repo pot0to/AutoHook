@@ -4,6 +4,7 @@ using AutoHook.Configurations;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
+using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -30,11 +31,10 @@ internal class TabAutoGig : BaseTab
             if (DrawUtil.Checkbox(UIStrings.HideOverlayDuringSpearfishing, ref _gigCfg.AutoGigHideOverlay,
                     UIStrings.AutoGigHideOverlayHelpMarker))
                 Service.Save();
-
-            if (DrawUtil.Checkbox(UIStrings.DrawFishHitbox, ref _gigCfg.AutoGigDrawFishHitbox,
-                    UIStrings.DrawFishHitboxHelpMarker))
+            
+            if (DrawUtil.Checkbox(UIStrings.DrawFishHitbox, ref _gigCfg.AutoGigDrawFishHitbox))
                 Service.Save();
-
+            
             if (DrawUtil.Checkbox(UIStrings.DrawGigHitbox, ref _gigCfg.AutoGigDrawGigHitbox))
                 Service.Save();
 
@@ -43,51 +43,63 @@ internal class TabAutoGig : BaseTab
 
             if (DrawUtil.Checkbox(UIStrings.CatchEverything, ref _gigCfg.CatchAll, UIStrings.IgnoresPresets))
                 Service.Save();
+            
+            if (DrawUtil.Checkbox(UIStrings.NBBeforeFish, ref _gigCfg.NatureBountyBeforeFish, UIStrings.NBBeforeFishHelpText))
+                Service.Save();
 
             if (_gigCfg.CatchAll)
             {
                 ImGui.Text($"└");
                 ImGui.SameLine();
-                if (DrawUtil.Checkbox(UIStrings.Use_Natures_Bounty, ref _gigCfg.CatchAllNaturesBounty, UIStrings.CatchAllNaturesBountyHelpText))
+                if (DrawUtil.Checkbox(UIStrings.Use_Natures_Bounty, ref _gigCfg.CatchAllNaturesBounty,
+                        UIStrings.CatchAllNaturesBountyHelpText))
                     Service.Save();
             }
-
+            
+            ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.AutoCordialPandoras);
         });
 
+        ImGui.Spacing();
+        ImGui.TextWrapped(UIStrings.Current_Selected_Preset);
         DrawPresetSelector();
     }
 
     public override void Draw()
     {
-        var selectedPreset = _gigCfg.GetSelectedPreset();
-
-        if (selectedPreset == null)
-            return;
-        
-        if (_gigCfg.CatchAll)
+        if (ImGui.BeginChild(@"ag_cfg", new Vector2(0, 0), true))
         {
-            ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllNotice);
+            var selectedPreset = _gigCfg.GetSelectedPreset();
+
+            if (selectedPreset == null)
+                return;
+
+            if (_gigCfg.CatchAll)
+            {
+                ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllNotice);
+            }
+
+            // add new gig button
+            if (ImGui.Button(UIStrings.Add_new_fish))
+            {
+                selectedPreset.AddItem(new BaseGig(0));
+                Service.Save();
+            }
+
+            ImGui.SameLine();
+
+            ImGui.SetNextItemWidth(90);
+            if (ImGui.InputInt(UIStrings.GigHitbox, ref selectedPreset.HitboxSize))
+            {
+                selectedPreset.HitboxSize = Math.Max(0, Math.Min(selectedPreset.HitboxSize, 300));
+                Service.Save();
+            }
+
+            DrawUtil.SpacingSeparator();
+
+            selectedPreset.DrawOptions();
         }
 
-        // add new gig button
-        if (ImGui.Button(UIStrings.Add_new_fish))
-        {
-            selectedPreset.AddItem(new BaseGig(0));
-            Service.Save();
-        }
-
-        ImGui.SameLine();
-
-        ImGui.SetNextItemWidth(90);
-        if (ImGui.InputInt(UIStrings.Hitbox + @" ", ref selectedPreset.HitboxSize))
-        {
-            selectedPreset.HitboxSize = Math.Max(0, Math.Min(selectedPreset.HitboxSize, 300));
-            Service.Save();
-        }
-
-        DrawUtil.SpacingSeparator();
-
-        selectedPreset.DrawOptions();
+        ImGui.EndChild();
     }
 
     public void DrawPresetSelector()

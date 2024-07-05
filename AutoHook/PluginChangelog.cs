@@ -8,6 +8,15 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.5.0")
+        {
+            MainChanges = 
+            {
+                "AutoGig Updates",
+                "Added an option to use Nature's Bounty before the fish appears while spearfishing",
+                "Added an option to individually adjust the fish hitbox offset"
+            }
+        },   
         new Version("4.2.4.0")
         {
             MainChanges = 

@@ -1,15 +1,12 @@
 ﻿using AutoHook.Data;
 using AutoHook.Resources.Localization;
-using AutoHook.Spearfishing.Enums;
 using AutoHook.Spearfishing.Struct;
 using AutoHook.Utils;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Windowing;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Classes;
@@ -140,9 +137,9 @@ internal class AutoGig : Window, IDisposable
 
         if (_gigCfg is { AutoGigEnabled: true, })
         {
-            /*if (!PlayerResources.HasStatus(IDs.Status.NaturesBounty) && Service.Configuration.AutoGigNaturesBountyEnabled)
-                PlayerResources.CastActionDelayed(IDs.Actions.NaturesBounty);*/
-
+            if (!PlayerRes.HasStatus(IDs.Status.NaturesBounty) && _gigCfg.NatureBountyBeforeFish)
+                PlayerRes.CastActionDelayed(IDs.Actions.NaturesBounty);
+            
             GigFish(_addon->Fish1, _addon->Fish1Node);
             GigFish(_addon->Fish2, _addon->Fish2Node);
             GigFish(_addon->Fish3, _addon->Fish3Node);
@@ -182,9 +179,11 @@ internal class AutoGig : Window, IDisposable
         else*/
 
         // did i fucking do it?
-        fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * 0.4f);
-
-
+        if (info.InverseDirection)
+            fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * (0.5f + (fish.RightOffset / 10)));
+        else
+            fishHitbox = (node->X * _uiScale) + (node->Width * node->ScaleX * _uiScale * (0.4f - (fish.LeftOffset / 10)));
+        
         DrawFishHitbox(drawList, fishHitbox);
 
         if (fishHitbox >= (centerX - gigHitbox) && fishHitbox <= (centerX + gigHitbox))
@@ -218,8 +217,7 @@ internal class AutoGig : Window, IDisposable
         float startX = _uiSize.X / 2;
         float centerY = _addon->FishLines->Y * _uiScale;
         float endY = _addon->FishLines->Height * _uiScale;
-
-
+        
         //Hitbox left
         var lineStart = _uiPos + new Vector2(startX - space, centerY);
         var lineEnd = lineStart + new Vector2(0, endY);

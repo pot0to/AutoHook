@@ -1196,4 +1196,31 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="AutoCastExtraOptionPatience" xml:space="preserve">
     <value>Only use when Mooch II is on cooldown</value>
   </data>
+  <data name="Fish_Hitbox_Offset" xml:space="preserve">
+    <value>Fish Hitbox Offset</value>
+  </data>
+  <data name="OffsetLR" xml:space="preserve">
+    <value>Offset (L-&gt;R)</value>
+  </data>
+  <data name="OffsetRL" xml:space="preserve">
+    <value>Offset (R-&gt;L)</value>
+  </data>
+  <data name="OffsetLRHelpText" xml:space="preserve">
+    <value>Hitbox offset for fish coming from left to right</value>
+  </data>
+  <data name="OffsetRLHelpText" xml:space="preserve">
+    <value>Hitbox offset for fish coming from right to left</value>
+  </data>
+  <data name="FishHitboxHelpText" xml:space="preserve">
+    <value>Adjust the hitbox area if you think its missing too much</value>
+  </data>
+  <data name="NBBeforeFish" xml:space="preserve">
+    <value>Use Natures Bounty before fish appears</value>
+  </data>
+  <data name="NBBeforeFishHelpText" xml:space="preserve">
+    <value>Could waste GP if the target fish doesn't appear</value>
+  </data>
+  <data name="AutoCordialPandoras" xml:space="preserve">
+    <value>Auto-Cordial can be found in Pandora's Box plugin</value>
+  </data>
 </root>

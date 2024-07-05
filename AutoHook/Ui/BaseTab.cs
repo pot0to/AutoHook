@@ -1,5 +1,6 @@
 using System;
 using AutoHook.Resources.Localization;
+using AutoHook.Utils;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -36,6 +37,8 @@ public abstract class BaseTab : IDisposable
                 ImGui.TextWrapped(tabDescription);
                 ImGui.Spacing();
             }
+            
+            ImGui.Separator();
         }
     }
 }

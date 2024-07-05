@@ -32,7 +32,40 @@ public static class DrawUtil
         ImGui.SameLine();
         ImGui.TextColored(color, $"{value}");
     }
+    
 
+    public static bool EditFloatField(string label, ref float refValue, string helpText = "", bool hoverHelpText = false)
+    {
+        return EditFloatField(label, 85, ref refValue, helpText, hoverHelpText);
+    }
+    
+    public static bool EditFloatField(string label, float fieldWidth, ref float refValue, string helpText = "", bool hoverHelpText = false)
+    {
+        ImGui.PushID(label);
+        TextV(label);
+
+        ImGui.SameLine();
+
+        ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
+        var clicked = ImGui.InputFloat($"##{label}###", ref refValue, .1f, 0, @"%.1f%");
+        ImGui.PopItemWidth();
+
+        if (helpText != string.Empty)
+        {
+            if (hoverHelpText)
+            {
+                if (ImGui.IsItemHovered())
+                    ImGui.SetTooltip(helpText);
+            }
+            else
+                ImGuiComponents.HelpMarker(helpText);
+        }
+
+        ImGui.PopID();
+
+        return clicked;
+    }
+    
     public static bool EditNumberField(string label, ref int refValue, string helpText = "")
     {
         return EditNumberField(label, 30, ref refValue, helpText);
