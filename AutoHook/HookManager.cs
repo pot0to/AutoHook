@@ -920,10 +920,7 @@ public class HookingManager : IDisposable
                 _lureSuccess = GameRes.LureFishes.FirstOrDefault(f => f.LureMessage == text) != null;
 
                 if (_lureSuccess)
-                {
-                    Service.PrintDebug($"Is Sucess: {_lureSuccess}, {text}");
                     return;
-                }
 
                 if (GetHookCfg().GetHookset().CastLures.TargetType == 0)
                 {
@@ -931,12 +928,12 @@ public class HookingManager : IDisposable
                         ?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
                     _lureSuccess = logId is LureAttempt.AmbSuccess or LureAttempt.ModSuccess;
                 }
-
-                Service.PrintDebug($"Is Sucess: {_lureSuccess}, {text}");
+                
             }
         }
         catch (Exception e)
         {
+            Service.PluginLog.Error(e.Message);
         }
     }
 
