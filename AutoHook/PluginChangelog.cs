@@ -8,6 +8,17 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.6.1")
+        {
+            Main = 
+            {
+                "Lv.100 Lures updated to actually be useful",
+            },
+            Minor =
+            {
+                "Fixed auto casts not being used when Rest was used, not intended (sorry lol)"
+            }
+        }, 
         new Version("4.2.6.0")
         {
             Main = 

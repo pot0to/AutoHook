@@ -15,11 +15,12 @@ public static class GameRes
 
     public static List<BaitFishClass> Baits { get; private set; } = new();
     public static List<BaitFishClass> Fishes { get; private set; } = new();
+    public static List<BaitFishClass> LureFishes => Fishes.Where(f => f.LureMessage != "").ToList();
+
     public static List<Fish> ImportedFishes { get; private set; } = new();
     
     public static List<BiteTimers> BiteTimers { get; private set; } = new();
-
-
+    
     public static void Initialize()
     {
         Baits = Service.DataManager.GetExcelSheet<Item>()?
@@ -35,6 +36,7 @@ public static class GameRes
                      .Select(group => group.First())
                      .ToList()
                  ?? new List<BaitFishClass>();
+        
         try
         {
             var fishList = Path.Combine(Service.PluginInterface.AssemblyLocation.DirectoryName!, $"Data\\FishData\\fish_list.json");

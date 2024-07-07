@@ -14,8 +14,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
 using ECommons.Automation.NeoTaskManager;
 using ECommons.Throttlers;
+using Lumina.Excel.GeneratedSheets;
 
 namespace AutoHook;
 
@@ -55,6 +58,7 @@ public class HookingManager : IDisposable
 
     private Hook<UseActionDelegate>? _useActionHook;
 
+
     public HookingManager()
     {
         CreateDalamudHooks();
@@ -79,6 +83,7 @@ public class HookingManager : IDisposable
     private void Enable()
     {
         Service.Framework.Update += OnFrameworkUpdate;
+        Service.Chat.CheckMessageHandled += OnMessageDelegate;
         _catchHook?.Enable();
         _useActionHook?.Enable();
     }
@@ -86,6 +91,7 @@ public class HookingManager : IDisposable
     private void Disable()
     {
         Service.Framework.Update -= OnFrameworkUpdate;
+        Service.Chat.CheckMessageHandled -= OnMessageDelegate;
         _useActionHook?.Disable();
         _catchHook?.Disable();
     }
@@ -273,29 +279,31 @@ public class HookingManager : IDisposable
 
     private void CheckWhileFishingActions()
     {
-        if (!EzThrottler.Throttle("CheckWhileFishingActions", 300))
+        if (!EzThrottler.Throttle("CheckWhileFishingActions", 100))
             return;
-        
-        var cfg = GetAutoCastCfg();
-        
-        var lures = GetHookCfg().GetHookset().CastLures;
-        if (lures.IsAvailableToCast())
-        {
-            PlayerRes.CastActionDelayed(lures.Id, lures.ActionType, lures.GetName());
+
+        if (_taskManager.IsBusy)
             return;
-        }
+
+        var hookCfg = GetHookCfg();
+
+        if (!hookCfg.Enabled)
+            return;
+
+        _taskManager.Enqueue(() => hookCfg.GetHookset().CastLures.TryCasting(_lureSuccess));
     }
+
     private void CheckPluginActions()
     {
         if (!EzThrottler.Throttle("CheckPluginActions", 500))
             return;
-        
+
         var lastCatch = GetLastCatchConfig();
         var extraCfg = GetExtraCfg();
-            
+
         if (_lastStep.HasFlag(FishingSteps.FishCaught))
             CheckStopCondition();
-            
+
         // the order matters
         CheckExtraActions(extraCfg);
 
@@ -305,8 +313,8 @@ public class HookingManager : IDisposable
             casted = UseFishCaughtActions(lastCatch);
             CheckFishCaughtSwap(lastCatch);
         }
-            
-        if(!casted)
+
+        if (!casted)
             UseAutoCasts();
     }
 
@@ -316,7 +324,7 @@ public class HookingManager : IDisposable
             (_lastState != FishingState.PoleReady || _lastState != FishingState.NotFishing))
             return;
 
-        _taskManager.EnqueueDelay(500); 
+        _taskManager.EnqueueDelay(500);
         _taskManager.Enqueue(CastCollect);
 
         _lastStep = FishingSteps.BeganFishing;
@@ -330,13 +338,18 @@ public class HookingManager : IDisposable
         if (_lastStep.HasFlag(FishingSteps.BeganMooching) && _lastState != FishingState.PoleReady)
             return;
 
-        _taskManager.EnqueueDelay(500); 
+        _taskManager.EnqueueDelay(500);
         _taskManager.Enqueue(CastCollect);
 
         _lastStep = FishingSteps.BeganMooching;
         _isMooching = true;
 
         UpdateStatusAndTimer();
+    }
+
+    private void Reset()
+    {
+        _lureSuccess = false;
     }
 
     private void CastCollect()
@@ -432,16 +445,17 @@ public class HookingManager : IDisposable
     private void UseAutoCasts()
     {
         // if _lastStep is FishBit but currentState is FishingState.PoleReady, it means that the fish was hooked, but it escaped.
-        if (_lastStep.HasFlag(FishingSteps.None) || _lastStep.HasFlag(FishingSteps.BeganFishing) || _lastStep.HasFlag(FishingSteps.BeganMooching) || _lastStep.HasFlag(FishingSteps.Quitting))
+        if (_lastStep.HasFlag(FishingSteps.None) || _lastStep.HasFlag(FishingSteps.BeganFishing) ||
+            _lastStep.HasFlag(FishingSteps.BeganMooching) || _lastStep.HasFlag(FishingSteps.Quitting))
         {
             return;
         }
-        
+
         if (!PlayerRes.IsCastAvailable())
             return;
 
         var lastFishCatchCfg = GetLastCatchConfig();
-        
+
         var acCfg = GetAutoCastCfg();
 
         var ignoreMooch = lastFishCatchCfg?.NeverMooch ?? false;
@@ -487,17 +501,19 @@ public class HookingManager : IDisposable
 
         var caughtCount = FishingHelper.GetFishCount(lastCatchCfg.GetUniqueId());
         var guid = lastCatchCfg.GetUniqueId();
-        
-        if (lastCatchCfg.SwapPresets && !FishingHelper.SwappedPreset(guid) && !_lastStep.HasFlag(FishingSteps.PresetSwapped))
+
+        if (lastCatchCfg.SwapPresets && !FishingHelper.SwappedPreset(guid) &&
+            !_lastStep.HasFlag(FishingSteps.PresetSwapped))
         {
-            if (caughtCount >= lastCatchCfg.SwapPresetCount && lastCatchCfg.PresetToSwap != Presets.SelectedPreset?.PresetName)
+            if (caughtCount >= lastCatchCfg.SwapPresetCount &&
+                lastCatchCfg.PresetToSwap != Presets.SelectedPreset?.PresetName)
             {
                 var preset =
                     Presets.CustomPresets.FirstOrDefault(preset => preset.PresetName == lastCatchCfg.PresetToSwap);
 
                 FishingHelper.AddPresetSwap(guid); // one try per catch
                 _lastStep |= FishingSteps.PresetSwapped;
-                
+
                 if (preset == null)
                     Service.PrintChat(@$"Preset {lastCatchCfg.PresetToSwap} not found.");
                 else
@@ -509,7 +525,7 @@ public class HookingManager : IDisposable
                 }
             }
         }
-        
+
         if (lastCatchCfg.SwapBait && !FishingHelper.SwappedBait(guid) && !_lastStep.HasFlag(FishingSteps.BaitSwapped))
         {
             if (caughtCount >= lastCatchCfg.SwapBaitCount && lastCatchCfg.BaitToSwap.Id != Service.EquipedBait.Current)
@@ -574,7 +590,8 @@ public class HookingManager : IDisposable
                 _lastStep |= FishingSteps.BaitSwapped; // one try
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
-                    Service.PrintChat(@$"[Extra] Spectral Current Active: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentGain.Name}");
+                    Service.PrintChat(
+                        @$"[Extra] Spectral Current Active: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentGain.Name}");
                     Service.Save();
                 }
             }
@@ -603,7 +620,8 @@ public class HookingManager : IDisposable
                 {
                     Service.Save();
                     Presets.SelectedPreset = preset;
-                    Service.PrintChat(@$"[Extra] Spectral Current Ended: Swapping preset to {extraCfg.SwapPresetSpectralCurrentLost}");
+                    Service.PrintChat(
+                        @$"[Extra] Spectral Current Ended: Swapping preset to {extraCfg.SwapPresetSpectralCurrentLost}");
                     Service.Save();
                 }
                 else
@@ -619,7 +637,8 @@ public class HookingManager : IDisposable
 
                 if (result == CurrentBait.ChangeBaitReturn.Success)
                 {
-                    Service.PrintChat(@$"[Extra] Spectral Current Ended: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
+                    Service.PrintChat(
+                        @$"[Extra] Spectral Current Ended: Swapping bait to {extraCfg.BaitToSwapSpectralCurrentLost.Name}");
                     Service.Save();
                 }
             }
@@ -667,11 +686,13 @@ public class HookingManager : IDisposable
             {
                 Service.Save();
                 Presets.SelectedPreset = preset;
-                Service.PrintChat(@$"[Extra] Intuition Active - Swapping preset to {extraCfg.PresetToSwapIntuitionGain}");
+                Service.PrintChat(
+                    @$"[Extra] Intuition Active - Swapping preset to {extraCfg.PresetToSwapIntuitionGain}");
                 Service.Save();
             }
             else
-                Service.PrintChat(@$"[Extra] Intuition Active - Preset {extraCfg.PresetToSwapIntuitionGain} not found.");
+                Service.PrintChat(
+                    @$"[Extra] Intuition Active - Preset {extraCfg.PresetToSwapIntuitionGain} not found.");
         }
 
         // Check if the bait was already swapped
@@ -683,7 +704,8 @@ public class HookingManager : IDisposable
 
             if (result == CurrentBait.ChangeBaitReturn.Success)
             {
-                Service.PrintChat(@$"[Extra] Intuition Active - Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
+                Service.PrintChat(
+                    @$"[Extra] Intuition Active - Swapping bait to {extraCfg.BaitToSwapIntuitionGain.Name}");
                 Service.Save();
             }
         }
@@ -721,7 +743,8 @@ public class HookingManager : IDisposable
             _lastStep |= FishingSteps.BaitSwapped;
             if (result == CurrentBait.ChangeBaitReturn.Success)
             {
-                Service.PrintChat(@$"[Extra] Intuition Lost - Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
+                Service.PrintChat(
+                    @$"[Extra] Intuition Lost - Swapping bait to {extraCfg.BaitToSwapIntuitionLost.Name}");
                 Service.Save();
             }
         }
@@ -877,10 +900,46 @@ public class HookingManager : IDisposable
     {
         if (!EzThrottler.Throttle("FishingState", 500))
             return;
-        
+
         Service.PrintDebug(
             @$"[HookManager] Fishing State: {Service.EventFramework.FishingState}, LastStep: {_lastStep}");
     }
+
+    private const XivChatType FishingMessage = (XivChatType)2243;
+    private bool _lureSuccess = false;
+
+    private void OnMessageDelegate(XivChatType type, int timeStamp, ref SeString sender, ref SeString messageSe,
+        ref bool isHandled)
+    {
+        try
+        {
+            if (type == FishingMessage)
+            {
+                var text = messageSe.TextValue;
+
+                _lureSuccess = GameRes.LureFishes.FirstOrDefault(f => f.LureMessage == text) != null;
+
+                if (_lureSuccess)
+                {
+                    Service.PrintDebug($"Is Sucess: {_lureSuccess}, {text}");
+                    return;
+                }
+
+                if (GetHookCfg().GetHookset().CastLures.TargetType == 0)
+                {
+                    var logId = Service.DataManager.GetExcelSheet<LogMessage>()
+                        ?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
+                    _lureSuccess = logId is LureAttempt.AmbSuccess or LureAttempt.ModSuccess;
+                }
+
+                Service.PrintDebug($"Is Sucess: {_lureSuccess}, {text}");
+            }
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
 
     private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectId targetId, uint a4,
         uint a5, uint a6, IntPtr a7)
@@ -891,12 +950,25 @@ public class HookingManager : IDisposable
             {
                 switch (actionId)
                 {
+                    case IDs.Actions.Rest:
+                        if (PlayerRes.ActionTypeAvailable(actionId)) _lastStep = FishingSteps.Reeling;
+                        break;
                     case IDs.Actions.Cast:
-                        if (PlayerRes.ActionTypeAvailable(actionId)) OnBeganFishing();
+                        if (PlayerRes.ActionTypeAvailable(actionId))
+                        {
+                            OnBeganFishing();
+                            Reset();
+                        }
+
                         break;
                     case IDs.Actions.Mooch:
                     case IDs.Actions.Mooch2:
-                        if (PlayerRes.ActionTypeAvailable(actionId)) OnBeganMooch();
+                        if (PlayerRes.ActionTypeAvailable(actionId))
+                        {
+                            OnBeganMooch();
+                            Reset();
+                        }
+
                         break;
                 }
             }

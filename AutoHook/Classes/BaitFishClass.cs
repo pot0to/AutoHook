@@ -13,6 +13,8 @@ public class BaitFishClass : IComparable<BaitFishClass>
 
     public int Id;
 
+    [JsonIgnore] public string LureMessage =""; 
+
     public BaitFishClass(Item data)
     {
         Id = (int)data.RowId;
@@ -22,6 +24,7 @@ public class BaitFishClass : IComparable<BaitFishClass>
     {
         var itemData = Service.DataManager.GetExcelSheet<ItemRow>()?.GetRow((uint)fishRow.Item) ?? new Item();
 
+        LureMessage = fishRow.Unknown1.ToString();
         Id = (int)itemData.RowId;
     }
 

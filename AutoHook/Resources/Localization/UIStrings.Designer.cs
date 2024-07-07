@@ -241,6 +241,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Any Small/Large/Special.
+        /// </summary>
+        internal static string AnyTarget {
+            get {
+                return ResourceManager.GetString("AnyTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A preset with the same name already exists.
         /// </summary>
         internal static string APresetWithTheSameNameAlreadyExists {
@@ -466,6 +475,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target Fish:.
+        /// </summary>
+        internal static string AutoLures_Target_Fish {
+            get {
+                return ResourceManager.GetString("AutoLures_Target_Fish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Mooch.
         /// </summary>
         internal static string AutoMooch {
@@ -583,6 +601,15 @@ namespace AutoHook.Resources.Localization {
         internal static string BigGameFishing {
             get {
                 return ResourceManager.GetString("BigGameFishing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel hooking attempt if stack limit is reached without success.
+        /// </summary>
+        internal static string CancelAttempt {
+            get {
+                return ResourceManager.GetString("CancelAttempt", resourceCulture);
             }
         }
         
@@ -1737,6 +1764,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lure Type:.
+        /// </summary>
+        internal static string LureType {
+            get {
+                return ResourceManager.GetString("LureType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Makeshift Bait.
         /// </summary>
         internal static string MakeShift_Bait {
@@ -1751,6 +1787,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Max {
             get {
                 return ResourceManager.GetString("Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max. Attempts.
+        /// </summary>
+        internal static string MaxAttempts {
+            get {
+                return ResourceManager.GetString("MaxAttempts", resourceCulture);
             }
         }
         
@@ -2048,6 +2093,15 @@ namespace AutoHook.Resources.Localization {
         internal static string OnlyHookWhenNOTActiveSurfaceSlap {
             get {
                 return ResourceManager.GetString("OnlyHookWhenNOTActiveSurfaceSlap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only Special.
+        /// </summary>
+        internal static string OnlySpecial {
+            get {
+                return ResourceManager.GetString("OnlySpecial", resourceCulture);
             }
         }
         
@@ -2507,6 +2561,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Size {
             get {
                 return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special fishes are the ones with unique dialogs when using lure, such as:.
+        /// </summary>
+        internal static string SpecialFishExemple {
+            get {
+                return ResourceManager.GetString("SpecialFishExemple", resourceCulture);
             }
         }
         

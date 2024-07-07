@@ -1238,4 +1238,25 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="ModestLure" xml:space="preserve">
     <value>Modest Lure</value>
   </data>
+  <data name="AutoLures_Target_Fish" xml:space="preserve">
+    <value>Target Fish:</value>
+  </data>
+  <data name="AnyTarget" xml:space="preserve">
+    <value>Any Small/Large/Special</value>
+  </data>
+  <data name="OnlySpecial" xml:space="preserve">
+    <value>Only Special</value>
+  </data>
+  <data name="SpecialFishExemple" xml:space="preserve">
+    <value>Special fishes are the ones with unique dialogs when using lure, such as:</value>
+  </data>
+  <data name="MaxAttempts" xml:space="preserve">
+    <value>Max. Attempts</value>
+  </data>
+  <data name="CancelAttempt" xml:space="preserve">
+    <value>Cancel hooking attempt if stack limit is reached without success</value>
+  </data>
+  <data name="LureType" xml:space="preserve">
+    <value>Lure Type:</value>
+  </data>
 </root>

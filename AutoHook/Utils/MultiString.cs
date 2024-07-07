@@ -1,18 +1,17 @@
 using AutoHook.Resources.Localization;
 using Lumina.Excel.GeneratedSheets;
 using Lumina.Text;
-using Action = Lumina.Excel.GeneratedSheets2.Action;
 
 namespace AutoHook.Utils;
 
 public readonly struct MultiString
 {
-    public static string ParseSeStringLumina(SeString? luminaString)
+    public static string ParseSeString(SeString? luminaString)
         => luminaString == null ? string.Empty : Dalamud.Game.Text.SeStringHandling.SeString.Parse(luminaString.RawData).TextValue;
 
     public static string GetStatusName(uint statusId)
     {
-        return ParseSeStringLumina(Service.DataManager.GetExcelSheet<Status>()!.GetRow(statusId)?.Name);
+        return ParseSeString(Service.DataManager.GetExcelSheet<Status>()!.GetRow(statusId)?.Name);
     }
     
     public static string GetItemName(uint id)
@@ -20,9 +19,9 @@ public readonly struct MultiString
         if (id == 0)
             return UIStrings.None;
        
-        var item = ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
+        var itemName = ParseSeString(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
         
-        return item == string.Empty ? UIStrings.None : ParseSeStringLumina(Service.DataManager.GetExcelSheet<Item>()!.GetRow(id)?.Name);
+        return itemName == string.Empty ? UIStrings.None : itemName;
     } 
     
     public static string GetItemName(int id)

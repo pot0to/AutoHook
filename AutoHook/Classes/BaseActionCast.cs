@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Resources.Localization;
+using ECommons.Throttlers;
 
 namespace AutoHook.Classes;
 
@@ -85,7 +86,7 @@ public abstract class BaseActionCast
 
         var actionAvailable = PlayerRes.ActionTypeAvailable(Id, ActionType);
 
-        if (!IsSpearFishing) // the spam was too much lmao
+        if (EzThrottler.Throttle("LogActions",1000))
             Service.PrintVerbose(
                 @$"[BaseAction] {Name} - GpCheck:{hasGp}, ActionAvailable: {actionAvailable}, OtherConditions: {condition}");
 
