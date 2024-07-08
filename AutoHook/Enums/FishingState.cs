@@ -10,7 +10,7 @@ public enum FishingState : byte
     Bite       = 5,
     Reeling    = 6,
     Waiting    = 8,
-    //Waiting2   = 9,
-    Fishing   = 12,
+    NormalFishing   = 9,
+    LureFishing   = 12,
 
 }

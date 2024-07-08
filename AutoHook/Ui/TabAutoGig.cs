@@ -66,40 +66,40 @@ internal class TabAutoGig : BaseTab
 
     public override void Draw()
     {
-        if (ImGui.BeginChild(@"ag_cfg", new Vector2(0, 0), true))
+        if (ImGui.BeginChild(@"ag_cfg1", new Vector2(0, 0), true))
         {
             var selectedPreset = _gigCfg.GetSelectedPreset();
 
-            if (selectedPreset == null)
-                return;
-
-            if (_gigCfg.CatchAll)
+            if (selectedPreset != null)
             {
-                ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllNotice);
+                if (_gigCfg.CatchAll)
+                {
+                    ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.CatchAllNotice);
+                }
+
+                // add new gig button
+                if (ImGui.Button(UIStrings.Add_new_fish))
+                {
+                    selectedPreset.AddItem(new BaseGig(0));
+                    Service.Save();
+                }
+
+                ImGui.SameLine();
+
+                ImGui.SetNextItemWidth(90);
+                if (ImGui.InputInt(UIStrings.GigHitbox, ref selectedPreset.HitboxSize))
+                {
+                    selectedPreset.HitboxSize = Math.Max(0, Math.Min(selectedPreset.HitboxSize, 300));
+                    Service.Save();
+                }
+
+                DrawUtil.SpacingSeparator();
+
+                selectedPreset.DrawOptions();
             }
 
-            // add new gig button
-            if (ImGui.Button(UIStrings.Add_new_fish))
-            {
-                selectedPreset.AddItem(new BaseGig(0));
-                Service.Save();
-            }
-
-            ImGui.SameLine();
-
-            ImGui.SetNextItemWidth(90);
-            if (ImGui.InputInt(UIStrings.GigHitbox, ref selectedPreset.HitboxSize))
-            {
-                selectedPreset.HitboxSize = Math.Max(0, Math.Min(selectedPreset.HitboxSize, 300));
-                Service.Save();
-            }
-
-            DrawUtil.SpacingSeparator();
-
-            selectedPreset.DrawOptions();
+            ImGui.EndChild();
         }
-
-        ImGui.EndChild();
     }
 
     public void DrawPresetSelector()

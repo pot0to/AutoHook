@@ -126,6 +126,12 @@ public static class DrawUtil
             ImGui.SetTooltip(text);
     }
 
+    public static bool SubCheckbox(string label, ref bool refValue, string helpText = "", bool hoverHelpText = false)
+    {
+        TextV($" └");
+        ImGui.SameLine();
+        return Checkbox(label, ref refValue, helpText, hoverHelpText);
+    }
     public static bool Checkbox(string label, ref bool refValue, string helpText = "", bool hoverHelpText = false)
     {
         bool clicked = false;

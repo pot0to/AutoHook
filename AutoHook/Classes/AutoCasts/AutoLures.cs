@@ -4,8 +4,8 @@ using AutoHook.Utils;
 using ImGuiNET;
 using System;
 using System.Linq;
-using AutoHook.Enums;
 using ECommons.Throttlers;
+using static AutoHook.Enums.FishingState;
 
 namespace AutoHook.Classes.AutoCasts;
 
@@ -30,7 +30,7 @@ public class AutoLures : BaseActionCast
         if (PlayerRes.GetStatusStacks(StatusId) >= LureStacks)
             return false;
 
-        if (Service.EventFramework.FishingState != FishingState.Fishing)
+        if (Service.EventFramework.FishingState is not (NormalFishing or LureFishing))
             return false;
 
         return true;

@@ -101,6 +101,18 @@ public class SubTabAutoCast
     {
         if (!acCfg.EnableAll && !Service.Configuration.DontHideOptionsDisabled)
             return;
+        
+        if (ImGui.TreeNodeEx("Animation Canceling", ImGuiTreeNodeFlags.FramePadding))
+        {
+            DrawUtil.Checkbox("Enable recasting animation cancel", ref acCfg.RecastAnimationCancel, "Doesn't work if a fish is hooked, only works when recasting from a failed/canceled attempt");
+            if (acCfg.RecastAnimationCancel)
+                DrawUtil.SubCheckbox("Turn Collector's Glove off if Auto Collect is also disabled", ref acCfg.TurnCollectOff, "Animation canceling requires turning Collector's Glove on before casting the line, this option ensures Collector's Glove will remain off while fishing");
+            
+            DrawUtil.Checkbox("Enable Chum animation cancel", ref acCfg.ChumAnimationCancel, "Experimental and not consistent (maybe because of ping). Action \'Salvage\' will be activated");
+
+            ImGui.Separator();
+            ImGui.TreePop();
+        }
 
         DrawUtil.DrawCheckboxTree(UIStrings.AutoCastOnlyAtSpecificTimes, ref acCfg.OnlyCastDuringSpecificTime, () =>
         {
@@ -127,7 +139,7 @@ public class SubTabAutoCast
                 Service.Save();
             }
         }, UIStrings.SpecificTimeWindowHelpText);
-
+        
         ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
 
         if (ImGui.BeginChild("AutoCastItems", new Vector2(0, 0), true))

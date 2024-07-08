@@ -9,6 +9,7 @@ using Dalamud.Plugin.Services;
 using Dalamud;
 using AutoHook.Configurations;
 using Dalamud.Game.ClientState.Objects;
+using ECommons.Automation.NeoTaskManager;
 
 namespace AutoHook;
 
@@ -44,7 +45,13 @@ public class Service
 
     public static string Status = @"";
     
-    public static BaitFishClass LastCatch { get; set; } = new(@"-", -1); 
+    public static BaitFishClass LastCatch { get; set; } = new(@"-", -1);
+
+    public static readonly TaskManager TaskManager = new TaskManager()
+    {
+        DefaultConfiguration = { TimeLimitMS = 5000 }
+    };
+
     
     public static void Save()
     {

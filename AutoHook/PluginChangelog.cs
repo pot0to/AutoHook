@@ -8,6 +8,17 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.2.8.0")
+        {
+            Main = 
+            {
+                "Added new animation canceling options when recasting line and chum",
+            },
+            Minor =
+            {
+                "Fixed timeout not working correctly"
+            }
+        }, 
         new Version("4.2.7.0")
         {
             Main = 

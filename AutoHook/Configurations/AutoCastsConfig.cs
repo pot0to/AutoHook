@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using AutoHook.Classes;
 using AutoHook.Classes.AutoCasts;
+using AutoHook.Data;
 using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
@@ -19,6 +20,10 @@ public class AutoCastsConfig
     public TimeOnly EndTime = new(0);
 
     public bool OnlyCastDuringSpecificTime = false;
+
+    public bool RecastAnimationCancel;
+    public bool TurnCollectOff;
+    public bool ChumAnimationCancel;
 
     public AutoCastLine CastLine = new();
     public AutoMooch CastMooch = new();
@@ -91,11 +96,28 @@ public class AutoCastsConfig
         if (!action.Enabled || !action.IsAvailableToCast(ignoreCurrentMooch))
             return false;
 
-        if (noDelay)
+        if (action.Id == IDs.Actions.Chum && ChumAnimationCancel)
+            TryChumAnimationCancel();
+        else if (noDelay)
             PlayerRes.CastActionNoDelay(action.Id, action.ActionType, action.GetName());
         else
             PlayerRes.CastActionDelayed(action.Id, action.ActionType, action.GetName());
 
         return true;
+    }
+
+    private void TryChumAnimationCancel()
+    {
+        Service.PrintDebug("Trying to cancel chum animation");
+        // Make sure Salvage is disabled before chum
+        if (PlayerRes.HasStatus(IDs.Status.Salvage))
+            Service.TaskManager.Enqueue(() => PlayerRes.CastAction(IDs.Actions.Salvage));
+        
+        Service.TaskManager.EnqueueDelay(40);
+        Service.TaskManager.Enqueue(() => PlayerRes.CastAction(IDs.Actions.Chum));
+        
+        // Recast Salvage a few ms's later, maybe 500 is enough?
+        Service.TaskManager.EnqueueDelay(465);
+        Service.TaskManager.Enqueue(() => PlayerRes.CastAction(IDs.Actions.Salvage));
     }
 }

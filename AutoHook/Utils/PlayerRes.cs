@@ -207,7 +207,6 @@ public static class PlayerRes
         {
             _blockCasting = true;
             Service.PrintDebug(@$"[PlayerResources] Using Item: {actionName}, Id: {actionId}");
-            Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
             try
             {
                 UseItems(actionId);

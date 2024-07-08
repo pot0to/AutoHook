@@ -10,6 +10,7 @@ using AutoHook.Utils;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
 using ECommons;
+using ECommons.Automation.NeoTaskManager;
 using PunishLib;
 
 namespace AutoHook;
@@ -47,9 +48,9 @@ public class AutoHook : IDalamudPlugin
     
     public AutoHook(IDalamudPluginInterface pluginInterface)
     {
+        ECommonsMain.Init(pluginInterface, this, Module.All);
         Service.Initialize(pluginInterface);
         AutoHookIPC.Init();
-        ECommonsMain.Init(pluginInterface, this, Module.All);
         PunishLibMain.Init(pluginInterface, "AutoHook", new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
         Plugin = this;
         Service.EventFramework = new EventFramework();
