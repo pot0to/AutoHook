@@ -153,14 +153,14 @@ public class PluginUi : Window, IDisposable
                 {
                     if (tab.Enabled == false) continue;
 
-                    ImGui.PushID(tab.TabName);
-                    if (ImGui.BeginTabItem($"{tab.TabName}###{tab.TabName}"))
+                    if (ImGui.BeginTabItem($"{tab.TabName}###{tab.TabName}Main"))
                     {
+                        ImGui.PushID($"{tab.TabName}MainId");
                         tab.DrawHeader();
                         tab.Draw();
+                        ImGui.PopID();
                         ImGui.EndTabItem();
                     }
-                    ImGui.PopID();
                 }
 
                 if (ImGui.BeginTabItem(UIStrings.AboutTab))

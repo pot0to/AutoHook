@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.8.1")
+        new Version("4.2.8.2")
         {
             Main = 
             {
@@ -19,7 +19,9 @@ public static class PluginChangelog
             Minor =
             {
                 "Preset List can be resized",
-                "Fixed animation cancel spamming collect"
+                "Fixed animation cancel spamming collect",
+                "Fixed preset DropDownMenu, i hate ImGui"
+
             }
         }, 
         new Version("4.2.7.0")
