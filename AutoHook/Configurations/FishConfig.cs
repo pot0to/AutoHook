@@ -36,8 +36,6 @@ public class FishConfig
     
     public bool NeverMooch = false;
     
-    public bool NeverRelease = false;
-    
     public FishingSteps StopFishingStep = FishingSteps.None;
     
     public FishConfig(){}

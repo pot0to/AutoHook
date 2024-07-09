@@ -56,6 +56,7 @@ public class TabConfigGuides : BaseTab
         {
             DrawDelayHook();
             DrawDelayCasts();
+            DrawDelayCancel();
             ImGui.TreePop();
         }
 
@@ -98,23 +99,23 @@ public class TabConfigGuides : BaseTab
         ImGui.PushID("DrawDelayHook");
 
         ImGui.TextWrapped(UIStrings.Delay_when_hooking);
+        
+        ref var min = ref Service.Configuration.DelayBetweenHookMin;
+        ref var max = ref Service.Configuration.DelayBetweenHookMax;
 
         ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputInt(UIStrings.DrawConfigs_Min_, ref Service.Configuration.DelayBetweenHookMin, 0))
+        if (ImGui.InputInt(UIStrings.DrawConfigs_Min_, ref min,0))
         {
-            Service.Configuration.DelayBetweenHookMin =
-                Math.Max(0, Math.Min(Service.Configuration.DelayBetweenHookMin, 9999));
+            min = Math.Clamp(min, 0, max);
             Service.Save();
         }
 
         ImGui.SameLine();
 
         ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputInt(UIStrings.DrawConfigs_Max_, ref Service.Configuration.DelayBetweenHookMax, 0))
+        if (ImGui.InputInt(UIStrings.DrawConfigs_Max_, ref max, 0))
         {
-            Service.Configuration.DelayBetweenHookMax =
-                Math.Max(0, Math.Min(Service.Configuration.DelayBetweenHookMax, 9999));
-
+            max = Math.Clamp(max, min, 9999);
             Service.Save();
         }
 
@@ -126,21 +127,51 @@ public class TabConfigGuides : BaseTab
         ImGui.PushID("DrawDelayCasts");
 
         ImGui.TextWrapped(UIStrings.Delay_Between_Casts);
-
+        
+        ref var min = ref Service.Configuration.DelayBetweenCastsMin;
+        ref var max = ref Service.Configuration.DelayBetweenCastsMax;
+        
         ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputInt(UIStrings.DrawConfigs_Min_, ref Service.Configuration.DelayBetweenCastsMin, 0))
+        if (ImGui.InputInt(UIStrings.DrawConfigs_Min_, ref min, 0))
         {
-            Service.Configuration.DelayBetweenCastsMin =
-                Math.Max(0, Math.Min(Service.Configuration.DelayBetweenCastsMin, 9999));
+            min = Math.Clamp(min, 0, max);
             Service.Save();
         }
 
         ImGui.SameLine();
         ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
-        if (ImGui.InputInt(UIStrings.DrawConfigs_Max_, ref Service.Configuration.DelayBetweenCastsMax, 0))
+        if (ImGui.InputInt(UIStrings.DrawConfigs_Max_, ref max, 0))
         {
-            Service.Configuration.DelayBetweenCastsMax =
-                Math.Max(0, Math.Min(Service.Configuration.DelayBetweenCastsMax, 9999));
+            max = Math.Clamp(max, min, 9999);
+            Service.Save();
+        }
+
+        ImGui.PopID();
+    }
+    
+    private static void DrawDelayCancel()
+    {
+        ImGui.PushID("DrawDelayCancel");
+
+        DrawUtil.TextV(UIStrings.DelayBeforeCancel);
+        ImGui.SameLine();
+        DrawUtil.Info(UIStrings.DelayBeforeCancelInfo);
+        
+        ref var min = ref Service.Configuration.DelayBeforeCancelMin;
+        ref var max = ref Service.Configuration.DelayBetweenCastsMax;
+        
+        ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
+        if (ImGui.InputInt(UIStrings.DrawConfigs_Min_, ref min, 0))
+        {
+            min = Math.Clamp(min, 0, max);
+            Service.Save();
+        }
+
+        ImGui.SameLine();
+        ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
+        if (ImGui.InputInt(UIStrings.DrawConfigs_Max_, ref max, 0))
+        {
+            max = Math.Clamp(max, min, 9999);
             Service.Save();
         }
 

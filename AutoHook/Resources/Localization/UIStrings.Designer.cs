@@ -893,6 +893,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delay before canceling the fishing attempt (in ms).
+        /// </summary>
+        internal static string DelayBeforeCancel {
+            get {
+                return ResourceManager.GetString("DelayBeforeCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will delay the use of action Rest when an unwanted bite happens and is not hooked.
+        /// </summary>
+        internal static string DelayBeforeCancelInfo {
+            get {
+                return ResourceManager.GetString("DelayBeforeCancelInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delay Settings.
         /// </summary>
         internal static string DelaySettings {
@@ -2061,6 +2079,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use when Patience/Prize Catch is active.
+        /// </summary>
+        internal static string OnlyCastLarge {
+            get {
+                return ResourceManager.GetString("OnlyCastLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only hook when Identical Cast is active.
         /// </summary>
         internal static string OnlyHookWhenActiveIdentical {
@@ -2561,6 +2588,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Size {
             get {
                 return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spareful Hand.
+        /// </summary>
+        internal static string SparefulHand {
+            get {
+                return ResourceManager.GetString("SparefulHand", resourceCulture);
             }
         }
         

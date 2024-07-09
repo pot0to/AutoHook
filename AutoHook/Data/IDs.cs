@@ -32,6 +32,7 @@ namespace AutoHook.Data
                 BigGameFishing = 37046,
                 AmbitiousLure = 37594,
                 ModestLure = 37595,
+                TruthOcean = 7911,
                 None = 0;
         }
 
@@ -51,6 +52,7 @@ namespace AutoHook.Data
                 CollectorsGlove = 805,
                 Salvage = 1172,
                 FishEyes = 762,
+                TruthOcean = 1173,
                 BigGameFishing = 3907,
                 AmbitiousLure = 3972,
                 ModestLure = 3973,

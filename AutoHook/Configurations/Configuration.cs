@@ -35,9 +35,12 @@ public class Configuration : IPluginConfiguration
     public int DelayBetweenCastsMin = 600;
     public int DelayBetweenCastsMax = 1000;
 
-    public int DelayBetweenHookMin = 0;
-    public int DelayBetweenHookMax = 0;
+    public int DelayBetweenHookMin = 100;
+    public int DelayBetweenHookMax = 200;
 
+    public int DelayBeforeCancelMin = 1500;
+    public int DelayBeforeCancelMax = 2000;
+    
     [DefaultValue(true)] public bool ShowStatusHeader = true;
     public bool ShowPresetsAsSidebar = false;
 

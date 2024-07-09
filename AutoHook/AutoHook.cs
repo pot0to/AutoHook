@@ -53,8 +53,7 @@ public class AutoHook : IDalamudPlugin
         AutoHookIPC.Init();
         PunishLibMain.Init(pluginInterface, "AutoHook", new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
         Plugin = this;
-        Service.EventFramework = new EventFramework();
-        Service.EquipedBait = new CurrentBait(Service.SigScanner);
+        Service.FishingManager = new FishingManager();
         Service.TugType = new SeTugType(Service.SigScanner);
         Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi += OnOpenConfigUi;

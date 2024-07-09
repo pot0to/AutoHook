@@ -49,7 +49,7 @@ public class AutoCastsConfig
             CastChum,
             CastFishEyes,
             CastPrizeCatch,
-            CastCollect,
+            //CastCollect,
             CastBigGame
         }.OrderBy(x => x.Priority).ToList();
 

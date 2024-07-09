@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AutoHook.Data;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
@@ -32,6 +33,14 @@ public static class PlayerRes
         }
 
         return false;
+    }
+    
+    public static bool HasAnyStatus(uint[] statusIDs)
+    {
+        if (Service.ClientState.LocalPlayer?.StatusList == null)
+            return false;
+
+        return Service.ClientState.LocalPlayer.StatusList.Any(buff => statusIDs.Contains(buff.StatusId));
     }
 
     public static unsafe bool IsInActiveSpectralCurrent()
@@ -138,6 +147,9 @@ public static class PlayerRes
     {
         return ActionManager.Instance()->GetRecastGroup((int)actionType, id);
     }
+    
+    public static unsafe int HasItem(uint itemId)
+        => InventoryManager.Instance()->GetInventoryItemCount(itemId);
 
     public static unsafe void UseItems(uint id)
     {
@@ -234,8 +246,9 @@ public static class PlayerRes
         {
             if (ActionTypeAvailable(actionId, actionType))
             {
-                Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
-                CastAction(actionId);
+                var casted = CastAction(actionId);
+                if (casted)
+                    Service.PrintDebug(@$"[PlayerResources] Casting Action: {actionName}, Id: {actionId}");
             }
         }
         else if (actionType == ActionType.Item)

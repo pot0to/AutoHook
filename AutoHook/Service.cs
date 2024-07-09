@@ -34,10 +34,8 @@ public class Service
     [PluginService] public static IPluginLog  PluginLog { get; private set; } = null!;
     [PluginService] public static ICondition Condition { get;private set; } = null!;
     [PluginService] public static ITargetManager TargetManager { get; private set; } = null!;
-
-
-    public static EventFramework EventFramework { get; set; } = null!;
-    public static CurrentBait EquipedBait { get; set; } = null!;
+    
+    public static FishingManager FishingManager { get; set; } = null!;
     public static Configuration Configuration { get; set; } = null!;
     public static WindowSystem WindowSystem { get; } = new(PluginName);
     public static SeTugType TugType { get; set; } = null!;
