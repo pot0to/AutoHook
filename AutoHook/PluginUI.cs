@@ -28,13 +28,14 @@ public class PluginUi : Window, IDisposable
         new TabConfigGuides()
     };
 
-    public PluginUi() : base($"{Service.PluginName} {Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? ""}###MainAutoHook")
+    public PluginUi() : base(
+        $"{Service.PluginName} {Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? ""}###MainAutoHook")
     {
         Service.WindowSystem.AddWindow(this);
-        
+
         Flags |= ImGuiWindowFlags.NoScrollbar;
         Flags |= ImGuiWindowFlags.NoScrollWithMouse;
-        
+
         TitleBarButtons.Add(new()
         {
             Click = (m) => { OpenBrowser(@"https://ko-fi.com/initialdet"); },
@@ -80,7 +81,7 @@ public class PluginUi : Window, IDisposable
         ImGui.SameLine();
 
         DrawChangelog();
-       
+
         /*if (ImGui.IsItemHovered())
             ImGui.SetTooltip(
                 "Start using your Auto Casts!\n\nYou can also use the command /ahstart to start fishing based on your Auto Cast settings. Try making a macro with it!");*/
@@ -144,28 +145,36 @@ public class PluginUi : Window, IDisposable
 
     private void DrawTabs()
     {
-        if (ImGui.BeginTabBar(@"AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
+        try
         {
-            foreach (var tab in _tabs)
+            if (ImGui.BeginTabBar(@"AutoHook###TabBars", ImGuiTabBarFlags.NoTooltip))
             {
-                if (tab.Enabled == false) continue;
-
-                if (ImGui.BeginTabItem(tab.TabName))
+                foreach (var tab in _tabs)
                 {
+                    if (tab.Enabled == false) continue;
+
                     ImGui.PushID(tab.TabName);
-                    tab.DrawHeader();
-                    tab.Draw();
+                    if (ImGui.BeginTabItem($"{tab.TabName}###{tab.TabName}"))
+                    {
+                        tab.DrawHeader();
+                        tab.Draw();
+                        ImGui.EndTabItem();
+                    }
                     ImGui.PopID();
+                }
+
+                if (ImGui.BeginTabItem(UIStrings.AboutTab))
+                {
+                    AboutTab.Draw("AutoHook");
                     ImGui.EndTabItem();
                 }
-            }
 
-            if (ImGui.BeginTabItem(UIStrings.AboutTab))
-            {
-                AboutTab.Draw("AutoHook");
-                ImGui.EndTabItem();
+                ImGui.EndTabBar();
             }
-
+        }
+        catch (Exception e)
+        {
+            Service.PluginLog.Error(e.Message);
             ImGui.EndTabBar();
         }
     }

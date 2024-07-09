@@ -71,64 +71,85 @@ public class TabCustomPresets : BaseTab
 
     public override void Draw()
     {
-        if (Service.Configuration.ShowPresetsAsSidebar)
+        try
         {
-            DrawListboxPresets();
+            if (Service.Configuration.ShowPresetsAsSidebar)
+            {
+                DrawListboxPresets();
+            }
+            else
+                DrawStandardTabs();
         }
-        else
-            DrawStandardTabs();
+        catch (Exception e)
+        {
+            Service.PluginLog.Error(e.Message);
+        }
+        
+        
     }
-
+    
     private void DrawListboxPresets()
     {
-        ImGui.BeginGroup();
-
-        DrawAddPresetButton();
-
-        ImGui.SameLine();
-
-        DrawImportExport();
-
-        ImGui.SameLine();
-
-        DrawDeletePreset();
-
-        TimedWarning();
-
-        if (ImGui.BeginListBox("", new Vector2(175, -1)))
+        ImGui.BeginGroup(); 
+        if (ImGui.BeginTable("LeftPresetList", 2, ImGuiTableFlags.Resizable))
         {
-            if (ImGui.Selectable(UIStrings.None, _hookPresets.SelectedPreset == null))
+            ImGui.TableSetupColumn($"###Left1Column", ImGuiTableColumnFlags.WidthFixed, 200);
+            ImGui.TableNextColumn();
+            if (ImGui.BeginChild($"###GigaPresetList"))
             {
-                Service.Save();
-                _hookPresets.SelectedPreset = null;
-            }
+                DrawAddPresetButton();
 
-            foreach (var preset in _hookPresets.CustomPresets)
-            {
-                if (ImGui.Selectable(preset.PresetName, preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
+                ImGui.SameLine();
+
+                DrawImportExport();
+
+                ImGui.SameLine();
+
+                DrawDeletePreset();
+
+                TimedWarning();
+
+                if (ImGui.BeginListBox("###PresetList", ImGui.GetContentRegionAvail()))
                 {
-                    Service.Save();
-                    _hookPresets.SelectedPreset = preset;
+                    if (ImGui.Selectable(UIStrings.None, _hookPresets.SelectedPreset == null))
+                    {
+                        Service.Save();
+                        _hookPresets.SelectedPreset = null;
+                    }
+
+                    foreach (var preset in _hookPresets.CustomPresets)
+                    {
+                        if (ImGui.Selectable(preset.PresetName,
+                                preset.PresetName == _hookPresets.SelectedPreset?.PresetName))
+                        {
+                            Service.Save();
+                            _hookPresets.SelectedPreset = preset;
+                        }
+
+                        if (ImGui.IsItemHovered())
+                            ImGui.SetTooltip(UIStrings.RightClickToRename);
+
+                        DrawEditPresetNameListbox(preset.PresetName);
+                    }
+
+                    ImGui.EndListBox();
                 }
-
-                if (ImGui.IsItemHovered())
-                    ImGui.SetTooltip(UIStrings.RightClickToRename);
-
-                DrawEditPresetNameListbox(preset.PresetName);
+                
+                ImGui.EndChild();
             }
 
-            ImGui.EndListBox();
+            ImGui.TableNextColumn();
+            if (ImGui.BeginChild($"###FishingOptions"))
+            {
+
+                DrawStandardTabs();
+                ImGui.EndChild();
+            }
+            
+            ImGui.EndTable();
         }
-
-        ImGui.EndGroup();
-
-        ImGui.SameLine();
-
-        if (ImGui.BeginChild("ChildPresetTabs"))
-        {
-            DrawStandardTabs();
-            ImGui.EndChild();
-        }
+        
+        ImGui.EndGroup(); 
     }
 
     private void DrawStandardTabs()

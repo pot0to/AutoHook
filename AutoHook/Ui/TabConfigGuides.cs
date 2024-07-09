@@ -158,7 +158,7 @@ public class TabConfigGuides : BaseTab
         DrawUtil.Info(UIStrings.DelayBeforeCancelInfo);
         
         ref var min = ref Service.Configuration.DelayBeforeCancelMin;
-        ref var max = ref Service.Configuration.DelayBetweenCastsMax;
+        ref var max = ref Service.Configuration.DelayBeforeCancelMax;
         
         ImGui.SetNextItemWidth(45 * ImGuiHelpers.GlobalScale);
         if (ImGui.InputInt(UIStrings.DrawConfigs_Min_, ref min, 0))

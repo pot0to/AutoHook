@@ -8,15 +8,18 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.2.8.0")
+        new Version("4.2.8.1")
         {
             Main = 
             {
-                "Added new animation canceling options when recasting line and chum",
+                "Initial support for swimbait to be recognized as bait/mooch. This will be improved later",
+                "Added optional delay before canceling a bite in the"
+               
             },
             Minor =
             {
-                "Fixed timeout not working correctly"
+                "Preset List can be resized",
+                "Fixed animation cancel spamming collect"
             }
         }, 
         new Version("4.2.7.0")
@@ -328,7 +331,7 @@ public static class PluginChangelog
             {
                 "(by Jaksuhn) Added swap preset/bait on Spectral Currents",
                 "(by Jaksuhn) Added more Surface Slap options",
-                "(by Jaksuhn) Added option to chum only when intution duration is greater than x seconds",
+                "(by Jaksuhn) Added option to chum only when intuition duration is greater than x seconds",
             },
             Minor =
             {
@@ -352,13 +355,13 @@ public static class PluginChangelog
         {
             Main =
             {
-                "Added new subtab 'Extra' for extra options",
+                "Added new sub-tab 'Extra' for extra options",
                 "Added options to change bait/presets when gaining/losing intuition",
                 "(Config) Added optional delay for hooking or auto casting",
             },
             Minor =
             {
-                "Pantience I/II has priority over MakeShift Bait if both options are enabled",
+                "Patience I/II has priority over MakeShift Bait if both options are enabled",
                 "Added a new command to open the plugin menu",
                 "Minor text changes"
             }
@@ -397,14 +400,14 @@ public static class PluginChangelog
             },
             Minor =
             {
-                "Removed captalization for bait names",
+                "Removed capitalization for bait names",
             }
         },
         new Version("2.4.3.0")
         {
             Main =
             {
-                "Added Watered Cortials for AutoCasts"
+                "Added Watered Cordials for AutoCasts"
             },
             Minor =
             {
