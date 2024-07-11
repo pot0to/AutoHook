@@ -2828,6 +2828,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Switches fishing baits (by Name or ID).
+        /// </summary>
+        internal static string SwitchFishBait {
+            get {
+                return ResourceManager.GetString("SwitchFishBait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string Tab_Description {

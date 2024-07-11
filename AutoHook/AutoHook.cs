@@ -28,6 +28,8 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAhtg = "/ahtg";
     private const string CmdAhPreset = "/ahpreset";
     private const string CmdAhStart = "/ahstart";
+    private const string CmdAhBait = "/ahbait";
+    private const string CmdBait = "/bait";
     
     private static readonly Dictionary<string, string> CommandHelp = new()
     {
@@ -37,7 +39,8 @@ public class AutoHook : IDalamudPlugin
         {CmdAh, UIStrings.Opens_Config_Window},
         {CmdAhtg, UIStrings.Toggles_AutoHook_On_Off},
         {CmdAhPreset, UIStrings.Set_preset_command},
-        {CmdAhStart, UIStrings.Starts_AutoHook}
+        {CmdAhBait, UIStrings.SwitchFishBait},
+        {CmdBait, UIStrings.SwitchFishBait}
     };
     
     private static PluginUi _pluginUi = null!;
@@ -111,9 +114,19 @@ public class AutoHook : IDalamudPlugin
             case CmdAhStart:
                 HookManager.StartFishing();
                 break;
+            case CmdBait:
+            case CmdAhBait:
+                SwapBait(args);
+                break;
         }
     }
-    
+
+    private static void SwapBait(string args)
+    {
+        var bait = GameRes.Baits.FirstOrDefault(f => f.Name.ToLower() == args.ToLower() || f.Id.ToString() == args);
+        Service.PrintChat($"Bait Swap: {Service.FishingManager.ChangeBait((uint)bait?.Id)}");
+    }
+
     private static void SetPreset(string presetName)
     {
         var preset = Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == presetName);
