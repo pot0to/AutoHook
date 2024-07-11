@@ -39,6 +39,7 @@ public class AutoHook : IDalamudPlugin
         {CmdAh, UIStrings.Opens_Config_Window},
         {CmdAhtg, UIStrings.Toggles_AutoHook_On_Off},
         {CmdAhPreset, UIStrings.Set_preset_command},
+        {CmdAhStart, UIStrings.Starts_AutoHook},
         {CmdAhBait, UIStrings.SwitchFishBait},
         {CmdBait, UIStrings.SwitchFishBait}
     };
