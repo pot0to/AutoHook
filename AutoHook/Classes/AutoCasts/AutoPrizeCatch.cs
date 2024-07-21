@@ -31,9 +31,11 @@ public class AutoPrizeCatch : BaseActionCast
         if (UseWhenMoochIIOnCD && !PlayerRes.ActionOnCoolDown(IDs.Actions.Mooch2))
             return false;
         
-        var slapOrIc = UseOnlyWithIdenticalCast && PlayerRes.HasStatus(IDs.Status.IdenticalCast) ||
-                       UseOnlyWithActiveSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap);
-        
+        var slapOrIc = true;
+        if (UseOnlyWithIdenticalCast || UseOnlyWithActiveSlap)
+            slapOrIc = UseOnlyWithIdenticalCast && PlayerRes.HasStatus(IDs.Status.IdenticalCast) ||
+                    UseOnlyWithActiveSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap);
+
         if (PlayerRes.HasStatus(IDs.Status.MakeshiftBait))
             return false;
 

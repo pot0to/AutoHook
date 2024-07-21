@@ -9,13 +9,12 @@ namespace AutoHook.Classes.AutoCasts;
 public class AutoBigGameFishing : BaseActionCast
 {
     public int AnglersStacks = 2;
-    
+
     public bool WithIdenticalC = false;
     public bool WithSlap = false;
-    
+
     public AutoBigGameFishing() : base(UIStrings.BigGameFishing, IDs.Actions.BigGameFishing)
     {
-        
     }
 
     public override string GetName()
@@ -25,24 +24,26 @@ public class AutoBigGameFishing : BaseActionCast
     {
         if (PlayerRes.HasStatus(IDs.Status.BigGameFishing))
             return false;
-        
-        var slapOrIc = WithIdenticalC && PlayerRes.HasStatus(IDs.Status.IdenticalCast) ||
+
+        var slapOrIc = true;
+        if (WithIdenticalC || WithSlap)
+            slapOrIc = WithIdenticalC && PlayerRes.HasStatus(IDs.Status.IdenticalCast) ||
                        WithSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap);
-        
+
         bool hasStacks = PlayerRes.HasAnglersArtStacks(AnglersStacks);
-        
+
         return hasStacks && slapOrIc;
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>
     {
         var stack = AnglersStacks;
-        if (DrawUtil.EditNumberField(UIStrings.TabAutoCasts_DrawExtraOptionsThaliaksFavor_, ref stack,"", 1))
+        if (DrawUtil.EditNumberField(UIStrings.TabAutoCasts_DrawExtraOptionsThaliaksFavor_, ref stack, "", 1))
         {
             AnglersStacks = Math.Max(2, Math.Min(stack, 10));
             Service.Save();
         }
-        
+
         DrawUtil.Checkbox(UIStrings.UseIcActive, ref WithIdenticalC);
         DrawUtil.Checkbox(UIStrings.UseSlapActive, ref WithSlap);
     };

@@ -2781,6 +2781,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set Autogig preset by chat command -&gt; /agpreset presetName.
+        /// </summary>
+        internal static string Set_agpreset_command {
+            get {
+                return ResourceManager.GetString("Set_agpreset_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set custom preset by chat command -&gt; /ahpreset presetName.
         /// </summary>
         internal static string Set_preset_command {

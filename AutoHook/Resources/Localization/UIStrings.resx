@@ -896,6 +896,9 @@ Check the Guide Tab for Guides.</value>
   <data name="Set_preset_command" xml:space="preserve">
     <value>Set custom preset by chat command -&gt; /ahpreset presetName</value>
   </data>
+  <data name="Set_agpreset_command" xml:space="preserve">
+    <value>Set Autogig preset by chat command -&gt; /agpreset presetName</value>
+  </data>
   <data name="Starts_AutoHook" xml:space="preserve">
     <value>Start casting with your selected preset</value>
   </data>
