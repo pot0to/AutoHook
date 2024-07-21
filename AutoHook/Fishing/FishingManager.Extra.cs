@@ -94,7 +94,7 @@ public partial class FishingManager
                     Service.Save();
                     Presets.SelectedPreset = preset;
                     Service.PrintChat(
-                        @$"[Extra] Spectral Current Ended: Swapping preset to {extraCfg.SwapPresetSpectralCurrentLost}");
+                        @$"[Extra] Spectral Current Ended: Swapping preset to {extraCfg.PresetToSwapIntuitionLost}");
                     Service.Save();
                 }
                 else
