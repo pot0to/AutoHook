@@ -33,6 +33,7 @@ public class AutoHook : IDalamudPlugin
     private const string CmdAhStart = "/ahstart";
     private const string CmdAhBait = "/ahbait";
     private const string CmdBait = "/bait";
+    private const string CmdAgPreset = "/agpreset";
 
     private static readonly Dictionary<string, string> CommandHelp = new()
     {
@@ -44,7 +45,8 @@ public class AutoHook : IDalamudPlugin
         { CmdAhPreset, UIStrings.Set_preset_command },
         { CmdAhStart, UIStrings.Starts_AutoHook },
         { CmdAhBait, UIStrings.SwitchFishBait },
-        { CmdBait, UIStrings.SwitchFishBait }
+        { CmdBait, UIStrings.SwitchFishBait },
+        { CmdAgPreset, UIStrings.Set_agpreset_command }
     };
 
     private static PluginUi _pluginUi = null!;
@@ -83,6 +85,7 @@ public class AutoHook : IDalamudPlugin
                 HelpMessage = help
             });
         }
+
 
         HookManager = new FishingManager();
 
@@ -125,6 +128,9 @@ public class AutoHook : IDalamudPlugin
             case CmdAhBait:
                 SwapBait(args);
                 break;
+            case CmdAgPreset:
+                SetGigPreset(args);
+                break;
         }
     }
 
@@ -146,6 +152,21 @@ public class AutoHook : IDalamudPlugin
         Service.Save();
         Service.Configuration.HookPresets.SelectedPreset = preset;
         Service.Chat.Print(@$"{UIStrings.Preset_set_to_} {preset.PresetName}");
+        Service.Save();
+    }
+
+    private static void SetGigPreset(string presetName)
+    {
+        var preset = Service.Configuration.AutoGigConfig.Presets.FirstOrDefault(x => x.Name == presetName);
+        if (preset == null)
+        {
+            Service.Chat.Print(UIStrings.Preset_not_found);
+            Service.Chat.Print(presetName);
+            return;
+        }
+        Service.Save();
+        Service.Configuration.AutoGigConfig.SetSelectedPreset(preset.UniqueId);
+        Service.Chat.Print(@$"{UIStrings.Gig_preset_set_to_} {preset.Name}");
         Service.Save();
     }
 
