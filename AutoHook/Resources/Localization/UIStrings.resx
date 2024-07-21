@@ -1376,4 +1376,7 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="GetWikiPresets" xml:space="preserve">
     <value>Get Wiki Presets</value>
   </data>
+  <data name="ClickToToggle" xml:space="preserve">
+    <value>Click to toggle on/off</value>
+  </data>
 </root>

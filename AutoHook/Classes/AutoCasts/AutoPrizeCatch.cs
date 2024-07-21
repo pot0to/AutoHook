@@ -2,6 +2,7 @@
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using ImGuiNET;
 
 namespace AutoHook.Classes.AutoCasts;
 
@@ -29,11 +30,10 @@ public class AutoPrizeCatch : BaseActionCast
 
         if (UseWhenMoochIIOnCD && !PlayerRes.ActionOnCoolDown(IDs.Actions.Mooch2))
             return false;
-
-        if (UseOnlyWithIdenticalCast && !PlayerRes.HasStatus(IDs.Status.IdenticalCast) && UseOnlyWithActiveSlap &&
-            !PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
-            return false;
-
+        
+        var slapOrIc = UseOnlyWithIdenticalCast && PlayerRes.HasStatus(IDs.Status.IdenticalCast) ||
+                       UseOnlyWithActiveSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap);
+        
         if (PlayerRes.HasStatus(IDs.Status.MakeshiftBait))
             return false;
 
@@ -43,7 +43,7 @@ public class AutoPrizeCatch : BaseActionCast
         if (PlayerRes.HasStatus(IDs.Status.AnglersFortune))
             return false;
 
-        return PlayerRes.ActionTypeAvailable(IDs.Actions.PrizeCatch);
+        return slapOrIc && PlayerRes.ActionTypeAvailable(IDs.Actions.PrizeCatch);
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>
@@ -52,8 +52,14 @@ public class AutoPrizeCatch : BaseActionCast
             ref UseWhenMoochIIOnCD, UIStrings.ExtraOptionPrizeCatchHelpMarker);
 
         DrawUtil.Checkbox(UIStrings.UseIcActive, ref UseOnlyWithIdenticalCast);
-        
+
         DrawUtil.Checkbox(UIStrings.UseSlapActive, ref UseOnlyWithActiveSlap);
+
+        if (ImGui.Button("Check Condition"))
+        {
+            Service.PrintChat(
+                $"{UseOnlyWithIdenticalCast && !PlayerRes.HasStatus(IDs.Status.IdenticalCast) && UseOnlyWithActiveSlap && !PlayerRes.HasStatus(IDs.Status.SurfaceSlap)}");
+        }
     };
 
     public override int Priority { get; set; } = 13;

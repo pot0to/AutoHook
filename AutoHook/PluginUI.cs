@@ -222,7 +222,7 @@ public class PluginUi : Window, IDisposable
                                 if (ImGui.IsItemHovered())
                                 {
                                     ImGui.BeginTooltip();
-                                    ImGui.Text($"Click to disable the plugin");
+                                    ImGui.Text(UIStrings.ClickToToggle);
                                     ImGui.EndTooltip();
                                 }
                             });

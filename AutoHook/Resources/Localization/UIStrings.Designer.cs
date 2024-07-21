@@ -785,6 +785,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click to toggle on/off.
+        /// </summary>
+        internal static string ClickToToggle {
+            get {
+                return ResourceManager.GetString("ClickToToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -1542,6 +1551,15 @@ namespace AutoHook.Resources.Localization {
         internal static string GetWikiPresets {
             get {
                 return ResourceManager.GetString("GetWikiPresets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gig Preset set to:.
+        /// </summary>
+        internal static string Gig_preset_set_to_ {
+            get {
+                return ResourceManager.GetString("Gig_preset_set_to_", resourceCulture);
             }
         }
         
@@ -2545,16 +2563,7 @@ namespace AutoHook.Resources.Localization {
                 return ResourceManager.GetString("Preset_set_to_", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Set custom preset by chat command -&gt; /agpreset presetName.
-        /// </summary>
-        internal static string Gig_preset_set_to_ {
-            get {
-                return ResourceManager.GetString("Gig_preset_set_to_", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to A preset with the same name already exists.
         /// </summary>
@@ -3123,16 +3132,7 @@ namespace AutoHook.Resources.Localization {
                 return ResourceManager.GetString("SwitchFishBait", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Set custom gig preset by chat command -&gt; /agpreset presetName.
-        /// </summary>
-        internal static string Set_agpreset_command {
-            get {
-                return ResourceManager.GetString("Set_agpreset_command", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>

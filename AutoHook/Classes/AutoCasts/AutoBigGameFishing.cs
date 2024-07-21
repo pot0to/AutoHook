@@ -26,13 +26,12 @@ public class AutoBigGameFishing : BaseActionCast
         if (PlayerRes.HasStatus(IDs.Status.BigGameFishing))
             return false;
         
-        if ((WithIdenticalC && !PlayerRes.HasStatus(IDs.Status.IdenticalCast)) && (WithSlap &&
-            !PlayerRes.HasStatus(IDs.Status.SurfaceSlap)))
-            return false;
+        var slapOrIc = WithIdenticalC && PlayerRes.HasStatus(IDs.Status.IdenticalCast) ||
+                       WithSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap);
         
         bool hasStacks = PlayerRes.HasAnglersArtStacks(AnglersStacks);
         
-        return hasStacks;
+        return hasStacks && slapOrIc;
     }
 
     protected override DrawOptionsDelegate DrawOptions => () =>
