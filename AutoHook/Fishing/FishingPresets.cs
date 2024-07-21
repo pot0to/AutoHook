@@ -31,6 +31,7 @@ public class FishingPresets : BasePreset
         var copy = JsonConvert.DeserializeObject<CustomPresetConfig>(json);
         copy!.UniqueId = Guid.NewGuid();
         CustomPresets.Add(copy);
+        SelectedGuid = copy.UniqueId.ToString();
         Service.Save();
     }
 

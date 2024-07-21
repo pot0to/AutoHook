@@ -21,9 +21,8 @@ public class AutoHook : IDalamudPlugin
     public string Name => UIStrings.AutoHook;
 
     internal static AutoHook Plugin = null!;
-    
+
     //todo: - Spearfishing rework
-    //todo: - make identical cast/surface slap apply before "stop fishing"
     private const string CmdAhCfg = "/ahcfg";
     private const string CmdAh = "/autohook";
     private const string CmdAhOn = "/ahon";
@@ -61,7 +60,6 @@ public class AutoHook : IDalamudPlugin
     {
         ECommonsMain.Init(pluginInterface, this, Module.All);
         Service.Initialize(pluginInterface);
-        AutoHookIpc = new AutoHookIPC();
         PunishLibMain.Init(pluginInterface, "AutoHook",
             new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
         Plugin = this;
@@ -85,9 +83,9 @@ public class AutoHook : IDalamudPlugin
                 HelpMessage = help
             });
         }
-
-
+        
         HookManager = new FishingManager();
+        AutoHookIpc = new AutoHookIPC();
 
 #if (DEBUG)
         OnOpenConfigUi();
@@ -164,8 +162,9 @@ public class AutoHook : IDalamudPlugin
             Service.Chat.Print(presetName);
             return;
         }
+
         Service.Save();
-        Service.Configuration.AutoGigConfig.SetSelectedPreset(preset.UniqueId);
+        Service.Configuration.AutoGigConfig.SelectedPreset = preset;
         Service.Chat.Print(@$"{UIStrings.Gig_preset_set_to_} {preset.Name}");
         Service.Save();
     }

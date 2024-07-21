@@ -25,8 +25,7 @@ public static class PluginChangelog
             Minor =
             {
                 "Small changes to the preset generator",
-                "Spearfishing improvements soon",
-                "Fixed that fucking bug where the last fish caught was not being detected, like really what the hell was wrong with that thing IT NEVER HAPPENED ON MY MACHINE i am losing my mind im crying right thanks for reading",
+                "Fixed that ancient bug where the last fish caught was not being detected, like really what the hell was wrong with that thing IT NEVER HAPPENED ON MY MACHINE i am losing my mind im crying right thanks for reading",
             }
         },
         new Version("4.2.8.3")

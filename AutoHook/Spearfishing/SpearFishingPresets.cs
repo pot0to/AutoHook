@@ -47,6 +47,7 @@ public class SpearFishingPresets : BasePreset
         var copy = JsonConvert.DeserializeObject<AutoGigConfig>(json);
         copy!.UniqueId = Guid.NewGuid();
         Presets.Add(copy);
+        SelectedGuid = copy.UniqueId.ToString();
         Service.Save();
     }
 

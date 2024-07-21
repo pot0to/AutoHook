@@ -1,4 +1,5 @@
-﻿using AutoHook.Configurations;
+﻿using System;
+using AutoHook.Configurations;
 using System.Linq;
 using ECommons.EzIpcManager;
 
@@ -6,61 +7,89 @@ namespace AutoHook.IPC;
 
 public class AutoHookIPC
 {
-    public  void Init()
+    private Configuration _cfg = Service.Configuration;
+
+    public AutoHookIPC()
     {
-        EzIPC.Init(this);
+        EzIPC.Init(this, "AutoHook");
     }
-    
+
     [EzIPC]
-    public static void SetPluginState(bool state)
+    public void SetPluginState(bool state)
     {
-        Service.Configuration.PluginEnabled = state;
-        Service.Save();
-    }
-    
-    [EzIPC]
-    public static void SetAutoGigState(bool state)
-    {
-        Service.Configuration.AutoGigConfig.AutoGigEnabled = state;
-        Service.Save();
-    }
-    [EzIPC]
-    public static void SetPreset(string preset)
-    {
-        Service.Save();
-        Service.Configuration.HookPresets.SelectedPreset =
-            Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == preset);
+        
+        _cfg.PluginEnabled = state;
         Service.Save();
     }
 
     [EzIPC]
-    public static void CreateAndSelectAnonymousPreset(string preset)
+    public void SetAutoGigState(bool state)
+    {
+        _cfg.AutoGigConfig.AutoGigEnabled = state;
+        Service.Save();
+    }
+
+    [EzIPC]
+    public void SetPreset(string preset)
+    {
+        Service.Save();
+        _cfg.HookPresets.SelectedPreset =
+            _cfg.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == preset);
+        Service.Save();
+    }
+
+    public void SetPresetAutogig(string preset)
+    {
+        Service.Save();
+        _cfg.AutoGigConfig.SelectedPreset =
+            _cfg.AutoGigConfig.Presets.FirstOrDefault(x => x.PresetName == preset);
+        Service.Save();
+    }
+
+    [EzIPC]
+    public void CreateAndSelectAnonymousPreset(string preset)
     {
         var _import = Configuration.ImportPreset(preset);
         if (_import == null) return;
         var name = $"anon_{_import.PresetName}";
         _import.RenamePreset(name);
         Service.Save();
-        Service.Configuration.HookPresets.AddNewPreset(_import);
-        Service.Configuration.HookPresets.SelectedPreset =
-            Service.Configuration.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == name);
+        _cfg.HookPresets.AddNewPreset(_import);
+        _cfg.HookPresets.SelectedPreset =
+            _cfg.HookPresets.CustomPresets.FirstOrDefault(x => x.PresetName == name);
         Service.Save();
     }
 
     [EzIPC]
-    public static void DeleteSelectedPreset()
+    public void ImportAndSelectPreset(string preset)
     {
-        var selected = Service.Configuration.HookPresets.SelectedPreset;
+        var _import = Configuration.ImportPreset(preset);
+        if (_import == null) return;
+        var name = $"{_import.PresetName}";
+        _import.RenamePreset(name);
+        
+        if (_import is CustomPresetConfig customPreset)
+            _cfg.HookPresets.AddNewPreset(customPreset);
+        else if (_import is AutoGigConfig gigPreset)
+            _cfg.AutoGigConfig.AddNewPreset(gigPreset);
+
+        Service.Save();
+    }
+
+    [EzIPC]
+    public void DeleteSelectedPreset()
+    {
+        var selected = _cfg.HookPresets.SelectedPreset;
         if (selected == null) return;
-        Service.Configuration.HookPresets.RemovePreset(selected.UniqueId);
-        Service.Configuration.HookPresets.SelectedPreset = null;
+        _cfg.HookPresets.RemovePreset(selected.UniqueId);
+        _cfg.HookPresets.SelectedPreset = null;
         Service.Save();
     }
 
     [EzIPC]
-    public static void DeleteAllAnonymousPresets()
+    public void DeleteAllAnonymousPresets()
     {
-        Service.Configuration.HookPresets.CustomPresets.RemoveAll(p => p.PresetName.StartsWith("anon_"));
+        _cfg.HookPresets.CustomPresets.RemoveAll(p => p.PresetName.StartsWith("anon_"));
         Service.Save();
     }
 }
