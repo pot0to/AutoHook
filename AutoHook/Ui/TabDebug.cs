@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AutoHook.Spearfishing.Struct;
 using AutoHook.Utils;
-using ECommons;
 using ECommons.Automation.NeoTaskManager;
 using ECommons.Throttlers;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using HtmlAgilityPack;
 using System.Linq;
@@ -25,19 +22,16 @@ public class TabDebug : BaseTab
 
     public TabDebug()
     {
-        taskManager.DefaultConfiguration.OnTaskTimeout += RepairFailed;
+        _taskManager.DefaultConfiguration.OnTaskTimeout += RepairFailed;
         //taskManager.DefaultConfiguration.OnTaskCompletion
     }
 
-
-    private RepairManager RepairManager;
-
-    private TaskManager taskManager = new TaskManager()
+    
+    private TaskManager _taskManager = new TaskManager()
     {
         DefaultConfiguration = { TimeLimitMS = 10000 }
     };
-
-    private static Action<string> debug => Service.PrintDebug;
+    
     public override string TabName => "Debug";
     public override bool Enabled => true;
 
@@ -77,7 +71,7 @@ public class TabDebug : BaseTab
                 if (ImGui.Button("Try repair"))
                 {
                     repairStauts = RepairStatus.Repairing;
-                    taskManager.Enqueue(ProcessRepair, "Repair");
+                    _taskManager.Enqueue(ProcessRepair, "Repair");
                 }
 
                 if (ImGui.Button("Export fish ids"))

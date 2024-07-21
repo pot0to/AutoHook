@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoHook.Data;
 using AutoHook.Enums;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -18,7 +19,7 @@ public partial class FishingManager
     private void CheckFishingState()
     {
 #if (DEBUG)
-        if (!EzThrottler.Throttle("FishingState", 500))
+        if (!EzThrottler.Throttle(@"FishingState", 500))
             return;
 
         Service.PrintDebug(
@@ -76,7 +77,7 @@ public partial class FishingManager
                 var logId = Service.DataManager.GetExcelSheet<LogMessage>()?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
                 
                 if (logId is XivChatLog.CantFish)
-                    Service.Status = "Can't fish here.";
+                    Service.Status = UIStrings.CantFishHere;
                 
             }
         }

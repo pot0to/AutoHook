@@ -177,7 +177,7 @@ public class SubTabFish
 
         var alreadySwapped = "";
         if (FishingManager.FishingHelper.SwappedBait(fishConfig.UniqueId))
-            alreadySwapped = "(Already Swapped)";
+            alreadySwapped = UIStrings.AlreadySwapped;
 
         DrawUtil.DrawCheckboxTree($"{UIStrings.Swap_Bait} {alreadySwapped}", ref fishConfig.SwapBait,
             () =>
@@ -213,7 +213,7 @@ public class SubTabFish
 
         var alreadySwapped = "";
         if (FishingManager.FishingHelper.SwappedPreset(fishConfig.UniqueId))
-            alreadySwapped = "(Already Swapped)";
+            alreadySwapped = UIStrings.AlreadySwapped;
         DrawUtil.DrawCheckboxTree($"{UIStrings.Swap_Preset} {alreadySwapped}", ref fishConfig.SwapPresets,
             () =>
             {

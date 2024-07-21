@@ -138,21 +138,21 @@ public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName
 
         using (var tabFish = ImRaii.TabItem(UIStrings.FishCaught))
         {
-            DrawUtil.HoveredTooltip("Options for when you catch a fish");
+            DrawUtil.HoveredTooltip(UIStrings.FishCaughtHelp);
             if (tabFish)
                 SubTabFish.DrawFishTab(this);
         }
 
         using (var tabExtra = ImRaii.TabItem(UIStrings.ExtraOptions))
         {
-            DrawUtil.HoveredTooltip("Just extra options");
+            DrawUtil.HoveredTooltip(UIStrings.ExtraOptionsHelp);
             if (tabExtra)
                 SubTabExtra.DrawExtraTab(this);
         }
 
         using (var tabAutoCast = ImRaii.TabItem(UIStrings.Auto_Casts))
         {
-            DrawUtil.HoveredTooltip("Options for auto casting actions");
+            DrawUtil.HoveredTooltip(UIStrings.AutoCastsHelp);
             if (tabAutoCast)
                 SubTabAutoCast.DrawAutoCastTab(this);
         }

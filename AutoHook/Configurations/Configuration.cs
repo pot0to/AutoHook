@@ -174,26 +174,6 @@ public class Configuration : IPluginConfiguration
     {
     }
 
-    public static bool BackUpPresets(string fileName)
-    {
-        var dir = new DirectoryInfo(Service.PluginInterface.GetPluginConfigDirectory());
-        var save = Path.Combine(dir.FullName, "preset_backup");
-        try
-        {
-            if (!dir.Exists)
-                dir.Create();
-            
-            
-        }
-        catch (Exception e)
-        {
-            Service.PluginLog.Error($"Could not create save directory at {dir.FullName}:\n{e}");
-            return false;
-        }
-
-        return false;
-    }
-
     // Got the export/import function from the UnknownX7's ReAction repo
     /*public static string ExportPreset(CustomPresetConfig preset)
     {

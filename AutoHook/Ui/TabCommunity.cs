@@ -39,7 +39,7 @@ public class TabCommunity : BaseTab
         {
             using (var disabled = ImRaii.Disabled(EzThrottler.GetRemainingTime("WikiUpdate") > 0))
             {
-                if (ImGuiComponents.IconButtonWithText(FontAwesomeIcon.CloudDownloadAlt,$"Get Wiki Presets"))
+                if (ImGuiComponents.IconButtonWithText(FontAwesomeIcon.CloudDownloadAlt, UIStrings.GetWikiPresets))
                     WikiPresets.ListWikiPages();
             }
 

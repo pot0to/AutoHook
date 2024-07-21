@@ -26,8 +26,6 @@ public partial class FishingManager : IDisposable
     private double _timeout;
     private readonly Stopwatch _fishingTimer = new();
 
-    
-
     private FishingState _lastState = FishingState.NotFishing;
     private FishingSteps _lastStep = 0;
 
@@ -45,24 +43,24 @@ public partial class FishingManager : IDisposable
         uint a6, IntPtr a7);
 
     private Hook<UseActionDelegate>? _useActionHook;
-    
-    public delegate void UpdateCatchDelegate(IntPtr module, uint fishId, bool large, ushort size, byte amount, byte level, byte unk7, byte unk8, byte unk9, byte unk10,
+
+    public delegate void UpdateCatchDelegate(IntPtr module, uint fishId, bool large, ushort size, byte amount,
+        byte level, byte unk7, byte unk8, byte unk9, byte unk10,
         byte unk11, byte unk12);
-    [EzHook("")]
+
     public Hook<UpdateCatchDelegate>? UpdateCatch = null!;
-    
+
     public FishingManager()
     {
         try
-        {          
+        {
             Service.TaskManager.EnqueueDelay(200);
             Service.TaskManager.Enqueue(() => CreateDalamudHooks());
             //CreateDalamudHooks();
-            
         }
         catch (Exception e)
         {
-            Service.PluginLog.Error($"{e.Message}");
+            Service.PluginLog.Error(@$"{e.Message}");
         }
     }
 
@@ -76,11 +74,11 @@ public partial class FishingManager : IDisposable
     public unsafe void CreateDalamudHooks()
     {
         UpdateCatch = Service.GameInteropProvider.HookFromSignature<UpdateCatchDelegate>(
-            "40 55 56 41 54 41 56 41 57 48 8D 6C 24 ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 F7",
+            @"40 55 56 41 54 41 56 41 57 48 8D 6C 24 ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 F7",
             UpdateCatchDetour);
         var hookPtr = (IntPtr)ActionManager.MemberFunctionPointers.UseAction;
         _useActionHook = Service.GameInteropProvider.HookFromAddress<UseActionDelegate>(hookPtr, OnUseAction);
-        
+
         Enable();
     }
 
@@ -261,13 +259,13 @@ public partial class FishingManager : IDisposable
 
     private void CheckPluginActions()
     {
-        if (!EzThrottler.Throttle("CheckPluginActions", 500))
+        if (!EzThrottler.Throttle(@"CheckPluginActions", 500))
             return;
 
         var lastCatch = GetLastCatchConfig();
         var extraCfg = GetExtraCfg();
 
-        if (_lastStep.HasFlag(FishingSteps.FishCaught) )
+        if (_lastStep.HasFlag(FishingSteps.FishCaught))
             CheckStopCondition();
 
         // the order matters
@@ -297,10 +295,10 @@ public partial class FishingManager : IDisposable
         if (!_isMooching)
         {
             _isMooching = Service.BaitManager.CurrentSwimBait != null;
-            Service.PrintDebug($"Started fishing with {(_isMooching ? "Swimbait" : "normal bait")}: {baitname}");
+            Service.PrintDebug(@$"Started fishing with {(_isMooching ? @"Swimbait" : @"normal bait")}: {baitname}");
         }
         else
-            Service.PrintDebug($"Started mooching with {baitname}");
+            Service.PrintDebug(@$"Started mooching with {baitname}");
 
         _lastStep = FishingSteps.BeganFishing;
 
@@ -488,7 +486,8 @@ public partial class FishingManager : IDisposable
         return _useActionHook!.Original(manager, actionType, actionId, targetId, a4, a5, a6, a7);
     }
 
-    private void UpdateCatchDetour(IntPtr module, uint fishId, bool large, ushort size, byte amount, byte level, byte unk7,
+    private void UpdateCatchDetour(IntPtr module, uint fishId, bool large, ushort size, byte amount, byte level,
+        byte unk7,
         byte unk8, byte unk9, byte unk10, byte unk11, byte unk12)
     {
         UpdateCatch!.Original(module, fishId, large, size, amount, level, unk7, unk8, unk9, unk10, unk11, unk12);

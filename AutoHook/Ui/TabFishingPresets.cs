@@ -98,7 +98,7 @@ public class TabFishingPresets : BaseTab
                 if (!list)
                     return;
 
-                DrawUtil.Info("If no preset is selected, the global preset will be used.");
+                DrawUtil.Info(UIStrings.GlobalPresetHelpText);
                 ImGui.SameLine(0, 4);
                 if (ImGui.Selectable(UIStrings.GlobalPreset,
                         displayed?.PresetName == _basePreset.DefaultPreset.PresetName,
@@ -155,7 +155,7 @@ public class TabFishingPresets : BaseTab
             OpenPresetGen = !OpenPresetGen;
 
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip("Preset Generator");
+            ImGui.SetTooltip(UIStrings.PresetGenerator);
 
         ImGui.SameLine(0, 3);
         DrawUtil.DrawAddNewPresetButton(_basePreset);
@@ -172,13 +172,13 @@ public class TabFishingPresets : BaseTab
             return;
 
         var alreadySelected = _basePreset.SelectedPreset?.PresetName == preset.PresetName;
-        if (ImGui.Selectable(!alreadySelected ? "Set as active" : "Deselect"))
+        if (ImGui.Selectable(!alreadySelected ? UIStrings.SetActive : UIStrings.Deselect))
         {
             _basePreset.SelectedPreset = alreadySelected ? null : (CustomPresetConfig)preset;
             Service.Save();
         }
 
-        if (ImGui.Selectable("Rename", false, ImGuiSelectableFlags.DontClosePopups))
+        if (ImGui.Selectable(UIStrings.Rename, false, ImGuiSelectableFlags.DontClosePopups))
         {
             ImGui.OpenPopup(@$"PresetRenameName");
         }

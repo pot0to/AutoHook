@@ -11,6 +11,7 @@ using AutoHook.Configurations;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility.Raii;
 using ECommons.Automation.NeoTaskManager;
+using ECommons.ImGuiMethods;
 using ECommons.Throttlers;
 
 namespace AutoHook.Utils;
@@ -403,6 +404,8 @@ public static class DrawUtil
                 if (ImGuiComponents.IconButton(FontAwesomeIcon.FileExport))
                 {
                     ImGui.SetClipboardText(Configuration.ExportPreset(basePreset.SelectedPreset!));
+                    
+                    Notify.Success(UIStrings.PresetExportedToTheClipboard);
                 }
 
                 if (ImGui.IsItemHovered())
@@ -453,6 +456,7 @@ public static class DrawUtil
         catch (Exception e)
         {
             Service.PluginLog.Error(e.ToString());
+            Notify.Error(e.Message);
         }
     }
 
@@ -503,6 +507,7 @@ public static class DrawUtil
         catch (Exception e)
         {
             Service.PluginLog.Error(e.ToString());
+            Notify.Error(e.Message);
         }
     }
 

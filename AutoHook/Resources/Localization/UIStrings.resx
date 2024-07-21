@@ -1295,6 +1295,9 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="PresetGen" xml:space="preserve">
     <value>Preset Gen</value>
   </data>
+  <data name="PresetGenerator" xml:space="preserve">
+    <value>Preset Generator</value>
+  </data>
   <data name="FishingPresets" xml:space="preserve">
     <value>Fishing Presets</value>
   </data>
@@ -1318,5 +1321,56 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   </data>
   <data name="UseSlapActive" xml:space="preserve">
     <value>Use when Surface Slap is active</value>
+  </data>
+  <data name="CantFishHere" xml:space="preserve">
+    <value>Can't fish here</value>
+  </data>
+  <data name="Deselect" xml:space="preserve">
+    <value>Deselect</value>
+  </data>
+  <data name="SetActive" xml:space="preserve">
+    <value>Set as active</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="GlobalPresetHelpText" xml:space="preserve">
+    <value>If no preset is selected, the global preset will be used</value>
+  </data>
+  <data name="AlreadySwapped" xml:space="preserve">
+    <value>(Already Swapped)</value>
+  </data>
+  <data name="AnimationCanceling" xml:space="preserve">
+    <value>Animation Canceling</value>
+  </data>
+  <data name="EnableRecastCancel" xml:space="preserve">
+    <value>Enable line recasting animation cancel</value>
+  </data>
+  <data name="EnableRecastCancelHelp" xml:space="preserve">
+    <value>Doesn't work if the fish is hooked, only works when recasting from a failed/canceled attempt</value>
+  </data>
+  <data name="TurnCollectOff" xml:space="preserve">
+    <value>Turn Collector's Glove off if Auto Collect is also disabled</value>
+  </data>
+  <data name="TurnCollectOffHelp" xml:space="preserve">
+    <value>Animation canceling requires turning Collector's Glove on before casting the line, this option ensures Collector's Glove will remain off while fishing</value>
+  </data>
+  <data name="EnableChumCancel" xml:space="preserve">
+    <value>Enable Chum animation cancel</value>
+  </data>
+  <data name="ChumCancelHelp" xml:space="preserve">
+    <value>Experimental and not consistent (maybe because of ping). Action 'Salvage' will be activated</value>
+  </data>
+  <data name="FishCaughtHelp" xml:space="preserve">
+    <value>Options for when you catch a fish</value>
+  </data>
+  <data name="ExtraOptionsHelp" xml:space="preserve">
+    <value>Just extra options</value>
+  </data>
+  <data name="AutoCastsHelp" xml:space="preserve">
+    <value>Options for auto casting actions</value>
+  </data>
+  <data name="GetWikiPresets" xml:space="preserve">
+    <value>Get Wiki Presets</value>
   </data>
 </root>
