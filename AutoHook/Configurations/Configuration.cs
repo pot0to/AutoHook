@@ -138,12 +138,12 @@ public class Configuration : IPluginConfiguration
     {
         if (HookPresets.DefaultPreset.ListOfBaits.Count != 0)
             return;
-
+        
         var bait = new BaitFishClass(UIStrings.All_Baits, 0);
         var mooch = new BaitFishClass(UIStrings.All_Mooches, 0);
-
-        HookPresets.DefaultPreset.AddItem(new HookConfig(bait));
-        HookPresets.DefaultPreset.AddItem(new HookConfig(mooch));
+        
+        HookPresets.DefaultPreset.ListOfBaits.Add(new HookConfig(bait));
+        HookPresets.DefaultPreset.ListOfMooch.Add(new HookConfig(mooch));
     }
 
     public static Configuration Load()
@@ -165,7 +165,7 @@ public class Configuration : IPluginConfiguration
         }
         catch (Exception e)
         {
-            Service.PrintDebug(@$"[Configuration] {e.Message}");
+            Service.PluginLog.Error(@$"[Configuration] {e.Message}");
             throw;
         }
     }

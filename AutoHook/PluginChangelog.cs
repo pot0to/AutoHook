@@ -20,6 +20,7 @@ public static class PluginChangelog
                 "Spearfishing now has preset import/export",
                 "Options for Big-game fishing and Prize Catch for when Identical Cast >OR< Surface Slap is active",
                 "Identical Cast / Surface Slap will now be used if Stop Casting is activated",
+                "4.3.0.4 - Fixed the issue with Global preset for first time users"
                 
             },
             Minor =
