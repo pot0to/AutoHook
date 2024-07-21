@@ -126,7 +126,7 @@
   <data name="DrawImportExport_Cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="ImportStackFromClipboard" xml:space="preserve">
+  <data name="ImportPresetFromClipboard" xml:space="preserve">
     <value>クリップボードから取り込む</value>
   </data>
   <data name="Import" xml:space="preserve">
@@ -186,7 +186,7 @@
   <data name="RightClickToRename" xml:space="preserve">
     <value>右クリックで名前を変更</value>
   </data>
-  <data name="TabPresets_DrawHeader_EditPresetNamePressEnterToConfirm" xml:space="preserve">
+  <data name="EnterToConfirm" xml:space="preserve">
     <value>プリセット名を編集(Enterキーを押して確定)</value>
   </data>
   <data name="HookPresets" xml:space="preserve">
@@ -679,7 +679,7 @@
   <data name="Normal_Hook" xml:space="preserve">
     <value>フッキング</value>
   </data>
-  <data name="TabName_Global_Preset" xml:space="preserve">
+  <data name="GlobalPreset" xml:space="preserve">
     <value>グローバルプリセット</value>
   </data>
   <data name="Bait" xml:space="preserve">
