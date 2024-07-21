@@ -53,6 +53,10 @@ public class PluginUi : Window, IDisposable
             Icon = FontAwesomeIcon.Heart,
             ShowTooltip = () => ImGui.SetTooltip("Support AutoHook"),
         });
+        SizeConstraints = new WindowSizeConstraints
+        {
+            MinimumSize = new Vector2(375, 330),
+        };
     }
 
     public void Dispose()
@@ -177,7 +181,7 @@ public class PluginUi : Window, IDisposable
         {
             DrawStatus();
         }
-        
+
         if (Service.OpenConsole)
             Debug();
 
@@ -197,7 +201,7 @@ public class PluginUi : Window, IDisposable
                 {
                     if (ImGui.Selectable($"Start Actions"))
                         AutoHook.Plugin.HookManager.StartFishing();
-                    
+
                     var image = Service.Configuration.PluginEnabled ? "images/Fishy.png" : "images/Fishy_g.png";
                     var imagePath = Path.Combine(Svc.PluginInterface.AssemblyLocation.DirectoryName!, image);
                     using (var c = ImRaii.Child("logo", new(0, 125f.Scale())))
@@ -213,7 +217,7 @@ public class PluginUi : Window, IDisposable
 
                                 if (ImGui.IsItemClicked(ImGuiMouseButton.Right))
                                     Service.OpenConsole = !Service.OpenConsole;
-                                
+
 
                                 if (ImGui.IsItemHovered())
                                 {
