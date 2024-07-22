@@ -24,11 +24,13 @@ public class AutoGigConfig(string presetName) : BasePresetConfig(presetName)
     public override void AddItem(BaseOption item)
     {
         Gigs.Add((BaseGig)item);
+        Service.Save();
     }
 
     public override void RemoveItem(Guid value)
     {
         Gigs.RemoveAll(x => x.UniqueId == value);
+        Service.Save();
     }
 
     public override void DrawOptions()

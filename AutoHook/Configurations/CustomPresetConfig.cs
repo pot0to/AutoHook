@@ -37,6 +37,8 @@ public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName
         }
         else if (item is FishConfig fishConfig)
             ListOfFish.Add(fishConfig);
+        
+        Service.Save();
     }
 
     public void ReplaceBaitConfig(HookConfig hookConfig)
@@ -48,6 +50,9 @@ public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName
         }
 
         ListOfBaits.Add(hookConfig);
+        
+        Service.Save();
+
     }
 
     public void ReplaceMoochConfig(HookConfig moochConfig)
@@ -59,6 +64,8 @@ public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName
         }
 
         ListOfMooch.Add(moochConfig);
+        
+        Service.Save();
     }
 
     public HookConfig? GetCfgById(int id)
@@ -81,6 +88,7 @@ public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName
         ListOfBaits.RemoveAll(x => x.UniqueId == value);
         ListOfMooch.RemoveAll(x => x.UniqueId == value);
         ListOfFish.RemoveAll(x => x.UniqueId == value);
+        Service.Save();
     }
 
     public bool HasBaitOrMooch(uint id)

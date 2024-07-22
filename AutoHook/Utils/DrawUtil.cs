@@ -379,6 +379,7 @@ public static class DrawUtil
         {
             try
             {
+                Service.Save();
                 presetConfig.AddNewPreset(@$"{UIStrings.NewPreset} {DateTime.Now}");
                 Service.Save();
             }
