@@ -1388,4 +1388,7 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="MakeACopy" xml:space="preserve">
     <value>Make a Copy</value>
   </data>
+  <data name="StatusNoPreset" xml:space="preserve">
+    <value>No preset active, Global Preset will be used instead</value>
+  </data>
 </root>

@@ -2999,6 +2999,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No preset active, Global Preset will be used instead.
+        /// </summary>
+        internal static string StatusNoPreset {
+            get {
+                return ResourceManager.GetString("StatusNoPreset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop After Caught.
         /// </summary>
         internal static string Stop_After_Caught {

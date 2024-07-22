@@ -8,6 +8,17 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.3.0.5")
+        {
+            Main =
+            {
+                "The plugin now can correctly use (i hope it can) Caught Limit Stop Cast > Identical Cast/Surface Slap > Swap Preset",
+                "Added option to make a copy of a preset",
+                "Click the fish image to toggle the plugin on/off",
+                "Fixed UI crashes",
+                "Improved Current Status display at the top",
+            }
+        },
         new Version("4.3.0.0")
         {
             Main =

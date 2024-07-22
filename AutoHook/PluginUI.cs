@@ -300,7 +300,7 @@ public class PluginUi : Window, IDisposable
                     if (preset == null)
                     {
                         ImGui.TextColored(ImGuiColors.ParsedBlue,
-                            $"No preset selected, Global Preset will be used instead");
+                            UIStrings.StatusNoPreset);
                     }
                     else
                     {
