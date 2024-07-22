@@ -22,7 +22,7 @@ public partial class FishingManager
     {
         BaseActionCast? cast = null;
 
-        if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled)
+        if (lastFishCatchCfg == null || !lastFishCatchCfg.Enabled || _lastStep.HasFlag(FishingSteps.PresetSwapped))
             return false;
 
         if (PlayerRes.HasStatus(IDs.Status.FishersIntuition) && lastFishCatchCfg.IgnoreOnIntuition)

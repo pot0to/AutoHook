@@ -12,7 +12,6 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace AutoHook.Fishing;
 
-
 public partial class FishingManager
 {
     // ReSharper disable once UnusedMember.Local
@@ -26,7 +25,7 @@ public partial class FishingManager
             @$"[HookManager] Fishing State: {Service.BaitManager.FishingState}, LastStep: {_lastStep}");
 #endif
     }
-   
+
     private static void ResetAfkTimer()
     {
         if (!Service.Configuration.ResetAfkTimer)
@@ -38,17 +37,17 @@ public partial class FishingManager
         // unusual interference.
         InputUtil.SendKeycode(windowHandle, 0x5C);
     }
-    
+
     private void AnimationCancel()
     {
         if (GetAutoCastCfg().RecastAnimationCancel)
             PlayerRes.CastAction(IDs.Actions.Collect);
     }
-    
+
     private const XivChatType FishingMessage = (XivChatType)2243;
     private const XivChatType SystemAlert = (XivChatType)2115; //idk what to call this
 
-    
+
     private void OnMessageDelegate(XivChatType type, int timeStamp, ref SeString sender, ref SeString messageSe,
         ref bool isHandled)
     {
@@ -57,7 +56,8 @@ public partial class FishingManager
             if (type is FishingMessage)
             {
                 var text = messageSe.TextValue;
-                var logId = Service.DataManager.GetExcelSheet<LogMessage>()?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
+                var logId = Service.DataManager.GetExcelSheet<LogMessage>()
+                    ?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
 
                 // Check if a special fish is found
                 _lureSuccess = GameRes.LureFishes.FirstOrDefault(f => f.LureMessage == text) != null;
@@ -69,16 +69,15 @@ public partial class FishingManager
                 {
                     _lureSuccess = logId is XivChatLog.AmbLureSuccess or XivChatLog.ModLureSuccess;
                 }
-                
             }
             else if (type is SystemAlert)
             {
                 var text = messageSe.TextValue;
-                var logId = Service.DataManager.GetExcelSheet<LogMessage>()?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
-                
+                var logId = Service.DataManager.GetExcelSheet<LogMessage>()
+                    ?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
+
                 if (logId is XivChatLog.CantFish)
                     Service.Status = UIStrings.CantFishHere;
-                
             }
         }
         catch (Exception e)
@@ -86,13 +85,15 @@ public partial class FishingManager
             Service.PluginLog.Error(e.Message);
         }
     }
-    
+
     // This is my stupid way of handling the counter for stop/quit fishing and bait/preset swap
     public static class FishingHelper
     {
         public static Dictionary<Guid, int> FishCount = new();
         public static List<Guid> FishPresetSwapped = new();
         public static List<Guid> FishBaitSwapped = new();
+
+        public static List<Guid> ToBeRemoved = new();
 
         public static void AddFishCount(Guid guid)
         {
@@ -139,6 +140,23 @@ public partial class FishingManager
 
             if (SwappedBait(guid))
                 FishBaitSwapped.Remove(guid);
+        }
+
+        public static void RemoveGuidQueue()
+        {
+            foreach (var guid in ToBeRemoved)
+            {
+                if (FishCount.ContainsKey(guid))
+                    FishCount.Remove(guid);
+
+                if (SwappedPreset(guid))
+                    FishPresetSwapped.Remove(guid);
+
+                if (SwappedBait(guid))
+                    FishBaitSwapped.Remove(guid);
+            }
+            
+            ToBeRemoved.Clear();
         }
 
         public static void Reset()

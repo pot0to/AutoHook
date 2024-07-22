@@ -2007,6 +2007,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Make a Copy.
+        /// </summary>
+        internal static string MakeACopy {
+            get {
+                return ResourceManager.GetString("MakeACopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Makeshift Bait.
         /// </summary>
         internal static string MakeShift_Bait {
@@ -2507,6 +2516,15 @@ namespace AutoHook.Resources.Localization {
         internal static string Plugin_Name_Settings {
             get {
                 return ResourceManager.GetString("Plugin_Name_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can also click the fish image to toggle the plugin on/off.
+        /// </summary>
+        internal static string PluginEnabledHelp {
+            get {
+                return ResourceManager.GetString("PluginEnabledHelp", resourceCulture);
             }
         }
         

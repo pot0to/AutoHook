@@ -292,25 +292,48 @@ public class PluginUi : Window, IDisposable
     {
         ImGuiEx.LineCentered("###AhStatus", () =>
         {
-            if (Service.BaitManager.FishingState == FishingState.NotFishing)
+            if (!Service.Configuration.PluginEnabled)
+            {
+                ImGui.TextColored(ImGuiColors.DalamudGrey, UIStrings.Plugin_Disabled);
+            }
+            else if (Service.BaitManager.FishingState == FishingState.NotFishing)
             {
                 try
                 {
                     var preset = _presets.SelectedPreset;
-                    var baitId = Service.BaitManager.CurrentBaitSwimBait;
-                    var baitName = MultiString.GetItemName(baitId);
+                    if (preset == null)
+                    {
+                        ImGui.TextColored(ImGuiColors.ParsedBlue, $"No preset selected, Global Preset will be used instead");
+                    }
+                    else
+                    {
+                        var baitId = Service.BaitManager.CurrentBaitSwimBait;
+                        var baitName = MultiString.GetItemName(baitId);
 
-                    var hasBait = preset != null && preset.HasBaitOrMooch(baitId);
-                    var presetName = hasBait ? _presets.SelectedPreset?.PresetName : _presets.DefaultPreset.PresetName;
-                    Service.Status = $"Equipped Bait: {baitName} - Preset \'{presetName}\' will be used.";
+                        var hasBait = preset != null && preset.HasBaitOrMooch(baitId);
+                        var presetName =
+                            hasBait ? _presets.SelectedPreset?.PresetName : _presets.DefaultPreset.PresetName;
+                        Service.Status = $"Equipped Bait: {baitName} - Preset \'{presetName}\' will be used.";
+                        
+                        ImGui.TextColored(ImGuiColors.DalamudViolet, $"Equipped Bait:");
+                        ImGui.SameLine(0,3);
+                        ImGui.TextColored(ImGuiColors.ParsedGold, $"\'{baitName}\'");
+                        ImGui.SameLine(0,3);
+                        ImGui.TextColored(ImGuiColors.DalamudViolet, $"- Preset");
+                        ImGui.SameLine(0,3);
+                        ImGui.TextColored(ImGuiColors.ParsedGold, $"\'{presetName}\'");
+                        ImGui.SameLine(0,3);
+                        ImGui.TextColored(ImGuiColors.DalamudViolet, $"will be used.");
+                        
+                    }
                 }
                 catch (Exception e)
                 {
                     Service.PluginLog.Error(e.Message);
                 }
             }
-
-            ImGui.TextColored(ImGuiColors.DalamudViolet, Service.Status);
+            else 
+                ImGui.TextColored(ImGuiColors.DalamudViolet, Service.Status);
         });
 
         ImGui.Separator();

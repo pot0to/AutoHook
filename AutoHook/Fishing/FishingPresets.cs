@@ -20,7 +20,6 @@ public class FishingPresets : BasePreset
     {
         var newPreset = new CustomPresetConfig(presetName);
         CustomPresets.Add(newPreset);
-        SelectedGuid = newPreset.UniqueId.ToString();
         Service.Save();
     }
     
@@ -31,7 +30,6 @@ public class FishingPresets : BasePreset
         var copy = JsonConvert.DeserializeObject<CustomPresetConfig>(json);
         copy!.UniqueId = Guid.NewGuid();
         CustomPresets.Add(copy);
-        SelectedGuid = copy.UniqueId.ToString();
         Service.Save();
     }
 
@@ -45,13 +43,13 @@ public class FishingPresets : BasePreset
         Service.Save();
     }
 
-    public override void OnSelectedPreset(BasePresetConfig value)
+    public override void OnSelectedPreset(BasePresetConfig newPreset, BasePresetConfig? oldPreset)
     {
-        if (value is not CustomPresetConfig preset)
+        if (oldPreset is not CustomPresetConfig old)
             return;
 
-        if (preset is { ExtraCfg: { Enabled: true, ResetCounterPresetSwap: true } })
-            preset.ResetCounter();
+        if (old is { ExtraCfg: { Enabled: true, ResetCounterPresetSwap: true } })
+            old.ResetCounter();
         
         Service.Save();
     }

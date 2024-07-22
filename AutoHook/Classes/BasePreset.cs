@@ -21,8 +21,8 @@ public abstract class BasePreset
             Service.Status = string.Empty;
             if (value != null)
             {
+                OnSelectedPreset(value, SelectedPreset);
                 SelectedGuid = value.UniqueId.ToString();
-                OnSelectedPreset(value);
             } else 
                 SelectedGuid = "";
         }
@@ -46,7 +46,7 @@ public abstract class BasePreset
         Service.Save();
     }
 
-    public virtual void OnSelectedPreset(BasePresetConfig value)
+    public virtual void OnSelectedPreset(BasePresetConfig newPreset, BasePresetConfig? oldPreset)
     {
         Service.Save();
     }

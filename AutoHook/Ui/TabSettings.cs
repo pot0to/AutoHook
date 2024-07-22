@@ -55,6 +55,8 @@ public class TabSettings : BaseTab
 
     private void DrawConfigs()
     {
+        DrawUtil.Checkbox(UIStrings.Plugin_Enabled, ref Service.Configuration.PluginEnabled, UIStrings.PluginEnabledHelp);
+        
         if (ImGui.TreeNodeEx(UIStrings.DelaySettings, ImGuiTreeNodeFlags.FramePadding))
         {
             DrawDelayHook();

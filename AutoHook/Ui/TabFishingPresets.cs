@@ -1,7 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
 using AutoHook.Classes;
 using AutoHook.Configurations;
 using AutoHook.Enums;
@@ -12,7 +9,6 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility.Raii;
-using ECommons.Automation.NeoTaskManager;
 using ECommons.ImGuiMethods;
 using ImGuiNET;
 using Newtonsoft.Json;
@@ -183,6 +179,11 @@ public class TabFishingPresets : BaseTab
             ImGui.OpenPopup(@$"PresetRenameName");
         }
 
+        if (ImGui.Selectable(UIStrings.MakeACopy, false))
+        {
+            CopyPreset(preset);
+        }
+
         DrawUtil.DrawRenamePreset(preset);
 
         if (ImGui.Selectable(UIStrings.ExportPresetToClipboard, false))
@@ -195,7 +196,7 @@ public class TabFishingPresets : BaseTab
         {
             if (ImGui.Selectable(UIStrings.Delete, false, ImGuiSelectableFlags.DontClosePopups))
             {
-                Service.Configuration.HookPresets.RemovePreset(preset.UniqueId);
+                _basePreset.RemovePreset(preset.UniqueId);
                 displayed = null;
                 Service.Save();
             }
@@ -205,5 +206,15 @@ public class TabFishingPresets : BaseTab
             ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
 
         ImGui.EndPopup();
+    }
+
+    private static void CopyPreset(BasePresetConfig preset)
+    {
+        var json = JsonConvert.SerializeObject(preset);
+        var copy = JsonConvert.DeserializeObject<CustomPresetConfig>(json);
+        copy!.UniqueId = Guid.NewGuid();
+        copy.PresetName = @$"Copy_{preset.PresetName}";
+        _basePreset.AddNewPreset(copy);
+        Service.Save();
     }
 }

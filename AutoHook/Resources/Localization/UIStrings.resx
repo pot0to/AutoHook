@@ -1382,4 +1382,10 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="ClickToToggle" xml:space="preserve">
     <value>Click to toggle on/off</value>
   </data>
+  <data name="PluginEnabledHelp" xml:space="preserve">
+    <value>You can also click the fish image to toggle the plugin on/off</value>
+  </data>
+  <data name="MakeACopy" xml:space="preserve">
+    <value>Make a Copy</value>
+  </data>
 </root>

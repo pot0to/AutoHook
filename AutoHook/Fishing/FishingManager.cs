@@ -10,8 +10,6 @@ using AutoHook.SeFunctions;
 using AutoHook.Utils;
 using Dalamud.Hooking;
 using Dalamud.Plugin.Services;
-using ECommons.EzHookManager;
-using ECommons.Logging;
 using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
@@ -257,26 +255,33 @@ public partial class FishingManager : IDisposable
         }
     }
 
+    FishConfig? lastCatchCfg = null;
     private void CheckPluginActions()
     {
         if (!EzThrottler.Throttle(@"CheckPluginActions", 500))
             return;
+        
+        if (!PlayerRes.IsCastAvailable())
+            return;
 
-        var lastCatch = GetLastCatchConfig();
+        lastCatchCfg ??= GetLastCatchConfig();
+       
         var extraCfg = GetExtraCfg();
 
-        if (_lastStep.HasFlag(FishingSteps.FishCaught))
+        if (_lastStep.HasFlag(FishingSteps.FishCaught) && (_lastStep & (FishingSteps.None | FishingSteps.Quitting)) == 0)
             CheckStopCondition();
 
         // the order matters
         CheckExtraActions(extraCfg);
 
-        bool casted = false;
+        var casted = false;
         if (_lastStep.HasFlag(FishingSteps.FishCaught) && !_lastStep.HasFlag(FishingSteps.Quitting))
         {
-            casted = UseFishCaughtActions(lastCatch);
-            CheckFishCaughtSwap(lastCatch);
+            casted = UseFishCaughtActions(lastCatchCfg);
+            CheckFishCaughtSwap(lastCatchCfg);
         }
+        
+        FishingHelper.RemoveGuidQueue();
 
         if (!casted)
             UseAutoCasts();
@@ -301,6 +306,7 @@ public partial class FishingManager : IDisposable
             Service.PrintDebug(@$"Started mooching with {baitname}");
 
         _lastStep = FishingSteps.BeganFishing;
+        lastCatchCfg = null;
 
         Service.TaskManager.EnqueueDelay(2500);
         Service.TaskManager.Enqueue(CastCollect);
@@ -409,7 +415,7 @@ public partial class FishingManager : IDisposable
                     @$"{lastFishCatchCfg.Fish.Name}: {lastFishCatchCfg.StopAfterCaughtLimit}"));
 
                 _lastStep |= lastFishCatchCfg.StopFishingStep;
-                if (lastFishCatchCfg.StopAfterResetCount) FishingHelper.RemoveId(guid);
+                if (lastFishCatchCfg.StopAfterResetCount) FishingHelper.ToBeRemoved.Add(guid);
             }
         }
 
@@ -424,7 +430,7 @@ public partial class FishingManager : IDisposable
                     @$"{currentHook.BaitFish.Name}: {hookset.StopAfterCaughtLimit}"));
 
                 _lastStep |= hookset.StopFishingStep;
-                if (hookset.StopAfterResetCount) FishingHelper.RemoveId(guid);
+                if (hookset.StopAfterResetCount) FishingHelper.ToBeRemoved.Add(guid);
             }
         }
 
