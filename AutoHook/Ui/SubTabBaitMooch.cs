@@ -65,8 +65,8 @@ public class SubTabBaitMooch
             ImGuiComponents.HelpMarker(UIStrings.TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName);
             ImGui.Spacing();
         }
-
-        if (ImGui.BeginChild("BaitMoochItems", new Vector2(0, 0), true))
+        
+        using (var items = ImRaii.Child($"###BaitMoochItems", Vector2.Zero, false))
         {
             for (int idx = 0; idx < list?.Count; idx++)
             {
@@ -115,17 +115,15 @@ public class SubTabBaitMooch
                                     hook.IntuitionHook.DrawOptions();
                             }
                         }
-
-                        ImGui.EndGroup();
                     }
+
+                    ImGui.EndGroup();
                 }
 
                 DrawUtil.SpacingSeparator();
 
                 ImGui.PopID();
             }
-
-            ImGui.EndChild();
         }
     }
 
@@ -173,8 +171,8 @@ public class SubTabBaitMooch
                 Service.Save();
             }
         }
+
         if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled))
             ImGui.SetTooltip(UIStrings.HoldShiftToDelete);
-        
     }
 }

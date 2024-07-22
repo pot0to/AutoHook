@@ -202,7 +202,7 @@ public static class DrawUtil
     }
 
     private static string _filterText = "";
-
+    
     public static void DrawComboSelector<T>(
         List<T> itemList,
         Func<T, string> getItemName,
@@ -219,7 +219,7 @@ public static class DrawUtil
 
             ImGui.Separator();
 
-            if (ImGui.BeginChild("ComboSelector", new Vector2(0, 100 * ImGuiHelpers.GlobalScale), false))
+            using (var child = ImRaii.Child("###ComboSelector", new Vector2(0, 100 * ImGuiHelpers.GlobalScale), false))
             {
                 foreach (var item in itemList)
                 {
@@ -236,50 +236,12 @@ public static class DrawUtil
                         Service.Save();
                     }
                 }
-
-                ImGui.EndChild();
             }
 
             ImGui.EndCombo();
         }
     }
-
-    private static string _presetFilter = "";
-
-    public static void DrawListBoxPreset(BasePreset basePreset)
-    {
-        using var list = ImRaii.ListBox("preset_list", ImGui.GetContentRegionAvail());
-        if (!list)
-            return;
-
-        if (ImGui.Selectable(UIStrings.Disabled, basePreset.SelectedPreset == null))
-        {
-            basePreset.SelectedPreset = null;
-            Service.Save();
-        }
-
-        foreach (var preset in basePreset.PresetList)
-        {
-            var color = basePreset.SelectedPreset?.PresetName == preset.PresetName
-                ? ImGuiColors.DalamudYellow
-                : ImGuiColors.DalamudWhite;
-            using (var a = ImRaii.PushColor(ImGuiCol.Text, color))
-            {
-                if (ImGui.Selectable(preset.PresetName,
-                        preset.PresetName == basePreset.SelectedPreset?.PresetName))
-                {
-                    basePreset.SelectedPreset = preset;
-                    Service.Save();
-                }
-            }
-
-            if (ImGui.IsItemHovered())
-                ImGui.SetTooltip(UIStrings.RightClickToRename);
-
-            DrawRenamePreset(preset);
-        }
-    }
-
+    
     public static void DrawComboSelectorPreset(BasePreset presetList)
     {
         ImGui.SetNextItemWidth(220 * ImGuiHelpers.GlobalScale);
@@ -287,17 +249,13 @@ public static class DrawUtil
         var selectedPreset = presetList.SelectedPreset;
         if (ImGui.BeginCombo("###search", selectedPreset?.PresetName ?? UIStrings.Disabled))
         {
-            string clearText = "";
             ImGui.SetNextItemWidth(210 * ImGuiHelpers.GlobalScale);
-            if (ImGui.InputTextWithHint("", UIStrings.Search_Hint, ref clearText, 100))
-            {
-                _presetFilter = new string(clearText);
-            }
-            else _presetFilter = string.Empty;
 
+            ImGui.InputTextWithHint("", UIStrings.Search_Hint, ref _filterText, 100);
+            
             ImGui.Separator();
 
-            if (ImGui.BeginChild("ComboSelector", new Vector2(0, 100 * ImGuiHelpers.GlobalScale), false))
+            using (var child = ImRaii.Child("###ComboPreset", new Vector2(0, 100 * ImGuiHelpers.GlobalScale), false))
             {
                 if (ImGui.Selectable(UIStrings.Disabled, presetList.SelectedPreset == null))
                 {
@@ -308,10 +266,9 @@ public static class DrawUtil
 
                 foreach (var item in presetList.PresetList)
                 {
-                    var itemName = new string(item.PresetName);
-                    var filterTextLower = _presetFilter.ToLower();
-
-                    if (_presetFilter.Length != 0 && !itemName.ToLower().Contains(filterTextLower))
+                    var itemName = item.PresetName;
+                    
+                    if (_filterText.Length != 0 && !itemName.ToLower().Contains(_filterText.ToLower()))
                         continue;
 
                     var color = selectedPreset?.PresetName == itemName
@@ -321,16 +278,13 @@ public static class DrawUtil
                     {
                         if (ImGui.Selectable(itemName, false))
                         {
-                            presetList.SelectedPreset = item;
-                            _presetFilter = string.Empty;
-                            clearText = string.Empty;
+                            presetList.SelectedGuid = item.UniqueId.ToString();
+                            _filterText = "";
                             Service.Save();
                             ImGui.CloseCurrentPopup();
                         }
                     }
                 }
-
-                ImGui.EndChild();
             }
 
             ImGui.EndCombo();

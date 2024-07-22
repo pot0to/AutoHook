@@ -6,6 +6,7 @@ using AutoHook.Resources.Localization;
 using AutoHook.Spearfishing;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
+using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 
@@ -71,9 +72,9 @@ internal class TabAutoGig : BaseTab
 
     public override void Draw()
     {
-        if (ImGui.BeginChild(@"ag_cfg1", new Vector2(0, 0), true))
+        using (var items = ImRaii.Child($"###ag_cfg1", Vector2.Zero, true))
         {
-            if (_gigCfg.SelectedPreset is AutoGigConfig selectedPreset)
+            if (_gigCfg.SelectedPreset is { } selectedPreset)
             {
                 if (_gigCfg.CatchAll)
                 {
@@ -100,8 +101,6 @@ internal class TabAutoGig : BaseTab
 
                 selectedPreset.DrawOptions();
             }
-
-            ImGui.EndChild();
         }
     }
 

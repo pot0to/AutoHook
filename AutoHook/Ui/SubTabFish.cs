@@ -10,6 +10,7 @@ using AutoHook.Utils;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
 
 namespace AutoHook.Ui;
@@ -25,7 +26,7 @@ public class SubTabFish
 
         DrawDescription(listOfFish);
 
-        if (ImGui.BeginChild("FishItems", new Vector2(0, 0), true))
+        using (var item = ImRaii.Child("###FishItems", new Vector2(0, 0), true))
         {
             for (var idx = 0; idx < listOfFish.Count; idx++)
             {
@@ -73,8 +74,6 @@ public class SubTabFish
                 ImGui.Spacing();
                 ImGui.PopID();
             }
-
-            ImGui.EndChild();
         }
     }
 

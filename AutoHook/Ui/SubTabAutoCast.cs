@@ -8,6 +8,7 @@ using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 
@@ -133,7 +134,7 @@ public class SubTabAutoCast
 
         ImGui.TextColored(ImGuiColors.DalamudOrange, UIStrings.Auto_Cast_Sort_Notice);
 
-        if (ImGui.BeginChild("AutoCastItems", new Vector2(0, 0), true))
+        using (var item = ImRaii.Child("###AutoCastItems", new Vector2(0, 0), true))
         {
             foreach (var action in _actionsAvailable.OrderBy(x => x.GetType() == typeof(AutoCastLine))
                          .ThenBy(x => x.GetType() == typeof(AutoMooch)).ThenBy(x => x.GetType() == typeof(AutoCollect))
@@ -150,8 +151,6 @@ public class SubTabAutoCast
                     Service.PluginLog.Error(e.ToString());
                 }
             }
-
-            ImGui.EndChild();
         }
     }
 }

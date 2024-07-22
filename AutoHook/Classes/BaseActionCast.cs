@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using AutoHook.Resources.Localization;
+using Dalamud.Interface.Utility.Raii;
 using ECommons.Throttlers;
 
 namespace AutoHook.Classes;
@@ -221,7 +222,7 @@ public abstract class BaseActionCast
 
         if (ImGui.BeginPopup(@"gp_cfg"))
         {
-            if (ImGui.BeginChild(@"gp_cfg2", new Vector2(175, 125), true))
+            using (var item = ImRaii.Child("###gp_cfg2", new Vector2(175, 125), true))
             {
                 if (ImGui.Button(@" X "))
                     ImGui.CloseCurrentPopup();
@@ -256,8 +257,6 @@ public abstract class BaseActionCast
                     SetThreshold(GpThreshold);
                     Service.Save();
                 }
-
-                ImGui.EndChild();
             }
 
             ImGui.EndPopup();

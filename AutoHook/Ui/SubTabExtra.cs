@@ -7,6 +7,7 @@ using AutoHook.Utils;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 
@@ -69,7 +70,7 @@ public class SubTabExtra
 
     public static void DrawBody(ExtraConfig config)
     {
-        if (ImGui.BeginChild("ExtraItems", new Vector2(0, 0), true))
+        using (var item = ImRaii.Child("###ExtraItems", new Vector2(0, 0), true))
         {
             ImGui.BeginGroup();
 
@@ -121,7 +122,6 @@ public class SubTabExtra
             }
 
             ImGui.EndGroup();
-            ImGui.EndChild();
         }
     }
 

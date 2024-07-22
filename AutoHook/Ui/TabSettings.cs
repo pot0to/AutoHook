@@ -6,6 +6,7 @@ using AutoHook.Enums;
 using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 
@@ -46,10 +47,9 @@ public class TabSettings : BaseTab
 
     public override void Draw()
     {
-        if (ImGui.BeginChild("SettingItems", new Vector2(0, 0), true))
+        using (var item = ImRaii.Child("SettingItems", new Vector2(0, 0), true))
         {
             DrawConfigs();
-            ImGui.EndChild();
         }
     }
 

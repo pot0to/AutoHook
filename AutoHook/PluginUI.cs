@@ -53,10 +53,6 @@ public class PluginUi : Window, IDisposable
             Icon = FontAwesomeIcon.Heart,
             ShowTooltip = () => ImGui.SetTooltip("Support AutoHook"),
         });
-        SizeConstraints = new WindowSizeConstraints
-        {
-            MinimumSize = new Vector2(375, 330),
-        };
     }
 
     public void Dispose()
@@ -303,7 +299,8 @@ public class PluginUi : Window, IDisposable
                     var preset = _presets.SelectedPreset;
                     if (preset == null)
                     {
-                        ImGui.TextColored(ImGuiColors.ParsedBlue, $"No preset selected, Global Preset will be used instead");
+                        ImGui.TextColored(ImGuiColors.ParsedBlue,
+                            $"No preset selected, Global Preset will be used instead");
                     }
                     else
                     {
@@ -314,17 +311,16 @@ public class PluginUi : Window, IDisposable
                         var presetName =
                             hasBait ? _presets.SelectedPreset?.PresetName : _presets.DefaultPreset.PresetName;
                         Service.Status = $"Equipped Bait: {baitName} - Preset \'{presetName}\' will be used.";
-                        
+
                         ImGui.TextColored(ImGuiColors.DalamudViolet, $"Equipped Bait:");
-                        ImGui.SameLine(0,3);
+                        ImGui.SameLine(0, 3);
                         ImGui.TextColored(ImGuiColors.ParsedGold, $"\'{baitName}\'");
-                        ImGui.SameLine(0,3);
+                        ImGui.SameLine(0, 3);
                         ImGui.TextColored(ImGuiColors.DalamudViolet, $"- Preset");
-                        ImGui.SameLine(0,3);
+                        ImGui.SameLine(0, 3);
                         ImGui.TextColored(ImGuiColors.ParsedGold, $"\'{presetName}\'");
-                        ImGui.SameLine(0,3);
+                        ImGui.SameLine(0, 3);
                         ImGui.TextColored(ImGuiColors.DalamudViolet, $"will be used.");
-                        
                     }
                 }
                 catch (Exception e)
@@ -332,7 +328,7 @@ public class PluginUi : Window, IDisposable
                     Service.PluginLog.Error(e.Message);
                 }
             }
-            else 
+            else
                 ImGui.TextColored(ImGuiColors.DalamudViolet, Service.Status);
         });
 
@@ -448,7 +444,7 @@ public class PluginUi : Window, IDisposable
 
                 ImGui.Separator();
 
-                if (ImGui.BeginChild("old_versions", new Vector2(0, 0), true))
+                using (var item = ImRaii.Child("###old_versions", new Vector2(0, 0), true))
                 {
                     for (var i = 1; i < changes.Count; i++)
                     {
@@ -470,8 +466,6 @@ public class PluginUi : Window, IDisposable
                         ImGui.TreePop();
                     }
                 }
-
-                ImGui.EndChild();
             }
         }
 
