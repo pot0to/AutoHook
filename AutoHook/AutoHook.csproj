@@ -8,18 +8,20 @@
         <Configurations>Release;Debug</Configurations>
         <TargetFramework>net8.0-windows</TargetFramework>
         <Platforms>x64</Platforms>
+        
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+        
+    </PropertyGroup>
+
+    <PropertyGroup>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <OutputPath>bin\$(Configuration)\</OutputPath>
-        <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -54,7 +56,9 @@
         </None>
     </ItemGroup>
 
-    <!-- Localization -->
+    <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
+        <DalamudLibPath>$(DALAMUD_HOME)/</DalamudLibPath>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="DalamudPackager" Version="2.1.13"/>
