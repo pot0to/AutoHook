@@ -10,13 +10,19 @@ using ImGuiNET;
 
 namespace AutoHook.Configurations;
 
-public class AutoGigConfig(string presetName) : BasePresetConfig(presetName)
+public class AutoGigConfig : BasePresetConfig
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = "Old Preset";
 
     public List<BaseGig> Gigs { get; set; } = new();
 
     public int HitboxSize = 25;
+
+    public AutoGigConfig(string presetName)
+    {
+        PresetName = presetName;
+    }
+
 
     public List<BaseGig> GetGigCurrentNode(int node) =>
         Gigs.Where(f => f.Fish != null && f.Fish.Nodes.Contains(node)).ToList();

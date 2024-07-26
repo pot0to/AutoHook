@@ -155,7 +155,7 @@ public class AutoHook : IDalamudPlugin
 
     private static void SetGigPreset(string presetName)
     {
-        var preset = Service.Configuration.AutoGigConfig.Presets.FirstOrDefault(x => x.Name == presetName);
+        var preset = Service.Configuration.AutoGigConfig.Presets.FirstOrDefault(x => x.PresetName == presetName);
         if (preset == null)
         {
             Service.Chat.Print(UIStrings.Preset_not_found);
@@ -165,7 +165,7 @@ public class AutoHook : IDalamudPlugin
 
         Service.Save();
         Service.Configuration.AutoGigConfig.SelectedPreset = preset;
-        Service.Chat.Print(@$"{UIStrings.Gig_preset_set_to_} {preset.Name}");
+        Service.Chat.Print(@$"{UIStrings.Gig_preset_set_to_} {preset.PresetName}");
         Service.Save();
     }
 

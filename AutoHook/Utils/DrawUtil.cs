@@ -266,7 +266,8 @@ public static class DrawUtil
 
                 foreach (var item in presetList.PresetList)
                 {
-                    var itemName = item.PresetName;
+                    using var id = ImRaii.PushId(item.UniqueId.ToString());
+                    var itemName = item.PresetName ?? $"Error, Try renaming";
                     
                     if (_filterText.Length != 0 && !itemName.ToLower().Contains(_filterText.ToLower()))
                         continue;
@@ -274,6 +275,7 @@ public static class DrawUtil
                     var color = selectedPreset?.PresetName == itemName
                         ? ImGuiColors.DalamudYellow
                         : ImGuiColors.DalamudWhite;
+                    
                     using (var a = ImRaii.PushColor(ImGuiCol.Text, color))
                     {
                         if (ImGui.Selectable(itemName, false))

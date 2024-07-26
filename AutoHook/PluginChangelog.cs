@@ -8,11 +8,12 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.3.0.7")
+        new Version("4.3.0.x")
         {
             Main =
             {
                "Improved Status display at the top to show more information about why the plugin didn't hook",
+               "Fixed spearfishing preset swap command"
             }
         },
         new Version("4.3.0.5")

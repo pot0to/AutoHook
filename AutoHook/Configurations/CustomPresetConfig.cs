@@ -15,7 +15,7 @@ using ImGuiNET;
 
 namespace AutoHook.Configurations;
 
-public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName)
+public class CustomPresetConfig : BasePresetConfig
 {
     public List<HookConfig> ListOfBaits { get; set; } = new();
     public List<HookConfig> ListOfMooch { get; set; } = new();
@@ -25,6 +25,11 @@ public class CustomPresetConfig(string presetName) : BasePresetConfig(presetName
 
     public ExtraConfig ExtraCfg = new();
 
+    public CustomPresetConfig(string name)
+    {
+        PresetName = name;
+    }
+    
     public override void AddItem(BaseOption item)
     {
         //check if the item is HookConfig (then check BaitFishClass BaitType), or FishConfig 

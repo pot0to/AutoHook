@@ -2,9 +2,9 @@
 
 namespace AutoHook.Classes;
 
-public abstract class BasePresetConfig(string presetName)
+public abstract class BasePresetConfig()
 {
-    public string PresetName { get; set; } = presetName;
+    public string PresetName { get; set; } = "";
 
     public Guid UniqueId { get; set; } = Guid.NewGuid();
     
