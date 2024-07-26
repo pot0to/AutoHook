@@ -22,10 +22,7 @@ public partial class FishingManager
             return;
 
         if (Service.TaskManager.IsBusy)
-        {
-            Service.PrintDebug("busy");
             return;
-        }
 
         var hookCfg = GetHookCfg();
 

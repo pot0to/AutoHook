@@ -41,9 +41,19 @@ public class Service
     public static SeTugType TugType { get; set; } = null!;
     public static ClientLanguage Language { get; set; }
 
-    public static string Status = @"";
+    public static string _status = @"";
     
     public static BaitFishClass LastCatch { get; set; } = new(@"-", -1);
+
+    public static string Status
+    {
+        get => _status;
+        set
+        {
+            PrintDebug(value);
+            _status = value;
+        }
+    }
 
     public static readonly TaskManager TaskManager = new TaskManager()
     {
@@ -83,7 +93,7 @@ public class Service
     
     public static void PrintChat(string msg)
     {
-        PrintDebug(msg);
+        Status = msg;
 
         if (Configuration.ShowChatLogs)
             Chat.Print(msg);

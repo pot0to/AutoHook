@@ -135,6 +135,8 @@ public class HookConfig : BaseOption
             { BiteType.Strong, (hookset.TripleStrong, hookset.DoubleStrong, hookset.PatienceStrong) },
             { BiteType.Legendary, (hookset.TripleLegendary, hookset.DoubleLegendary, hookset.PatienceLegendary) }
         };
+        
+        Service.Status = "";
 
         if (hookDictionary.TryGetValue(bite, out var hook))
         {
@@ -146,7 +148,12 @@ public class HookConfig : BaseOption
                         return hook.th.HooksetType;
 
                 if (hookset.LetFishEscapeTripleHook && PlayerRes.GetCurrentGp() < 700)
+                {
+                    Service.Status = "Not enough GP to use Triple Hook, Letting fish escape is enabled";
                     return HookType.None;
+                }
+
+                Service.Status = $"(Triple Hook) {Service.Status}";
             }
 
             // Double Hook
@@ -157,7 +164,12 @@ public class HookConfig : BaseOption
                         return hook.dh.HooksetType;
 
                 if (hookset.LetFishEscapeDoubleHook && PlayerRes.GetCurrentGp() < 400)
+                {
+                    Service.Status = "Not enough GP to use Double Hook, Letting fish escape is enabled";
                     return HookType.None;
+                }
+                
+                Service.Status = $"(Triple Hook) {Service.Status}";
             }
 
             // Normal - Patience
@@ -165,9 +177,14 @@ public class HookConfig : BaseOption
             {
                 if (CheckHookCondition(hook.ph, timePassed))
                     return IsHookAvailable(hook.ph) ? hook.ph.HooksetType : HookType.Normal;
+                
+                Service.Status = $"(Normal/Patience Hook) {Service.Status}";
             }
+            else if (Service.Status == "")
+                Service.Status = "Skipping bite - No hook for this bite is enabled";
         }
 
+        //Service.Status = "Skipping bite - No hook for this bite is enabled";
         return HookType.None;
     }
 
@@ -188,7 +205,10 @@ public class HookConfig : BaseOption
     private bool IsHookAvailable(BaseBiteConfig hookType)
     {
         if (!PlayerRes.ActionTypeAvailable((uint)hookType.HooksetType))
+        {
+            Service.Status = $"Not available. Normal hook will be used instead";
             return false;
+        }
 
         return true;
     }
@@ -196,10 +216,16 @@ public class HookConfig : BaseOption
     private bool CheckIdenticalCast(BaseBiteConfig hookType)
     {
         if (hookType.OnlyWhenActiveIdentical && !PlayerRes.HasStatus(IDs.Status.IdenticalCast))
+        {
+            Service.Status = $"Skipping bite - Only when active Identical Cast is enabled, but IC is not active.";
             return false;
+        }
 
         if (hookType.OnlyWhenNotActiveIdentical && PlayerRes.HasStatus(IDs.Status.IdenticalCast))
+        {
+            Service.Status = "Skipping bite - Only when Identical Cast is NOT active enabled, but IC is active.";
             return false;
+        }
 
         return true;
     }
@@ -207,10 +233,16 @@ public class HookConfig : BaseOption
     private bool CheckSurfaceSlap(BaseBiteConfig hookType)
     {
         if (hookType.OnlyWhenActiveSlap && !PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
+        {
+            Service.Status = "Skipping bite - Only when active Surface Slap is enabled, but SS is not active.";
             return false;
+        }
 
         if (hookType.OnlyWhenNotActiveSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
+        {
+            Service.Status = "Skipping bite - Only when Surface Slap is NOT active enabled, but SS is active.";
             return false;
+        }
 
         return true;
     }
@@ -236,13 +268,13 @@ public class HookConfig : BaseOption
 
         if (minimumTime > 0 && timePassed < minimumTime)
         {
-            Service.PrintDebug(@"[CheckTimer] minimum time has not been met: " + timePassed + @" < " + minimumTime);
+            Service.Status = $"Skipping bite - Minimum time has not been met - Current: {timePassed} < Min: {minimumTime}";
             return false;
         }
 
         if (maximumTime > 0 && timePassed > maximumTime)
         {
-            Service.PrintDebug(@"[CheckTimer] maximum time has been exceeded: " + timePassed + @" > " + maximumTime);
+            Service.Status = $"Skipping bite - Maximum time has been exceeded - Current: {timePassed} > Max: {maximumTime}";
             return false;
         }
 

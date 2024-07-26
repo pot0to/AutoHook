@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.3.0.6")
+        {
+            Main =
+            {
+               "Improved Status display at the top to show more information about why the plugin didn't hook",
+            }
+        },
         new Version("4.3.0.5")
         {
             Main =

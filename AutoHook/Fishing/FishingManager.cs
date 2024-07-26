@@ -162,8 +162,8 @@ public partial class FishingManager : IDisposable
             var hookCfgName = GetPresetName();
 
             string message = !selected.Enabled
-                ? @$"No config found. Not hooking"
-                : @$"Hook Found: {hookCfgName} {buffStatus}";
+                ? @$"No hooking option found. Make sure to add/enable your bait/mooch settings"
+                : @$"Hooking with: {hookCfgName} {buffStatus}";
 
             Service.Status = message;
             Service.PrintDebug(@$"[HookManager] {message}");
@@ -229,10 +229,7 @@ public partial class FishingManager : IDisposable
 
         if (_lastState == currentState)
             return;
-
-        if (currentState == FishingState.PoleReady)
-            Service.Status = @$"";
-
+        
         _lastState = currentState;
 
         switch (currentState)
@@ -327,7 +324,8 @@ public partial class FishingManager : IDisposable
             _lastStep.HasFlag(FishingSteps.Reeling))
             return;
 
-        Service.PrintDebug(@"[HookManager] Timeout. Hooking fish.");
+        
+        Service.Status = @$"Timeout reached - using Rest";
         PlayerRes.CastActionDelayed(IDs.Actions.Rest, ActionType.Action, UIStrings.Hook);
         _lastStep = FishingSteps.TimeOut;
     }
@@ -370,7 +368,7 @@ public partial class FishingManager : IDisposable
         Service.TaskManager.EnqueueDelay(delay);
         Service.TaskManager.Enqueue(() =>
             PlayerRes.CastActionDelayed((uint)hook, ActionType.Action, @$"{hook.ToString()}"));
-        Service.PrintDebug(@$"[HookManager] Using {hook.ToString()} hook. (Bite: {bite})");
+        Service.Status = (@$"Using {hook.ToString()} hook. (Bite: {bite})");
     }
 
     private void OnCatch(uint fishId, uint amount)
