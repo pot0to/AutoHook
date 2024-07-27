@@ -110,8 +110,6 @@ public class AutoCastsConfig
     {
         Service.PrintDebug("Trying to cancel chum animation");
         // Make sure Salvage is disabled before chum
-        if (PlayerRes.HasStatus(IDs.Status.Salvage))
-            Service.TaskManager.Enqueue(() => PlayerRes.CastAction(IDs.Actions.Salvage));
         
         Service.TaskManager.EnqueueDelay(40);
         Service.TaskManager.Enqueue(() => PlayerRes.CastAction(IDs.Actions.Chum));

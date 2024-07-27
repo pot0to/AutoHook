@@ -335,10 +335,14 @@ public partial class FishingManager : IDisposable
         UpdateStatusAndTimer();
         var currentHook = GetHookCfg();
         _fishingTimer.Stop();
+        
+        if (PlayerRes.HasStatus(IDs.Status.Salvage) && GetAutoCastCfg().ChumAnimationCancel)
+            PlayerRes.CastAction(IDs.Actions.Salvage);
 
         _lastCatch = null;
         _lastStep = FishingSteps.FishBit;
         HookFish(Service.TugType?.Bite ?? BiteType.Unknown, currentHook);
+        
     }
 
     private void HookFish(BiteType bite, HookConfig currentHook)

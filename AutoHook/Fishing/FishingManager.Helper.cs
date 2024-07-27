@@ -42,12 +42,14 @@ public partial class FishingManager
     {
         if (GetAutoCastCfg().RecastAnimationCancel)
             PlayerRes.CastAction(IDs.Actions.Collect);
+        
+        if (PlayerRes.HasStatus(IDs.Status.Salvage) && GetAutoCastCfg().ChumAnimationCancel)
+            PlayerRes.CastAction(IDs.Actions.Salvage);
     }
 
     private const XivChatType FishingMessage = (XivChatType)2243;
     private const XivChatType SystemAlert = (XivChatType)2115; //idk what to call this
-
-
+    
     private void OnMessageDelegate(XivChatType type, int timeStamp, ref SeString sender, ref SeString messageSe,
         ref bool isHandled)
     {
