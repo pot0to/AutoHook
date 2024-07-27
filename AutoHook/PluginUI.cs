@@ -238,12 +238,14 @@ public class PluginUi : Window, IDisposable
                         }
                     }
 
+#if (DEBUG)
                     if (ImGui.Selectable($"{debug.TabName}###{debug.TabName}Main",
                             _selectedTab == debug.Type))
                     {
                         _selectedTab = OpenWindow.Debug;
                     }
-
+#endif
+                    
                     if (ImGui.Selectable($"{UIStrings.AboutTab}", _selectedTab == null))
                     {
                         _selectedTab = OpenWindow.About;
