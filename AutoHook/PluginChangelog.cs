@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.3.0.9")
+        {
+            Main =
+            {
+                "Initial Attempt on fixing the issue with Gig not being used after a while",
+            }
+        },
         new Version("4.3.0.x")
         {
             Main =

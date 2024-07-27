@@ -14,6 +14,11 @@ public readonly struct MultiString
         return ParseSeString(Service.DataManager.GetExcelSheet<Status>()!.GetRow(statusId)?.Name);
     }
     
+    public static string GetActionName(uint id) 
+    { 
+        return ParseSeString(Service.DataManager.GetExcelSheet<Action>()!.GetRow(id)?.Name); 
+    } 
+    
     public static string GetItemName(uint id)
     {
         if (id == 0)

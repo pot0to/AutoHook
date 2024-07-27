@@ -13,6 +13,8 @@ using AutoHook.Classes;
 using AutoHook.Configurations;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Interface.Colors;
+using ECommons.Automation;
+using ECommons.Automation.NeoTaskManager;
 
 namespace AutoHook.Spearfishing;
 
@@ -34,13 +36,20 @@ internal class AutoGig : Window, IDisposable
     private int currentNode = 0;
 
     private readonly SpearFishingPresets _gigCfg = Service.Configuration.AutoGigConfig;
+    
+    public static string Gig = "Gig";
+    
+    private TaskManager _taskManager = new TaskManager()
+    {
+        DefaultConfiguration = { TimeLimitMS = 10000, ShowDebug = false }
+    };
 
     public AutoGig() : base(@"SpearfishingHelper", WindowFlags, true)
     {
         Service.WindowSystem.AddWindow(this);
         IsOpen = true;
-
         Service.Condition.ConditionChange += Condition_ConditionChange;
+        Gig = MultiString.GetActionName(IDs.Actions.Gig);
     }
 
     private void Condition_ConditionChange(Dalamud.Game.ClientState.Conditions.ConditionFlag flag, bool value)
@@ -69,8 +78,7 @@ internal class AutoGig : Window, IDisposable
     {
         if (ImGui.Checkbox(UIStrings.Enable_AutoGig, ref _gigCfg.AutoGigEnabled))
             Service.Save();
-
-
+        
         var selectedPreset = _gigCfg.SelectedPreset;
         
         ImGui.SameLine();
@@ -188,7 +196,7 @@ internal class AutoGig : Window, IDisposable
 
         if (fishHitbox >= (centerX - gigHitbox) && fishHitbox <= (centerX + gigHitbox))
         {
-            PlayerRes.CastActionNoDelay(IDs.Actions.Gig);
+            _taskManager.Enqueue(() => { Chat.Instance.ExecuteCommand($"/ac \"{Gig}\""); });
         }
     }
 
