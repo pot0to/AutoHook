@@ -1,16 +1,11 @@
 # Auto accept collectable popup
-Theres an amazing plugin by Daemitus called YesAlready that can help us with that.
+Theres an amazing plugin also published by Puni.sh called YesAlready that can help us with that.
 
 ## Installation
 
+* We use the same repo, so just search and Install YesAlready from the Plugin Installer.
+  
 https://github.com/PunishXIV/YesAlready
-
-* Open the repo and copy the .json link
-* Open your Plugin Installer Window and click Settings
-* Go to the Experimental Tab
-* Paste the link into the Custom Plugin Repositories, and click the + on the right to add it.
-* Save and close.
-* Search and Install YesAlready from the Plugin Installer.
 
 ## Configuration
 ### Option 1 (kr/cn not supported)
