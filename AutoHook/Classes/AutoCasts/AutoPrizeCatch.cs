@@ -56,12 +56,6 @@ public class AutoPrizeCatch : BaseActionCast
         DrawUtil.Checkbox(UIStrings.UseIcActive, ref UseOnlyWithIdenticalCast);
 
         DrawUtil.Checkbox(UIStrings.UseSlapActive, ref UseOnlyWithActiveSlap);
-
-        if (ImGui.Button("Check Condition"))
-        {
-            Service.PrintChat(
-                $"{UseOnlyWithIdenticalCast && !PlayerRes.HasStatus(IDs.Status.IdenticalCast) && UseOnlyWithActiveSlap && !PlayerRes.HasStatus(IDs.Status.SurfaceSlap)}");
-        }
     };
 
     public override int Priority { get; set; } = 13;
