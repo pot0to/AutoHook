@@ -211,7 +211,7 @@ public static class DrawUtil
     {
         ImGui.SetNextItemWidth(220 * ImGuiHelpers.GlobalScale);
 
-        if (ImGui.BeginCombo("###search", selectedItem))
+        if (ImGui.BeginCombo("###search", selectedItem ?? "Error"))
         {
             ImGui.SetNextItemWidth(190 * ImGuiHelpers.GlobalScale);
 
@@ -223,7 +223,7 @@ public static class DrawUtil
             {
                 foreach (var item in itemList)
                 {
-                    var itemName = getItemName(item);
+                    var itemName = getItemName(item) ?? $"Error, Try renaming";
 
                     if (_filterText.Length != 0 && !itemName.ToLower().Contains(_filterText.ToLower()))
                         continue;
@@ -308,7 +308,7 @@ public static class DrawUtil
         if (ImGui.BeginPopup(@$"PresetRenameName"))
         {
             ImGui.Text(UIStrings.EnterToConfirm);
-            var name = selectedPreset.PresetName;
+            var name = selectedPreset.PresetName ?? "Rename";
             if (ImGui.InputText(UIStrings.PresetName, ref name, 64,
                     ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.EnterReturnsTrue))
             {
