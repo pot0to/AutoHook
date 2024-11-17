@@ -13,13 +13,13 @@ public struct SpearfishWindow
     [StructLayout(LayoutKind.Explicit)]
     public struct Info
     {
-        [FieldOffset(0x00)]
+        [FieldOffset(8)]
         public bool Available;
 
-        [FieldOffset(0x08)]
+        [FieldOffset(16)]
         public bool InverseDirection;
 
-        [FieldOffset(0x09)]
+        [FieldOffset(17)]
         public bool GuaranteedLarge;
 
         [FieldOffset(18)]
