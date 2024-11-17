@@ -1989,6 +1989,42 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use lure when Identical Cast is active.
+        /// </summary>
+        internal static string LureICActive {
+            get {
+                return ResourceManager.GetString("LureICActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use lure when Identical Cast is not active.
+        /// </summary>
+        internal static string LureICNotActive {
+            get {
+                return ResourceManager.GetString("LureICNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use lure when Surface Slap is active.
+        /// </summary>
+        internal static string LureSSActive {
+            get {
+                return ResourceManager.GetString("LureSSActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only use lure when Surface Slap is not active.
+        /// </summary>
+        internal static string LureSSNotActive {
+            get {
+                return ResourceManager.GetString("LureSSNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lure Stacks:.
         /// </summary>
         internal static string LureStacks {

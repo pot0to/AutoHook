@@ -134,13 +134,13 @@ public class AutoLures : BaseActionCast
     {
         ImGui.Indent();
 
-        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenActiveSurfaceSlap, ref OnlyWhenActiveSlap))
+        if (DrawUtil.Checkbox(UIStrings.LureSSActive, ref OnlyWhenActiveSlap))
         {
             OnlyWhenNotActiveSlap = false;
             Service.Save();
         }
 
-        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenNOTActiveSurfaceSlap, ref OnlyWhenNotActiveSlap))
+        if (DrawUtil.Checkbox(UIStrings.LureSSNotActive, ref OnlyWhenNotActiveSlap))
         {
             OnlyWhenActiveSlap = false;
             Service.Save();
@@ -153,13 +153,13 @@ public class AutoLures : BaseActionCast
     {
         ImGui.Indent();
 
-        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenActiveIdentical, ref OnlyWhenActiveIdentical))
+        if (DrawUtil.Checkbox(UIStrings.LureICActive, ref OnlyWhenActiveIdentical))
         {
             OnlyWhenNotActiveIdentical = false;
             Service.Save();
         }
 
-        if (DrawUtil.Checkbox(UIStrings.OnlyHookWhenNOTActiveIdentical, ref OnlyWhenNotActiveIdentical))
+        if (DrawUtil.Checkbox(UIStrings.LureICNotActive, ref OnlyWhenNotActiveIdentical))
         {
             OnlyWhenActiveIdentical = false;
             Service.Save();

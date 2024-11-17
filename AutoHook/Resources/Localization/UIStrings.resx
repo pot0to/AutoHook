@@ -1391,4 +1391,16 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="StatusNoPreset" xml:space="preserve">
     <value>No preset active, Global Preset will be used instead</value>
   </data>
+  <data name="LureSSActive" xml:space="preserve">
+    <value>Only use lure when Surface Slap is active</value>
+  </data>
+  <data name="LureSSNotActive" xml:space="preserve">
+    <value>Only use lure when Surface Slap is not active</value>
+  </data>
+  <data name="LureICActive" xml:space="preserve">
+    <value>Only use lure when Identical Cast is active</value>
+  </data>
+  <data name="LureICNotActive" xml:space="preserve">
+    <value>Only use lure when Identical Cast is not active</value>
+  </data>
 </root>
