@@ -36,7 +36,7 @@ public class BaitFishClass : IComparable<BaitFishClass>
     public BaitFishClass(FishRow fishRow)
     {
         var itemData = fishRow.Item.GetValueOrDefault<ItemRow>() ?? new ItemRow();
-        LureMessage = fishRow.Unknown1.ToString();
+        LureMessage = fishRow.Unknown_70_1.ToString();
         Id = (int)itemData.RowId;
     }
 

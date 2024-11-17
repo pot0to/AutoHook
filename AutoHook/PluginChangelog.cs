@@ -13,16 +13,21 @@ public static class PluginChangelog
             Main =
             {
                 "7.1 Update",
+            },
+            Minor =
+            {
+                "Fixed Ver/Amb Lures",
+                "Localization Update"
             }
         },
         new Version("4.3.0.x")
         {
             Main =
             {
-               "Improved Status display at the top to show more information about why the plugin didn't hook",
-               "Fixed spearfishing preset swap command",
-               "Initial Attempt on fixing the issue with Gig not being used after a while",
-               "Fixed crash with combo selector"
+                "Improved Status display at the top to show more information about why the plugin didn't hook",
+                "Fixed spearfishing preset swap command",
+                "Initial Attempt on fixing the issue with Gig not being used after a while",
+                "Fixed crash with combo selector"
             }
         },
         new Version("4.3.0.5")
@@ -49,7 +54,6 @@ public static class PluginChangelog
                 "Options for Big-game fishing and Prize Catch for when Identical Cast >OR< Surface Slap is active",
                 "Identical Cast / Surface Slap will now be used if Stop Casting is activated",
                 "4.3.0.4 - Fixed the issue with Global preset for first time users"
-                
             },
             Minor =
             {
