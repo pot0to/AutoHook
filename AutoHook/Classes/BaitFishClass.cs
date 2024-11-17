@@ -3,9 +3,9 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using AutoHook.Enums;
 using AutoHook.Utils;
-using Lumina.Excel.GeneratedSheets;
-using FishRow = Lumina.Excel.GeneratedSheets.FishParameter;
-using ItemRow = Lumina.Excel.GeneratedSheets.Item;
+using Lumina.Excel.Sheets;
+using FishRow = Lumina.Excel.Sheets.FishParameter;
+using ItemRow = Lumina.Excel.Sheets.Item;
 
 namespace AutoHook.Classes;
 
@@ -35,8 +35,7 @@ public class BaitFishClass : IComparable<BaitFishClass>
 
     public BaitFishClass(FishRow fishRow)
     {
-        var itemData = Service.DataManager.GetExcelSheet<ItemRow>()?.GetRow((uint)fishRow.Item) ?? new Item();
-
+        var itemData = fishRow.Item.GetValueOrDefault<ItemRow>() ?? new ItemRow();
         LureMessage = fishRow.Unknown1.ToString();
         Id = (int)itemData.RowId;
     }

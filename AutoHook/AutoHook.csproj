@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Authors>Det</Authors>
-        <Version>4.3.0.12</Version>
+        <Version>4.3.1.0</Version>
         <Description>Auto hooks for you</Description>
         <PackageProjectUrl>https://github.com/PunishXIV/AutoHook</PackageProjectUrl>
         <Configurations>Release;Debug</Configurations>
@@ -61,7 +61,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="2.1.13"/>
+        <PackageReference Include="DalamudPackager" Version="11.0.0" />
         <PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
         <ProjectReference Include="..\PunishLib\PunishLib\PunishLib.csproj"/>
         <Reference Include="FFXIVClientStructs">

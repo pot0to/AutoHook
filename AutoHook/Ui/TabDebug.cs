@@ -121,13 +121,13 @@ public class TabDebug : BaseTab
     
 
     private static bool ProcessRepair()
-    {
+    {/*
         var s = RepairManager.ProcessRepair();
 
         if (s)
-            repairStauts = RepairStatus.Success;
+            repairStauts = RepairStatus.Success;*/
 
-        return s;
+        return false;
     }
 
     private void RepairFailed(TaskManagerTask task, ref long ms)

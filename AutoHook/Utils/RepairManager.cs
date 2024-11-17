@@ -5,7 +5,7 @@ using ECommons.Throttlers;
 using ECommons.UIHelpers.AddonMasterImplementations;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using ECommons.ExcelServices;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
@@ -13,6 +13,7 @@ namespace AutoHook.Utils;
 
 public unsafe class RepairManager
 {
+    /*
     public static bool UseRepair() => ActionManager.Instance()->UseAction(ActionType.GeneralAction, 6);
     
     internal static void Repair()
@@ -167,5 +168,5 @@ public unsafe class RepairManager
         }
 
         return true;
-    }
+    }*/
 }

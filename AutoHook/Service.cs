@@ -48,11 +48,7 @@ public class Service
     public static string Status
     {
         get => _status;
-        set
-        {
-            PrintDebug(value);
-            _status = value;
-        }
+        set => _status = value;
     }
 
     public static readonly TaskManager TaskManager = new TaskManager()

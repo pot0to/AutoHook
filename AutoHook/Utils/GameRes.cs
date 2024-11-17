@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using AutoHook.Classes;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace AutoHook.Utils;
 
@@ -24,13 +24,13 @@ public static class GameRes
     public static void Initialize()
     {
         Baits = Service.DataManager.GetExcelSheet<Item>()?
-                    .Where(i => i.ItemSearchCategory.Row == FishingTackleRow)
+                    .Where(i => i.ItemSearchCategory.RowId == FishingTackleRow)
                     .Select(b => new BaitFishClass(b))
                     .ToList()
                 ?? new List<BaitFishClass>();
 
         Fishes = Service.DataManager.GetExcelSheet<FishParameter>()?
-                     .Where(f => f.Item != 0 && f.Item < 1000000)
+                     .Where(f => f.Item.RowId != 0 && f.Item.RowId < 1000000)
                      .Select(f => new BaitFishClass(f))
                      .GroupBy(f => f.Id)
                      .Select(group => group.First())

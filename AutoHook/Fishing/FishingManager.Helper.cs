@@ -8,7 +8,7 @@ using AutoHook.Utils;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using ECommons.Throttlers;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace AutoHook.Fishing;
 
@@ -59,7 +59,7 @@ public partial class FishingManager
             {
                 var text = messageSe.TextValue;
                 var logId = Service.DataManager.GetExcelSheet<LogMessage>()
-                    ?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
+                    ?.FirstOrDefault(x => x.Text.ToString() == text).RowId;
 
                 // Check if a special fish is found
                 _lureSuccess = GameRes.LureFishes.FirstOrDefault(f => f.LureMessage == text) != null;
@@ -76,7 +76,7 @@ public partial class FishingManager
             {
                 var text = messageSe.TextValue;
                 var logId = Service.DataManager.GetExcelSheet<LogMessage>()
-                    ?.FirstOrDefault(x => x.Text.ToString() == text)?.RowId;
+                    ?.FirstOrDefault(x => x.Text.ToString() == text).RowId;
 
                 if (logId is XivChatLog.CantFish)
                     Service.Status = UIStrings.CantFishHere;

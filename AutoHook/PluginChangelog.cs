@@ -8,6 +8,13 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.3.1.0")
+        {
+            Main =
+            {
+                "7.1 Update",
+            }
+        },
         new Version("4.3.0.x")
         {
             Main =
