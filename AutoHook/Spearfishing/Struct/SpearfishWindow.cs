@@ -22,10 +22,10 @@ public struct SpearfishWindow
         [FieldOffset(0x09)]
         public bool GuaranteedLarge;
 
-        [FieldOffset(0x0A)]
+        [FieldOffset(18)]
         public SpearfishSize Size;
 
-        [FieldOffset(0x0C)]
+        [FieldOffset(20)]
         public SpearfishSpeed Speed;
     }
 
