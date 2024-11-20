@@ -60,4 +60,16 @@ public class SpearFishingPresets : BasePreset
         Presets.Remove(preset);
         Service.Save();
     }
+    
+    public override void SwapIndex(int itemIndex, int targetIndex)
+    {
+        var moved = Presets[itemIndex];
+        
+        if(moved == null)
+            return;
+        
+        RemovePreset(moved.UniqueId);
+        Presets.Insert(targetIndex, moved);
+        Service.Save();
+    }
 }

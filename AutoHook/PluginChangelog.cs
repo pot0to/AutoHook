@@ -8,7 +8,14 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.3.1.8")
+        new Version("4.3.1.10")
+        {
+            Main =
+            {
+                "You can now Drag and Drop to organize the presets order. Folders will be added another time",
+            }
+        },
+        new Version("4.3.1.9")
         {
             Main =
             {

@@ -50,6 +50,8 @@ public abstract class BasePreset
     {
         Service.Save();
     }
+
+    public abstract void SwapIndex(int itemIndex, int targetIndex);
     
     public virtual BasePresetConfig? GetPreset(Guid value)
     {

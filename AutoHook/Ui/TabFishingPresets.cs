@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoHook.Classes;
 using AutoHook.Configurations;
 using AutoHook.Enums;
@@ -68,6 +70,37 @@ public class TabFishingPresets : BaseTab
         //todo: add dropdown for preset selection
     }
 
+    public static List<(string, List<CustomPresetConfig>)> OrganizeItems(List<CustomPresetConfig> items)
+    {
+        var myList = new List<(string, List<CustomPresetConfig>)>();
+
+        foreach (var item in items)
+        {
+            if (string.IsNullOrEmpty(item.GroupName))
+            {
+                // Ungrouped item: Add as a file with an empty group name
+                myList.Add(("", [item]));
+            }
+            else
+            {
+                // Grouped item: Find or create the folder
+                var folder = myList.FirstOrDefault(x => x.Item1 == item.GroupName);
+
+                if (folder == default)
+                {
+                    // Folder doesn't exist: Create a new one
+                    folder = (item.GroupName, []);
+                    myList.Add(folder);
+                }
+
+                // Add the item to the folder
+                folder.Item2.Add(item);
+            }
+        }
+
+        return myList;
+    }
+
 
     private static BasePresetConfig? displayed = _basePreset.SelectedPreset ?? _basePreset.DefaultPreset;
 
@@ -104,9 +137,38 @@ public class TabFishingPresets : BaseTab
                 }
 
                 ImGui.Separator();
+                
+                /*
+                Dictionary<string, List<BasePresetConfig>> toDraw = new();
+                var organized = OrganizeItems(_basePreset.CustomPresets);
+                bool show = true;
 
-                foreach (var preset in _basePreset.PresetList)
+                foreach (var entry in organized)
                 {
+                    bool empty = string.IsNullOrEmpty(entry.Item1);
+                    for (var i = 0; i < entry.Item2.Count; i++)
+                    {
+                        using var id = ImRaii.PushId(i);
+                        var preset = entry.Item2[i];
+
+                        if (!empty)
+                        {
+                            if (ImGui.TreeNodeEx($"Name aa {preset.PresetName}###{preset.PresetName}", ImGuiTreeNodeFlags.FramePadding))
+                                show = true;
+                            else
+                                show = false;
+                        }
+
+                        if (show)
+                        {
+                            //todo wth the f is this
+                        }
+                    }
+                }*/
+
+                for (var i = 0; i < _basePreset.PresetList.Count; i++)
+                {
+                    var preset = _basePreset.PresetList[i];
                     using var id = ImRaii.PushId(preset.UniqueId.ToString());
                     var selected = _basePreset.SelectedGuid == preset.UniqueId.ToString();
                     var color = selected ? ImGuiColors.DalamudOrange : ImGuiColors.DalamudWhite;
@@ -126,6 +188,26 @@ public class TabFishingPresets : BaseTab
                         }
                     }
 
+                    if (ImGui.BeginDragDropSource())
+                    {
+                        ImGuiDragDrop.SetDragDropPayload("PRESET_ORDER", i);
+                        ImGui.Text($"Moving: {preset.PresetName}");
+                        ImGui.EndDragDropSource();
+                    }
+
+                    if (ImGui.BeginDragDropTarget())
+                    {
+                        if (ImGuiDragDrop.AcceptDragDropPayload("PRESET_ORDER", out int itemIndex))
+                        {
+                            if (ImGui.IsMouseReleased(ImGuiMouseButton.Left))
+                            {
+                                _basePreset.SwapIndex(itemIndex, i);
+                            }
+                        }
+
+                        ImGui.EndDragDropTarget();
+                    }
+
                     if (ImGui.IsItemHovered())
                         ImGui.SetTooltip(UIStrings.RightClickOptions);
 
@@ -133,6 +215,53 @@ public class TabFishingPresets : BaseTab
                 }
             }
         }
+    }
+
+    private void DrawItem(CustomPresetConfig preset, int i)
+    {
+        using var id = ImRaii.PushId(preset.UniqueId.ToString());
+        var selected = _basePreset.SelectedGuid == preset.UniqueId.ToString();
+        var color = selected ? ImGuiColors.DalamudOrange : ImGuiColors.DalamudWhite;
+        using (var a = ImRaii.PushColor(ImGuiCol.Text, color))
+        {
+            if (ImGui.Selectable((selected ? "> " : "") + preset.PresetName,
+                    displayed?.UniqueId == preset.UniqueId,
+                    ImGuiSelectableFlags.AllowDoubleClick))
+            {
+                displayed = preset;
+
+                if (ImGui.IsMouseDoubleClicked(ImGuiMouseButton.Left))
+                {
+                    _basePreset.SelectedPreset = selected ? null : (CustomPresetConfig)preset;
+                    Service.Save();
+                }
+            }
+        }
+
+        if (ImGui.BeginDragDropSource())
+        {
+            ImGuiDragDrop.SetDragDropPayload("PRESET_ORDER", i); // Use IntPtr for payload
+            ImGui.Text(preset.PresetName);
+            ImGui.EndDragDropSource();
+        }
+
+        if (ImGui.BeginDragDropTarget())
+        {
+            if (ImGuiDragDrop.AcceptDragDropPayload("PRESET_ORDER", out int itemIndex))
+            {
+                if (ImGui.IsMouseReleased(ImGuiMouseButton.Left))
+                {
+                    _basePreset.SwapIndex(itemIndex, i);
+                }
+            }
+
+            ImGui.EndDragDropTarget();
+        }
+
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(UIStrings.RightClickOptions);
+
+        DrawPresetContext(preset);
     }
 
     private void DrawPresetOptions(BasePresetConfig? preset)

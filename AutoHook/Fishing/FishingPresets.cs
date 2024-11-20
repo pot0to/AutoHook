@@ -54,6 +54,18 @@ public class FishingPresets : BasePreset
         Service.Save();
     }
 
+    public override void SwapIndex(int itemIndex, int targetIndex)
+    {
+        var moved = CustomPresets[itemIndex];
+        
+        if(moved == null)
+            return;
+        
+        RemovePreset(moved.UniqueId);
+        CustomPresets.Insert(targetIndex, moved);
+        Service.Save();
+    }
+
 
     [JsonIgnore] public override List<BasePresetConfig> PresetList => CustomPresets.Cast<BasePresetConfig>().ToList();
 }

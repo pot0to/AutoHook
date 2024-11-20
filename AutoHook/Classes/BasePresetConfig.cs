@@ -1,10 +1,13 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace AutoHook.Classes;
 
 public abstract class BasePresetConfig()
 {
     public string PresetName { get; set; } = "";
+    
+    [JsonIgnore] public string GroupName { get; set; } = "";
 
     public Guid UniqueId { get; set; } = Guid.NewGuid();
     
