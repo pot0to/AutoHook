@@ -8,6 +8,20 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.3.2.0")
+        {
+            Main =
+            {
+                "Added a new condition for hooking: Only when Prize Catch is active/not active",
+            },
+            Minor = 
+            {
+                "Small UI update for nested options (sorry i know its ugly)",
+                "Updated bite timers for preset generation",
+                "Fixed a bug where the some options were being saved correctly",
+                "Translation Update"
+            }
+        },
         new Version("4.3.1.10")
         {
             Main =

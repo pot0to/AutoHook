@@ -30,6 +30,9 @@ public class BaseBiteConfig
     public bool OnlyWhenActiveIdentical;
     public bool OnlyWhenNotActiveIdentical;
 
+    public bool PrizeCatchReq;
+    public bool PrizeCatchNotReq;
+    
     public HookType HooksetType;
 
     public BaseBiteConfig(HookType type)
@@ -45,14 +48,24 @@ public class BaseBiteConfig
         DrawUtil.DrawCheckboxTree(biteName, ref HooksetEnabled,
             () =>
             {
+                DrawUtil.DrawTreeNodeEx(UIStrings.Conditions, () =>
+                {
+                    ImGui.Indent();
+                    DrawUtil.DrawTreeNodeEx(UIStrings.Surface_Slap_Options, DrawSurfaceSwap);
+               
+                    DrawUtil.DrawTreeNodeEx(UIStrings.Identical_Cast_Options, DrawIdenticalCast);
+                    
+                    DrawUtil.DrawTreeNodeEx(UIStrings.Prize_Catch_Options, DrawPrizeCatch);
+                    
+                    ImGui.Unindent();
+                    
+                }, UIStrings.Conditions_HelpText);
+                
                 if (EnableHooksetSwap)
                     DrawUtil.DrawTreeNodeEx(UIStrings.HookType, DrawBite, UIStrings.HookWillBeUsedIfPatienceIsNotUp);
                 
                 DrawUtil.DrawTreeNodeEx(UIStrings.HookingTimer,DrawTimers, UIStrings.HookingTimerHelpText);
                 
-                DrawUtil.DrawTreeNodeEx(UIStrings.Surface_Slap_Options, DrawSurfaceSwap);
-               
-                DrawUtil.DrawTreeNodeEx(UIStrings.Identical_Cast_Options, DrawIdenticalCast);
             });
 
         ImGui.PopID();
@@ -117,6 +130,17 @@ public class BaseBiteConfig
             OnlyWhenActiveIdentical = false;
             Service.Save();
         }
+        
+        ImGui.Unindent();
+    }
+    
+    private void DrawPrizeCatch()
+    {
+        ImGui.Indent();
+
+        DrawUtil.Checkbox(UIStrings.Prize_Catch_Required, ref PrizeCatchReq);
+        
+        DrawUtil.Checkbox(UIStrings.PrizeCatchNotActive, ref PrizeCatchNotReq);
         
         ImGui.Unindent();
     }

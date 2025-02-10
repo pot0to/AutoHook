@@ -848,6 +848,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditions.
+        /// </summary>
+        internal static string Conditions {
+            get {
+                return ResourceManager.GetString("Conditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specific conditions for hooking.
+        /// </summary>
+        internal static string Conditions_HelpText {
+            get {
+                return ResourceManager.GetString("Conditions_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure.
         /// </summary>
         internal static string Configure {
@@ -2700,6 +2718,33 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prize Catch Options.
+        /// </summary>
+        internal static string Prize_Catch_Options {
+            get {
+                return ResourceManager.GetString("Prize_Catch_Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only hook when Prize Catch active.
+        /// </summary>
+        internal static string Prize_Catch_Required {
+            get {
+                return ResourceManager.GetString("Prize_Catch_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only hook when Prize Catch NOT active.
+        /// </summary>
+        internal static string PrizeCatchNotActive {
+            get {
+                return ResourceManager.GetString("PrizeCatchNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quit action will be used and completely stop fishing.
         /// </summary>
         internal static string Quit_Action_HelpText {
@@ -3031,6 +3076,69 @@ namespace AutoHook.Resources.Localization {
         internal static string Starts_AutoHook {
             get {
                 return ResourceManager.GetString("Starts_AutoHook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - Identical Cast is active, but NOT active is required for hooking.
+        /// </summary>
+        internal static string Status_IdenticalCastNotRequired {
+            get {
+                return ResourceManager.GetString("Status_IdenticalCastNotRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - Identical Cast is required for hooking, but is not active.
+        /// </summary>
+        internal static string Status_IdenticalCastRequired {
+            get {
+                return ResourceManager.GetString("Status_IdenticalCastRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - No hook for this bite is enabled.
+        /// </summary>
+        internal static string Status_NoHookEnabled {
+            get {
+                return ResourceManager.GetString("Status_NoHookEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - Prize Catch is active, but NOT active is required for hooking.
+        /// </summary>
+        internal static string Status_PrizeCatchNotRequired {
+            get {
+                return ResourceManager.GetString("Status_PrizeCatchNotRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - Prize Catch is required for hooking, but is not active.
+        /// </summary>
+        internal static string Status_PrizeCatchRequired {
+            get {
+                return ResourceManager.GetString("Status_PrizeCatchRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - Surface Slap is active, but NOT active is required for hooking.
+        /// </summary>
+        internal static string Status_SurfaceSlapNotRequired {
+            get {
+                return ResourceManager.GetString("Status_SurfaceSlapNotRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping bite - Surface Slap is required for hooking, but is not active.
+        /// </summary>
+        internal static string Status_SurfaceSlapRequired {
+            get {
+                return ResourceManager.GetString("Status_SurfaceSlapRequired", resourceCulture);
             }
         }
         

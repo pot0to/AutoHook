@@ -1403,4 +1403,40 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="LureICNotActive" xml:space="preserve">
     <value>Only use lure when Identical Cast is not active</value>
   </data>
+  <data name="Prize_Catch_Options" xml:space="preserve">
+    <value>Prize Catch Options</value>
+  </data>
+  <data name="Prize_Catch_Required" xml:space="preserve">
+    <value>Only hook when Prize Catch active</value>
+  </data>
+  <data name="Conditions" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="Conditions_HelpText" xml:space="preserve">
+    <value>Specific conditions for hooking</value>
+  </data>
+  <data name="Status_NoHookEnabled" xml:space="preserve">
+    <value>Skipping bite - No hook for this bite is enabled</value>
+  </data>
+  <data name="Status_PrizeCatchRequired" xml:space="preserve">
+    <value>Skipping bite - Prize Catch is required for hooking, but is not active</value>
+  </data>
+  <data name="Status_IdenticalCastRequired" xml:space="preserve">
+    <value>Skipping bite - Identical Cast is required for hooking, but is not active</value>
+  </data>
+  <data name="Status_IdenticalCastNotRequired" xml:space="preserve">
+    <value>Skipping bite - Identical Cast is active, but NOT active is required for hooking</value>
+  </data>
+  <data name="Status_SurfaceSlapRequired" xml:space="preserve">
+    <value>Skipping bite - Surface Slap is required for hooking, but is not active</value>
+  </data>
+  <data name="Status_SurfaceSlapNotRequired" xml:space="preserve">
+    <value>Skipping bite - Surface Slap is active, but NOT active is required for hooking</value>
+  </data>
+  <data name="PrizeCatchNotActive" xml:space="preserve">
+    <value>Only hook when Prize Catch NOT active</value>
+  </data>
+  <data name="Status_PrizeCatchNotRequired" xml:space="preserve">
+    <value>Skipping bite - Prize Catch is active, but NOT active is required for hooking</value>
+  </data>
 </root>

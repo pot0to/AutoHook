@@ -50,17 +50,17 @@ internal class TabAutoGig : BaseTab
             if (DrawUtil.Checkbox(UIStrings.CatchEverything, ref _gigCfg.CatchAll, UIStrings.IgnoresPresets))
                 Service.Save();
             
-            if (DrawUtil.Checkbox(UIStrings.NBBeforeFish, ref _gigCfg.NatureBountyBeforeFish, UIStrings.NBBeforeFishHelpText))
-                Service.Save();
-
             if (_gigCfg.CatchAll)
             {
-                ImGui.Text($"└");
+                ImGui.Text($" └");
                 ImGui.SameLine();
                 if (DrawUtil.Checkbox(UIStrings.Use_Natures_Bounty, ref _gigCfg.CatchAllNaturesBounty,
                         UIStrings.CatchAllNaturesBountyHelpText))
                     Service.Save();
             }
+            
+            if (DrawUtil.Checkbox(UIStrings.NBBeforeFish, ref _gigCfg.NatureBountyBeforeFish, UIStrings.NBBeforeFishHelpText))
+                Service.Save();
             
             ImGui.TextColored(ImGuiColors.DalamudYellow, UIStrings.AutoCordialPandoras);
         });

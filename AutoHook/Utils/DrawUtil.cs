@@ -517,6 +517,11 @@ public static class DrawUtil
             var x = ImGui.GetCursorPosX();
             if (ImGui.TreeNodeEx(treeName, ImGuiTreeNodeFlags.FramePadding))
             {
+                ImGui.SetCursorPosX(x);
+                TextV($" └");
+                ImGui.SameLine();
+                
+                x = ImGui.GetCursorPosX();
                 if (ImGui.IsItemHovered() && helpText != string.Empty)
                     ImGui.SetTooltip(helpText);
 
@@ -559,6 +564,8 @@ public static class DrawUtil
 
                 ImGui.SetCursorPosX(x);
                 ImGui.BeginGroup();
+                TextV($" └");
+                ImGui.SameLine();
                 action();
                 ImGui.Separator();
                 ImGui.EndGroup();

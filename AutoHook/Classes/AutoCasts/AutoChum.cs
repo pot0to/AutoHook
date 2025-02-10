@@ -7,7 +7,7 @@ namespace AutoHook.Classes.AutoCasts;
 
 public class AutoChum : BaseActionCast
 {
-    private bool _onlyUseWithIntuition;
+    public bool _onlyUseWithIntuition;
     public int _useWhenIntuitionExceeds = 0;
 
     public override bool DoesCancelMooch() => true;

@@ -5,6 +5,7 @@ using AutoHook.Classes;
 using AutoHook.Data;
 using AutoHook.Enums;
 using AutoHook.Fishing;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 
 namespace AutoHook.Configurations;
@@ -181,7 +182,7 @@ public class HookConfig : BaseOption
                 Service.Status = $"(Normal/Patience Hook) {Service.Status}";
             }
             else if (Service.Status == "")
-                Service.Status = "Skipping bite - No hook for this bite is enabled";
+                Service.Status = UIStrings.Status_NoHookEnabled;
         }
 
         //Service.Status = "Skipping bite - No hook for this bite is enabled";
@@ -194,6 +195,9 @@ public class HookConfig : BaseOption
             return false;
 
         if (!CheckSurfaceSlap(hookType))
+            return false;
+        
+        if (!CheckPrizeCatch(hookType))
             return false;
 
         if (!CheckTimer(hookType, timePassed))
@@ -217,16 +221,32 @@ public class HookConfig : BaseOption
     {
         if (hookType.OnlyWhenActiveIdentical && !PlayerRes.HasStatus(IDs.Status.IdenticalCast))
         {
-            Service.Status = $"Skipping bite - Only when active Identical Cast is enabled, but IC is not active.";
+            Service.Status = UIStrings.Status_IdenticalCastRequired;
             return false;
         }
 
         if (hookType.OnlyWhenNotActiveIdentical && PlayerRes.HasStatus(IDs.Status.IdenticalCast))
         {
-            Service.Status = "Skipping bite - Only when Identical Cast is NOT active enabled, but IC is active.";
+            Service.Status = UIStrings.Status_IdenticalCastNotRequired;
             return false;
         }
 
+        return true;
+    }
+
+    private bool CheckPrizeCatch(BaseBiteConfig hookType)
+    {
+        if (hookType.PrizeCatchReq && !PlayerRes.HasStatus(IDs.Status.PrizeCatch))
+        {
+            Service.Status = UIStrings.Status_PrizeCatchRequired;
+            return false;
+        }
+
+        if (hookType.PrizeCatchNotReq && PlayerRes.HasStatus(IDs.Status.PrizeCatch))
+        {
+            Service.Status = UIStrings.Status_PrizeCatchNotRequired;
+        }
+        
         return true;
     }
 
@@ -234,13 +254,13 @@ public class HookConfig : BaseOption
     {
         if (hookType.OnlyWhenActiveSlap && !PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
         {
-            Service.Status = "Skipping bite - Only when active Surface Slap is enabled, but SS is not active.";
+            Service.Status = UIStrings.Status_SurfaceSlapRequired;
             return false;
         }
 
         if (hookType.OnlyWhenNotActiveSlap && PlayerRes.HasStatus(IDs.Status.SurfaceSlap))
         {
-            Service.Status = "Skipping bite - Only when Surface Slap is NOT active enabled, but SS is active.";
+            Service.Status = UIStrings.Status_SurfaceSlapNotRequired;
             return false;
         }
 
