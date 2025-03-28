@@ -132,14 +132,14 @@ public unsafe class BaitManager
     [StructLayout(LayoutKind.Explicit)]
     internal struct FishingManagerStruct
     {
-        [FieldOffset(0x220)] public FishingState FishingState;
+        [FieldOffset(0x228)] public FishingState FishingState;
 
-        [FieldOffset(0x234)] public byte CurrentSelectedSwimBait;
+        [FieldOffset(0x23C)] public byte CurrentSelectedSwimBait;
 
-        [FieldOffset(0x238)] public uint SwimBaitId1;
+        [FieldOffset(0x240)] public uint SwimBaitId1;
 
-        [FieldOffset(0x23C)] public uint SwimBaitId2;
+        [FieldOffset(0x244)] public uint SwimBaitId2;
 
-        [FieldOffset(0x240)] public uint SwimBaitId3;
+        [FieldOffset(0x248)] public uint SwimBaitId3;
     }
 }
