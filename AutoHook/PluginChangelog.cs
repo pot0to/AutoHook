@@ -14,6 +14,7 @@ public static class PluginChangelog
             {
                 "!!Autohook is looking for a maintainer!!",
                 "Add initial support for Cosmic Exploration",
+                "Add Stellar Hookset option",
                 "Add All Baits and All Moochs to custom presets",
             }
         },
