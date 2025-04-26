@@ -12,7 +12,7 @@ using Dalamud.Hooking;
 using Dalamud.Plugin.Services;
 using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.Object;
+
 
 namespace AutoHook.Fishing;
 
@@ -36,7 +36,7 @@ public partial class FishingManager : IDisposable
     private bool _isMooching;
     private bool _lureSuccess;
 
-    private delegate bool UseActionDelegate(IntPtr manager, ActionType actionType, uint actionId, GameObjectId targetId,
+    private delegate bool UseActionDelegate(IntPtr manager, ActionType actionType, uint actionId, ulong targetId,
         uint a4, uint a5,
         uint a6, IntPtr a7);
 
@@ -172,7 +172,7 @@ public partial class FishingManager : IDisposable
 
     public string GetPresetName()
     {
-        var customHook = Presets.SelectedPreset?.GetCfgById(GetCurrentBaitMoochId());
+        var customHook = Presets.SelectedPreset?.GetCfgById(GetCurrentBaitMoochId(), _isMooching);
 
         var globalHook = _isMooching
             ? Presets.DefaultPreset.ListOfMooch.FirstOrDefault()
@@ -189,13 +189,13 @@ public partial class FishingManager : IDisposable
 
     public HookConfig GetHookCfg()
     {
-        var globalHook = Presets.SelectedPreset?.GetCfgById(GetCurrentBaitMoochId());
-
+        var custom = Presets.SelectedPreset?.GetCfgById(GetCurrentBaitMoochId(), _isMooching);
+        
         var defaultHook = _isMooching
             ? Presets.DefaultPreset.ListOfMooch.FirstOrDefault()
             : Presets.DefaultPreset.ListOfBaits.FirstOrDefault();
 
-        var currentHook = globalHook?.Enabled ?? false ? globalHook : defaultHook!;
+        var currentHook = custom?.Enabled ?? false ? custom : defaultHook!;
 
         return currentHook;
     }
@@ -241,7 +241,7 @@ public partial class FishingManager : IDisposable
                 _fishingTimer.Reset();
                 break;
             case FishingState.PoleOut:
-                if (!_fishingTimer.IsRunning) _fishingTimer.Start();
+                InitFinishing();
                 break;
             case FishingState.Bite:
                 if (!_lastStep.HasFlag(FishingSteps.FishBit)) Service.TaskManager.Enqueue(OnBite);
@@ -250,6 +250,14 @@ public partial class FishingManager : IDisposable
                 OnFishingStop();
                 break;
         }
+    }
+
+    private void InitFinishing()
+    {
+        if (!_fishingTimer.IsRunning) 
+            _fishingTimer.Start();
+        
+        UpdateStatusAndTimer();
     }
 
     FishConfig? lastCatchCfg = null;
@@ -461,7 +469,7 @@ public partial class FishingManager : IDisposable
         PlayerRes.DelayNextCast(0);
     }
 
-    private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, GameObjectId targetId, uint a4,
+    private bool OnUseAction(IntPtr manager, ActionType actionType, uint actionId, ulong targetId, uint a4,
         uint a5, uint a6, IntPtr a7)
     {
         try

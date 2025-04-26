@@ -29,7 +29,7 @@ public class CustomPresetConfig : BasePresetConfig
     {
         PresetName = name;
     }
-    
+
     public override void AddItem(BaseOption item)
     {
         //check if the item is HookConfig (then check BaitFishClass BaitType), or FishConfig 
@@ -42,7 +42,7 @@ public class CustomPresetConfig : BasePresetConfig
         }
         else if (item is FishConfig fishConfig)
             ListOfFish.Add(fishConfig);
-        
+
         Service.Save();
     }
 
@@ -55,9 +55,8 @@ public class CustomPresetConfig : BasePresetConfig
         }
 
         ListOfBaits.Add(hookConfig);
-        
-        Service.Save();
 
+        Service.Save();
     }
 
     public void ReplaceMoochConfig(HookConfig moochConfig)
@@ -69,18 +68,20 @@ public class CustomPresetConfig : BasePresetConfig
         }
 
         ListOfMooch.Add(moochConfig);
-        
+
         Service.Save();
     }
 
-    public HookConfig? GetCfgById(int id)
+    public HookConfig? GetCfgById(int id, bool isMooching)
     {
-        var bait = ListOfBaits.FirstOrDefault(hook => hook.BaitFish.Id == id);
-        if (bait != null)
-            return bait;
+        if (isMooching)
+        {
+            var mooch = ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == id);
+            return mooch ?? ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == GameRes.AllMoochesId);
+        }
 
-        var mooch = ListOfMooch.FirstOrDefault(hook => hook.BaitFish.Id == id);
-        return mooch;
+        var bait = ListOfBaits.FirstOrDefault(hook => hook.BaitFish.Id == id);
+        return bait ?? ListOfBaits.FirstOrDefault(hook => hook.BaitFish.Id == GameRes.AllBaitsId);
     }
 
     public FishConfig? GetFishById(int id)
@@ -98,7 +99,8 @@ public class CustomPresetConfig : BasePresetConfig
 
     public bool HasBaitOrMooch(uint id)
     {
-        return ListOfBaits.Any(hook => hook.BaitFish.Id == id) || ListOfMooch.Any(hook => hook.BaitFish.Id == id);
+        return ListOfBaits.Any(hook => hook.BaitFish.Id == id || hook.BaitFish.Id == GameRes.AllBaitsId) ||
+               ListOfMooch.Any(hook => hook.BaitFish.Id == id || hook.BaitFish.Id == GameRes.AllMoochesId);
     }
 
     public void ResetCounter()
@@ -134,10 +136,10 @@ public class CustomPresetConfig : BasePresetConfig
 
     public override void DrawOptions()
     {
-        
-        ImGui.SetCursorPosX(ImGui.GetCursorPosX() + ImGui.GetContentRegionAvail().X / 2 - ImGui.CalcTextSize(PresetName).X / 2);
+        ImGui.SetCursorPosX(ImGui.GetCursorPosX() + ImGui.GetContentRegionAvail().X / 2 -
+                            ImGui.CalcTextSize(PresetName).X / 2);
         ImGui.TextColored(ImGuiColors.DalamudOrange, $" {PresetName}");
-        
+
         using var mainTab = ImRaii.TabBar(@"TabBarsPreset", ImGuiTabBarFlags.NoTooltip);
         if (!mainTab)
             return;

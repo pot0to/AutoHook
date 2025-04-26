@@ -3152,6 +3152,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stellar Hookset.
+        /// </summary>
+        internal static string StellarHookset {
+            get {
+                return ResourceManager.GetString("StellarHookset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop After Caught.
         /// </summary>
         internal static string Stop_After_Caught {
@@ -3507,7 +3516,7 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Make sure to correctly edit the bait/mooch name like displayed in-game (Ex: Versatile Lure).
+        ///   Looks up a localized string similar to &quot;All Baits&quot; and &quot;All Mooches&quot; have the lowest priority.
         /// </summary>
         internal static string TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName {
             get {

@@ -22,6 +22,7 @@ namespace AutoHook.Data
                 Hook = 296,
                 DoubleHook = 269,
                 TripleHook = 27523,
+                StellarHook = 41278,
                 PrecisionHS = 4179,
                 PowerfulHS = 4103,
                 FishEyes = 4105,

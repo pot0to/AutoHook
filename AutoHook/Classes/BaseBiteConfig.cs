@@ -93,6 +93,12 @@ public class BaseBiteConfig
             Service.Save();
         }
         
+        if (ImGui.RadioButton(UIStrings.StellarHookset, HooksetType == HookType.Stellar))
+        {
+            HooksetType = HookType.Stellar;
+            Service.Save();
+        }
+        
         ImGui.Unindent();
     }
 

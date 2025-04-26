@@ -129,8 +129,12 @@ public class SubTabBaitMooch
 
     private static void DrawInputSearchBar(HookConfig hookConfig, bool isMooch)
     {
-        var list = isMooch ? GameRes.Fishes : GameRes.Baits;
-
+        var list = (isMooch ? GameRes.Fishes : GameRes.Baits).ToList();
+        if (isMooch)
+            list.Insert(0, new BaitFishClass(UIStrings.All_Mooches, GameRes.AllMoochesId));
+        else 
+            list.Insert(0, new BaitFishClass(UIStrings.All_Baits, GameRes.AllBaitsId));
+        
         DrawUtil.DrawComboSelector(
             list,
             item => item.Name,

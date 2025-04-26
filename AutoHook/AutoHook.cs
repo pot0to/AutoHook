@@ -58,7 +58,7 @@ public class AutoHook : IDalamudPlugin
 
     public AutoHook(IDalamudPluginInterface pluginInterface)
     {
-        ECommonsMain.Init(pluginInterface, this, Module.All);
+        ECommonsMain.Init(pluginInterface, this, Module.DalamudReflector, Module.ObjectFunctions);
         Service.Initialize(pluginInterface);
         PunishLibMain.Init(pluginInterface, "AutoHook",
             new AboutPlugin() { Developer = "InitialDet", Sponsor = "https://ko-fi.com/initialdet" });
@@ -69,7 +69,7 @@ public class AutoHook : IDalamudPlugin
         Service.PluginInterface.UiBuilder.OpenConfigUi += OnOpenConfigUi;
         Service.Language = Service.ClientState.ClientLanguage;
 
-        GameRes.Initialize();
+        GameRes.Initialize(); 
 
         Service.Configuration = Configuration.Load();
         UIStrings.Culture = new CultureInfo(Service.Configuration.CurrentLanguage);

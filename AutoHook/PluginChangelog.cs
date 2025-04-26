@@ -8,6 +8,15 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+        new Version("4.3.3.0")
+        {
+            Main =
+            {
+                "!!Autohook is looking for a maintainer!!",
+                "Add initial support for Cosmic Exploration",
+                "Add All Baits and All Moochs to custom presets",
+            }
+        },
         new Version("4.3.2.3")
         {
             Minor = 

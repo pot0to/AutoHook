@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.Json.Serialization;
 using AutoHook.Enums;
+using AutoHook.Resources.Localization;
 using AutoHook.Utils;
 using Lumina.Excel.Sheets;
 using FishRow = Lumina.Excel.Sheets.FishParameter;
@@ -11,7 +12,12 @@ namespace AutoHook.Classes;
 
 public class BaitFishClass : IComparable<BaitFishClass>
 {
-    [JsonIgnore] public string Name => MultiString.GetItemName((uint)Id);
+    [JsonIgnore] public string Name => Id switch
+    {
+        GameRes.AllMoochesId => UIStrings.All_Mooches,
+        GameRes.AllBaitsId => UIStrings.All_Baits,
+        _ => MultiString.GetItemName((uint)Id)
+    };
 
     public int Id;
 

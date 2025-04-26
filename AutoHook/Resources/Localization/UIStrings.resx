@@ -166,7 +166,7 @@
     <value>is enabled by default when new bait/mooch is added </value>
   </data>
   <data name="TabPresets_DrawHeader_CorrectlyEditTheBaitMoochName" xml:space="preserve">
-    <value>Make sure to correctly edit the bait/mooch name like displayed in-game (Ex: Versatile Lure)</value>
+    <value>"All Baits" and "All Mooches" have the lowest priority</value>
   </data>
   <data name="NewBaitMooch" xml:space="preserve">
     <value>New bait/mooch</value>
@@ -1438,5 +1438,8 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   </data>
   <data name="Status_PrizeCatchNotRequired" xml:space="preserve">
     <value>Skipping bite - Prize Catch is active, but NOT active is required for hooking</value>
+  </data>
+  <data name="StellarHookset" xml:space="preserve">
+    <value>Stellar Hookset</value>
   </data>
 </root>
