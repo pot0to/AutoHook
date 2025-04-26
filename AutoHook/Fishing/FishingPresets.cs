@@ -13,6 +13,8 @@ public class FishingPresets : BasePreset
     public CustomPresetConfig DefaultPreset = new(Service.GlobalPresetName);
 
     public List<CustomPresetConfig> CustomPresets = new();
+    
+    public List<PresetFolder> Folders = new();
 
     [JsonIgnore] public override CustomPresetConfig? SelectedPreset => base.SelectedPreset as CustomPresetConfig;
 
@@ -38,6 +40,12 @@ public class FishingPresets : BasePreset
         var preset = CustomPresets.Find(p => p.UniqueId == value);
         if (preset == null)
             return;
+
+        // Remove from any folders
+        foreach (var folder in Folders)
+        {
+            folder.RemovePreset(value);
+        }
 
         CustomPresets.Remove(preset);
         Service.Save();
@@ -65,7 +73,33 @@ public class FishingPresets : BasePreset
         CustomPresets.Insert(targetIndex, moved);
         Service.Save();
     }
-
+    
+    public void AddNewFolder(string folderName)
+    {
+        var newFolder = new PresetFolder(folderName);
+        Folders.Add(newFolder);
+        Service.Save();
+    }
+    
+    public void RemoveFolder(Guid folderId)
+    {
+        var folder = Folders.Find(f => f.UniqueId == folderId);
+        if (folder == null)
+            return;
+        
+        Folders.Remove(folder);
+        Service.Save();
+    }
+    
+    public bool IsPresetInAnyFolder(Guid presetId)
+    {
+        return Folders.Any(f => f.ContainsPreset(presetId));
+    }
+    
+    public PresetFolder? GetFolderContainingPreset(Guid presetId)
+    {
+        return Folders.FirstOrDefault(f => f.ContainsPreset(presetId));
+    }
 
     [JsonIgnore] public override List<BasePresetConfig> PresetList => CustomPresets.Cast<BasePresetConfig>().ToList();
 }

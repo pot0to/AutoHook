@@ -1442,4 +1442,57 @@ You may also use the command /ahstart to start. Try making a macro with it!</val
   <data name="StellarHookset" xml:space="preserve">
     <value>Stellar Hookset</value>
   </data>
+  <data name="FolderMostBeEmpty" xml:space="preserve">
+    <value>Folder must be empty to delete</value>
+  </data>
+  <data name="FolderExported" xml:space="preserve">
+    <value>Folder exported to the clipboard</value>
+  </data>
+  <data name="ExportFolderClipboard" xml:space="preserve">
+    <value>Export Folder to Clipboard</value>
+  </data>
+  <data name="EnterNewFolderName" xml:space="preserve">
+    <value>Enter a new name for the folder:</value>
+  </data>
+  <data name="RenameFolder" xml:space="preserve">
+    <value>Rename Folder</value>
+  </data>
+  <data name="CreateNewFolder" xml:space="preserve">
+    <value>Create New Folder</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="FolderNameHint" xml:space="preserve">
+    <value>Enter a name for the new folder:</value>
+  </data>
+  <data name="NoPresetsSelected" xml:space="preserve">
+    <value>No presets selected for import</value>
+  </data>
+  <data name="RenamePreset" xml:space="preserve">
+    <value>Rename Preset</value>
+  </data>
+  <data name="ImportFolderAndPresets" xml:space="preserve">
+    <value>Import this folder and its presets?</value>
+  </data>
+  <data name="Presets_" xml:space="preserve">
+    <value>Presets:</value>
+  </data>
+  <data name="FolderName" xml:space="preserve">
+    <value>Folder Name</value>
+  </data>
+  <data name="ImportPresetOrFolder" xml:space="preserve">
+    <value>Import Preset or Folder from Clipboard</value>
+  </data>
+  <data name="CreateFolder" xml:space="preserve">
+    <value>Create Folder</value>
+  </data>
+  <data name="Moving_" xml:space="preserve">
+    <value>Moving:</value>
+    <comment>Moving: PresetName</comment>
+  </data>
+  <data name="MovingFolder_" xml:space="preserve">
+    <value>Moving folder:</value>
+    <comment>Moving folder: FolderName</comment>
+  </data>
 </root>

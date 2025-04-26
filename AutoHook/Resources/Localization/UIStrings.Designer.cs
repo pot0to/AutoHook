@@ -902,6 +902,33 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        internal static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Folder.
+        /// </summary>
+        internal static string CreateFolder {
+            get {
+                return ResourceManager.GetString("CreateFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New Folder.
+        /// </summary>
+        internal static string CreateNewFolder {
+            get {
+                return ResourceManager.GetString("CreateNewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current selected preset:.
         /// </summary>
         internal static string Current_Selected_Preset {
@@ -1392,11 +1419,29 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a new name for the folder:.
+        /// </summary>
+        internal static string EnterNewFolderName {
+            get {
+                return ResourceManager.GetString("EnterNewFolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Preset name (press Enter to confirm).
         /// </summary>
         internal static string EnterToConfirm {
             get {
                 return ResourceManager.GetString("EnterToConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export Folder to Clipboard.
+        /// </summary>
+        internal static string ExportFolderClipboard {
+            get {
+                return ResourceManager.GetString("ExportFolderClipboard", resourceCulture);
             }
         }
         
@@ -1533,6 +1578,42 @@ namespace AutoHook.Resources.Localization {
         internal static string FishingPresets {
             get {
                 return ResourceManager.GetString("FishingPresets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder exported to the clipboard.
+        /// </summary>
+        internal static string FolderExported {
+            get {
+                return ResourceManager.GetString("FolderExported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder must be empty to delete.
+        /// </summary>
+        internal static string FolderMostBeEmpty {
+            get {
+                return ResourceManager.GetString("FolderMostBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder Name.
+        /// </summary>
+        internal static string FolderName {
+            get {
+                return ResourceManager.GetString("FolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a name for the new folder:.
+        /// </summary>
+        internal static string FolderNameHint {
+            get {
+                return ResourceManager.GetString("FolderNameHint", resourceCulture);
             }
         }
         
@@ -1953,11 +2034,29 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import this folder and its presets?.
+        /// </summary>
+        internal static string ImportFolderAndPresets {
+            get {
+                return ResourceManager.GetString("ImportFolderAndPresets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import preset from clipboard..
         /// </summary>
         internal static string ImportPresetFromClipboard {
             get {
                 return ResourceManager.GetString("ImportPresetFromClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Preset or Folder from Clipboard.
+        /// </summary>
+        internal static string ImportPresetOrFolder {
+            get {
+                return ResourceManager.GetString("ImportPresetOrFolder", resourceCulture);
             }
         }
         
@@ -2178,6 +2277,24 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Moving:.
+        /// </summary>
+        internal static string Moving_ {
+            get {
+                return ResourceManager.GetString("Moving_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moving folder:.
+        /// </summary>
+        internal static string MovingFolder_ {
+            get {
+                return ResourceManager.GetString("MovingFolder_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use Natures Bounty before fish appears.
         /// </summary>
         internal static string NBBeforeFish {
@@ -2273,6 +2390,15 @@ namespace AutoHook.Resources.Localization {
         internal static string None {
             get {
                 return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No presets selected for import.
+        /// </summary>
+        internal static string NoPresetsSelected {
+            get {
+                return ResourceManager.GetString("NoPresetsSelected", resourceCulture);
             }
         }
         
@@ -2700,6 +2826,15 @@ namespace AutoHook.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Presets:.
+        /// </summary>
+        internal static string Presets_ {
+            get {
+                return ResourceManager.GetString("Presets_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hook.
         /// </summary>
         internal static string Presets_Hook {
@@ -2804,6 +2939,24 @@ namespace AutoHook.Resources.Localization {
         internal static string Rename {
             get {
                 return ResourceManager.GetString("Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Folder.
+        /// </summary>
+        internal static string RenameFolder {
+            get {
+                return ResourceManager.GetString("RenameFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Preset.
+        /// </summary>
+        internal static string RenamePreset {
+            get {
+                return ResourceManager.GetString("RenamePreset", resourceCulture);
             }
         }
         

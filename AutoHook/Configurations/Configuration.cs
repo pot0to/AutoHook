@@ -138,10 +138,10 @@ public class Configuration : IPluginConfiguration
     {
         if (HookPresets.DefaultPreset.ListOfBaits.Count != 0)
             return;
-        
+
         var bait = new BaitFishClass(UIStrings.All_Baits, 0);
         var mooch = new BaitFishClass(UIStrings.All_Mooches, 0);
-        
+
         HookPresets.DefaultPreset.ListOfBaits.Add(new HookConfig(bait));
         HookPresets.DefaultPreset.ListOfMooch.Add(new HookConfig(mooch));
     }
@@ -195,6 +195,67 @@ public class Configuration : IPluginConfiguration
         return "Something went wrong while exporting the preset";
     }
 
+    public class FolderExport
+    {
+        public string FolderName { get; set; }
+        public List<CustomPresetConfig> Presets { get; set; } = new();
+
+        public FolderExport(string name)
+        {
+            FolderName = name;
+        }
+    }
+
+    public static string ExportFolder(PresetFolder folder, List<CustomPresetConfig> presets)
+    {
+        var folderExport = new FolderExport(folder.FolderName);
+
+        foreach (var presetId in folder.PresetIds)
+        {
+            var preset = presets.FirstOrDefault(p => p.UniqueId == presetId);
+            if (preset != null)
+            {
+                folderExport.Presets.Add(preset);
+            }
+        }
+
+        var exported = CompressString(JsonConvert.SerializeObject(folderExport,
+            new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
+
+        return ExportPrefixFolder + exported;
+    }
+
+    public static (PresetFolder Folder, List<CustomPresetConfig> Presets)? ImportFolder(string import)
+    {
+        if (!import.StartsWith(ExportPrefixFolder))
+            return null;
+
+        try
+        {
+            var folderData = JsonConvert.DeserializeObject<FolderExport>(DecompressString(import),
+                new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
+
+            if (folderData == null)
+                return null;
+
+            var folder = new PresetFolder(folderData.FolderName);
+
+            // Generate new GUIDs for all presets to avoid conflicts
+            foreach (var preset in folderData.Presets)
+            {
+                preset.UniqueId = Guid.NewGuid();
+                folder.AddPreset(preset.UniqueId);
+            }
+
+            return (folder, folderData.Presets);
+        }
+        catch (Exception e)
+        {
+            Service.PluginLog.Error($"Failed to import folder: {e.Message}");
+            return null;
+        }
+    }
+
     public static BasePresetConfig? ImportPreset(string import)
     {
         if (import.StartsWith(ExportPrefixV2))
@@ -229,11 +290,12 @@ public class Configuration : IPluginConfiguration
     [NonSerialized] private const string ExportPrefixV3 = "AH3_";
     [NonSerialized] private const string ExportPrefixV4 = "AH4_";
     [NonSerialized] private const string ExportPrefixSf = "AHSF1_";
+    [NonSerialized] private const string ExportPrefixFolder = "AHFOLDER_";
 
 
     [NonSerialized] private static readonly List<string> ExportPrefixes =
     [
-        ExportPrefixV2, ExportPrefixV3, ExportPrefixV4, ExportPrefixSf
+        ExportPrefixV2, ExportPrefixV3, ExportPrefixV4, ExportPrefixSf, ExportPrefixFolder
     ];
 
     public static string CompressString(string s)

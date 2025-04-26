@@ -86,6 +86,12 @@ public class TabDebug : BaseTab
                 ImGui.Text($"Fish Caught: {fishCaught}");
             }
 
+            if (ImGui.Selectable($" {Service.Configuration.HookPresets.Folders.Count} Folders"))
+            {
+                Service.Configuration.HookPresets.Folders.Clear();
+                Service.Configuration.Save();
+            }
+
             if (ImGui.CollapsingHeader("Testing buttons (scary)", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 if (ImGui.Button("Try repair"))

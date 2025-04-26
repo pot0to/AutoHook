@@ -8,6 +8,18 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
+         new Version("4.3.4.0")
+        {
+            Main =
+            {
+                "!!Autohook is looking for a maintainer!!",
+                "Add preset folders",
+            },
+            Minor =
+            {
+                "Fixed CE baits not being swapped",
+            }
+        },
         new Version("4.3.3.1")
         {
             Main =
