@@ -8,6 +8,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
+using FFXIVClientStructs.FFXIV.Client.Game.WKS;
 
 namespace AutoHook.SeFunctions;
 
@@ -68,9 +69,24 @@ public unsafe class BaitManager
         }
     }
 
-    public uint Current => PlayerState.Instance()->FishingBait;
+    //public uint Current => PlayerState.Instance()->FishingBait;
     
     public uint CurrentBaitSwimBait => CurrentSwimBait ?? Current;
+
+    public uint Current
+    {
+        get
+        {
+            if (Service.ClientState.TerritoryType == 1237)
+            {
+                var cosmicManager = WKSManager.Instance();
+                if (cosmicManager != null)
+                    return *(uint*)((byte*)cosmicManager + 0xC9C);
+            }
+
+            return PlayerState.Instance()->FishingBait;
+        }
+    }
 
     public ChangeBaitReturn ChangeBait(uint baitId)
     {

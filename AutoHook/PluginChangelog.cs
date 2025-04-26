@@ -8,7 +8,7 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-        new Version("4.3.3.0")
+        new Version("4.3.3.1")
         {
             Main =
             {
@@ -16,11 +16,15 @@ public static class PluginChangelog
                 "Add initial support for Cosmic Exploration",
                 "Add Stellar Hookset option",
                 "Add All Baits and All Moochs to custom presets",
+            },
+            Minor = 
+            {
+                "Fixed CE baits not being swapped",
             }
         },
         new Version("4.3.2.3")
         {
-            Minor = 
+            Minor =
             {
                 "Translation Update"
             }
@@ -31,7 +35,7 @@ public static class PluginChangelog
             {
                 "7.2 Update (testing required)",
             },
-            Minor = 
+            Minor =
             {
                 "Translation Update"
             }
@@ -42,7 +46,7 @@ public static class PluginChangelog
             {
                 "Added a new condition for hooking: Only when Prize Catch is active/not active",
             },
-            Minor = 
+            Minor =
             {
                 "Small UI update for nested options (sorry i know its ugly)",
                 "Updated bite timers for preset generation",

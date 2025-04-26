@@ -13,6 +13,8 @@ using AutoHook.Enums;
 using Dalamud.Interface.Utility.Raii;
 using ECommons.GameHelpers;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Dalamud.Hooking;
+using FFXIVClientStructs.FFXIV.Client.Game.WKS;
 
 namespace AutoHook.Ui;
 
@@ -20,12 +22,30 @@ public class TabDebug : BaseTab
 {
     public override OpenWindow Type => OpenWindow.Debug;
 
+    private delegate byte ExecuteCommandDelegate(int id, int unk1, uint baitId, int unk2, int unk3);
+
+    private Hook<ExecuteCommandDelegate>? _executeCommandHook;
     public TabDebug()
     {
-        _taskManager.DefaultConfiguration.OnTaskTimeout += RepairFailed;
+        //_taskManager.DefaultConfiguration.OnTaskTimeout += RepairFailed;
+        //CreateDalamudHooks();
         //taskManager.DefaultConfiguration.OnTaskCompletion
     }
 
+    private unsafe void CreateDalamudHooks()
+    {
+        _executeCommandHook = Service.GameInteropProvider.HookFromSignature<ExecuteCommandDelegate>(
+            @"E8 ?? ?? ?? ?? 41 C6 04 24",
+            ExecuteCommandDetour);
+        _executeCommandHook?.Enable();
+    }
+
+    private unsafe byte ExecuteCommandDetour(int id, int unk1, uint baitId, int unk2, int unk3)
+    {
+        
+        Service.PluginLog.Debug($"ExecuteCommandDetour: {id} {unk1} {baitId} {unk2} {unk3}");
+        return _executeCommandHook!.Original(id, unk1, baitId, unk2, unk3);
+    }
     
     private TaskManager _taskManager = new TaskManager()
     {
@@ -74,6 +94,11 @@ public class TabDebug : BaseTab
                     _taskManager.Enqueue(ProcessRepair, "Repair");
                 }
 
+                if (ImGui.Button("Scan Offsets"))
+                {
+                    Checkoffsets();
+                }
+
                 if (ImGui.Button("Export fish ids"))
                 {
                     var fishList = GameRes.Fishes;
@@ -86,6 +111,13 @@ public class TabDebug : BaseTab
                 {
                     Service.Configuration.HookPresets.DefaultPreset.PresetName = Service.GlobalPresetName;
                 }
+            }
+
+            ImGui.InputInt("Swimbait Id", ref _swimbaitId);
+
+            if (ImGui.Button("Swap Swimbait"))
+            {
+                Service.BaitManager.ChangeBait((uint)_swimbaitId);
             }
 
 
@@ -138,6 +170,7 @@ public class TabDebug : BaseTab
     private static readonly HttpClient client = new HttpClient();
 
     private static Dictionary<string, List<string>> Presets = new();
+    private int _swimbaitId = 45949;
 
     public static async Task UpdateWiki()
     {
@@ -194,5 +227,32 @@ public class TabDebug : BaseTab
         return Regex.Matches(wikiPageContent, TabDebug.regex)
             .Select(match => match.Groups[1].Value)
             .ToList();
+    }
+
+    public override void Dispose()
+    {
+        _executeCommandHook?.Dispose();
+        _taskManager.Dispose();
+    }
+
+    public unsafe void Checkoffsets()
+    {
+        Service.PluginLog.Debug($"Initializing WKSManager offset scan");
+        var cosmicManager = WKSManager.Instance();
+        if (cosmicManager == null)
+        {
+            Service.PluginLog.Debug("WKSManager pointer is null.");
+            return;
+        }
+        for (int offset = 1; offset <= 10000; offset++)
+        {
+            uint value = *(uint*)((byte*)cosmicManager + offset);
+            if (value == 45949)
+            {
+                Service.PluginLog.Debug($"Match found at offset 0x{offset:X}: {value}");
+            }
+           
+            // else Service.PluginLog.Debug($"Offset 0x{offset:X}: {value}");
+        }
     }
 }
