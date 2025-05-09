@@ -124,7 +124,7 @@ public class CustomPresetConfig : BasePresetConfig
     public override bool Equals(object? obj)
     {
         return obj is CustomPresetConfig settings &&
-               PresetName == settings.PresetName;
+               UniqueId == settings.UniqueId;
     }
 
     public override int GetHashCode()

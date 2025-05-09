@@ -8,7 +8,14 @@ public static class PluginChangelog
 {
     public static readonly List<Version> Versions = new()
     {
-         new Version("4.3.4.0")
+        new Version("4.3.4.1")
+        {
+            Minor =
+            {
+                "Fixed Deleting presets with the same name",
+            }
+        },
+        new Version("4.3.4.0")
         {
             Main =
             {
@@ -29,7 +36,7 @@ public static class PluginChangelog
                 "Add Stellar Hookset option",
                 "Add All Baits and All Moochs to custom presets",
             },
-            Minor = 
+            Minor =
             {
                 "Fixed CE baits not being swapped",
             }

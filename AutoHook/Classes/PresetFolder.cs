@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace AutoHook.Classes;
@@ -25,7 +26,7 @@ public class PresetFolder
     public void RemovePreset(Guid presetId)
     {
         if (PresetIds.Contains(presetId))
-            PresetIds.Remove(presetId);
+            PresetIds = PresetIds.Where(p => p != presetId).ToList();
     }
 
     public bool ContainsPreset(Guid presetId)
